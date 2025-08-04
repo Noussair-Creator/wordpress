@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dépôt de candidature</title>
+    <link rel="stylesheet" href="../css/main.css">
+    <link rel="stylesheet" href="../css/form.css">
+    <link rel="stylesheet" href="../css/fonts.css">
+
+    <link rel="stylesheet" href="../css/sidebar.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Signika:wght@300..700&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+    <div class="app-container">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-content">
+                <div class="logo-container">
+                    <img src="../assets/tn.png" style="width: 61px;height: 40px;">
+                    <img src="../assets/flag_tn.png" style="width: 55px;height: 36px;">
+                    <div class="logo-content">
+                        <div class="Quicksand-regular thinText">République Tunisienne <br> Ministère de l’Enseignement
+                            Supérieur <br> et de la Recherche Scientifique</div>
+                    </div>
+                </div>
+
+            </div>
+        </header>
+        <div class="sub-header-container">
+            <div class="sub-header-content">
+                <div class="profile-container">
+                    <div class="profile-picture">
+                        <img src="../assets/user2.png" style="width: 100%;height: 100%;">
+                    </div>
+                    <div class="profile-content">
+                        <div class="Quicksand-bold smallText" style="font-family: 'Signika';color: black;">AHLEM MRAD
+                        </div>
+                        <div class="Quicksand-regular paragraphe" style="font-family: 'Signika';color: black;">Espace
+                            pré-inscription <br /> Master</div>
+                        <div class="filled-btn Quicksand-bold paragraphe" style="font-family: 'Signika';color: black;">
+                            Déconnexion</div>
+                    </div>
+                </div>
+                <img src="../assets/logoback.jpeg" style="width: 284px;height: 129px;flex: none;">
+            </div>
+
+        </div>
+        <div class="content-container">
+            <!-- Sidebar -->
+            <aside class="sidebar">
+                <nav class="sidebar-nav">
+                    <ul>
+                        <li class="active"><a href="#" id="application-status">Dépôt de candidature</a></li>
+
+                        <li><a href="../historique-condidature/index.html" id="application-history">Historique de
+                                candidature</a></li>
+                        <li><a href="../resultat-condidature/index.html" id="results">Résultat</a></li>
+                        <li><a href="../entretien/index.html" id="registration">Entretien</a></li>
+                        <li><a href="../calendrier/index.html" id="confirmation">Calendrier</a></li>
+                        <li><a href="../reclamation/index.html" id="reclamation">Réclamation</a></li>
+                    </ul>
+                </nav>
+            </aside>
+
+            <!-- Main Content -->
+            <main class="main-content">
+                <!-- Progress steps -->
+                <div class="progress-container">
+                    <div class="progress-step active">
+
+                        <div class="step-circle">
+                            <div class="completion-check">
+                                <img src="../assets/step_valid.jpeg" style="width: 19px;height: 19px;">
+                            </div>
+                            Étape 1
+                        </div>
+
+                    </div>
+                    <div class="progress-line"></div>
+                    <div class="progress-step">
+                        <div class="step-circle">
+                            <div class="completion-check">
+                                <img src="../assets/step_valid.jpeg" style="width: 19px;height: 19px;">
+                            </div>
+                            Étape 2
+                        </div>
+                    </div>
+                    <div class="progress-line"></div>
+                    <div class="progress-step">
+                        <div class="step-circle">
+                            <div class="completion-check">
+                                <img src="../assets/step_valid.jpeg" style="width: 19px;height: 19px;">
+                            </div>
+                            Étape 3
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Form container -->
+                <div class="form-container">
+                    <form id="application-form">
+                        <!-- Step 1: Personal Information -->
+                        <div class="form-step active" id="step1">
+                            <div class="section-title">
+                                <h2 class="Quicksand-bold">INFORMATIONS PERSONNELLES</h2>
+                            </div>
+                            <div class="form-group">
+                                <div class="form-field" style="flex: 1; min-width: unset;">
+                                    <label for="nom">Nom (Français) <span class="required">*</span></label>
+                                    <input type="text" id="nom" name="nom" required>
+                                    <span class="error-message"></span>
+                                </div>
+                                <div class="form-field">
+                                    <label for="nom-arabe" style="text-align: end;">(Arabe)<span
+                                            class="required">*</span>الإسم</label>
+                                    <input type="text" id="nom-arabe" name="nom-arabe" dir="rtl" required>
+                                    <span class="error-message"></span>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="form-field">
+                                    <label for="prenom">Prénom (Français) <span class="required">*</span></label>
+                                    <input type="text" id="prenom" name="prenom" required>
+                                    <span class="error-message"></span>
+                                </div>
+                                <div class="form-field">
+                                    <label for="prenom-arabe" style="text-align: end;">(Arabe) <span
+                                            class="required">*</span>اللقب</label>
+                                    <input type="text" id="prenom-arabe" name="prenom-arabe" dir="rtl" required>
+                                    <span class="error-message"></span>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="form-field">
+                                    <label for="datenaissance">Date de naissance ( français ) <span
+                                            class="required">*</span></label>
+                                    <div class="phone-input">
+                                        <input type="date" id="datenaissance" name="datenaissance"
+                                            placeholder="6 XX XX XX XX" required>
+                                    </div>
+                                    <span class="error-message"></span>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="form-field" style="flex: 1; min-width: unset;">
+                                    <label for="lieunaissance">Lieu de naissance ( français )<span
+                                            class="required">*</span></label>
+                                    <input type="text" id="lieunaissance" name="lieunaissance" required>
+                                    <span class="error-message"></span>
+                                </div>
+                                <div class="form-field">
+                                    <label for="lieunaissanceAr" style="text-align: end;"> (Arabe)<span
+                                            class="required">*</span> مكان الولادة</label>
+                                    <input type="text" id="lieunaissanceAr" name="lieunaissanceAr" dir="rtl" required>
+                                    <span class="error-message"></span>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="form-field">
+                                    <label for="nationalite">Nationnalité ( français ) <span
+                                            class="required">*</span></label>
+                                    <input type="text" id="nationalite" name="nationalite" required>
+                                    <span class="error-message"></span>
+                                </div>
+                                <div class="form-field">
+                                    <label for="nationnaliteAr" style="text-align: end;">(Arabe) <span
+                                            class="required">*</span>الجنسية</label>
+                                    <input type="text" id="nationnaliteAr" name="nationnaliteAr" dir="rtl" required>
+                                    <span class="error-message"></span>
+                                </div>
+                            </div>
+
+
+                            <div class="form-group">
+                                <div class="form-field form-field-half">
+                                    <label for="cin">Carte d'identité nationale ( Si Tunisien) <span
+                                            class="required">*</span></label>
+                                    <input type="text" id="cin" name="cin" required>
+                                    <span class="error-message"></span>
+                                </div>
+                                <div class="form-field form-field-half">
+                                    <label for="cne">N° Passport ( Si étranger )<span class="required">*</span></label>
+                                    <input type="text" id="cne" name="cne" required>
+                                    <span class="error-message"></span>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="form-field form-field-half">
+                                    <label for="email">Email 1 <span class="required">*</span></label>
+                                    <input type="email" id="email" name="email" required>
+                                    <span class="error-message"></span>
+                                </div>
+                                <div class="form-field form-field-half">
+                                    <label for="email2">Email 2</label>
+                                    <input type="email" id="email2" name="email2" placeholder="exemple@gmail.com">
+                                    <span class="error-message"></span>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="form-field">
+                                    <label for="telephone">Téléphone <span class="required">*</span></label>
+
+                                    <div class="phone-input-container">
+                                        <div class="country-selector">
+                                            <div class="selected-country">
+                                                <div class="country-flag flag-tn"></div>
+                                                <span class="country-code">+216</span>
+                                            </div>
+                                            <div class="country-dropdown">
+                                                <div class="country-option" data-code="216" data-flag="tn">
+                                                    <div class="country-flag flag-tn"></div>
+                                                    <span class="country-name">Tunisia (+216)</span>
+                                                </div>
+                                                <div class="country-option" data-code="1" data-flag="us">
+                                                    <div class="country-flag">🇺🇸</div>
+                                                    <span class="country-name">USA (+1)</span>
+                                                </div>
+                                                <div class="country-option" data-code="33" data-flag="fr">
+                                                    <div class="country-flag">🇫🇷</div>
+                                                    <span class="country-name">France (+33)</span>
+                                                </div>
+                                                <div class="country-option" data-code="44" data-flag="gb">
+                                                    <div class="country-flag">🇬🇧</div>
+                                                    <span class="country-name">UK (+44)</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <input type="tel" class="phone-input" placeholder="XX XX XX XX">
+                                    </div>
+                                    <span class="error-message"></span>
+                                </div>
+                            </div>
+
+                            <div class="section-title">
+                                <h2 class="Quicksand-bold">ADRESSE</h2>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="form-field">
+                                    <label for="adresse">Adresse (Français) <span class="required">*</span></label>
+                                    <input type="text" id="adresse" name="adresse" required>
+                                    <span class="error-message"></span>
+                                </div>
+                                <div class="form-field">
+                                    <label for="adresseAr" style="text-align: end;">(Arabe) <span
+                                            class="required">*</span>العنوان </label>
+                                    <input type="text" id="adresseAr" name="adresseAr" required>
+                                    <span class="error-message"></span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="form-field" style="flex: 1; min-width: unset;">
+                                    <label for="gouvernorat">Gouvernorat <span class="required">*</span></label>
+                                    <div class="select-wrapper">
+                                        <select id="gouvernorat" name="gouvernorat" required>
+                                            <option value="">-- Sélectionner --</option>
+                                            <option value="Ariana">Ariana</option>
+                                            <option value="Béja">Béja</option>
+                                            <option value="Ben Arous">Ben Arous</option>
+                                            <option value="Bizerte">Bizerte</option>
+                                            <option value="Gabès">Gabès</option>
+                                            <option value="Gafsa">Gafsa</option>
+                                            <option value="Jendouba">Jendouba</option>
+                                            <option value="Kairouan">Kairouan</option>
+                                            <option value="Kasserine">Kasserine</option>
+                                            <option value="Kébili">Kébili</option>
+                                            <option value="Kef">Kef</option>
+                                            <option value="Mahdia">Mahdia</option>
+                                            <option value="La Manouba">La Manouba</option>
+                                            <option value="Médenine">Médenine</option>
+                                            <option value="Monastir">Monastir</option>
+                                            <option value="Nabeul">Nabeul</option>
+                                            <option value="Sfax">Sfax</option>
+                                            <option value="Sidi Bouzid">Sidi Bouzid</option>
+                                            <option value="Siliana">Siliana</option>
+                                            <option value="Sousse">Sousse</option>
+                                            <option value="Tataouine">Tataouine</option>
+                                            <option value="Tozeur">Tozeur</option>
+                                            <option value="Tunis">Tunis</option>
+                                            <option value="Zaghouan">Zaghouan</option>
+                                        </select>
+                                    </div>
+                                    <span class="error-message"></span>
+                                </div>
+                                <div class="form-field">
+                                    <label for="gouvernoratAr" style="text-align: end;"> (Arabe)<span
+                                            class="required">*</span> الولاية </label>
+                                    <div class="select-wrapper">
+                                        <select id="gouvernoratAr" name="gouvernoratAr" required>
+                                            <option value="">-- اختر --</option>
+                                            <option value="أريانة">أريانة</option>
+                                            <option value="باجة">باجة</option>
+                                            <option value="بن عروس">بن عروس</option>
+                                            <option value="بنزرت">بنزرت</option>
+                                            <option value="قابس">قابس</option>
+                                            <option value="قفصة">قفصة</option>
+                                            <option value="جندوبة">جندوبة</option>
+                                            <option value="القيروان">القيروان</option>
+                                            <option value="القصرين">القصرين</option>
+                                            <option value="قبلي">قبلي</option>
+                                            <option value="الكاف">الكاف</option>
+                                            <option value="المهدية">المهدية</option>
+                                            <option value="منوبة">منوبة</option>
+                                            <option value="مدنين">مدنين</option>
+                                            <option value="المنستير">المنستير</option>
+                                            <option value="نابل">نابل</option>
+                                            <option value="صفاقس">صفاقس</option>
+                                            <option value="سيدي بوزيد">سيدي بوزيد</option>
+                                            <option value="سليانة">سليانة</option>
+                                            <option value="سوسة">سوسة</option>
+                                            <option value="تطاوين">تطاوين</option>
+                                            <option value="توزر">توزر</option>
+                                            <option value="تونس">تونس</option>
+                                            <option value="زغوان">زغوان</option>
+                                        </select>
+
+                                    </div>
+                                    <span class="error-message"></span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="form-field" style="flex: 1; min-width: unset;">
+                                    <label for="delegation">Délégation <span class="required">*</span></label>
+                                    <div class="select-wrapper">
+                                        <select id="delegation" name="delegation" required>
+                                            <option value="">-- Sélectionner un gouvernorat d'abord --</option>
+                                        </select>
+                                    </div>
+                                    <span class="error-message"></span>
+                                </div>
+                                <div class="form-field">
+                                    <label for="delegationAr" style="text-align: end;">(Arabe) <span
+                                            class="required">*</span>المعتمدية </label>
+                                    <select id="delegationAr" name="delegationAr" required>
+                                        <option value="">-- الرجاء اختيار معتمدية --</option>
+                                    </select>
+                                    <span class="error-message"></span>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="form-field form-field">
+                                    <label for="code-postal">Code postal / Casier P <span
+                                            class="required">*</span></label>
+                                    <input type="number" id="code-postal" name="code-postal" required>
+                                    <span class="error-message"></span>
+                                </div>
+                            </div>
+
+
+
+                            <div class="section-title">
+                                <h2 class="Quicksand-bold">ETAT</h2>
+                            </div>
+                            <label class="custom-checkbox" class="Quicksand-medium smallText"
+                                style="font-family: 'Poppins';color: #2A2916;">
+                                <input type="checkbox" checked />
+                                <span class="checkmark"></span>
+                                Étudiant(e) a besoins spécifiques
+                            </label>
+                            <div class="form-field" style="width: 50%;margin-top: 20px;">
+                                <label for="type">Type<span class="required">*</label>
+                                <input type="text" id="type" name="type" >
+                                <span class="error-message"></span>
+                            </div>
+
+                            <div class="form-actions">
+                                <button type="button" id="next-btn" class="btn btn-primary">SUIVANT</button>
+                            </div>
+                        </div>
+
+                        <!-- Step 2 will be added via JS -->
+                        <div class="form-step" id="step2">
+
+                        </div>
+
+                        <div class="form-step" id="step3">
+                        </div>
+                    </form>
+                </div>
+            </main>
+        </div>
+    </div>
+    <div id="confirmation-popup" class="popup-overlay" style="display: none;">
+        <div class="popup-box">
+            <h3 class="popup-title">Confirmation</h3>
+            <div style="position: relative;top: 50px;">
+                <div class="popup-icon">
+                    <img src="../assets/done.png" alt="icon" style="width: 55px;height: 55px;">
+                </div>
+                <p>Confirmez vous les informations saisies ?</p>
+
+            </div>
+            <div class="popup-actions">
+                <button class=" Quicksand-bold cancel-button">Annuler</button>
+                <button class="Quicksand-bold confirm-button ">Confirmer</button>
+            </div>
+
+        </div>
+    </div>
+
+    <script src="../js/main.js"></script>
+    <script src="../js/form-validation.js"></script>
+    <script src="../js/navigation.js"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // 1. Delegation mapping
+            const delegationsByGouvernorat = {
+                "Ariana": ["Ariana Ville", "Ettadhamen", "La Soukra", "Raoued", "Sidi Thabet"],
+                "Béja": ["Béja Nord", "Béja Sud", "Testour", "Téboursouk", "Amdoun", "Goubellat", "Nefza"],
+                "Ben Arous": ["Ben Arous", "Mégrine", "Ezzahra", "Hammam Lif", "Hammam Chott", "Mohamedia", "Radès"],
+                "Bizerte": ["Bizerte Nord", "Bizerte Sud", "Mateur", "Ras Jebel", "Sejnane", "Tinja", "Utique"],
+                "Gabès": ["Gabès Ville", "El Hamma", "Ghannouch", "Mareth", "Matmata"],
+                "Gafsa": ["Gafsa Nord", "Gafsa Sud", "Metlaoui", "Redeyef", "Oum Laarayes"],
+                "Jendouba": ["Jendouba", "Fernana", "Aïn Draham", "Bou Salem"],
+                "Kairouan": ["Kairouan Nord", "Kairouan Sud", "Haffouz", "Sbikha", "Chebika"],
+                "Kasserine": ["Kasserine Nord", "Kasserine Sud", "Thala", "Fériana"],
+                "Kébili": ["Kébili Nord", "Kébili Sud", "Douz"],
+                "Kef": ["Le Kef", "Nebeur", "Tajerouine", "Dahmani"],
+                "Mahdia": ["Mahdia", "Chebba", "Ksour Essef", "El Jem"],
+                "La Manouba": ["Manouba", "Djedeida", "Douar Hicher", "Oued Ellil"],
+                "Médenine": ["Médenine Nord", "Médenine Sud", "Ben Gardane", "Djerba"],
+                "Monastir": ["Monastir", "Ksar Hellal", "Sahline", "Jemmal"],
+                "Nabeul": ["Nabeul", "Hammamet", "Korba", "Kelibia", "Dar Chaabane"],
+                "Sfax": ["Sfax Ville", "Sakiet Ezzit", "El Ain", "Mahres"],
+                "Sidi Bouzid": ["Sidi Bouzid", "Meknassi", "Menzel Bouzaiene"],
+                "Siliana": ["Siliana", "Gaafour", "Kesra"],
+                "Sousse": ["Sousse Ville", "Msaken", "Kalaa Kebira", "Kalaa Seghira"],
+                "Tataouine": ["Tataouine Nord", "Tataouine Sud", "Bir Lahmar"],
+                "Tozeur": ["Tozeur", "Nefta", "Degache"],
+                "Tunis": ["Tunis Centre", "El Omrane", "Carthage", "La Marsa", "Bab El Bhar"],
+                "Zaghouan": ["Zaghouan", "El Fahs", "Zriba"]
+            };
+
+            // 2. Function to update delegation select based on selected gouvernorat
+            function updateDelegations() {
+                const gouvernoratSelect = document.getElementById('gouvernorat');
+                const delegationSelect = document.getElementById('delegation');
+                const selectedGov = gouvernoratSelect.value;
+
+                // Clear previous options
+                delegationSelect.innerHTML = '<option value="">-- Sélectionner une délégation --</option>';
+                console.log(selectedGov, delegationsByGouvernorat[selectedGov]);
+
+                if (delegationsByGouvernorat[selectedGov]) {
+                    delegationsByGouvernorat[selectedGov].forEach(delegation => {
+                        const option = document.createElement('option');
+                        option.value = delegation;
+                        option.textContent = delegation;
+                        delegationSelect.appendChild(option);
+                    });
+                }
+            }
+            console.log(document.getElementById('gouvernorat'));
+
+            document.getElementById('gouvernorat')?.addEventListener('change', updateDelegations);
+
+
+            // 3. Attach onchange event
+            // const gouvernoratElement = document.getElementById('gouvernorat');
+            // if (gouvernoratElement) {
+            //   gouvernoratElement.addEventListener('change', updateDelegations);
+            // }
+
+
+        });
+        document.addEventListener('DOMContentLoaded', () => {
+            const delegationsArByGouvernoratAr = {
+                "أريانة": ["أريانة المدينة", "رواد", "سكرة", "التضامن", "سيدي ثابت"],
+                "باجة": ["باجة الشمالية", "باجة الجنوبية", "نفزة", "تيبار", "تستور", "عمدون", "مجاز الباب"],
+                "بن عروس": ["بن عروس", "الزهراء", "حمام الأنف", "حمام الشط", "رادس", "مقرين", "مرناق", "فوشانة", "المروج"],
+                "بنزرت": ["بنزرت الشمالية", "بنزرت الجنوبية", "رأس الجبل", "ماطر", "منزل بورقيبة", "منزل جميل", "تينجة", "غار الملح", "عالية"],
+                "قابس": ["قابس المدينة", "قابس الغربية", "قابس الجنوبية", "الحامة", "ماتماطة", "غنوش", "المطوية", "وديان"],
+                "قفصة": ["قفصة الشمالية", "قفصة الجنوبية", "أم العرائس", "المتلوي", "الرديف", "السند", "القطار"],
+                "جندوبة": ["جندوبة", "بلطة بوعوان", "طبرقة", "فرنانة", "عين دراهم", "وادي مليز", "غار الدماء"],
+                "القيروان": ["القيروان الشمالية", "القيروان الجنوبية", "الشراردة", "بوحجلة", "السبيخة", "حاجب العيون", "نصر الله", "العلا"],
+                "القصرين": ["القصرين", "سبيطلة", "تالة", "فريانة", "جدليان", "حاسي الفريد", "العيون"],
+                "قبلي": ["قبلي الشمالية", "قبلي الجنوبية", "دوز الشمالية", "دوز الجنوبية", "الفوار", "رجيم معتوق"],
+                "الكاف": ["الكاف", "تاجروين", "ساقية سيدي يوسف", "الدهماني", "الجريصة", "نبر", "السرس"],
+                "المهدية": ["المهدية", "الجم", "سيدي علوان", "بومرداس", "شربان", "ملولش", "أولاد الشامخ", "هبيرة"],
+                "منوبة": ["منوبة", "دوار هيشر", "وادي الليل", "المرناقية", "الجديدة", "البطان", "طبربة", "برج العامري"],
+                "مدنين": ["مدنين الشمالية", "مدنين الجنوبية", "جرجيس", "بني خداش", "سيدي مخلوف", "بن قردان"],
+                "المنستير": ["المنستير", "المكنين", "زرمدين", "بنان", "قصيبة المديوني", "جمّال", "طبلبة", "الساحلين"],
+                "نابل": ["نابل", "دار شعبان الفهري", "الحمامات", "بني خيار", "قربة", "منزل تميم", "الهوارية", "قرمبالية"],
+                "سيدي بوزيد": ["سيدي بوزيد الغربية", "سيدي بوزيد الشرقية", "المكناسي", "الرقاب", "بئر الحفي", "جلمة", "سبالة أولاد عسكر"],
+                "سليانة": ["سليانة", "قعفور", "الكريب", "بوعرادة", "كسرى", "مكثر", "الروحية"],
+                "سوسة": ["سوسة المدينة", "سوسة الجنوبية", "سوسة الشمالية", "القلعة الكبرى", "القلعة الصغرى", "سيدي بوعلي", "هرقلة", "حومة السوق"],
+                "تطاوين": ["تطاوين الجنوبية", "تطاوين الشمالية", "غمراسن", "البئر الأحمر", "الصمار", "ذهيبة", "رمادة"],
+                "توزر": ["توزر", "نفطة", "تمغزة", "حامة الجريد", "دوز"],
+                "تونس": ["تونس المدينة", "المرسى", "قرطاج", "سيدي البشير", "باب سويقة", "باب البحر", "الزهروني", "حي الخضراء"],
+                "زغوان": ["زغوان", "الفحص", "الناظور", "صواف", "بئر مشارقة"],
+                "المهدية": ["المهدية", "الجم", "ملولش", "سيدي علوان", "بومرداس", "أولاد الشامخ"]
+            };
+
+
+            function updateDelegationsAr() {
+                const gouvernoratArSelect = document.getElementById('gouvernoratAr');
+                const delegationArSelect = document.getElementById('delegationAr');
+                const selectedGovAr = gouvernoratArSelect.value.trim();
+
+                delegationArSelect.innerHTML = '<option value="">-- الرجاء اختيار معتمدية --</option>';
+
+                if (delegationsArByGouvernoratAr[selectedGovAr]) {
+                    delegationsArByGouvernoratAr[selectedGovAr].forEach(delegation => {
+                        const option = document.createElement('option');
+                        option.value = delegation;
+                        option.textContent = delegation;
+                        delegationArSelect.appendChild(option);
+                    });
+                }
+            }
+
+            document.getElementById('gouvernoratAr')?.addEventListener('change', updateDelegationsAr);
+        });
+    </script>
+</body>
+
+</html>

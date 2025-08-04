@@ -1,0 +1,426 @@
+/* Structure de base */
+
+body {
+  overflow-y: hidden;
+}
+.sl-form-wrapper {
+    display: flex;
+    min-height: 100vh;
+    font-family: 'Segoe UI', sans-serif;
+    background-color: #f0f2f5;
+  }
+  
+  /* Partie gauche */
+  .sl-left-side {
+    flex: 1;
+    background: #eee;
+   /* border-top-left-radius: 20px;
+    border-bottom-left-radius: 20px;*/
+    overflow: hidden;
+  }
+  
+  .sl-left-side img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  
+  /* Partie droite */
+  .sl-right-side {
+    flex: 1;
+    background: #fff;
+    padding: 30px 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    border-top-left-radius: 30px;
+    border-bottom-left-radius: 50px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.05);
+  
+    /* Pour avancer le bloc vers la gauche */
+    margin-left: -30px; /* Ajustable selon effet désiré */
+    z-index: 2;
+    position: relative;
+  }
+  /* Lien d'aide */
+  .sl-help-link {
+    font-size: 17px;
+    color: #444;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-weight: 600;
+  }
+  
+  .sl-icon {
+    width: 20px;
+    height: 20px;
+    vertical-align: middle;
+  }
+  
+  /* Boîte de login */
+  .sl-login-box {
+    max-width: 550px;
+    margin: auto;
+    text-align: center;
+    width: 55%;
+}
+  .sl-logo {
+    margin-bottom: 0px;
+    width: 150px;
+    height: 150px;
+}
+  
+.sl-login-box h2 {
+    font-size: 23px;
+    margin-bottom: 15px;
+    color: #A6A485;
+    font-weight: 600;
+    margin-top: -41px;
+}
+  
+  .sl-subtitle {
+    font-size: 24px;
+    font-weight: bold;
+    color: #2A2916;
+    margin: 2px 0;
+  }
+  
+  /* Champs */
+  .sl-login-box input {
+    width: 100%;
+    padding: 12px;
+    margin: 10px 0;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    font-size: 16px;
+    background-color: #fdfdfd;
+    transition: border 0.3s ease;
+  }
+  
+  .sl-login-box input:focus {
+    outline: none;
+    border-color: #b40000;
+    box-shadow: 0 0 0 2px rgba(180, 0, 0, 0.1);
+  }
+  
+  /* Champ mot de passe avec icône */
+  .sl-password-field {
+    position: relative;
+  }
+  
+  .sl-password-field .sl-toggle {
+    position: absolute;
+    right: 10px;
+    top: 22%;
+    transform: translateY(-50%);
+    cursor: pointer;
+  }
+  
+  .sl-password-field .sl-toggle img {
+    width: 29px;
+    height: 22px;
+  }
+  
+  /* Bouton */
+  .sl-btn {
+    width: 107%;
+    padding: 12px;
+    background: #b40000;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: background 0.3s ease;
+  }
+  
+  .sl-btn:hover {
+    background: #8e0000;
+  }
+  
+  /* Options */
+  .sl-options {
+    margin-top: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 14px;
+  }
+  
+  .sl-options label {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+  .sl-forgot {
+    font-size: 17px;
+    color: #007bff;
+    font-weight: 500;
+    text-decoration: none;
+}
+  
+  .sl-forgot:hover {
+    text-decoration: underline;
+  }
+  
+  /* Message d'erreur */
+  .sl-error {
+    color: red;
+    font-size: 14px;
+    margin-bottom: 10px;
+  }
+ 
+  .sl-options {
+    margin-top: 14px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 14px;
+    gap: 10px;
+    flex-wrap: nowrap;
+  }
+  
+  .sl-remember {
+    display: inline-flex;
+    align-items: center;
+    white-space: nowrap; /* empêche retour ligne */
+    gap: 6px;
+  }
+  
+  .sl-remember input {
+    margin: 0;
+  }
+  
+  .sl-forgot {
+    color: #007bff;
+    text-decoration: none;
+    white-space: nowrap;
+  }
+  
+  .sl-options {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 14px;
+    font-size: 14px;
+  }
+  
+  .sl-left, .sl-right {
+    flex: 1;
+  }
+  
+  .sl-left {
+    display: flex;
+    align-items: center;
+  }
+  
+  .sl-remember {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    white-space: nowrap;
+  }
+  
+  .sl-right {
+    text-align: right;
+  }
+  
+  .sl-forgot {
+    color: #007bff;
+    text-decoration: none;
+    white-space: nowrap;
+  }
+  
+  .sl-forgot:hover {
+    text-decoration: underline;
+  }
+  
+
+  /* Réinitialise l'apparence native */
+.sl-remember input[type="checkbox"] {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    width: 16px;
+    height: 16px;
+    border: 2px solid #ccc;
+    border-radius: 3px;
+    position: relative;
+    cursor: pointer;
+    outline: none;
+    transition: all 0.2s ease-in-out;
+    padding: 7px 7px;
+  }
+  
+  /* Style au survol */
+  .sl-remember input[type="checkbox"]:hover {
+    border-color: #b40000;
+  }
+  
+  /* Quand cochée : fond rouge + coche blanche */
+  .sl-remember input[type="checkbox"]:checked {
+    background-color: #b40000;
+    border-color: #b40000;
+  }
+  
+  .sl-remember input[type="checkbox"]:checked::after {
+    content: "";
+    position: absolute;
+    left: 4px;
+    top: 1px;
+    width: 4px;
+    height: 9px;
+    border: solid white;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+  }
+  
+
+  /******/
+
+  .sl-login-box h2 {
+    font-size: 22px;
+    margin-bottom: 10px;
+    color: #A6A485;
+    font-weight: 600;
+  }
+  
+  .sl-subtitle-info {
+    font-size: 16px;
+    margin-bottom: 25px;
+    color: #333;
+  }
+  
+  /* Inputs du code */
+  .sl-code-inputs {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 20px;
+  }
+  
+  .sl-code-inputs input[type="text"] {
+    width: 60px;
+    height: 60px;
+    font-size: 28px;
+    text-align: center;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    background-color: #f6f6f6;
+    font-weight: bold;
+    color: #2A2916;
+    transition: border-color 0.3s ease;
+  }
+  
+  .sl-code-inputs input:focus {
+    border-color: #b40000;
+    outline: none;
+  }
+  
+  /* Bouton Renvoi */
+  .sl-btn-outline {
+    width: 107%;
+    padding: 12px;
+    margin-top: 15px;
+    background: none;
+    color: #b40000;
+    border: 2px solid #b40000;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  
+  .sl-btn-outline:hover {
+    background: #f9f9f9;
+    border-color: #910000;
+    color: #910000;
+  }
+  
+  .sl-resend-form {
+    margin-top: 10px;
+  }
+
+
+@media screen and (max-width: 800px) {
+  .sl-login-box h2 {
+    font-size: 16px;
+   
+}
+.sl-subtitle {
+    font-size: 17px;
+   
+}
+.sl-btn {
+  
+     margin-top: 10px; 
+}
+.sl-login-box input {
+    width: 100%;
+    box-sizing: border-box;
+    margin: unset;
+}
+.sl-forgot {
+    font-size: 14px;
+  
+}
+.sl-form-wrapper {
+    flex-direction: column;
+background:white
+}
+.sl-left-side {
+    flex: unset;
+       height: 20vh;
+}
+.sl-help-link
+{
+font-size:14px
+}
+.sl-right-side {
+    margin-left: 0;
+    position: relative;
+    padding: 0 40px 35px 40px;
+    border-radius: 25px 25px 0 0;
+    box-sizing: border-box;
+    top: -20px;
+flex-direction:column-reverse;
+}
+.sl-login-box {
+    max-width: 100%;
+       width: 100%;
+}
+.sl-login-box input {
+    width: 100%;
+       box-sizing: border-box;
+}
+.sl-btn {
+    width: 100%;
+   }
+sl-options p {
+display:nones
+}
+.sl-password-field .sl-toggle img {
+    width: 28px;
+    height: 18px;
+}
+.sl-logo {
+    margin-bottom: 20px;
+   }
+.sl-btn-outline {
+    width: 100%;
+    }
+}
+
+
+
+/** version css ***/
+
+form#mot_passe_oublie {
+    margin-top: -20px !important;
+}
+

@@ -1,0 +1,96 @@
+/* Sidebar Styles */
+.sidebar {
+  width: 295px;
+  height: 100%;
+  background-color: white;
+  border-right: 1px solid var(--gray-200);
+  transition: width var(--transition-normal);
+  overflow: hidden;
+  position: fixed;
+}
+
+.sidebar-header {
+  padding: var(--space-2);
+  border-bottom: 1px solid var(--gray-200);
+}
+
+.sidebar-header h3 {
+  font-size: var(--text-lg);
+  color: var(--primary-color);
+  font-weight: 500;
+}
+
+.sidebar-nav {
+  padding: var(--space-2) 0;
+}
+
+.sidebar-nav ul {
+  list-style: none;
+}
+
+.sidebar-nav li {
+  margin-bottom: 2px;
+  position: relative;
+}
+
+.sidebar-nav li a {
+  display: block;
+  padding: 20px 59px;
+  color: var(--gray-700);
+  text-decoration: none;
+  font-size: var(--text-sm);
+  transition: all var(--transition-fast);
+  border-left: 3px solid transparent;
+}
+
+.sidebar-nav li a:hover {
+  background-color: rgba(206, 14, 45, 0.05);
+  color: var(--primary-color);
+}
+
+.sidebar-nav li.active a {
+  background: transparent linear-gradient(91deg, #A6A485C9 0%, #A6A48500 100%) 0% 0% no-repeat padding-box;
+  color: #000000;
+  border-left-color: var(--primary-dark);
+  font-weight: 500;
+}
+
+/* Responsive sidebar */
+@media (max-width: 768px) {
+  .sidebar {
+    width: 100%;
+    border-right: none;
+    border-bottom: 1px solid var(--gray-200);
+  }
+  
+  .sidebar-nav ul {
+    display: flex;
+    overflow-x: auto;
+    padding: 0 var(--space-1);
+  }
+  
+  .sidebar-nav li {
+    margin-bottom: 0;
+    margin-right: 2px;
+    white-space: nowrap;
+  }
+  
+  .sidebar-nav li a {
+    border-left: none;
+    border-bottom: 3px solid transparent;
+    padding: var(--space-1) var(--space-2);
+  }
+  
+  .sidebar-nav li.active a {
+    border-left-color: transparent;
+    border-bottom-color: var(--primary-color);
+  }
+}
+
+/* Collapsed sidebar for smaller screens */
+@media (max-width: 480px) {
+  .sidebar-nav li a {
+    padding: var(--space-1);
+    font-size: var(--text-xs);
+  }
+}

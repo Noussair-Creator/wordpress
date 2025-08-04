@@ -1,0 +1,29 @@
+/*body.page-template-default .wp-site-blocks {
+    display: none;
+}*/
+
+body.page-template-default {
+
+    overflow-y: visible;
+
+}
+
+body.page-template-default a {
+    text-decoration-thickness: 0px !important;
+    text-underline-offset: 0em;
+    font-size: 16px;
+    text-decoration: none;
+}
+
+.nav-pages .nav-link {
+    font-size: 16px;
+}
+
+.box li {
+    line-height: 1.2em;
+    font-size: 17px;
+}
+
+td , th{
+    font-size: 16px;
+}

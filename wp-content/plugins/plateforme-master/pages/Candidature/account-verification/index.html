@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Préinscription UTM</title>
+    <link rel="stylesheet" href="../css/form.css">
+    <link rel="stylesheet" href="../css/fonts.css">
+    <link rel="stylesheet" href="./style.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Signika:wght@300..700&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+    <div class="left-panel">
+        <img src="../assets/auth.jpeg" alt="Étudiante avec PC" />
+    </div>
+    <div class="right-panel">
+
+        <img src="../assets/logo.png" alt="UTM Logo" class="logo"  />
+
+        <div
+            style="width: 435px;display: flex;flex-direction: column;align-items: center;gap: 10px;align-self: center;">
+            <h2 class="Quicksand-bold " style="font-size: 25px;color: #A6A485;font-family: 'Poppins';">CODE DE
+                VERIFICATION</h2>
+            <h1 class="Quicksand-bold " style="margin: 0;font-size: 18px;color: #2A2916;font-family: 'Poppins';">Nous
+                avons envoyé un code à <span class="Quicksand-bold" style="color: black;">test@gmail.com</span> .</h1>
+
+            <form onsubmit="Verification(event)" style="width: 100%;">
+                <div class="input-container-signup">
+                    <input type="text" class="code-input-signup input-form" maxlength="1" />
+                    <input type="text" class="code-input-signup input-form" maxlength="1" />
+                    <input type="text" class="code-input-signup input-form" maxlength="1" />
+                    <input type="text" class="code-input-signup input-form" maxlength="1" />
+                </div>
+                <button class="Quicksand-medium smallText btn"
+                    style="font-family: 'Poppins';font-size: 20px;text-align: center;margin-bottom: 20px;"
+                    type="submit">VERIFIER</button>
+                <button class="Quicksand-medium smallText btn"
+                    style="font-family: 'Poppins';font-size: 20px;text-align: center;border: 2px solid #A6A485;color: #A6A485;background: unset;"
+                    type="submit">RENVOYER LE CODE</button>
+
+            </form>
+        </div>
+
+    </div>
+
+    <script src="./index.js"></script>
+
+</body>
+
+</html>

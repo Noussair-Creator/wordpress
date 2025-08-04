@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dépôt de candidature</title>
+    <link rel="stylesheet" href="../css/main.css">
+    <link rel="stylesheet" href="../css/form.css">
+    <link rel="stylesheet" href="../css/fonts.css">
+    <link rel="stylesheet" href="./style.css">
+
+
+    <link rel="stylesheet" href="../css/sidebar.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Signika:wght@300..700&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+    <div class="app-container">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-content">
+                <div class="logo-container">
+                    <img src="../assets/tn.png" style="width: 61px;height: 40px;">
+                    <img src="../assets/flag_tn.png" style="width: 55px;height: 36px;">
+                    <div class="logo-content">
+                        <div class="Quicksand-regular thinText">République Tunisienne <br> Ministère de l’Enseignement
+                            Supérieur <br> et de la Recherche Scientifique</div>
+                    </div>
+                </div>
+
+            </div>
+        </header>
+        <div class="sub-header-container">
+            <div class="sub-header-content">
+
+                <img src="../assets/logoback.jpeg" style="width: 284px;height: 129px;flex: none;">
+            </div>
+
+        </div>
+        <div class="bloc-under-header">
+            <div class="Quicksand-bold " style="font-size: 20px; color: #2A2916; font-family: 'Poppins';">INFORMATIONS
+                GÉNÉRALES</div>
+
+            <div style="display: flex;align-items: center;gap: 20px;">
+                <button class="Quicksand-medium smallText btn"
+                    style="font-family: 'Poppins';text-align: center;border: 2px solid #A6A485;color: #A6A485;background: unset;"
+                    type="submit">SAUVEGARDER BROUILLON</button>
+                <button id="goto" class="Quicksand-medium smallText btn"
+                    style="font-family: 'Poppins';text-align: center;" >INSCRIPTION Master</button>
+            </div>
+        </div>
+        <div class="content-container">
+            <div class="form-container">
+               
+                <form id="application-form" style="height: fit-content;padding-bottom: 128px;">
+                    <div class="form-step active" id="step1" style="position: relative; top: 100px; padding: 0 67px;">
+                  
+                      <div class="form-group">
+                        <div class="form-field">
+                          <label for="nom">Nom (Français) *</label>
+                          <input type="text" id="nom" name="nom" required>
+                        </div>
+                        <div class="form-field">
+                          <label for="nom_ar">Nom (Arabe) *</label>
+                          <input type="text" id="nom_ar" name="nom_ar" dir="rtl" required>
+                        </div>
+                      </div>
+                  
+                      <div class="form-group">
+                        <div class="form-field">
+                          <label for="prenom">Prénom (Français) *</label>
+                          <input type="text" id="prenom" name="prenom" required>
+                        </div>
+                        <div class="form-field">
+                          <label for="prenom_ar">Prénom (Arabe) *</label>
+                          <input type="text" id="prenom_ar" name="prenom_ar" dir="rtl" required>
+                        </div>
+                      </div>
+                  
+                      <div class="form-group">
+                        <div class="form-field">
+                          <label for="datenaissance">Date de naissance *</label>
+                          <input type="date" id="datenaissance" name="datenaissance" required>
+                        </div>
+                      </div>
+                  
+                      <div class="form-group">
+                        <div class="form-field">
+                          <label for="lieunaissance">Lieu de naissance (FR) *</label>
+                          <input type="text" id="lieunaissance" name="lieunaissance" required>
+                        </div>
+                        <div class="form-field">
+                          <label for="lieunaissance_ar">Lieu de naissance (AR) *</label>
+                          <input type="text" id="lieunaissance_ar" name="lieunaissance_ar" dir="rtl" required>
+                        </div>
+                      </div>
+                  
+                      <div class="form-group">
+                        <div class="form-field">
+                          <label for="nationalite">Nationalité (FR) *</label>
+                          <input type="text" id="nationalite" name="nationalite" required>
+                        </div>
+                        <div class="form-field">
+                          <label for="nationalite_ar">Nationalité (AR) *</label>
+                          <input type="text" id="nationalite_ar" name="nationalite_ar" dir="rtl" required>
+                        </div>
+                      </div>
+                  
+                      <div class="form-group">
+                        <div class="form-field">
+                          <label for="cin">CIN *</label>
+                          <input type="text" id="cin" name="cin" required>
+                        </div>
+                        <div class="form-field">
+                          <label for="cne">Passeport *</label>
+                          <input type="text" id="cne" name="cne" required>
+                        </div>
+                      </div>
+                  
+                      <div class="form-group">
+                        <div class="form-field">
+                          <label for="email">Email 1 *</label>
+                          <input type="email" id="email" name="email" required>
+                        </div>
+                        <div class="form-field">
+                          <label for="email2">Email 2</label>
+                          <input type="email" id="email2" name="email2">
+                        </div>
+                      </div>
+                  
+                      <div class="form-group">
+                        <div class="form-field">
+                          <label for="telephone">Téléphone *</label>
+                          <input type="number" id="telephone" name="telephone" placeholder="XX XX XX XX" required>
+                        </div>
+                      </div>
+                  
+                    </div>
+                  
+                    <!-- Étapes 2 et 3 à ajouter via JS -->
+                  
+                    <div class="form-step" id="step2" style="display:none"></div>
+                    <div class="form-step" id="step3" style="display:none"></div>
+                  </form>
+                  
+
+            </div>
+        </div>
+    </div>
+
+    <!-- <img src="../assets/illustration.png" /> -->
+    <script src="./index.js"></script>
+    <script src="./form-validation.js"></script>
+    <script src="../js/navigation.js"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // 1. Delegation mapping
+            const delegationsByGouvernorat = {
+                "Ariana": ["Ariana Ville", "Ettadhamen", "La Soukra", "Raoued", "Sidi Thabet"],
+                "Béja": ["Béja Nord", "Béja Sud", "Testour", "Téboursouk", "Amdoun", "Goubellat", "Nefza"],
+                "Ben Arous": ["Ben Arous", "Mégrine", "Ezzahra", "Hammam Lif", "Hammam Chott", "Mohamedia", "Radès"],
+                "Bizerte": ["Bizerte Nord", "Bizerte Sud", "Mateur", "Ras Jebel", "Sejnane", "Tinja", "Utique"],
+                "Gabès": ["Gabès Ville", "El Hamma", "Ghannouch", "Mareth", "Matmata"],
+                "Gafsa": ["Gafsa Nord", "Gafsa Sud", "Metlaoui", "Redeyef", "Oum Laarayes"],
+                "Jendouba": ["Jendouba", "Fernana", "Aïn Draham", "Bou Salem"],
+                "Kairouan": ["Kairouan Nord", "Kairouan Sud", "Haffouz", "Sbikha", "Chebika"],
+                "Kasserine": ["Kasserine Nord", "Kasserine Sud", "Thala", "Fériana"],
+                "Kébili": ["Kébili Nord", "Kébili Sud", "Douz"],
+                "Kef": ["Le Kef", "Nebeur", "Tajerouine", "Dahmani"],
+                "Mahdia": ["Mahdia", "Chebba", "Ksour Essef", "El Jem"],
+                "La Manouba": ["Manouba", "Djedeida", "Douar Hicher", "Oued Ellil"],
+                "Médenine": ["Médenine Nord", "Médenine Sud", "Ben Gardane", "Djerba"],
+                "Monastir": ["Monastir", "Ksar Hellal", "Sahline", "Jemmal"],
+                "Nabeul": ["Nabeul", "Hammamet", "Korba", "Kelibia", "Dar Chaabane"],
+                "Sfax": ["Sfax Ville", "Sakiet Ezzit", "El Ain", "Mahres"],
+                "Sidi Bouzid": ["Sidi Bouzid", "Meknassi", "Menzel Bouzaiene"],
+                "Siliana": ["Siliana", "Gaafour", "Kesra"],
+                "Sousse": ["Sousse Ville", "Msaken", "Kalaa Kebira", "Kalaa Seghira"],
+                "Tataouine": ["Tataouine Nord", "Tataouine Sud", "Bir Lahmar"],
+                "Tozeur": ["Tozeur", "Nefta", "Degache"],
+                "Tunis": ["Tunis Centre", "El Omrane", "Carthage", "La Marsa", "Bab El Bhar"],
+                "Zaghouan": ["Zaghouan", "El Fahs", "Zriba"]
+            };
+
+            // 2. Function to update delegation select based on selected gouvernorat
+            function updateDelegations() {
+                const gouvernoratSelect = document.getElementById('gouvernorat');
+                const delegationSelect = document.getElementById('delegation');
+                const selectedGov = gouvernoratSelect.value;
+
+                // Clear previous options
+                delegationSelect.innerHTML = '<option value="">-- Sélectionner une délégation --</option>';
+                console.log(selectedGov, delegationsByGouvernorat[selectedGov]);
+
+                if (delegationsByGouvernorat[selectedGov]) {
+                    delegationsByGouvernorat[selectedGov].forEach(delegation => {
+                        const option = document.createElement('option');
+                        option.value = delegation;
+                        option.textContent = delegation;
+                        delegationSelect.appendChild(option);
+                    });
+                }
+            }
+            console.log(document.getElementById('gouvernorat'));
+
+            document.getElementById('gouvernorat')?.addEventListener('change', updateDelegations);
+
+
+            // 3. Attach onchange event
+            // const gouvernoratElement = document.getElementById('gouvernorat');
+            // if (gouvernoratElement) {
+            //   gouvernoratElement.addEventListener('change', updateDelegations);
+            // }
+
+
+        });
+        document.addEventListener('DOMContentLoaded', () => {
+            const delegationsArByGouvernoratAr = {
+                "أريانة": ["أريانة المدينة", "رواد", "سكرة", "التضامن", "سيدي ثابت"],
+                "باجة": ["باجة الشمالية", "باجة الجنوبية", "نفزة", "تيبار", "تستور", "عمدون", "مجاز الباب"],
+                "بن عروس": ["بن عروس", "الزهراء", "حمام الأنف", "حمام الشط", "رادس", "مقرين", "مرناق", "فوشانة", "المروج"],
+                "بنزرت": ["بنزرت الشمالية", "بنزرت الجنوبية", "رأس الجبل", "ماطر", "منزل بورقيبة", "منزل جميل", "تينجة", "غار الملح", "عالية"],
+                "قابس": ["قابس المدينة", "قابس الغربية", "قابس الجنوبية", "الحامة", "ماتماطة", "غنوش", "المطوية", "وديان"],
+                "قفصة": ["قفصة الشمالية", "قفصة الجنوبية", "أم العرائس", "المتلوي", "الرديف", "السند", "القطار"],
+                "جندوبة": ["جندوبة", "بلطة بوعوان", "طبرقة", "فرنانة", "عين دراهم", "وادي مليز", "غار الدماء"],
+                "القيروان": ["القيروان الشمالية", "القيروان الجنوبية", "الشراردة", "بوحجلة", "السبيخة", "حاجب العيون", "نصر الله", "العلا"],
+                "القصرين": ["القصرين", "سبيطلة", "تالة", "فريانة", "جدليان", "حاسي الفريد", "العيون"],
+                "قبلي": ["قبلي الشمالية", "قبلي الجنوبية", "دوز الشمالية", "دوز الجنوبية", "الفوار", "رجيم معتوق"],
+                "الكاف": ["الكاف", "تاجروين", "ساقية سيدي يوسف", "الدهماني", "الجريصة", "نبر", "السرس"],
+                "المهدية": ["المهدية", "الجم", "سيدي علوان", "بومرداس", "شربان", "ملولش", "أولاد الشامخ", "هبيرة"],
+                "منوبة": ["منوبة", "دوار هيشر", "وادي الليل", "المرناقية", "الجديدة", "البطان", "طبربة", "برج العامري"],
+                "مدنين": ["مدنين الشمالية", "مدنين الجنوبية", "جرجيس", "بني خداش", "سيدي مخلوف", "بن قردان"],
+                "المنستير": ["المنستير", "المكنين", "زرمدين", "بنان", "قصيبة المديوني", "جمّال", "طبلبة", "الساحلين"],
+                "نابل": ["نابل", "دار شعبان الفهري", "الحمامات", "بني خيار", "قربة", "منزل تميم", "الهوارية", "قرمبالية"],
+                "سيدي بوزيد": ["سيدي بوزيد الغربية", "سيدي بوزيد الشرقية", "المكناسي", "الرقاب", "بئر الحفي", "جلمة", "سبالة أولاد عسكر"],
+                "سليانة": ["سليانة", "قعفور", "الكريب", "بوعرادة", "كسرى", "مكثر", "الروحية"],
+                "سوسة": ["سوسة المدينة", "سوسة الجنوبية", "سوسة الشمالية", "القلعة الكبرى", "القلعة الصغرى", "سيدي بوعلي", "هرقلة", "حومة السوق"],
+                "تطاوين": ["تطاوين الجنوبية", "تطاوين الشمالية", "غمراسن", "البئر الأحمر", "الصمار", "ذهيبة", "رمادة"],
+                "توزر": ["توزر", "نفطة", "تمغزة", "حامة الجريد", "دوز"],
+                "تونس": ["تونس المدينة", "المرسى", "قرطاج", "سيدي البشير", "باب سويقة", "باب البحر", "الزهروني", "حي الخضراء"],
+                "زغوان": ["زغوان", "الفحص", "الناظور", "صواف", "بئر مشارقة"],
+                "المهدية": ["المهدية", "الجم", "ملولش", "سيدي علوان", "بومرداس", "أولاد الشامخ"]
+            };
+
+
+            function updateDelegationsAr() {
+                const gouvernoratArSelect = document.getElementById('gouvernoratAr');
+                const delegationArSelect = document.getElementById('delegationAr');
+                const selectedGovAr = gouvernoratArSelect.value.trim();
+
+                delegationArSelect.innerHTML = '<option value="">-- الرجاء اختيار معتمدية --</option>';
+
+                if (delegationsArByGouvernoratAr[selectedGovAr]) {
+                    delegationsArByGouvernoratAr[selectedGovAr].forEach(delegation => {
+                        const option = document.createElement('option');
+                        option.value = delegation;
+                        option.textContent = delegation;
+                        delegationArSelect.appendChild(option);
+                    });
+                }
+            }
+
+            document.getElementById('gouvernoratAr')?.addEventListener('change', updateDelegationsAr);
+        });
+    </script>
+</body>
+
+</html>

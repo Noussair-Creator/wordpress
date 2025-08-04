@@ -1,0 +1,15 @@
+<svg width="200" height="200" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+  <g fill="none" fill-rule="evenodd">
+    <circle cx="256" cy="256" r="256" fill="#F4F4F4"></circle>
+    <g transform="translate(120 130)">
+      <rect x="0" y="0" width="272" height="180" rx="12" fill="#D9D9D9"></rect>
+      <path d="M20 30h140v15H20zM20 60h110v15H20zM20 90h170v15H20z" fill="#B3B3B3"></path>
+      <circle cx="240" cy="150" r="30" fill="#FFD36B"></circle>
+      <path d="M234 144h12v12h-12z" fill="#000"></path>
+      <path d="M235 158h10v4h-10z" fill="#000"></path>
+    </g>
+    <text x="50%" y="85%" text-anchor="middle" font-family="Poppins, sans-serif" font-size="18" fill="#777">
+      Aucun résultat trouvé
+    </text>
+  </g>
+</svg>

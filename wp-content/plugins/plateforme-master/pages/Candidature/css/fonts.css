@@ -1,0 +1,139 @@
+
+.bigTitle {
+    font-size: 35px;
+    line-height: 40px;
+    color: "Poppins";
+    text-align: center;
+    font-display: swap;
+}
+
+.sub-bigTitle {
+    font-size: 30px;
+    color: #666666;
+    text-align: center;
+    font-display: swap;
+}
+
+.PopupTitle {
+    font-size: 35px;
+    line-height: 45px;
+    color: #666666;
+    text-align: center;
+}
+
+.title {
+    text-align: center;
+    font-size: 25px;
+    font-weight: normal;
+    color: #666666;
+    font-display: swap;
+}
+
+.subTitle {
+    text-align: left;
+    font-size: 20px;
+    font-family: "Poppins", sans-serif;
+    font-weight: 400;
+    color: #666666;
+    font-display: swap;
+}
+
+.paragraphe {
+    text-align: left;
+    font-family: "Poppins", sans-serif;
+    font-size: 14px;
+    color: #666666;
+    font-display: swap;
+}
+
+.smallText {
+    text-align: left;
+    font-family: "Poppins", sans-serif;
+    font-size: 15px;
+    color: #666666;
+    font-display: swap;
+}
+
+.tagsText {
+    font-size: 13px;
+    color: #666666;
+    font-display: swap;
+}
+
+.thinText {
+    font-size: 10px;
+    color: #666666;
+
+}
+
+.Quicksand-bold {
+    font-family: "Poppins", sans-serif;
+    font-weight: 700 !important;
+}
+
+.Quicksand-semibold {
+    font-family: "Poppins", sans-serif;
+    font-weight: 600 !important;
+}
+
+.Quicksand-medium {
+    font-family: "Poppins", sans-serif;
+    font-weight: 500;
+}
+
+.Quicksand-regular {
+    font-family: "Poppins", sans-serif;
+    font-weight: 400;
+}
+
+.Quicksand-light {
+    font-family: "Poppins", sans-serif;
+    font-weight: 300;
+}
+
+@media only screen and (min-width: 900px) and (max-width: 1280px) {}
+
+@media only screen and (max-width: 900px) {
+    .bigTitle {
+        font-size: 22px;
+        line-height: 25px;
+    }
+
+    .PopupTitle {
+        font-size: 22px;
+        line-height: 20px;
+
+    }
+
+    .title {
+        font-size: 16px;
+
+    }
+
+    .subTitle {
+        font-size: 17px !important;
+
+    }
+
+    .paragraphe {
+
+        font-size: 13px !important;
+        font-family: "Poppins", sans-serif !important;
+        font-weight: 300 ;
+
+    }
+
+    .smallText {
+        font-size: 14px !important;
+    }
+
+    .tagsText {
+        font-size: 12px !important;
+
+    }
+
+    .sub-bigTitle {
+        font-size: 20px;
+    }
+
+}
