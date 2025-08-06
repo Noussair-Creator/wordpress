@@ -1031,6 +1031,7 @@ function pm_template_override()
         wp_redirect(home_url());
         exit;
     }
+    // ------New pages for LaboRecherche-----
     if (is_page('programmes-projects-de-recherches')) {
         if (is_user_logged_in()) {
             include plugin_dir_path(__FILE__) . 'Modules/LaboRecherche/pages/ProgrammesProjectsDeRecherches.php';
@@ -1106,6 +1107,30 @@ function pm_template_override()
     if (is_page('comment-proteger-ma-recherche')) {
         if (is_user_logged_in()) {
             include plugin_dir_path(__FILE__) . 'Modules/LaboRecherche/pages/CommentProtegerMaRecherche.php';
+            exit;
+        }
+        wp_redirect(home_url());
+        exit;
+    }
+    if (is_page('details-programmes-projets-de-recherches')) {
+        if (is_user_logged_in()) {
+            include plugin_dir_path(__FILE__) . 'Modules/LaboRecherche/pages/DetailsProgrammesProjetsDeRecherches.php';
+            exit;
+        }
+        wp_redirect(home_url());
+        exit;
+    }
+    if (is_page('reseaux-de-la-recherche-fiche-partenaire')) {
+        if (is_user_logged_in()) {
+            include plugin_dir_path(__FILE__) . 'Modules/LaboRecherche/pages/ReseauxDeLaRechercheFichePartenaire.php';
+            exit;
+        }
+        wp_redirect(home_url());
+        exit;
+    }
+    if (is_page('financement-fiche-de-financement')) {
+        if (is_user_logged_in()) {
+            include plugin_dir_path(__FILE__) . 'Modules/LaboRecherche/pages/FinancementFicheDeFinancement.php';
             exit;
         }
         wp_redirect(home_url());

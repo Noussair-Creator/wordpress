@@ -81,7 +81,8 @@
                         <button class="action-btn">...</button>
                         <div class="dropdown-menu">
                             <a href="#">Modifier</a>
-                            <a href="#">Fiche partenaire</a>
+                            <a href="http://wordpress.test:8080/reseaux-de-la-recherche-fiche-partenaire/">Fiche
+                                partenaire</a>
                             <a href="#">Supprimer</a>
                         </div>
                     </div>
@@ -102,7 +103,8 @@
                         <button class="action-btn">...</button>
                         <div class="dropdown-menu">
                             <a href="#">Modifier</a>
-                            <a href="#">Fiche partenaire</a>
+                            <a href="http://wordpress.test:8080/reseaux-de-la-recherche-fiche-partenaire/">Fiche
+                                partenaire</a>
                             <a href="#">Supprimer</a>
                         </div>
                     </div>
@@ -122,7 +124,8 @@
                         <button class="action-btn">...</button>
                         <div class="dropdown-menu">
                             <a href="#">Modifier</a>
-                            <a href="#">Fiche partenaire</a>
+                            <a href="http://wordpress.test:8080/reseaux-de-la-recherche-fiche-partenaire/">Fiche
+                                partenaire</a>
                             <a href="#">Supprimer</a>
                         </div>
                     </div>
@@ -142,7 +145,8 @@
                         <button class="action-btn">...</button>
                         <div class="dropdown-menu">
                             <a href="#">Modifier</a>
-                            <a href="#">Fiche partenaire</a>
+                            <a href="http://wordpress.test:8080/reseaux-de-la-recherche-fiche-partenaire/">Fiche
+                                partenaire</a>
                             <a href="#">Supprimer</a>
                         </div>
                     </div>
@@ -163,7 +167,8 @@
                         <button class="action-btn">...</button>
                         <div class="dropdown-menu">
                             <a href="#">Modifier</a>
-                            <a href="#">Fiche partenaire</a>
+                            <a href="http://wordpress.test:8080/reseaux-de-la-recherche-fiche-partenaire/">Fiche
+                                partenaire</a>
                             <a href="#">Supprimer</a>
                         </div>
                     </div>

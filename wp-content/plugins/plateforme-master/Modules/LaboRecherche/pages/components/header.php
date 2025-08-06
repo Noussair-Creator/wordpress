@@ -23,13 +23,13 @@
     margin-right: 10px;
 }
 
-img#drapeau_tunisie {
+/* img#drapeau_tunisie {
     width: 5%;
     height: 6%;
     position: relative;
     top: 8px;
     margin-left: -19px;
-}
+} */
 
 span#text_tunis {
     font-size: 10px;
@@ -40,15 +40,18 @@ span#text_tunis {
 }
 
 img#logo_utm {
-    width: 7%;
+    /* width: 7%; */
+    width: 10%;
     height: 8%;
     position: relative;
-    top: -5px;
+    /* top: -5px; */
+    top: 0px;
     padding-left: 10px;
 }
 
 img#logo_fst {
-    width: 7%;
+    /* width: 10%; */
+    width: 12%;
     height: 4%;
     position: relative;
     top: 5px;
@@ -86,11 +89,17 @@ span.hr-div {
 }
 
 img#drapeau_tunisie {
+    /* 
     width: 5%;
     height: 6%;
-    top: 8px;
+    top: 8px; 
+     */
+    width: 10%;
+    height: 14%;
+    top: 5px;
     position: relative;
-    margin-left: -19px;
+    /* margin-left: -19px; */
+    margin-left: 10px;
 }
 
 span#text_tunis {
@@ -101,21 +110,21 @@ span#text_tunis {
     font-weight: 400;
 }
 
-img#logo_utm {
+/* img#logo_utm {
     width: 7%;
     height: 8%;
     top: -5px;
     position: relative;
     padding-left: 10px;
-}
+} */
 
-img#logo_fst {
+/* img#logo_fst {
     width: 7%;
     height: 4%;
     top: 5px;
     position: relative;
     padding-left: 10px;
-}
+} */
 
 span.hr-div {
     width: 1px;
@@ -129,17 +138,19 @@ span.hr-div {
 <header class="main-header">
     <div class="logo-section">
         <!-- <img src="/imagesMaster/mesrs_300x200_0.png" alt="Logo MESRS" /> -->
-        <img src="/wp-content/plugins/plateforme-master/images/imagesMaster/mesrs_300x200_0.png" alt="Logo MESRS" />
-        <img src="/imagesMaster/Image 30.png" id="drapeau_tunisie" alt="Logo Tunisie" />
+        <img src="/wp-content/plugins/plateforme-master/images/newimages/mesrs_300x200_0.png" alt="Logo MESRS" />
+        <img src="/wp-content/plugins/plateforme-master/images/newimages/Image 30.png" id="drapeau_tunisie"
+            alt="Logo Tunisie" />
         <span id="text_tunis">
             République Tunisienne<br />
             Ministère de l’Enseignement Supérieur<br />
             et de la Recherche Scientifique
         </span>
         <span class="hr-div"></span>
-        <img src="/imagesMaster/logo-removebg-preview.png" id="logo_utm" alt="Logo UTM" />
+        <img src="/wp-content/plugins/plateforme-master/images/newimages/logo-removebg-preview.png" id="logo_utm"
+            alt="Logo UTM" />
         <span class="hr-div"></span>
-        <!--<img src="/imagesMaster/Image 76.png" id="logo_fst" alt="Logo FST" />-->
+        <img src="/wp-content/plugins/plateforme-master/images/newimages/Image 76.png" id="logo_fst" alt="Logo FST" />
     </div>
 
     <div class="header-actions">
