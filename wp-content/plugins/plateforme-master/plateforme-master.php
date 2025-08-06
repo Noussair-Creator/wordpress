@@ -1087,6 +1087,30 @@ function pm_template_override()
         wp_redirect(home_url());
         exit;
     }
+    if (is_page('actualites-de-lutm')) {
+        if (is_user_logged_in()) {
+            include plugin_dir_path(__FILE__) . 'Modules/LaboRecherche/pages/ActualitesDeLUTM.php';
+            exit;
+        }
+        wp_redirect(home_url());
+        exit;
+    }
+    if (is_page('membres-de-laboratoire-2')) {
+        if (is_user_logged_in()) {
+            include plugin_dir_path(__FILE__) . 'Modules/LaboRecherche/pages/MembresDeLaboratoire2.php';
+            exit;
+        }
+        wp_redirect(home_url());
+        exit;
+    }
+    if (is_page('comment-proteger-ma-recherche')) {
+        if (is_user_logged_in()) {
+            include plugin_dir_path(__FILE__) . 'Modules/LaboRecherche/pages/CommentProtegerMaRecherche.php';
+            exit;
+        }
+        wp_redirect(home_url());
+        exit;
+    }
     // 🔁 Chargement automatique des pages ED dynamiques
     $pages_ed = [
         'inscription-et-reinscription',
