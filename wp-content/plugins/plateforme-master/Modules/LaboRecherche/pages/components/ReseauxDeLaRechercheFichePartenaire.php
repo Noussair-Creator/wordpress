@@ -464,6 +464,9 @@ button.status-button {
     gap: 200px;
 }
 
+
+
+
 .styled-list li:last-child {
     border-bottom: none;
 }
@@ -490,6 +493,7 @@ button.status-button {
     border-radius: 17px;
 }
 
+
 .styled-list li ul {
     padding: 0px;
 }
@@ -501,7 +505,7 @@ button.status-button {
 .styled-list strong {
     font-weight: 600;
     color: #6E6D55;
-    min-width: 160px;
+    min-width: 200px;
     display: inline-block;
 }
 

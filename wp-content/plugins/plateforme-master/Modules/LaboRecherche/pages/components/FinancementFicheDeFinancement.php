@@ -8,22 +8,22 @@
     <div class="card full-width">
         <h3>Informations générales</h3>
         <ul class="styled-list">
-            <li><strong>Nom du financement :</strong> <span>Programme H2020 – BCI-Learn</span></li>
-            <li><strong>Type de source :</strong> <span>Financement international (Union Européenne – H2020)</span></li>
-            <li><strong>Référence de convention :</strong> <span>EU/H2020/UTM/BCI/2023</span></li>
-            <li><strong>Montant total attribué :</strong> <span>150 000 TND</span></li>
-            <li><strong>Projet associé :</strong> <span>BCI-Learn - Interface cerveau-machine portable</span></li>
-            <li><strong>Date de début :</strong> <span>01 mars 2023</span></li>
-            <li><strong>Date de fin prévue :</strong> <span>28 février 2026</span></li>
-            <li><strong>Montant consommé à ce jour :</strong> <span>95 000 TND</span></li>
-            <li><strong>Reste à engager :</strong> <span>55 000 TND</span></li>
-            <li><strong>Taux d'exécution budgétaire :</strong> <span>63.33 %</span></li>
-            <li><strong>Statut du financement :</strong> <span><span class="badge enabled"
-                        style="background-color: #D6E6D3; color: #2B6629;">En cours</span></span></li>
-            <li><strong>Dernière mise à jour :</strong> <span>05 juillet 2025</span></li>
-            <li><strong>Responsable financier :</strong> <span>Dr. Sarra Messaoudi (Responsable projet UTM)</span></li>
-            <li><strong>Observations :</strong> <span>Dernier virement UE reçu le 10/06/2025 – prochaine tranche en
-                    attente.</span></li>
+            <li><strong>Nom du financement :</strong> Programme H2020 – BCI-Learn</li>
+            <li><strong>Type de source :</strong> Financement international (Union Européenne – H2020)</li>
+            <li><strong>Référence de convention :</strong> EU/H2020/UTM/BCI/2023</li>
+            <li><strong>Montant total attribué :</strong> 150 000 TND</li>
+            <li><strong>Projet associé :</strong> BCI-Learn - Interface cerveau-machine portable</li>
+            <li><strong>Date de début :</strong> 01 mars 2023</li>
+            <li><strong>Date de fin prévue :</strong> 28 février 2026</li>
+            <li><strong>Montant consommé à ce jour :</strong> 95 000 TND</li>
+            <li><strong>Reste à engager :</strong> 55 000 TND</li>
+            <li><strong>Taux d'exécution budgétaire :</strong> 63.33 %</li>
+            <li><strong>Statut du financement :</strong> <span class="badge enabled"
+                    style="background-color: #D6E6D3; color: #2B6629;">En cours</li>
+            <li><strong>Dernière mise à jour :</strong> 05 juillet 2025</li>
+            <li><strong>Responsable financier :</strong> Dr. Sarra Messaoudi (Responsable projet UTM)</li>
+            <li><strong>Observations :</strong> Dernier virement UE reçu le 10/06/2025 – prochaine tranche en
+                attente.</li>
         </ul>
     </div>
 
@@ -463,6 +463,8 @@ button.status-button {
     gap: 200px;
 }
 
+
+
 .styled-list li:last-child {
     border-bottom: none;
 }
@@ -500,7 +502,7 @@ button.status-button {
 .styled-list strong {
     font-weight: 600;
     color: #6E6D55;
-    min-width: 160px;
+    min-width: 200px;
     display: inline-block;
 }
 
