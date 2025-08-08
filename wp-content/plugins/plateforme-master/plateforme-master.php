@@ -591,6 +591,44 @@ function plateforme_content($content)
             }
         }
     }
+    // 🔁 Chargement automatique des pages ED dynamiques
+    $pages_DL = [
+        'reservation-des-equipements-et-salles',
+        'programmes-et-projets-de-recherches',
+        'programmes-et-projets-de-recherches-details-projet',
+        'activites-scientifiques-directeur-labo',
+        'reseaux-de-la-recherche-directeur-labo',
+        'reseaux-de-la-recherche-details',
+        'activites-quotidiennes-directeur-labo',
+        'etat-d-avancement-des-projets',
+        'etat-d-avancement-des-projets-fiche-projet',
+        'financement-directeur-labo',
+        'financement-fiche-de-financement-directeur-labo',
+        'actualites-de-l-utm',
+        'article',
+        'membre-de-labo',
+        'membre-de-labo-fiche-membre',
+        'fiche-labo',
+    ];
+
+    foreach ($pages_DL as $page_slug) {
+        if (is_page($page_slug)) {
+            if (is_user_logged_in()) {
+                $current_user = wp_get_current_user();
+                $allowed_roles = ['um_directeur_laboratoire', 'um_service-etablissement', 'um_service-utm'];
+                if (array_intersect($allowed_roles, $current_user->roles)) {
+                    ob_start();
+                    include plugin_dir_path(__FILE__) . 'Modules/LaboRecherche/pages/pagesDirecteurlabo/' . $page_slug . '.php';
+                    echo ob_get_clean();
+                    exit;
+                } else {
+                    plateforme_redirect_home();
+                }
+            } else {
+                plateforme_redirect_home();
+            }
+        }
+    }
     // Chargement automatique des pages LaboRecherche pour le rôle um_chercheur
     $chercheur_pages = [
         'programmes-projects-de-recherches' => 'ProgrammesProjectsDeRecherches.php',
@@ -1264,6 +1302,49 @@ function pm_template_override()
 
                 if (array_intersect($allowed_roles, $current_user->roles)) {
                     $file = plugin_dir_path(__FILE__) . 'Modules/ED/pages/pagesED/' . $page_slug . '.php';
+
+                    if (file_exists($file)) {
+                        include $file;
+                        exit;
+                    } else {
+                        wp_die("❌ Le fichier <code>$page_slug.php</code> est introuvable dans <code>pagesED</code>.");
+                    }
+                } else {
+                    plateforme_redirect_home();
+                }
+            } else {
+                plateforme_redirect_home();
+            }
+        }
+    }
+    // 🔁 Chargement automatique des pages ED dynamiques
+    $pages_DL = [
+        'reservation-des-equipements-et-salles',
+        'programmes-et-projets-de-recherches',
+        'programmes-et-projets-de-recherches-details-projet',
+        'activites-scientifiques-directeur-labo',
+        'reseaux-de-la-recherche-directeur-labo',
+        'reseaux-de-la-recherche-details',
+        'activites-quotidiennes-directeur-labo',
+        'etat-d-avancement-des-projets',
+        'etat-d-avancement-des-projets-fiche-projet',
+        'financement-directeur-labo',
+        'financement-fiche-de-financement-directeur-labo',
+        'actualites-de-l-utm',
+        'article',
+        'membre-de-labo',
+        'membre-de-labo-fiche-membre',
+        'fiche-labo',
+    ];
+
+    foreach ($pages_DL as $page_slug) {
+        if (is_page($page_slug)) {
+            if (is_user_logged_in()) {
+                $current_user = wp_get_current_user();
+                $allowed_roles = ['um_directeur_laboratoire', 'um_service-etablissement', 'um_service-utm'];
+
+                if (array_intersect($allowed_roles, $current_user->roles)) {
+                    $file = plugin_dir_path(__FILE__) . 'Modules/LaboRecherche/pages/pagesDirecteurlabo/' . $page_slug . '.php';
 
                     if (file_exists($file)) {
                         include $file;
