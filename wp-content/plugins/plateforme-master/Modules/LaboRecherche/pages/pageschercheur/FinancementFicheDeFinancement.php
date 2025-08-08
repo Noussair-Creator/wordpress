@@ -1,9 +1,8 @@
 <?php
 $role = $role ?? "service";
-require_once 'config/roles.php';
+require_once plugin_dir_path(__FILE__) . '../config/roles.php';
 
-require_once 'requireApi.php';
-
+require_once plugin_dir_path(__FILE__) . '../requireApi.php';
 ?>
 
 <!DOCTYPE html>
@@ -11,7 +10,7 @@ require_once 'requireApi.php';
 
 <head>
     <meta charset="UTF-8">
-    <title>Programmes Projects De Recherches</title>
+    <title>Reseaux De La Recherche FICHE PARTENAIRE</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
@@ -19,12 +18,6 @@ require_once 'requireApi.php';
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-
-
-
-
-
-
 
     <style>
     :root {
@@ -62,16 +55,8 @@ require_once 'requireApi.php';
                 <?php include 'components/Dashboard-Bar.php'; ?>
 
                 <div class="content p-4">
-                    <!-- Top Boxes (disponibilités, calendriers, carrousel) -->
 
-                    <!-- Card Grid (modules) -->
-
-                    <?php include 'components/statProgrammesProjectsDeRecherches.php'; ?>
-
-
-                    <?php include 'components/TableProgrammesProjectsDeRecherches.php'; ?>
-
-
+                    <?php include 'components/FinancementFicheDeFinancement.php'; ?>
 
                 </div>
             </div>

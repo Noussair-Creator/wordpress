@@ -1,8 +1,8 @@
 <?php
 $role = $role ?? "service";
-require_once 'config/roles.php';
+require_once plugin_dir_path(__FILE__) . '../config/roles.php';
 
-require_once 'requireApi.php';
+require_once plugin_dir_path(__FILE__) . '../requireApi.php';
 
 ?>
 
@@ -11,7 +11,7 @@ require_once 'requireApi.php';
 
 <head>
     <meta charset="UTF-8">
-    <title>COMMENT PROTÉGER MA RECHERCHE ?</title>
+    <title>ACTUALITÉS DE L'UTM</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
@@ -19,6 +19,12 @@ require_once 'requireApi.php';
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+
+
+
+
+
 
     <style>
     :root {
@@ -56,8 +62,16 @@ require_once 'requireApi.php';
                 <?php include 'components/Dashboard-Bar.php'; ?>
 
                 <div class="content p-4">
-                    <?php include 'components/coverCommentProtegerMaRecherche.php' ?>
-                    <?php include 'components/TableCommentProtegerMaRecherche.php' ?>
+                    <!-- Top Boxes (disponibilités, calendriers, carrousel) -->
+
+                    <!-- Card Grid (modules) -->
+                    <?php include 'components/statActualitesDeLutm.php'; ?>
+
+                    <?php include 'components/carouselActualitesDeLutm.php'; ?>
+
+                    <?php include 'components/TableActualitesDeLutm.php'; ?>
+
+                    <?php include 'components/CardActualitesDeLutm.php'; ?>
 
                 </div>
             </div>

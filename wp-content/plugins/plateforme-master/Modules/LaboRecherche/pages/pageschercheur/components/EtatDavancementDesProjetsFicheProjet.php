@@ -8,131 +8,67 @@
     <div class="card full-width">
         <h3>Informations générales</h3>
         <ul class="styled-list">
-            <li><strong>Institution :</strong> Université Paris-Saclay</li>
-            <li><strong>Département / Unité :</strong>Laboratoire de Neurosciences Cognitives – LNC2</li>
-            <li><strong>Pays :</strong> France</li>
-            <li><strong>adresse :</strong>3 Rue Joliot Curie, 91190 Gif-sur-Yvette, France</li>
-            <li><strong>Site web :</strong> <a href="#">https://www.universite-paris-saclay.fr</a></li>
+            <li><strong>Titre :</strong>Interface cerveau-machine – BCI-Learn</li>
+            <li><strong>Porteur :</strong>Pr. Rym Nasri</li>
+            <li><strong>Date début / fin :</strong>01/03/2024 – 28/02/2026</li>
+            <li><strong>Financement :</strong>90 000 TND (H2020 + MESRS)</li>
+            <li><strong>État :</strong>En cours (80% d’avancement)</li>
+            <li><strong>Livrables réalisés :</strong>Rapport technique ✅, Prototype matériel ✅, Article</li>
+            <li><strong>Prochaine étape :</strong>Soumission article – Septembre 2025</li>
+            <li><strong>Blocages éventuels :</strong></li>
+            <li><strong>Jalons passés :</strong>Planning validé, ✅ Tests initiaux ✅, Déploiement v1✅</li>
         </ul>
     </div>
 
-    <!-- Contacts & Responsables  block -->
+    <!-- Suivi visuel de l’avancement  block -->
     <div class="card full-width">
-        <h3>Contacts & Responsables</h3>
+        <h3>Suivi visuel de l’avancement</h3>
         <table class="parcours-table">
             <thead>
                 <tr>
-                    <th>Poste</th>
-                    <th>Nom</th>
-                    <th>Email</th>
-                    <th>Téléphone</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>Contact scientifique</td>
-                    <td>Pr. Laurent Dubois</td>
-                    <td><a href="mailto:Laurent.Dubois@U-Psaclay.Fr">Laurent.Dubois@U-Psaclay.Fr</a></td>
-                    <td>+33 1 64 53 22 10</td>
-                </tr>
-                <tr>
-                    <td>Responsable UTM associé</td>
-                    <td>Pr. Rym Nasri</td>
-                    <td><a href="mailto:Rym.Nasri@Utm.Tn">Rym.Nasri@Utm.Tn</a></td>
-                    <td>+216 71 000 123</td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-    <!-- Type de collaboration block -->
-    <div class="card full-width">
-        <h3>Type de collaboration</h3>
-        <ul class="styled-list">
-            <li><strong>Nature :</strong> Projet H2020, publication commune, mobilité doctorants</li>
-            <li><strong>Début de collaboration :</strong>Mars 2023</li>
-            <li><strong>Durée prévue :</strong>3 ans (Mars 2023 – Février 2026)</li>
-            <li><strong>Convention signée :</strong>Oui (réf. : CONV/PSACLAY/2023)</li>
-            <li><strong>Lien GED :</strong> <a href="#"><i
-                        class="fas fa-file-pdf pdf-icon"></i>Convention_ParisSaclay_2023.pdf</a></li>
-        </ul>
-    </div>
-    <!-- Projets de recherche associés   block -->
-    <div class="card full-width">
-        <h3>Projets de recherche associés</h3>
-        <ul class="styled-list">
-            <li><strong>Projet :</strong>Interface cerveau-machine</li>
-            <li><strong>Acronyme :</strong>BCI-Learn</li>
-            <li><strong>Rôle du partenaire :</strong> France</li>
-            <li><strong>adresse :</strong>Co-porteur scientifique</li>
-            <li><strong>Financement :</strong> H2020 / MESRS</li>
-        </ul>
-    </div>
-    <!--Activités réalisées avec ce partenaire block -->
-    <div class="card full-width">
-        <h3>Activités réalisées avec ce partenaire</h3>
-        <table class="parcours-table">
-            <thead>
-                <tr>
-                    <th>Date</th>
-                    <th>Type d'activité</th>
-                    <th>Lieu</th>
-                    <th>Remarques</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>18/05/2023</td>
-                    <td>Webinaire Technique</td>
-                    <td>En Ligne (Zoom)</td>
-                    <td>Sur L’encodage EEG</td>
-                </tr>
-                <tr>
-                    <td>25/09/2023</td>
-                    <td>Visite Croisée Laboratoire</td>
-                    <td>UTM → LNC2</td>
-                    <td>Échange Étudiants Et Matériel EEG</td>
-                </tr>
-                <tr>
-                    <td>14/02/2024</td>
-                    <td>Réunion De Pilotage Projet</td>
-                    <td>UTM</td>
-                    <td>État D’avancement BCI-Learn</td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
+                    <th>Étape</th>
+                    <th>Date prévu</th>
+                    <th>Statut</th>
 
-    <!-- Pièces jointes block -->
-    <div class="card full-width">
-        <h3>Pièces jointes</h3>
-        <table class="parcours-table">
-            <thead>
-                <tr>
-                    <th>Ref_Doc</th>
-                    <th>Type de document</th>
-                    <th>Type</th>
-                    <th>Date</th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
-                    <td>001</td>
-                    <td>Convention signée</td>
-                    <td><a href="#"><i class="fas fa-file-pdf pdf-icon"></i> Convention_ParisSaclay_2023.pdf</a></td>
-                    <td>01/02/2024</td>
+                    <td>Signature convention</td>
+                    <td>01/03/2024</td>
+                    <td><span class="badge badge-success"><i class="fa-regular fa-circle-check"
+                                style="color: #0E962D;"></i> Terminé</span></td>
+
                 </tr>
                 <tr>
-                    <td>002</td>
-                    <td>Planning détaillé</td>
-                    <td><a href="#"><i class="fas fa-file-excel pdf-icon"></i> Planning_BCI_Q1Q2_2025.xlsx</a></td>
-                    <td>20/01/2025</td>
+                    <td>Réalisation prototype</td>
+                    <td>30/06/2024</td>
+                    <td><span class="badge badge-success"><i class="fa-regular fa-circle-check"
+                                style="color: #0E962D;"></i> Terminé</span></td>
+
                 </tr>
                 <tr>
-                    <td>003</td>
-                    <td>Rapport d'étape</td>
-                    <td><a href="#"><i class="fas fa-file-pdf pdf-icon"></i> Rapport_BCI_Progress2024.pdf</a></td>
-                    <td>15/12/2024</td>
+                    <td>Début tests cliniques</td>
+                    <td>15/09/2024</td>
+                    <td><span class="badge badge-success"><i class="fa-regular fa-circle-check"
+                                style="color: #0E962D;"></i> Terminé</span></td>
+
                 </tr>
+                <tr>
+                    <td>Rédaction publication</td>
+                    <td>01/11/2024</td>
+                    <td><span class="badge badge-warning"><i class="fa-regular fa-clock" style="color: #FFD43B;"></i> En
+                            cours</span></td>
+
+                </tr>
+                <tr>
+                    <td>Rapport final</td>
+                    <td>15/01/2026</td>
+                    <td><span class="badge badge-secondary"> <i class="fa-regular fa-clock" style="color: #A6A485;"></i>
+                            Prévu</span>
+
+                </tr>
+
             </tbody>
         </table>
     </div>
@@ -478,6 +414,34 @@ button.status-button {
 
 }
 
+.badge {
+    display: inline-block;
+    padding: 4px 10px;
+    font-size: 13px;
+    font-weight: 500;
+    border-radius: 20px;
+    border: 2px solid transparent;
+}
+
+.badge-success {
+    color: #198754;
+    background-color: #e6f7ee;
+    border-color: #198754;
+}
+
+.badge-warning {
+    color: #d89e00;
+    background-color: #fff9e6;
+    border-color: #d89e00;
+}
+
+/* Add this new rule here */
+.badge-secondary {
+    color: #555;
+    background-color: #f0f0f0;
+    border-color: #ccc;
+}
+
 .badge.badge-danger {
     background-color: #C31111;
     color: #fff;
@@ -505,7 +469,7 @@ button.status-button {
 .styled-list strong {
     font-weight: 600;
     color: #6E6D55;
-    min-width: 200px;
+    min-width: 240px;
     display: inline-block;
 }
 
@@ -604,7 +568,7 @@ button.status-button {
     border-bottom: 1px solid #eee;
     color: #444;
     vertical-align: middle;
-    text-align: left
+    text-align: center;
 }
 
 .parcours-table tbody tr:last-child td {

@@ -8,22 +8,11 @@
     <div class="card full-width">
         <h3>Informations générales</h3>
         <ul class="styled-list">
-            <li><strong>Nom du financement :</strong> Programme H2020 – BCI-Learn</li>
-            <li><strong>Type de source :</strong> Financement international (Union Européenne – H2020)</li>
-            <li><strong>Référence de convention :</strong> EU/H2020/UTM/BCI/2023</li>
-            <li><strong>Montant total attribué :</strong> 150 000 TND</li>
-            <li><strong>Projet associé :</strong> BCI-Learn - Interface cerveau-machine portable</li>
-            <li><strong>Date de début :</strong> 01 mars 2023</li>
-            <li><strong>Date de fin prévue :</strong> 28 février 2026</li>
-            <li><strong>Montant consommé à ce jour :</strong> 95 000 TND</li>
-            <li><strong>Reste à engager :</strong> 55 000 TND</li>
-            <li><strong>Taux d'exécution budgétaire :</strong> 63.33 %</li>
-            <li><strong>Statut du financement :</strong> <span class="badge enabled"
-                    style="background-color: #D6E6D3; color: #2B6629;">En cours</li>
-            <li><strong>Dernière mise à jour :</strong> 05 juillet 2025</li>
-            <li><strong>Responsable financier :</strong> Dr. Sarra Messaoudi (Responsable projet UTM)</li>
-            <li><strong>Observations :</strong> Dernier virement UE reçu le 10/06/2025 – prochaine tranche en
-                attente.</li>
+            <li><strong>Institution :</strong> Université Paris-Saclay</li>
+            <li><strong>Département / Unité :</strong>Laboratoire de Neurosciences Cognitives – LNC2</li>
+            <li><strong>Pays :</strong> France</li>
+            <li><strong>adresse :</strong>3 Rue Joliot Curie, 91190 Gif-sur-Yvette, France</li>
+            <li><strong>Site web :</strong> <a href="#">https://www.universite-paris-saclay.fr</a></li>
         </ul>
     </div>
 
@@ -33,61 +22,31 @@
         <table class="parcours-table">
             <thead>
                 <tr>
-                    <th>Poste budgétaire</th>
-                    <th>Montant alloué (TND)</th>
-                    <th>Consommé (TND)</th>
-                    <th>Solde</th>
+                    <th>Poste</th>
+                    <th>Nom</th>
+                    <th>Email</th>
+                    <th>Téléphone</th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
-                    <td>Équipements EEG</td>
-                    <td>40 000</td>
-                    <td>38 000</td>
-                    <td>2 000</td>
+                    <td>Contact scientifique</td>
+                    <td>Pr. Laurent Dubois</td>
+                    <td><a href="mailto:Laurent.Dubois@U-Psaclay.Fr">Laurent.Dubois@U-Psaclay.Fr</a></td>
+                    <td>+33 1 64 53 22 10</td>
                 </tr>
                 <tr>
-                    <td>Développement logiciel</td>
-                    <td>30 000</td>
-                    <td>22 000</td>
-                    <td>8 000</td>
-                </tr>
-                <tr>
-                    <td>Missions (mobilité Europe)</td>
-                    <td>25 000</td>
-                    <td>20 000</td>
-                    <td>5 000</td>
-                </tr>
-                <tr>
-                    <td>Doctorants & stages</td>
-                    <td>20 000</td>
-                    <td>10 000</td>
-                    <td>10 000</td>
-                </tr>
-                <tr>
-                    <td>Publications & communication</td>
-                    <td>15 000</td>
-                    <td>3 000</td>
-                    <td>12 000</td>
-                </tr>
-                <tr>
-                    <td>Gestion administrative</td>
-                    <td>10 000</td>
-                    <td>2 000</td>
-                    <td>8 000</td>
-                </tr>
-                <tr style="font-weight: bold; background-color: #f5f5f5;">
-                    <td>Total</td>
-                    <td>150 000</td>
-                    <td>95 000</td>
-                    <td>55 000</td>
+                    <td>Responsable UTM associé</td>
+                    <td>Pr. Rym Nasri</td>
+                    <td><a href="mailto:Rym.Nasri@Utm.Tn">Rym.Nasri@Utm.Tn</a></td>
+                    <td>+216 71 000 123</td>
                 </tr>
             </tbody>
         </table>
     </div>
-    <!-- Répartition budgétaire block -->
+    <!-- Type de collaboration block -->
     <div class="card full-width">
-        <h3>Répartition budgétaire</h3>
+        <h3>Type de collaboration</h3>
         <ul class="styled-list">
             <li><strong>Nature :</strong> Projet H2020, publication commune, mobilité doctorants</li>
             <li><strong>Début de collaboration :</strong>Mars 2023</li>
@@ -97,12 +56,55 @@
                         class="fas fa-file-pdf pdf-icon"></i>Convention_ParisSaclay_2023.pdf</a></li>
         </ul>
     </div>
-
-
-
-    <!-- Pièces justificatives associées block -->
+    <!-- Projets de recherche associés   block -->
     <div class="card full-width">
-        <h3>Pièces justificatives associées</h3>
+        <h3>Projets de recherche associés</h3>
+        <ul class="styled-list">
+            <li><strong>Projet :</strong>Interface cerveau-machine</li>
+            <li><strong>Acronyme :</strong>BCI-Learn</li>
+            <li><strong>Rôle du partenaire :</strong> France</li>
+            <li><strong>adresse :</strong>Co-porteur scientifique</li>
+            <li><strong>Financement :</strong> H2020 / MESRS</li>
+        </ul>
+    </div>
+    <!--Activités réalisées avec ce partenaire block -->
+    <div class="card full-width">
+        <h3>Activités réalisées avec ce partenaire</h3>
+        <table class="parcours-table">
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Type d'activité</th>
+                    <th>Lieu</th>
+                    <th>Remarques</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>18/05/2023</td>
+                    <td>Webinaire Technique</td>
+                    <td>En Ligne (Zoom)</td>
+                    <td>Sur L’encodage EEG</td>
+                </tr>
+                <tr>
+                    <td>25/09/2023</td>
+                    <td>Visite Croisée Laboratoire</td>
+                    <td>UTM → LNC2</td>
+                    <td>Échange Étudiants Et Matériel EEG</td>
+                </tr>
+                <tr>
+                    <td>14/02/2024</td>
+                    <td>Réunion De Pilotage Projet</td>
+                    <td>UTM</td>
+                    <td>État D’avancement BCI-Learn</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Pièces jointes block -->
+    <div class="card full-width">
+        <h3>Pièces jointes</h3>
         <table class="parcours-table">
             <thead>
                 <tr>
@@ -116,20 +118,19 @@
                 <tr>
                     <td>001</td>
                     <td>Convention signée</td>
-                    <td><a href="#"><i class="fas fa-file-pdf pdf-icon"></i> Convention_H2020_UTM.pdf</a></td>
+                    <td><a href="#"><i class="fas fa-file-pdf pdf-icon"></i> Convention_ParisSaclay_2023.pdf</a></td>
                     <td>01/02/2024</td>
                 </tr>
                 <tr>
                     <td>002</td>
-                    <td>Budget détaillé</td>
-                    <td><a href="#"><i class="fas fa-file-excel pdf-icon" style="color: #1D6F42;"></i>
-                            Budget_BCI_2023-2026.xlsx</a></td>
+                    <td>Planning détaillé</td>
+                    <td><a href="#"><i class="fas fa-file-excel pdf-icon"></i> Planning_BCI_Q1Q2_2025.xlsx</a></td>
                     <td>20/01/2025</td>
                 </tr>
                 <tr>
                     <td>003</td>
-                    <td>Virement bancaire</td>
-                    <td><a href="#"><i class="fas fa-file-pdf pdf-icon"></i> Transfert_UE_1er_virement.pdf</a></td>
+                    <td>Rapport d'étape</td>
+                    <td><a href="#"><i class="fas fa-file-pdf pdf-icon"></i> Rapport_BCI_Progress2024.pdf</a></td>
                     <td>15/12/2024</td>
                 </tr>
             </tbody>
@@ -465,6 +466,7 @@ button.status-button {
 
 
 
+
 .styled-list li:last-child {
     border-bottom: none;
 }
@@ -491,6 +493,7 @@ button.status-button {
     border-radius: 17px;
 }
 
+
 .styled-list li ul {
     padding: 0px;
 }
@@ -502,7 +505,7 @@ button.status-button {
 .styled-list strong {
     font-weight: 600;
     color: #6E6D55;
-    min-width: 200px;
+    min-width: 240px;
     display: inline-block;
 }
 

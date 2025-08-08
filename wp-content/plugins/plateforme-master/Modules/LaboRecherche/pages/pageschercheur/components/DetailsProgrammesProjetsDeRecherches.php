@@ -520,7 +520,7 @@ button.status-button {
 .styled-list strong {
     font-weight: 600;
     color: #6E6D55;
-    min-width: 200px;
+    min-width: 240px;
     display: inline-block;
 }
 

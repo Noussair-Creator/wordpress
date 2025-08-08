@@ -1,0 +1,40 @@
+[07-Aug-2025 12:48:28 UTC] PHP Warning:  Constant GE_MODULE already defined in C:\laragon\www\wordpress\wp-content\plugins\GestionMasters\GestionMasters.php on line 11
+[07-Aug-2025 13:48:29 Africa/Tunis] PHP Warning:  Undefined variable $email in C:\laragon\www\wordpress\wp-content\plugins\secure-login\includes\login-handler.php on line 4
+[07-Aug-2025 12:48:29 UTC] PHP Warning:  Constant GE_MODULE already defined in C:\laragon\www\wordpress\wp-content\plugins\GestionMasters\GestionMasters.php on line 11
+[07-Aug-2025 13:48:29 Africa/Tunis] PHP Warning:  Undefined variable $email in C:\laragon\www\wordpress\wp-content\plugins\secure-login\includes\login-handler.php on line 4
+[07-Aug-2025 13:48:29 Africa/Tunis] PHP Warning:  require_once(../config/roles.php): Failed to open stream: No such file or directory in C:\laragon\www\wordpress\wp-content\plugins\plateforme-master\Modules\LaboRecherche\pages\pageschercheur\ActivitesQuotidiennes.php on line 3
+[07-Aug-2025 13:48:29 Africa/Tunis] PHP Fatal error:  Uncaught Error: Failed opening required '../config/roles.php' (include_path='.;C:/laragon/etc/php/pear') in C:\laragon\www\wordpress\wp-content\plugins\plateforme-master\Modules\LaboRecherche\pages\pageschercheur\ActivitesQuotidiennes.php:3
+Stack trace:
+#0 C:\laragon\www\wordpress\wp-content\plugins\plateforme-master\plateforme-master.php(1092): include()
+#1 C:\laragon\www\wordpress\wp-includes\class-wp-hook.php(324): pm_template_override('')
+#2 C:\laragon\www\wordpress\wp-includes\class-wp-hook.php(348): WP_Hook->apply_filters(NULL, Array)
+#3 C:\laragon\www\wordpress\wp-includes\plugin.php(517): WP_Hook->do_action(Array)
+#4 C:\laragon\www\wordpress\wp-includes\template-loader.php(13): do_action('template_redire...')
+#5 C:\laragon\www\wordpress\wp-blog-header.php(19): require_once('C:\\laragon\\www\\...')
+#6 C:\laragon\www\wordpress\index.php(17): require('C:\\laragon\\www\\...')
+#7 {main}
+  thrown in C:\laragon\www\wordpress\wp-content\plugins\plateforme-master\Modules\LaboRecherche\pages\pageschercheur\ActivitesQuotidiennes.php on line 3
+[07-Aug-2025 12:49:02 UTC] PHP Warning:  Constant GE_MODULE already defined in C:\laragon\www\wordpress\wp-content\plugins\GestionMasters\GestionMasters.php on line 11
+[07-Aug-2025 13:49:02 Africa/Tunis] PHP Warning:  Undefined variable $email in C:\laragon\www\wordpress\wp-content\plugins\secure-login\includes\login-handler.php on line 4
+[07-Aug-2025 12:49:02 UTC] PHP Warning:  Constant GE_MODULE already defined in C:\laragon\www\wordpress\wp-content\plugins\GestionMasters\GestionMasters.php on line 11
+[07-Aug-2025 13:49:03 Africa/Tunis] PHP Warning:  Undefined variable $email in C:\laragon\www\wordpress\wp-content\plugins\secure-login\includes\login-handler.php on line 4
+[07-Aug-2025 12:49:28 UTC] PHP Warning:  Constant GE_MODULE already defined in C:\laragon\www\wordpress\wp-content\plugins\GestionMasters\GestionMasters.php on line 11
+[07-Aug-2025 13:49:28 Africa/Tunis] PHP Warning:  Undefined variable $email in C:\laragon\www\wordpress\wp-content\plugins\secure-login\includes\login-handler.php on line 4
+[07-Aug-2025 13:49:28 Africa/Tunis] PHP Warning:  include(components/header.php): Failed to open stream: No such file or directory in C:\laragon\www\wordpress\wp-content\plugins\plateforme-master\Modules\LaboRecherche\pages\pageschercheur\ActivitesQuotidiennes.php on line 48
+[07-Aug-2025 13:49:28 Africa/Tunis] PHP Warning:  include(): Failed opening 'components/header.php' for inclusion (include_path='.;C:/laragon/etc/php/pear') in C:\laragon\www\wordpress\wp-content\plugins\plateforme-master\Modules\LaboRecherche\pages\pageschercheur\ActivitesQuotidiennes.php on line 48
+[07-Aug-2025 13:49:28 Africa/Tunis] PHP Warning:  include(components/sidebar.php): Failed to open stream: No such file or directory in C:\laragon\www\wordpress\wp-content\plugins\plateforme-master\Modules\LaboRecherche\pages\pageschercheur\ActivitesQuotidiennes.php on line 55
+[07-Aug-2025 13:49:28 Africa/Tunis] PHP Warning:  include(): Failed opening 'components/sidebar.php' for inclusion (include_path='.;C:/laragon/etc/php/pear') in C:\laragon\www\wordpress\wp-content\plugins\plateforme-master\Modules\LaboRecherche\pages\pageschercheur\ActivitesQuotidiennes.php on line 55
+[07-Aug-2025 13:49:28 Africa/Tunis] PHP Warning:  include(components/Nav-Pages.php): Failed to open stream: No such file or directory in C:\laragon\www\wordpress\wp-content\plugins\plateforme-master\Modules\LaboRecherche\pages\pageschercheur\ActivitesQuotidiennes.php on line 60
+[07-Aug-2025 13:49:28 Africa/Tunis] PHP Warning:  include(): Failed opening 'components/Nav-Pages.php' for inclusion (include_path='.;C:/laragon/etc/php/pear') in C:\laragon\www\wordpress\wp-content\plugins\plateforme-master\Modules\LaboRecherche\pages\pageschercheur\ActivitesQuotidiennes.php on line 60
+[07-Aug-2025 13:49:28 Africa/Tunis] PHP Warning:  include(components/Dashboard-Bar.php): Failed to open stream: No such file or directory in C:\laragon\www\wordpress\wp-content\plugins\plateforme-master\Modules\LaboRecherche\pages\pageschercheur\ActivitesQuotidiennes.php on line 63
+[07-Aug-2025 13:49:28 Africa/Tunis] PHP Warning:  include(): Failed opening 'components/Dashboard-Bar.php' for inclusion (include_path='.;C:/laragon/etc/php/pear') in C:\laragon\www\wordpress\wp-content\plugins\plateforme-master\Modules\LaboRecherche\pages\pageschercheur\ActivitesQuotidiennes.php on line 63
+[07-Aug-2025 13:49:28 Africa/Tunis] PHP Warning:  include(components/statActivitesQuotidiennes.php): Failed to open stream: No such file or directory in C:\laragon\www\wordpress\wp-content\plugins\plateforme-master\Modules\LaboRecherche\pages\pageschercheur\ActivitesQuotidiennes.php on line 70
+[07-Aug-2025 13:49:28 Africa/Tunis] PHP Warning:  include(): Failed opening 'components/statActivitesQuotidiennes.php' for inclusion (include_path='.;C:/laragon/etc/php/pear') in C:\laragon\www\wordpress\wp-content\plugins\plateforme-master\Modules\LaboRecherche\pages\pageschercheur\ActivitesQuotidiennes.php on line 70
+[07-Aug-2025 13:49:28 Africa/Tunis] PHP Warning:  include(components/TableActivitesQuotidiennes.php): Failed to open stream: No such file or directory in C:\laragon\www\wordpress\wp-content\plugins\plateforme-master\Modules\LaboRecherche\pages\pageschercheur\ActivitesQuotidiennes.php on line 73
+[07-Aug-2025 13:49:28 Africa/Tunis] PHP Warning:  include(): Failed opening 'components/TableActivitesQuotidiennes.php' for inclusion (include_path='.;C:/laragon/etc/php/pear') in C:\laragon\www\wordpress\wp-content\plugins\plateforme-master\Modules\LaboRecherche\pages\pageschercheur\ActivitesQuotidiennes.php on line 73
+[07-Aug-2025 13:49:28 Africa/Tunis] PHP Warning:  include(components/scripts.php): Failed to open stream: No such file or directory in C:\laragon\www\wordpress\wp-content\plugins\plateforme-master\Modules\LaboRecherche\pages\pageschercheur\ActivitesQuotidiennes.php on line 83
+[07-Aug-2025 13:49:28 Africa/Tunis] PHP Warning:  include(): Failed opening 'components/scripts.php' for inclusion (include_path='.;C:/laragon/etc/php/pear') in C:\laragon\www\wordpress\wp-content\plugins\plateforme-master\Modules\LaboRecherche\pages\pageschercheur\ActivitesQuotidiennes.php on line 83
+[07-Aug-2025 12:49:29 UTC] PHP Warning:  Constant GE_MODULE already defined in C:\laragon\www\wordpress\wp-content\plugins\GestionMasters\GestionMasters.php on line 11
+[07-Aug-2025 13:49:29 Africa/Tunis] PHP Warning:  Undefined variable $email in C:\laragon\www\wordpress\wp-content\plugins\secure-login\includes\login-handler.php on line 4
+[07-Aug-2025 12:49:29 UTC] PHP Warning:  Constant GE_MODULE already defined in C:\laragon\www\wordpress\wp-content\plugins\GestionMasters\GestionMasters.php on line 11
+[07-Aug-2025 13:49:29 Africa/Tunis] PHP Warning:  Undefined variable $email in C:\laragon\www\wordpress\wp-content\plugins\secure-login\includes\login-handler.php on line 4

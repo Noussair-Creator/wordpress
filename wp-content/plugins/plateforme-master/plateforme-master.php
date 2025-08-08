@@ -591,6 +591,48 @@ function plateforme_content($content)
             }
         }
     }
+    // Chargement automatique des pages LaboRecherche pour le rôle um_chercheur
+    $chercheur_pages = [
+        'programmes-projects-de-recherches' => 'ProgrammesProjectsDeRecherches.php',
+        'activites-scientifiques' => 'ActivitesScientifiques.php',
+        'reseaux-de-la-recherche' => 'ReseauxDeLaRecherche.php',
+        'activites-quotidiennes' => 'ActivitesQuotidiennes.php',
+        'etat-davancement-des-projets' => 'EtatDavancementDesProjets.php',
+        'financement' => 'Financement.php',
+        'actualites-de-lutm' => 'ActualitesDeLutm.php',
+        'membres-de-laboratoire' => 'MembresDeLaboratoire.php',
+        'comment-proteger-ma-recherche' => 'CommentProtegerMaRecherche.php',
+        'details-programmes-projets-de-recherches' => 'DetailsProgrammesProjetsDeRecherches.php',
+        'reseaux-de-la-recherche-fiche-partenaire' => 'ReseauxDeLaRechercheFichePartenaire.php',
+        'financement-fiche-de-financement' => 'FinancementFicheDeFinancement.php',
+        'membres-de-laboratoire-fiche-dun-membre' => 'MembresDeLaboratoireFicheDunMembre.php',
+        'fiche-details-du-laboratoire-lsama' => 'FicheDetailsDuLaboratoireLsama.php',
+        'etat-davancement-des-projets-fiche-projet' => 'EtatDavancementDesProjetsFicheProjet.php',
+    ];
+
+    foreach ($chercheur_pages as $page_slug => $php_file) {
+        if (is_page($page_slug)) {
+            if (is_user_logged_in()) {
+                $current_user = wp_get_current_user();
+                if (in_array('um_chercheur', $current_user->roles)) {
+                    $file = plugin_dir_path(__FILE__) . 'Modules/LaboRecherche/pages/pageschercheur' . $php_file;
+
+                    if (file_exists($file)) {
+                        ob_start();
+                        include $file;
+                        echo ob_get_clean();
+                        exit;
+                    } else {
+                        wp_die("❌ Le fichier <code>$php_file</code> est introuvable dans <code>pageschercheur</code>.");
+                    }
+                } else {
+                    plateforme_redirect_home();
+                }
+            } else {
+                plateforme_redirect_home();
+            }
+        }
+    }
     if (is_page('unite-genomique')) {
         if (is_user_logged_in()) {
 
@@ -1022,6 +1064,50 @@ function pm_template_override()
         wp_redirect(home_url());
         exit;
     }
+    // 🎯 Correspondance slug => nom réel du fichier
+    $chercheur_pages = [
+        'programmes-projects-de-recherches' => 'ProgrammesProjectsDeRecherches.php',
+        'activites-scientifiques' => 'ActivitesScientifiques.php',
+        'reseaux-de-la-recherche' => 'ReseauxDeLaRecherche.php',
+        'activites-quotidiennes' => 'ActivitesQuotidiennes.php',
+        'etat-davancement-des-projets' => 'EtatDavancementDesProjets.php',
+        'financement' => 'Financement.php',
+        'actualites-de-lutm' => 'ActualitesDeLutm.php',
+        'membres-de-laboratoire' => 'MembresDeLaboratoire.php',
+        'comment-proteger-ma-recherche' => 'CommentProtegerMaRecherche.php',
+        'details-programmes-projets-de-recherches' => 'DetailsProgrammesProjetsDeRecherches.php',
+        'reseaux-de-la-recherche-fiche-partenaire' => 'ReseauxDeLaRechercheFichePartenaire.php',
+        'financement-fiche-de-financement' => 'FinancementFicheDeFinancement.php',
+        'membres-de-laboratoire-fiche-dun-membre' => 'MembresDeLaboratoireFicheDunMembre.php',
+        'fiche-details-du-laboratoire-lsama' => 'FicheDetailsDuLaboratoireLsama.php',
+        'etat-davancement-des-projets-fiche-projet' => 'EtatDavancementDesProjetsFicheProjet.php',
+    ];
+
+    foreach ($chercheur_pages as $page_slug => $filename) {
+        if (is_page($page_slug)) {
+            if (is_user_logged_in()) {
+                $current_user = wp_get_current_user();
+                $allowed_roles = ['um_chercheur'];
+
+                if (array_intersect($allowed_roles, $current_user->roles)) {
+                    $file = plugin_dir_path(__FILE__) . 'Modules/LaboRecherche/pages/pageschercheur/' . $filename;
+
+                    if (file_exists($file)) {
+                        ob_start();
+                        include $file;
+                        echo ob_get_clean();
+                        exit;
+                    } else {
+                        wp_die("❌ Le fichier <code>$filename</code> est introuvable dans <code>pageschercheur</code>.");
+                    }
+                } else {
+                    plateforme_redirect_home();
+                }
+            } else {
+                plateforme_redirect_home();
+            }
+        }
+    }
     if (is_page('unite-genomique')) {
         if (is_user_logged_in()) {
             include plugin_dir_path(__FILE__) . 'Modules/USCR/unite-genomique.php';
@@ -1032,119 +1118,125 @@ function pm_template_override()
         exit;
     }
     // ------New pages for LaboRecherche-----
-    if (is_page('programmes-projects-de-recherches')) {
-        if (is_user_logged_in()) {
-            include plugin_dir_path(__FILE__) . 'Modules/LaboRecherche/pages/ProgrammesProjectsDeRecherches.php';
-            exit;
-        }
-        wp_redirect(home_url());
-        exit;
-    }
-    if (is_page('activites-scientifiques')) {
-        if (is_user_logged_in()) {
-            include plugin_dir_path(__FILE__) . 'Modules/LaboRecherche/pages/ActivitesScientifiques.php';
-            exit;
-        }
-        wp_redirect(home_url());
-        exit;
-    }
-    if (is_page('reseaux-de-la-recherche')) {
-        if (is_user_logged_in()) {
-            include plugin_dir_path(__FILE__) . 'Modules/LaboRecherche/pages/ReseauxDeLaRecherche.php';
-            exit;
-        }
-        wp_redirect(home_url());
-        exit;
-    }
-    if (is_page('activites-quotidiennes')) {
-        if (is_user_logged_in()) {
-            include plugin_dir_path(__FILE__) . 'Modules/LaboRecherche/pages/ActivitesQuotidiennes.php';
-            exit;
-        }
-        wp_redirect(home_url());
-        exit;
-    }
-    if (is_page('etat-davancement-des-projets')) {
-        if (is_user_logged_in()) {
-            include plugin_dir_path(__FILE__) . 'Modules/LaboRecherche/pages/EtatDavancementDesProjets.php';
-            exit;
-        }
-        wp_redirect(home_url());
-        exit;
-    }
-    if (is_page('financement')) {
-        if (is_user_logged_in()) {
-            include plugin_dir_path(__FILE__) . 'Modules/LaboRecherche/pages/Financement.php';
-            exit;
-        }
-        wp_redirect(home_url());
-        exit;
-    }
-    if (is_page('membres-de-laboratoire')) {
-        if (is_user_logged_in()) {
-            include plugin_dir_path(__FILE__) . 'Modules/LaboRecherche/pages/Financement.php';
-            exit;
-        }
-        wp_redirect(home_url());
-        exit;
-    }
-    if (is_page('actualites-de-lutm')) {
-        if (is_user_logged_in()) {
-            include plugin_dir_path(__FILE__) . 'Modules/LaboRecherche/pages/ActualitesDeLUTM.php';
-            exit;
-        }
-        wp_redirect(home_url());
-        exit;
-    }
-    if (is_page('membres-de-laboratoire-2')) {
-        if (is_user_logged_in()) {
-            include plugin_dir_path(__FILE__) . 'Modules/LaboRecherche/pages/MembresDeLaboratoire2.php';
-            exit;
-        }
-        wp_redirect(home_url());
-        exit;
-    }
-    if (is_page('comment-proteger-ma-recherche')) {
-        if (is_user_logged_in()) {
-            include plugin_dir_path(__FILE__) . 'Modules/LaboRecherche/pages/CommentProtegerMaRecherche.php';
-            exit;
-        }
-        wp_redirect(home_url());
-        exit;
-    }
-    if (is_page('details-programmes-projets-de-recherches')) {
-        if (is_user_logged_in()) {
-            include plugin_dir_path(__FILE__) . 'Modules/LaboRecherche/pages/DetailsProgrammesProjetsDeRecherches.php';
-            exit;
-        }
-        wp_redirect(home_url());
-        exit;
-    }
-    if (is_page('reseaux-de-la-recherche-fiche-partenaire')) {
-        if (is_user_logged_in()) {
-            include plugin_dir_path(__FILE__) . 'Modules/LaboRecherche/pages/ReseauxDeLaRechercheFichePartenaire.php';
-            exit;
-        }
-        wp_redirect(home_url());
-        exit;
-    }
-    if (is_page('financement-fiche-de-financement')) {
-        if (is_user_logged_in()) {
-            include plugin_dir_path(__FILE__) . 'Modules/LaboRecherche/pages/FinancementFicheDeFinancement.php';
-            exit;
-        }
-        wp_redirect(home_url());
-        exit;
-    }
-    if (is_page('membres-de-laboratoire-fiche-dun-membre')) {
-        if (is_user_logged_in()) {
-            include plugin_dir_path(__FILE__) . 'Modules/LaboRecherche/pages/MembresDeLaboratoireFicheDunMembre.php';
-            exit;
-        }
-        wp_redirect(home_url());
-        exit;
-    }
+    // if (is_page('programmes-projects-de-recherches')) {
+    //     if (is_user_logged_in()) {
+    //         include plugin_dir_path(__FILE__) . 'Modules/LaboRecherche/pages/ProgrammesProjectsDeRecherches.php';
+    //         exit;
+    //     }
+    //     wp_redirect(home_url());
+    //     exit;
+    // }
+    // if (is_page('activites-scientifiques')) {
+    //     if (is_user_logged_in()) {
+    //         include plugin_dir_path(__FILE__) . 'Modules/LaboRecherche/pages/ActivitesScientifiques.php';
+    //         exit;
+    //     }
+    //     wp_redirect(home_url());
+    //     exit;
+    // }
+    // if (is_page('reseaux-de-la-recherche')) {
+    //     if (is_user_logged_in()) {
+    //         include plugin_dir_path(__FILE__) . 'Modules/LaboRecherche/pages/ReseauxDeLaRecherche.php';
+    //         exit;
+    //     }
+    //     wp_redirect(home_url());
+    //     exit;
+    // }
+    // if (is_page('activites-quotidiennes')) {
+    //     if (is_user_logged_in()) {
+    //         include plugin_dir_path(__FILE__) . 'Modules/LaboRecherche/pages/ActivitesQuotidiennes.php';
+    //         exit;
+    //     }
+    //     wp_redirect(home_url());
+    //     exit;
+    // }
+    // if (is_page('etat-davancement-des-projets')) {
+    //     if (is_user_logged_in()) {
+    //         include plugin_dir_path(__FILE__) . 'Modules/LaboRecherche/pages/EtatDavancementDesProjets.php';
+    //         exit;
+    //     }
+    //     wp_redirect(home_url());
+    //     exit;
+    // }
+    // if (is_page('financement')) {
+    //     if (is_user_logged_in()) {
+    //         include plugin_dir_path(__FILE__) . 'Modules/LaboRecherche/pages/Financement.php';
+    //         exit;
+    //     }
+    //     wp_redirect(home_url());
+    //     exit;
+    // }
+    // if (is_page('actualites-de-lutm')) {
+    //     if (is_user_logged_in()) {
+    //         include plugin_dir_path(__FILE__) . 'Modules/LaboRecherche/pages/ActualitesDeLUTM.php';
+    //         exit;
+    //     }
+    //     wp_redirect(home_url());
+    //     exit;
+    // }
+    // if (is_page('membres-de-laboratoire')) {
+    //     if (is_user_logged_in()) {
+    //         include plugin_dir_path(__FILE__) . 'Modules/LaboRecherche/pages/MembresDeLaboratoire.php';
+    //         exit;
+    //     }
+    //     wp_redirect(home_url());
+    //     exit;
+    // }
+    // if (is_page('comment-proteger-ma-recherche')) {
+    //     if (is_user_logged_in()) {
+    //         include plugin_dir_path(__FILE__) . 'Modules/LaboRecherche/pages/CommentProtegerMaRecherche.php';
+    //         exit;
+    //     }
+    //     wp_redirect(home_url());
+    //     exit;
+    // }
+    // if (is_page('details-programmes-projets-de-recherches')) {
+    //     if (is_user_logged_in()) {
+    //         include plugin_dir_path(__FILE__) . 'Modules/LaboRecherche/pages/DetailsProgrammesProjetsDeRecherches.php';
+    //         exit;
+    //     }
+    //     wp_redirect(home_url());
+    //     exit;
+    // }
+    // if (is_page('reseaux-de-la-recherche-fiche-partenaire')) {
+    //     if (is_user_logged_in()) {
+    //         include plugin_dir_path(__FILE__) . 'Modules/LaboRecherche/pages/ReseauxDeLaRechercheFichePartenaire.php';
+    //         exit;
+    //     }
+    //     wp_redirect(home_url());
+    //     exit;
+    // }
+    // if (is_page('financement-fiche-de-financement')) {
+    //     if (is_user_logged_in()) {
+    //         include plugin_dir_path(__FILE__) . 'Modules/LaboRecherche/pages/FinancementFicheDeFinancement.php';
+    //         exit;
+    //     }
+    //     wp_redirect(home_url());
+    //     exit;
+    // }
+    // if (is_page('membres-de-laboratoire-fiche-dun-membre')) {
+    //     if (is_user_logged_in()) {
+    //         include plugin_dir_path(__FILE__) . 'Modules/LaboRecherche/pages/MembresDeLaboratoireFicheDunMembre.php';
+    //         exit;
+    //     }
+    //     wp_redirect(home_url());
+    //     exit;
+    // }
+    // if (is_page('fiche-details-du-laboratoire-lsama')) {
+    //     if (is_user_logged_in()) {
+    //         include plugin_dir_path(__FILE__) . 'Modules/LaboRecherche/pages/FicheDetailsDuLaboratoireLsama.php';
+    //         exit;
+    //     }
+    //     wp_redirect(home_url());
+    //     exit;
+    // }
+
+
+
+
     // 🔁 Chargement automatique des pages ED dynamiques
+
+
     $pages_ed = [
         'inscription-et-reinscription',
         'dossier-inscription',

@@ -3,10 +3,10 @@
         <h2 class="dashboard-sub-title">
             <img src="/wp-content/plugins/plateforme-master/images/ed/16406436.png" alt="Icon"
                 style="width: 38px; margin-right: 8px; vertical-align: middle; font-weight: blod;">
-            Liste Des Partenaires
+            Tableau Des Projets
         </h2>
         <!-- Added "Ajouter un projet" button -->
-        <button class="add-project-btn">Ajouter un réseau/collaboration</button>
+        <!-- <button class="add-project-btn">Ajouter une activité</button> -->
     </div>
 
     <hr class="section-divider">
@@ -22,9 +22,11 @@
             <!-- Status Select -->
             <div class="input-with-icon">
                 <select class="filter-select">
-                    <option value="" disabled selected>État</option>
-                    <option>Terminé</option>
-                    <option>En cours</option>
+                    <option value="" disabled selected>Responsable</option>
+                    <option>Pr. R. Nasri</option>
+                    <option>Dr. A. Gharsalli</option>
+                    <option>M. Nour Essafi</option>
+                    <option>Dr. W. Dallel</option>
                 </select>
                 <i class="fas fa-chevron-down icon right-icon"></i>
             </div>
@@ -32,10 +34,10 @@
             <!-- Date Input (Replaced Discipline) -->
             <div class="input-with-icon">
                 <select class="filter-select">
-                    <option value="" disabled selected>pays</option>
-                    <option>France</option>
-                    <option>Maroc</option>
-                    <option>Canada</option>
+                    <option value="" disabled selected>Statut</option>
+                    <option>Terminé</option>
+                    <option>En cours</option>
+                    <option>En retard</option>
                 </select>
                 <i class="fas fa-chevron-down icon right-icon"></i>
             </div>
@@ -57,11 +59,11 @@
         <thead>
             <tr>
                 <th><input type="checkbox" id="checkAll"></th>
-                <th>Institution partenaire</th>
-                <th>Pays</th>
-                <th>Type de partenariat</th>
-                <th>Contact principal</th>
-                <th>Convention</th>
+                <th>Titre du projet</th>
+                <th>Acronyme</th>
+                <th>Responsable</th>
+                <th>% Avancement</th>
+                <th>Échéance</th>
                 <th>Statut</th>
                 <th>Actions</th>
             </tr>
@@ -69,96 +71,20 @@
         <tbody>
             <tr>
                 <td><input type="checkbox"></td>
-                <td>Université Paris-Saclay</td>
-                <td>France</td>
-                <td>Projet De Recherche H2020</td>
-                <td>Pr. L. Dubois</td>
-                <td>Oui</td>
-                <td><span class="badge badge-success"> <i class="fa-regular fa-circle-check"
-                            style="color: #0E962D; padding-right:5px;"></i>Actif</span></td>
+                <td>Interface Cerveau-Machine</td>
+                <td>BCI-Learn</td>
+                <td>Pr. R. Nasri</td>
                 <td>
-                    <div class="actions">
-                        <button class="action-btn">...</button>
-                        <div class="dropdown-menu">
-                            <a href="#">Modifier</a>
-                            <a href="http://wordpress.test:8080/reseaux-de-la-recherche-fiche-partenaire/">Fiche
-                                partenaire</a>
-                            <a href="#">Supprimer</a>
+                    <div class="container-progress">
+                        <div class="progress-wrapper">
+                            <div class="progress-bar">
+                                <div class="progress-bar-inner" style="width: 80%;"></div>
+                            </div>
+                            <div class="progress-label">80%</div>
                         </div>
                     </div>
                 </td>
-            </tr>
-
-            <tr>
-                <td><input type="checkbox"></td>
-                <td>Université De Sfax</td>
-                <td>Tunisie</td>
-                <td>Cotutelle Doctorale</td>
-                <td>Dr. M. Abdelkefi</td>
-                <td>Oui</td>
-                <td><span class="badge badge-success"> <i class="fa-regular fa-circle-check"
-                            style="color: #0E962D; padding-right:5px;"></i>Actif</span></td>
-                <td>
-                    <div class="actions">
-                        <button class="action-btn">...</button>
-                        <div class="dropdown-menu">
-                            <a href="#">Modifier</a>
-                            <a href="http://wordpress.test:8080/reseaux-de-la-recherche-fiche-partenaire/">Fiche
-                                partenaire</a>
-                            <a href="#">Supprimer</a>
-                        </div>
-                    </div>
-                </td>
-            </tr>
-            <tr>
-                <td><input type="checkbox"></td>
-                <td>CNRS – LIRMM</td>
-                <td>France</td>
-                <td>Article Scientifique</td>
-                <td>Dr. C. Hadj Kacem</td>
-                <td>Non</td>
-                <td><span class="badge badge-secondary"><i class="fa-solid fa-arrows-rotate"
-                            style="color: #A6A485;padding-right:5px;"></i>Occasionnel</span></td>
-                <td>
-                    <div class="actions">
-                        <button class="action-btn">...</button>
-                        <div class="dropdown-menu">
-                            <a href="#">Modifier</a>
-                            <a href="http://wordpress.test:8080/reseaux-de-la-recherche-fiche-partenaire/">Fiche
-                                partenaire</a>
-                            <a href="#">Supprimer</a>
-                        </div>
-                    </div>
-                </td>
-            </tr>
-            <tr>
-                <td><input type="checkbox"></td>
-                <td>IBN Tofail – Kénitra</td>
-                <td>Maroc</td>
-                <td>Échange & Co-Pub</td>
-                <td>Dr. M. Zghari</td>
-                <td>Oui</td>
-                <td><span class="badge badge-success"> <i class="fa-regular fa-circle-check"
-                            style="color: #0E962D; padding-right:5px;"></i>Actif</span></td>
-                <td>
-                    <div class="actions">
-                        <button class="action-btn">...</button>
-                        <div class="dropdown-menu">
-                            <a href="#">Modifier</a>
-                            <a href="http://wordpress.test:8080/reseaux-de-la-recherche-fiche-partenaire/">Fiche
-                                partenaire</a>
-                            <a href="#">Supprimer</a>
-                        </div>
-                    </div>
-                </td>
-            </tr>
-            <tr>
-                <td><input type="checkbox"></td>
-                <td>Université De Ghent – Biomed Lab</td>
-                <td>Belgique</td>
-                <td>Projet Bilatéral</td>
-                <td>Dr. H. Van Der Meeren</td>
-                <td>Oui</td>
+                <td>28/02/2026</td>
                 <td><span class="badge badge-warning"><i class="fa-regular fa-clock"
                             style="color: #FFD43B; padding-right:5px;"></i>En
                         cours</span></td>
@@ -166,10 +92,96 @@
                     <div class="actions">
                         <button class="action-btn">...</button>
                         <div class="dropdown-menu">
-                            <a href="#">Modifier</a>
-                            <a href="http://wordpress.test:8080/reseaux-de-la-recherche-fiche-partenaire/">Fiche
-                                partenaire</a>
-                            <a href="#">Supprimer</a>
+                            <a href="http://wordpress.test:8080/etat-davancement-des-projets-fiche-projet/">Fiche
+                                projet</a>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+
+            <tr>
+                <td><input type="checkbox"></td>
+                <td>Stockage Cloud Médical</td>
+                <td>Medcloud</td>
+                <td>Dr. A. Gharsalli</td>
+                <td>
+                    <div class="container-progress">
+                        <div class="progress-wrapper">
+                            <div class="progress-bar">
+                                <div class="progress-bar-inner" style="width: 100%;"></div>
+                            </div>
+                            <div class="progress-label">100%</div>
+                        </div>
+                    </div>
+                </td>
+                <td>31/12/2023</td>
+                <td><span class="badge badge-success"> <i class="fa-regular fa-circle-check"
+                            style="color: #0E962D; padding-right:5px;"></i>Terminé</span></td>
+                <td>
+                    <div class="actions">
+                        <button class="action-btn">...</button>
+                        <div class="dropdown-menu">
+                            <a href="http://wordpress.test:8080/etat-davancement-des-projets-fiche-projet/">Fiche
+                                projet</a>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td><input type="checkbox"></td>
+                <td>Réalité Augmentée En Éducation</td>
+                <td>ARUX</td>
+                <td>M. Nour Essafi</td>
+                <td>
+                    <div class="container-progress">
+                        <div class="progress-wrapper">
+                            <div class="progress-bar">
+                                <div class="progress-bar-inner" style="width: 40%;"></div>
+                            </div>
+                            <div class="progress-label">40%</div>
+                        </div>
+                    </div>
+                </td>
+                <td>30/04/2026</td>
+                <td><span class="badge" style="color: #DDACA7; border: 2px solid #DDACA7;"><i
+                            class="fa-solid fa-triangle-exclamation" style="color: #DDACA7; padding-right: 5px;"></i>En
+                        retard</span>
+                </td>
+                <td>
+                    <div class="actions">
+                        <button class="action-btn">...</button>
+                        <div class="dropdown-menu">
+                            <a href="http://wordpress.test:8080/etat-davancement-des-projets-fiche-projet/">Fiche
+                                projet</a>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td><input type="checkbox"></td>
+                <td>Cartographie Urbaine 3D</td>
+                <td>3Dcity</td>
+                <td>Dr. W. Dallel</td>
+                <td>
+                    <div class="container-progress">
+                        <div class="progress-wrapper">
+                            <div class="progress-bar">
+                                <div class="progress-bar-inner" style="width: 70%;"></div>
+                            </div>
+                            <div class="progress-label">70%</div>
+                        </div>
+                    </div>
+                </td>
+                <td>15/09/2024</td>
+                <td><span class="badge badge-warning"><i class="fa-regular fa-clock"
+                            style="color: #FFD43B; padding-right:5px;"></i>En
+                        cours</span></td>
+                <td>
+                    <div class="actions">
+                        <button class="action-btn">...</button>
+                        <div class="dropdown-menu">
+                            <a href="http://wordpress.test:8080/etat-davancement-des-projets-fiche-projet/">Fiche
+                                projet</a>
                         </div>
                     </div>
                 </td>
@@ -188,6 +200,57 @@
 .dashboard-sub-title {
     font-weight: bold;
 }
+
+
+
+.container-progress {
+    background-color: #ffffff;
+    border-radius: 0.75rem;
+    width: 100%;
+    max-width: 400px;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    /* Space between progress bars */
+}
+
+/* Wrapper for a single progress bar and its label */
+.progress-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    /* Space between bar and percentage */
+}
+
+/* The background of the progress bar */
+.progress-bar {
+    width: 100%;
+    height: 10px;
+    background-color: #f1f1f1;
+    border-radius: 5px;
+    overflow: hidden;
+    /* Ensures the inner bar stays within the rounded corners */
+}
+
+/* The actual progress indicator (the red part) */
+.progress-bar-inner {
+    height: 100%;
+    background-color: #c60000;
+    /* The red color from the screenshot */
+    border-radius: 5px;
+    transition: width 0.4s ease-in-out;
+}
+
+/* The percentage text label */
+.progress-label {
+    font-size: 14px;
+    font-weight: 500;
+    color: #333;
+    min-width: 40px;
+    /* Ensures alignment */
+    text-align: right;
+}
+
 
 .filter-bar {
     display: flex;

@@ -1,136 +1,14 @@
-<div class="content-block">
-    <div class="header-bar">
-        <h2 class="dashboard-sub-title">
-            <img src="/wp-content/plugins/plateforme-master/images/ed/16406436.png" alt="Icon"
-                style="width: 38px; margin-right: 8px; vertical-align: middle; font-weight: blod;">
-            Liste Des Projets
+<!-- Font Awesome for icons -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 
-        </h2>
-        <!-- Added "Ajouter un projet" button -->
-        <button class="add-project-btn">Ajouter un projet</button>
-    </div>
+<!-- DataTables CSS -->
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css" />
+<link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.3.6/css/buttons.dataTables.min.css">
 
-    <hr class="section-divider">
+<!-- Quill CSS -->
+<link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
 
-    <div class="filter-bar">
-        <div class="filter-inputs">
-            <!-- Search Input -->
-            <div class="input-with-icon">
-                <input class="filter-input" type="text" placeholder="Recherchez...">
-                <i class="fas fa-search icon right-icon search-field"></i>
-            </div>
-
-            <!-- Status Select -->
-            <div class="input-with-icon">
-                <select class="filter-select">
-                    <option value="" disabled selected>État</option>
-                    <option>Terminé</option>
-                    <option>En cours</option>
-                </select>
-                <i class="fas fa-chevron-down icon right-icon"></i>
-            </div>
-
-            <!-- Date Input (Replaced Discipline) -->
-            <div class="input-with-icon">
-                <input class="filter-input date-input" type="text" placeholder="Date Deb-Fin">
-                <i class="fas fa-calendar-alt icon right-icon"></i>
-            </div>
-        </div>
-
-        <div class="filter-actions">
-            <!-- Updated Icons -->
-            <button class="icon-btn" title="Filter">
-                <i class="fa fa-filter"></i>
-            </button>
-            <button class="icon-btn" title="Download">
-                <i class="fa fa-download"></i>
-            </button>
-        </div>
-    </div>
-
-
-    <table id="candidaturesTable" class="styled-table display">
-        <thead>
-            <tr>
-                <th><input type="checkbox" id="checkAll"></th>
-                <th>Intitulé du projet</th>
-                <th>État</th>
-                <th>Porteur</th>
-                <th>Date début</th>
-                <th>Date fin</th>
-                <th>Financement</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td><input type="checkbox"></td>
-                <td>Détection IA Dans L'agriculture</td>
-                <td><span class="badge badge-success">Terminé</span></td>
-                <td>Dr. A. Mejri</td>
-                <td>01/02/2025</td>
-                <td>29/11/2025</td>
-                <td>80 000 TND</td>
-                <td>
-                    <div class="actions">
-                        <button class="action-btn">...</button>
-                        <div class="dropdown-menu">
-                            <a href="#">Modifier</a>
-                            <a href="http://wordpress.test:8080/details-programmes-projets-de-recherches/">Voir</a>
-                        </div>
-                    </div>
-                </td>
-            </tr>
-
-            <tr>
-                <td><input type="checkbox"></td>
-                <td>Stockage Cloud De Données Santé</td>
-                <td><span class="badge badge-success">Terminé</span></td>
-                <td>Y. Ben Salem</td>
-                <td>01/01/2023</td>
-                <td>31/12/2023</td>
-                <td>120 000 TND</td>
-                <td>
-                    <div class="actions">
-                        <button class="action-btn">...</button>
-                        <div class="dropdown-menu">
-                            <a href="#">Modifier</a>
-                            <!-- <a href="#"><i class="fa fa-eye"></i>Modifier</a> -->
-                            <a href="http://wordpress.test:8080/details-programmes-projets-de-recherches/">Voir</a>
-                            <!-- <a href="#"><i class="fa fa-download"></i>Voir</a> -->
-                        </div>
-                    </div>
-                </td>
-            </tr>
-
-            <tr>
-                <td><input type="checkbox"></td>
-                <td>Interfaces Adaptatives AR/VR</td>
-                <td><span class="badge badge-warning">En cours</span></td>
-                <td>Dr. Leila Romdhane</td>
-                <td>15/09/2023</td>
-                <td>15/09/2025</td>
-                <td>85 000 TND</td>
-                <td>
-                    <div class="actions">
-                        <button class="action-btn">...</button>
-                        <div class="dropdown-menu">
-                            <a href="#">Modifier</a>
-                            <a href="http://wordpress.test:8080/details-programmes-projets-de-recherches/">Voir</a>
-                        </div>
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-
-
-
-</div>
-
-
-
-
+<!-- User-provided styles combined into one block -->
 <style>
 .dashboard-sub-title {
     font-weight: bold;
@@ -143,7 +21,6 @@
     gap: 1rem;
     padding-bottom: 20px;
     position: relative;
-    /* Keep relative positioning if needed */
 }
 
 .filter-inputs {
@@ -173,9 +50,6 @@
     right: 0.85rem;
 }
 
-
-
-/* More specific selectors to override previous styles */
 .filter-bar .filter-input,
 .filter-bar .filter-select {
     border: 1px solid #e0e0e0;
@@ -187,12 +61,10 @@
     box-sizing: border-box;
     transition: border-color 0.2s;
     min-width: 180px;
-    /* Keep a min-width */
 }
 
 .filter-bar .filter-input {
     width: 220px;
-    /* Keep original width */
 }
 
 .filter-bar .filter-input:focus,
@@ -201,16 +73,9 @@
     border-color: #c60000;
 }
 
-/* .input-with-icon .filter-input {
-    padding-left: 2.5rem;
-} */
-
-/* Added style for date input padding */
 .input-with-icon .date-input {
     padding-left: 0.75rem;
-    /* Reset default left padding */
     padding-right: 2.5rem;
-    /* Add space for right icon */
 }
 
 .filter-bar .filter-select {
@@ -221,7 +86,6 @@
     cursor: pointer;
 }
 
-/* Override for icon buttons to match the new design */
 .filter-bar .icon-btn {
     width: 42px;
     height: 42px;
@@ -238,12 +102,9 @@
     background-color: #f5f5f5;
 }
 
-/* Hide the old container if it exists */
 .filter-selectgb {
     display: contents;
 }
-
-/* === END OF STYLES FOR NEW FILTER BAR === */
 
 .filter-bar {
     display: flex;
@@ -372,7 +233,6 @@
     border-collapse: separate;
     border-spacing: 0;
     border-radius: 10px;
-    /* overflow: hidden;*/
     box-shadow: 0 0 0 1px #ddd;
 }
 
@@ -441,7 +301,6 @@
     display: flex;
     align-items: center;
     border: 2px solid #dcdac2;
-    /* couleur beige clair */
     border-radius: 16px;
     padding: 1px 16px;
     width: 300px;
@@ -505,12 +364,10 @@
     padding-left: 10px;
 }
 
-
 .filter-actions {
     display: flex;
     gap: 10px;
     margin-left: auto;
-    position: absolute;
     position: absolute;
     right: 0;
 }
@@ -598,27 +455,7 @@
     margin-left: 4px;
     font-size: 13px;
 }
-</style>
 
-
-<!-- DataTables CSS -->
-<link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css" />
-
-<!-- jQuery + DataTables JS -->
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
-
-<!-- Init DataTable -->
-<script>
-
-
-
-
-
-
-</script>
-
-<style>
 .add-project-btn {
     background-color: #c60000;
     color: white;
@@ -636,9 +473,7 @@
 
 .input-with-icon .date-input {
     padding-left: 0.75rem;
-    /* Reset default left padding */
     padding-right: 2.5rem;
-    /* Add space for right icon */
 }
 
 .styled-table {
@@ -646,7 +481,6 @@
     border-collapse: separate;
     border-spacing: 0;
     border-radius: 10px;
-    /*overflow: hidden;*/
     box-shadow: 0 0 0 1px #ddd;
     background: #fff;
     font-family: 'Segoe UI', sans-serif;
@@ -699,7 +533,6 @@
     margin-bottom: 12px;
 }
 
-/* Menu déroulant */
 .dropdown-menu {
     display: none;
     position: absolute;
@@ -713,12 +546,8 @@
     z-index: 1000;
 }
 
-
-
-/* Liens dans le menu */
 .dropdown-menu a {
     display: block;
-    /* Changed from 'flex' */
     gap: 8px;
     padding: 10px 16px;
     text-decoration: none;
@@ -727,14 +556,11 @@
     transition: background-color 0.2s;
 }
 
-
-
 .dropdown-menu i {
     font-size: 15px;
     color: #2d2a12;
 }
 
-/* Conteneur pagination */
 .dataTables_wrapper .dataTables_paginate {
     display: flex;
     justify-content: center;
@@ -742,7 +568,6 @@
     margin-top: 16px;
 }
 
-/* Boutons de pagination */
 .dataTables_wrapper .dataTables_paginate .paginate_button {
     border: 2px solid #c60000;
     color: #c60000;
@@ -754,7 +579,6 @@
     font-size: 13px;
 }
 
-/* Page active */
 .dataTables_wrapper .dataTables_paginate .paginate_button.current {
     border: none;
     background: transparent;
@@ -764,13 +588,11 @@
     pointer-events: none;
 }
 
-/* Hover */
 .dataTables_wrapper .dataTables_paginate .paginate_button:hover {
     background: #c60000;
     border-color: red;
 }
 
-/* Cacher les sauts de page '…' */
 .dataTables_wrapper .dataTables_paginate .ellipsis {
     display: none;
 }
@@ -935,15 +757,12 @@ td.statut-universitaire {
     width: 36px;
     height: 36px;
     font-size: 24px;
-    /* Reduced font size */
     font-weight: bolder;
-    /* Adjusted font weight */
     cursor: pointer;
     transition: background-color 0.2s, box-shadow 0.2s;
     line-height: 1;
     padding: 0;
     padding-bottom: 10px;
-    /* Added for vertical alignment */
     display: flex;
     align-items: center;
     justify-content: center;
@@ -992,7 +811,6 @@ td.statut-universitaire {
 .dt-button.buttons-colvis {
     background-color: #f9f7ef;
     border: 1px solid #ccc;
-    /* border-radius: 8px; */
     padding: 8px 14px;
     font-family: 'Poppins', sans-serif;
     font-size: 15px;
@@ -1037,8 +855,6 @@ div#candidaturesTable_wrapper span.dt-down-arrow {
     color: #888;
 }
 
-
-/* Conteneur global */
 .dt-button-collection.fixed.four-column {
     border-radius: 16px;
     padding: 20px;
@@ -1053,7 +869,6 @@ div#candidaturesTable_wrapper span.dt-down-arrow {
     overflow: visible;
 }
 
-/* Boutons de colonne */
 .dt-button-collection .dt-button.buttons-columnVisibility {
     border: 1px solid #ccc;
     background-color: #fff;
@@ -1070,7 +885,6 @@ div#candidaturesTable_wrapper span.dt-down-arrow {
     transition: all 0.2s ease;
 }
 
-/* Survol */
 .dt-button-collection .dt-button.buttons-columnVisibility:hover {
     background-color: #f6f6f6;
     border-color: #999;
@@ -1093,10 +907,8 @@ div#candidaturesTable_wrapper span.dt-down-arrow {
     transition: all 0.2s ease;
     background: linear-gradient(to bottom, #fffbfb 0%, #ffffff 100%) !important;
     box-shadow: none !important;
-
 }
 
-/* Actif */
 div.dt-button-collection.four-column {
     width: 719px !important;
 }
@@ -1107,7 +919,6 @@ div.dt-button-collection.fixed .dt-button:first-child {
 }
 
 div.dt-button-collection.fixed .dt-button:last-child {
-
     border-bottom-left-radius: 50px !important;
     border-bottom-right-radius: 50px !important;
 }
@@ -1140,7 +951,6 @@ div.dt-button-collection-title h4 {
     color: #d42d2d;
 }
 
-/* Container pagination */
 #candidaturesTable_paginate {
     display: flex;
     justify-content: center;
@@ -1151,7 +961,6 @@ div.dt-button-collection-title h4 {
     background-color: none;
 }
 
-/* Boutons de pagination */
 #candidaturesTable_paginate .paginate_button {
     background-color: #fff;
     border: 2px solid #c40000;
@@ -1165,36 +974,30 @@ div.dt-button-collection-title h4 {
     transition: all 0.2s ease;
 }
 
-/* Bouton actif */
 #candidaturesTable_paginate .paginate_button.current {
     background-color: #c40000;
     color: #fff !important;
     border-color: #c40000;
 }
 
-/* Survol */
 #candidaturesTable_paginate .paginate_button:hover {
     background-color: #f8eaea;
 }
 
-/* Icônes (si UTF ou FontAwesome utilisé) */
 #candidaturesTable_paginate .paginate_button:before,
 #candidaturesTable_paginate .paginate_button:after {
     font-weight: bold;
 }
 
-/* Supprime les bordures par défaut de DataTables */
 .dataTables_wrapper .dataTables_paginate .paginate_button {
     border: none;
 }
 
-/* Supprime focus violet */
 #candidaturesTable_paginate .paginate_button:focus {
     outline: none;
     box-shadow: none;
 }
 
-/* Remove padding */
 th {
     border-bottom: 1px solid #EBE9D7 !important;
     border-top: 1px solid #EBE9D7 !important;
@@ -1210,27 +1013,20 @@ thead {
     top: -17px;
 }
 
-
 #candidaturesTable {
     border: none !important;
-    /* Supprime la bordure externe */
     border-collapse: collapse;
-    /* Colle les cellules sans doublons */
     box-shadow: none !important;
-    /* Supprime toute ombre extérieure */
 }
 
 #candidaturesTable th {
     border: 0px solid #EBE9D7;
-    /* ✅ Bordures internes seulement */
 }
 
 #candidaturesTable td {
     border: 1px solid #EBE9D7;
-    /* ✅ Bordures internes seulement */
 }
 
-/* Supprimer bordure du <thead> si nécessaire */
 #candidaturesTable thead {
     border: none !important;
     position: static;
@@ -1245,9 +1041,7 @@ thead {
     border-collapse: separate;
     border-spacing: 0;
     border-radius: 50x 50px 0 0;
-    /* ⬅️ coins haut gauche et droit arrondis */
     overflow: hidden;
-    /* permet de masquer les débordements internes */
 }
 
 #candidaturesTable thead tr:first-child th:first-child {
@@ -1258,7 +1052,6 @@ thead {
 #candidaturesTable thead tr:first-child th:last-child {
     border-top-right-radius: 12px;
     border-bottom-right-radius: 12px;
-
 }
 
 #candidaturesTable tbody tr:last-child td:first-child {
@@ -1302,7 +1095,6 @@ thead {
     display: none;
     position: absolute;
     top: 100%;
-    /* s'affiche juste sous le bouton */
     right: 0;
     min-width: 160px;
     background-color: #ffffff;
@@ -1385,57 +1177,462 @@ button.dt-button.buttons-collection.buttons-colvis.custom-colvis-btn {
     width: max-content;
     margin-bottom: 0px;
 }
+
+.btn-close-x {
+    background: transparent;
+    border: none;
+    font-size: 20px;
+    font-weight: bold;
+    color: #333;
+    cursor: pointer;
+    padding: 4px 10px;
+    line-height: 1;
+    transition: color 0.2s ease;
+    margin-left: auto;
+}
+
+.btn-close-x:hover {
+    color: #c40000;
+}
+
+.modal-overlay {
+    position: fixed;
+    top: 0px;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.3);
+    display: flex;
+    justify-content: flex-end;
+    z-index: 999999;
+}
+
+.popup-container {
+    background-color: white;
+    width: 400px;
+    height: 100%;
+    padding: 20px 0px;
+    box-shadow: -4px 0 10px rgba(0, 0, 0, 0.1);
+    overflow-y: auto;
+    padding-top: 0px;
+}
+
+.popup-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+    padding-left: 25px;
+    padding-right: 25px;
+    box-shadow: 0px 5px 16px #00000029;
+    padding-top: 20px;
+}
+
+form.popup-form {
+    padding-left: 25px;
+    padding-right: 25px;
+}
+
+.popup-header h2,
+.popup-form h2 {
+    font-size: 16px;
+    margin: 0;
+    color: #2A2916;
+}
+
+.btn-enregistrer {
+    background-color: #c62828;
+    color: white;
+    border: none;
+    padding: 6px 14px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+/* Styles for the new form inside the modal */
+.popup-form .form-group {
+    margin-bottom: 15px;
+}
+
+.popup-form .form-group label {
+    display: block;
+    font-weight: 600;
+    color: #6E6D55;
+    font-size: 14px;
+}
+
+.popup-form .form-group input,
+.popup-form .form-group select,
+.popup-form .form-group textarea {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid #b5af8e;
+    border-radius: 7px;
+    font-size: 14px;
+    box-sizing: border-box;
+    /* To include padding and border in the element's total width and height */
+}
+
+.popup-form .form-group textarea {
+    resize: vertical;
+    min-height: 80px;
+}
+
+/* Re-using input-with-icon for the new form */
+.popup-form .input-with-icon {
+    position: relative;
+}
+
+.popup-form .input-with-icon .icon {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #888;
+    pointer-events: none;
+}
+
+.popup-form .input-with-icon .right-icon {
+    right: 12px;
+}
+
+.popup-form .input-with-icon select {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    padding-right: 30px;
+    /* Make space for the icon */
+    background-color: #fff;
+}
+
+/* Specific styles for file input */
+.popup-form .input-file-wrapper {
+    display: flex;
+    align-items: center;
+    border: 1px solid #b5af8e;
+    border-radius: 7px;
+    background-color: white;
+    overflow: hidden;
+}
+
+.popup-form .input-file-text {
+    flex-grow: 1;
+    border: none;
+    padding: 10px 12px;
+    background-color: #f9f9f9;
+    color: #888;
+}
+
+.popup-form .input-file-text:focus {
+    outline: none;
+}
+
+.popup-form .btn-importer {
+    background-color: #e9e9e9;
+    color: #333;
+    padding: 10px 16px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    border-left: 1px solid #b5af8e;
+    white-space: nowrap;
+}
+
+.popup-form .btn-importer i {
+    font-size: 14px;
+}
+
+.popup-form fieldset {
+    border: 1px solid #b5af8e;
+    border-radius: 7px;
+    padding: 10px 15px;
+    margin-bottom: 15px;
+}
+
+.popup-form legend {
+    padding: 0 5px;
+    font-weight: 600;
+    color: #6E6D55;
+    font-size: 14px;
+}
+
+.popup-form .radio-group {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+}
+
+.popup-form .radio-group label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: normal;
+}
+
+.ql-toolbar.ql-snow {
+    border-radius: 6px 6px 0 0;
+    background-color: #ecebe3;
+}
+
+.ql-container.ql-snow {
+    border-radius: 0 0 6px 6px;
+    font-size: 14px;
+}
+
+.ql-toolbar.ql-snow {
+    border: 1px solid #DBD9C3;
+    box-sizing: border-box;
+    font-family: 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif;
+    padding: 8px;
+}
+
+.ql-editor.ql-blank {
+    border: 1px solid #DBD9C3;
+}
 </style>
+<div class="content-block">
+    <div class="header-bar">
+        <h2 class="dashboard-sub-title">
+            <img src="https://placehold.co/38x38/c60000/ffffff?text=Icon" alt="Icon"
+                style="width: 38px; margin-right: 8px; vertical-align: middle; font-weight: blod;">
+            Liste Des Activités Scientifiques
+        </h2>
+        <!-- Added "Ajouter un projet" button -->
+        <button class="add-project-btn">Ajouter une activité</button>
+    </div>
+
+    <hr class="section-divider">
+
+    <div class="filter-bar">
+        <div class="filter-inputs">
+            <!-- Search Input -->
+            <div class="input-with-icon">
+                <input class="filter-input" type="text" placeholder="Recherchez...">
+                <i class="fas fa-search icon right-icon search-field"></i>
+            </div>
+
+            <!-- Status Select -->
+            <div class="input-with-icon">
+                <select class="filter-select">
+                    <option value="" disabled selected>Type</option>
+                    <option>Terminé</option>
+                    <option>En cours</option>
+                </select>
+                <i class="fas fa-chevron-down icon right-icon"></i>
+            </div>
+
+            <!-- Date Input (Replaced Discipline) -->
+            <div class="input-with-icon">
+                <input class="filter-input date-input" type="text" placeholder="Année">
+                <i class="fas fa-calendar-alt icon right-icon"></i>
+            </div>
+        </div>
+
+        <div class="filter-actions">
+            <!-- Updated Icons -->
+            <button class="icon-btn" title="Filter">
+                <i class="fa fa-filter"></i>
+            </button>
+            <button class="icon-btn" title="Download">
+                <i class="fa fa-download"></i>
+            </button>
+        </div>
+    </div>
+
+
+    <table id="candidaturesTable" class="styled-table display">
+        <thead>
+            <tr>
+                <th><input type="checkbox" id="checkAll"></th>
+                <th>Type</th>
+                <th>Titre / Référence</th>
+                <th>Auteur principal</th>
+                <th>Année</th>
+                <th>Revue / Événement</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><input type="checkbox"></td>
+                <td>Article</td>
+                <td>"Deep Learning For EEG Analysis"</td>
+                <td>Dr. Sarra Messaoudi</td>
+                <td>2024</td>
+                <td>Journal of Neuroscience Tech</td>
+                <td>
+                    <div class="actions">
+                        <button class="action-btn">...</button>
+                        <div class="dropdown-menu">
+                            <a href="#">Modifier</a>
+                            <a href="#">Voir</a>
+                            <a href="#">Supprimer</a>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+
+            <tr>
+                <td><input type="checkbox"></td>
+                <td>Communication</td>
+                <td>"Traitement EEG Portable – BCI-Learn"</td>
+                <td>H. Lahmar</td>
+                <td>2024</td>
+                <td>Journée Neurosciences ISBM</td>
+                <td>
+                    <div class="actions">
+                        <button class="action-btn">...</button>
+                        <div class="dropdown-menu">
+                            <a href="#">Modifier</a>
+                            <a href="#">Voir</a>
+                            <a href="#">Supprimer</a>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+
+            <tr>
+                <td><input type="checkbox"></td>
+                <td>Encadrement Thèse</td>
+                <td>Thèse Doctorale – IA & Biocapteurs</td>
+                <td>Dr. Rym Nasri</td>
+                <td>2025</td>
+                <td>_</td>
+                <td>
+                    <div class="actions">
+                        <button class="action-btn">...</button>
+                        <div class="dropdown-menu">
+                            <a href="#">Modifier</a>
+                            <a href="#">Voir</a>
+                            <a href="#">Supprimer</a>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td><input type="checkbox"></td>
+                <td>Brevet</td>
+                <td>"Système Embarqué EEG 3 Canaux"</td>
+                <td>A. Ben Hmida</td>
+                <td>2023</td>
+                <td>INNORPI</td>
+                <td>
+                    <div class="actions">
+                        <button class="action-btn">...</button>
+                        <div class="dropdown-menu">
+                            <a href="#">Modifier</a>
+                            <a href="#">Voir</a>
+                            <a href="#">Supprimer</a>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<!-- Modal HTML -->
+<div class="modal-overlay" id="modalObjectifs" style="display: none;">
+    <div class="popup-container" id="popupContainerObjectifs">
+        <div class="popup-header">
+            <h2>Ajouter une activité</h2>
+            <button class="btn-enregistrer" id="btnSaveObjectifs">Enregistrer</button>
+        </div>
+        <form class="popup-form">
+            <div class="form-group">
+                <label for="typeActivite">Type</label>
+                <div class="input-with-icon">
+                    <select id="typeActivite">
+                        <option>Sélection..</option>
+                        <option value="">Article</option>
+                        <option value="">Communication</option>
+                        <option value="">Encadrement Thèse</option>
+                        <option value="">Brevet</option>
+                    </select>
+                    <i class="fas fa-chevron-down icon right-icon"></i>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="titreReference">Titre / Référence</label>
+                <input type="text" id="titreReference">
+            </div>
+
+            <div class="form-group">
+                <label for="auteurs">Auteurs</label>
+                <input type="text" id="auteurs">
+            </div>
+
+            <div class="form-group">
+                <label for="anneePublication">Année de publication</label>
+                <input type="text" id="anneePublication">
+            </div>
+
+            <div class="form-group">
+                <label for="sourceRevue">Source / Revue / Événement</label>
+                <input type="text" id="sourceRevue">
+            </div>
+
+            <div class="form-group">
+                <label for="pieceJointe">Pièce jointe (facultatif)</label>
+                <div class="input-file-wrapper">
+                    <input type="text" class="input-file-text" placeholder="Aucun fichier choisi" style="border:none;"
+                        readonly>
+                    <label for="fileUpload" class="btn-importer"><i class="fas fa-upload"></i> Importer</label>
+                    <input type="file" id="fileUpload" style="display:none;">
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+<!-- JS Libraries -->
+<script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.3.6/js/dataTables.buttons.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.3.6/js/buttons.colVis.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="https://cdn.quilljs.com/1.3.6/quill.min.js"></script>
+
+<!-- User-provided scripts combined -->
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     const filterButtons = document.querySelectorAll('.filter-btn');
 
     filterButtons.forEach(button => {
         button.addEventListener('click', function() {
-            // Retirer la classe 'active' de tous les boutons
             filterButtons.forEach(btn => btn.classList.remove('active'));
-
-            // Ajouter la classe 'active' au bouton cliqué
             this.classList.add('active');
-
-            // Optionnel : déclencher une action (filtrage)
             const selectedFilter = this.textContent.trim();
             console.log("Filtre sélectionné :", selectedFilter);
         });
     });
-});
-</script>
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    const buttons = document.querySelectorAll('.action-btn');
 
-    buttons.forEach(button => {
+    const actionButtons = document.querySelectorAll('.action-btn');
+    actionButtons.forEach(button => {
         button.addEventListener('click', function(e) {
-            e.stopPropagation(); // Ne pas fermer immédiatement
-
-            // Fermer tous les autres menus
+            e.stopPropagation();
             document.querySelectorAll('.dropdown-menu').forEach(menu => {
                 if (menu !== this.nextElementSibling) {
                     menu.style.display = 'none';
                 }
             });
-
-            // Toggle affichage du menu
             const menu = this.nextElementSibling;
             menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
         });
     });
 
-    // Clic en dehors -> fermer les menus
     document.addEventListener('click', function() {
         document.querySelectorAll('.dropdown-menu').forEach(menu => {
             menu.style.display = 'none';
         });
     });
-});
 
-
-$(document).ready(function() {
     $('#candidaturesTable').DataTable({
         paging: true,
         searching: false,
@@ -1451,17 +1648,53 @@ $(document).ready(function() {
             emptyTable: "Aucune donnée disponible"
         }
     });
+
+    // --- Modal Logic ---
+    function openmodalObjectifs() {
+        const modal = document.getElementById("modalObjectifs");
+        if (modal) {
+            modal.style.display = "flex";
+        } else {
+            console.error("Modal non trouvé : #modalObjectifs");
+        }
+    }
+
+    // Connect the "Ajouter un projet" button to the modal
+    const openBtn = document.querySelector('.add-project-btn');
+    if (openBtn) {
+        openBtn.addEventListener('click', openmodalObjectifs);
+    }
+
+    function closeModalObjectifs() {
+        const modal = document.getElementById("modalObjectifs");
+        if (modal) {
+            modal.style.display = "none";
+        }
+    }
+
+    const modal = document.getElementById("modalObjectifs");
+    const popup = document.getElementById("popupContainerObjectifs");
+
+    if (modal && popup) {
+        modal.addEventListener("click", function(e) {
+            // If the click is on the overlay (modal) but not on the content (popup), close it.
+            if (!popup.contains(e.target)) {
+                closeModalObjectifs();
+            }
+        });
+    }
+
+    // Logic for the custom file input
+    const fileUpload = document.getElementById('fileUpload');
+    const fileText = document.querySelector('.input-file-text');
+    if (fileUpload && fileText) {
+        fileUpload.addEventListener('change', function() {
+            if (this.files.length > 0) {
+                fileText.value = this.files[0].name;
+            } else {
+                fileText.value = 'Aucun fichier choisi';
+            }
+        });
+    }
 });
 </script>
-
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
-<!-- CSS DataTables -->
-<link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css">
-<link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.3.6/css/buttons.dataTables.min.css">
-
-<!-- JS DataTables et Buttons -->
-<script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
-<script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
-<script src="https://cdn.datatables.net/buttons/2.3.6/js/dataTables.buttons.min.js"></script>
-<script src="https://cdn.datatables.net/buttons/2.3.6/js/buttons.colVis.min.js"></script>
