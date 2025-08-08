@@ -92,7 +92,7 @@
                     <div class="actions">
                         <button class="action-btn">...</button>
                         <div class="dropdown-menu">
-                            <a href="http://wordpress.test:8080/etat-davancement-des-projets-fiche-projet/">Fiche
+                            <a href="/etat-davancement-des-projets-fiche-projet/">Fiche
                                 projet</a>
                         </div>
                     </div>
@@ -121,7 +121,7 @@
                     <div class="actions">
                         <button class="action-btn">...</button>
                         <div class="dropdown-menu">
-                            <a href="http://wordpress.test:8080/etat-davancement-des-projets-fiche-projet/">Fiche
+                            <a href="/etat-davancement-des-projets-fiche-projet/">Fiche
                                 projet</a>
                         </div>
                     </div>
@@ -151,7 +151,7 @@
                     <div class="actions">
                         <button class="action-btn">...</button>
                         <div class="dropdown-menu">
-                            <a href="http://wordpress.test:8080/etat-davancement-des-projets-fiche-projet/">Fiche
+                            <a href="/etat-davancement-des-projets-fiche-projet/">Fiche
                                 projet</a>
                         </div>
                     </div>
@@ -180,7 +180,7 @@
                     <div class="actions">
                         <button class="action-btn">...</button>
                         <div class="dropdown-menu">
-                            <a href="http://wordpress.test:8080/etat-davancement-des-projets-fiche-projet/">Fiche
+                            <a href="/etat-davancement-des-projets-fiche-projet/">Fiche
                                 projet</a>
                         </div>
                     </div>

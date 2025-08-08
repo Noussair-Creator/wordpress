@@ -85,7 +85,7 @@
                         <button class="action-btn">...</button>
                         <div class="dropdown-menu">
                             <a href="#">Modifier</a>
-                            <a href="http://wordpress.test:8080/membres-de-laboratoire-fiche-dun-membre/">Détail</a>
+                            <a href="/membres-de-laboratoire-fiche-dun-membre/">Détail</a>
                         </div>
                     </div>
                 </td>
@@ -109,7 +109,7 @@
                         <button class="action-btn">...</button>
                         <div class="dropdown-menu">
                             <a href="#">Modifier</a>
-                            <a href="http://wordpress.test:8080/membres-de-laboratoire-fiche-dun-membre/">Détail</a>
+                            <a href="/membres-de-laboratoire-fiche-dun-membre/">Détail</a>
                         </div>
                     </div>
                 </td>
@@ -132,7 +132,7 @@
                         <button class="action-btn">...</button>
                         <div class="dropdown-menu">
                             <a href="#">Modifier</a>
-                            <a href="http://wordpress.test:8080/membres-de-laboratoire-fiche-dun-membre/">Détail</a>
+                            <a href="/membres-de-laboratoire-fiche-dun-membre/">Détail</a>
                         </div>
                     </div>
                 </td>
@@ -155,7 +155,7 @@
                         <button class="action-btn">...</button>
                         <div class="dropdown-menu">
                             <a href="#">Modifier</a>
-                            <a href="http://wordpress.test:8080/membres-de-laboratoire-fiche-dun-membre/">Détail</a>
+                            <a href="/membres-de-laboratoire-fiche-dun-membre/">Détail</a>
                         </div>
                     </div>
                 </td>

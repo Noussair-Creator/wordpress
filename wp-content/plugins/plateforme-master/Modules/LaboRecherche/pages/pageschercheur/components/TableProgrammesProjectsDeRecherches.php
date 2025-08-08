@@ -1483,7 +1483,7 @@ form.popup-form {
                         <button class="action-btn">...</button>
                         <div class="dropdown-menu">
                             <a href="#">Modifier</a>
-                            <a href="http://wordpress.test:8080/details-programmes-projets-de-recherches/">Voir</a>
+                            <a href="/details-programmes-projets-de-recherches/">Voir</a>
                         </div>
                     </div>
                 </td>
@@ -1502,7 +1502,7 @@ form.popup-form {
                         <button class="action-btn">...</button>
                         <div class="dropdown-menu">
                             <a href="#">Modifier</a>
-                            <a href="http://wordpress.test:8080/details-programmes-projets-de-recherches/">Voir</a>
+                            <a href="/details-programmes-projets-de-recherches/">Voir</a>
                         </div>
                     </div>
                 </td>
@@ -1521,7 +1521,7 @@ form.popup-form {
                         <button class="action-btn">...</button>
                         <div class="dropdown-menu">
                             <a href="#">Modifier</a>
-                            <a href="http://wordpress.test:8080/details-programmes-projets-de-recherches/">Voir</a>
+                            <a href="/details-programmes-projets-de-recherches/">Voir</a>
                         </div>
                     </div>
                 </td>
