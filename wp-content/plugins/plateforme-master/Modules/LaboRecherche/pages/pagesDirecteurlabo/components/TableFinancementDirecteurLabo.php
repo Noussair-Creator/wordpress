@@ -410,7 +410,7 @@ body {
                         <button class="action-btn">...</button>
                         <div class="dropdown-menu">
                             <a href="#">Télécharger justificatif</a>
-                            <a href="/financement-fiche-de-financement">Détail</a>
+                            <a href="/financement-fiche-de-financement-directeur-labo">Détail</a>
                         </div>
                     </div>
                 </td>
@@ -435,7 +435,7 @@ body {
                         <button class="action-btn">...</button>
                         <div class="dropdown-menu">
                             <a href="#">Télécharger justificatif</a>
-                            <a href="/financement-fiche-de-financement">Détail</a>
+                            <a href="/financement-fiche-de-financement-directeur-labo">Détail</a>
                         </div>
                     </div>
                 </td>
@@ -460,7 +460,7 @@ body {
                         <button class="action-btn">...</button>
                         <div class="dropdown-menu">
                             <a href="#">Télécharger justificatif</a>
-                            <a href="/financement-fiche-de-financement">Détail</a>
+                            <a href="/financement-fiche-de-financement-directeur-labo">Détail</a>
                         </div>
                     </div>
                 </td>

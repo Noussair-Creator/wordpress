@@ -66,6 +66,7 @@ require_once plugin_dir_path(__FILE__) . '../requireApi.php';
                     <!-- Card Grid (modules) -->
 
 
+                    <?php include 'components/statMembresDeLaboratoire.php'; ?>
                     <?php include 'components/TableMembresDeLaboratoire.php'; ?>
 
 
