@@ -629,6 +629,48 @@ function plateforme_content($content)
             }
         }
     }
+
+    // 🔁 Chargement automatique des pages pour Directeur de Thèse (DT)
+    $pages_DT = [
+        'mes-doctorants_directeurth',
+        'fiche-individuelle-du-doctorant_directeurth',
+        'planning-des-r-eunions_directeurth',
+        'fiche-candidatures-ed_directeurth',
+        'evaluations-et-rapports_directeurth',
+        'fiche-d-evaluation-annuelle_directeurth',
+        'suivi-des-d-ep-ots_directeurth',
+        'fiche-de-d-ep-ot_directeurth',
+        'progression_directeurth',
+        'planification-des-soutenances_directeurth',
+        'publications-et-communications_directeurth',
+    ];
+
+    foreach ($pages_DT as $page_slug) {
+        if (is_page($page_slug)) {
+            if (is_user_logged_in()) {
+                $current_user = wp_get_current_user();
+                // You might want to adjust these roles as needed
+                $allowed_roles = ['um_directeur_these', 'um_service-etablissement', 'um_service-utm'];
+
+                if (array_intersect($allowed_roles, $current_user->roles)) {
+                    // The filename should match the slug exactly
+                    $file_path = plugin_dir_path(__FILE__) . 'Modules/ED/pages/pagesDT/' . $page_slug . '.php';
+
+                    if (file_exists($file_path)) {
+                        include $file_path;
+                        exit; // Important to stop further execution
+                    } else {
+                        wp_die("❌ Le fichier <code>{$page_slug}.php</code> est introuvable.");
+                    }
+                } else {
+                    plateforme_redirect_home();
+                }
+            } else {
+                plateforme_redirect_home();
+            }
+        }
+    }
+
     // Chargement automatique des pages LaboRecherche pour le rôle um_chercheur
     $chercheur_pages = [
         'programmes-projects-de-recherches' => 'ProgrammesProjectsDeRecherches.php',
@@ -1351,6 +1393,47 @@ function pm_template_override()
                         exit;
                     } else {
                         wp_die("❌ Le fichier <code>$page_slug.php</code> est introuvable dans <code>pagesED</code>.");
+                    }
+                } else {
+                    plateforme_redirect_home();
+                }
+            } else {
+                plateforme_redirect_home();
+            }
+        }
+    }
+
+    // 🔁 Chargement automatique des pages pour Directeur de Thèse (DT)
+    $pages_DT = [
+        'mes-doctorants_directeurth',
+        'fiche-individuelle-du-doctorant_directeurth',
+        'planning-des-r-eunions_directeurth',
+        'fiche-candidatures-ed_directeurth',
+        'evaluations-et-rapports_directeurth',
+        'fiche-d-evaluation-annuelle_directeurth',
+        'suivi-des-d-ep-ots_directeurth',
+        'fiche-de-d-ep-ot_directeurth',
+        'progression_directeurth',
+        'planification-des-soutenances_directeurth',
+        'publications-et-communications_directeurth',
+    ];
+
+    foreach ($pages_DT as $page_slug) {
+        if (is_page($page_slug)) {
+            if (is_user_logged_in()) {
+                $current_user = wp_get_current_user();
+                // You might want to adjust these roles as needed
+                $allowed_roles = ['um_directeur_these', 'um_service-etablissement', 'um_service-utm'];
+
+                if (array_intersect($allowed_roles, $current_user->roles)) {
+                    // The filename should match the slug exactly
+                    $file_path = plugin_dir_path(__FILE__) . 'Modules/ED/pages/pagesDT/' . $page_slug . '.php';
+
+                    if (file_exists($file_path)) {
+                        include $file_path;
+                        exit; // Important to stop further execution
+                    } else {
+                        wp_die("❌ Le fichier <code>{$page_slug}.php</code> est introuvable.");
                     }
                 } else {
                     plateforme_redirect_home();
