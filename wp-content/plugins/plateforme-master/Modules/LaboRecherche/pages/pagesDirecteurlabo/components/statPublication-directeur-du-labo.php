@@ -1,12 +1,11 @@
 <div class="statistiques-wrapper">
     <div class="header-bar">
         <h2 class="dashboard-sub-title">
-            <img src="/wp-content/plugins/plateforme-master/images/ed/1170616.png" alt="Icon"
+            <img src="/wp-content/plugins/plateforme-master/images/ed/16406436.png" alt="Icon"
                 style="width: 38px; margin-right: 8px; vertical-align: middle;">
-            <span>Statistiques Générales</span>
+            Statistiques Générales
         </h2>
-        <button class="btn-report"><i class="fa-solid fa-arrows-rotate fa-lg"></i> Générer un rapport
-            global</button>
+        <button class="btn-report"><i class="fa fa-file-alt"></i> Générer un rapport global</button>
     </div>
 
     <hr class="section-divider">
@@ -15,19 +14,19 @@
         <!-- Gauche -->
         <div class="left-stats">
             <div class="stat-box">
-                <span class="label">Doctorants avec progression ≥ 70%</span>
-                <span class="value">2/6</span>
+                <span class="label">Publications Publiées </span>
+                <span class="value">15</span>
             </div>
             <div class="stat-box">
-                <span class="label">Moyenne de progression globale</span>
-                <span class="value">61%</span>
+                <span class="label">Total des publications</span>
+                <span class="value">22</span>
             </div>
         </div>
 
         <!-- Droite -->
         <div class="right-graph">
             <div class="graph-header">
-                <h4>Répartition des taux de progression</h4>
+                <h4>Répartition par statut des publications</h4>
                 <select class="graph-select">
                     <option>2024 - 2025</option>
                 </select>
@@ -49,13 +48,12 @@
 .header-bar {
     display: flex;
     justify-content: space-between;
+    align-items: center;
 }
 
 .dashboard-sub-title {
-    font-weight: 500 !important;
+    font-weight: bold;
     font-size: 24px;
-    display: flex;
-    align-items: center;
 }
 
 .statistiques-wrapper {
@@ -88,11 +86,11 @@
     background: #fff;
     padding: 6px 14px;
     border-radius: 6px;
-    font-size: 15px;
+    font-size: 14px;
     cursor: pointer;
     display: flex;
     align-items: center;
-    gap: 15px;
+    gap: 6px;
     font-weight: 500;
 }
 
@@ -123,10 +121,10 @@
 }
 
 .stat-box .label {
-    font-weight: 500;
+    font-weight: 700;
     font-size: 19px;
-    width: 240px;
-    height: 40px;
+    /* width: 212px; */
+    /* height: 40px; */
     text-align: left;
     /* font: normal normal bold 15px / 20px Roboto; */
     letter-spacing: 0px;
@@ -137,7 +135,7 @@
     background: #f1f1f1;
     border-radius: 6px;
     padding: 4px 10px;
-    font-weight: 500;
+    font-weight: bold;
     font-size: 18px;
 }
 
@@ -327,7 +325,7 @@ span.label {
     background: #ECEBE3;
     border-radius: 6px;
     padding: 9px 8px;
-    /* font-weight: bold; */
+    font-weight: bold;
     font-size: 21px;
     min-width: 51px;
     text-align: center;
@@ -350,7 +348,7 @@ span.label {
 .graph-header h4 {
     font-size: 18px;
     margin: 0;
-    font-weight: 400;
+    font-weight: bold;
 }
 
 .graph-select {
@@ -436,9 +434,9 @@ span.label {
 <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
 
 <script>
-const labels = ['0 – 30 %', '31 – 50 %', '51 – 70 %', '71 – 100 %'];
-const dataValues = [50, 20, 10, 20];
-const colors = ['#808066', '#dabebe', '#BF0404', '#FFD54F'];
+const labels = ['En attente', 'Publiée', 'Rejetée'];
+const dataValues = [72, 14, 17];
+const colors = ['#808066', '#b1342f', '#dabebe'];
 
 const ctx = document.getElementById('pieChart').getContext('2d');
 const myChart = new Chart(ctx, {

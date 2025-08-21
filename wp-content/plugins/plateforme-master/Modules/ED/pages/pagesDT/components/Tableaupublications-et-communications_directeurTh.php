@@ -1015,10 +1015,20 @@ thead {
 
 #candidaturesTable th {
     border: 0px solid #EBE9D7;
+    text-align: center
+}
+
+
+#candidaturesTable td:nth-child(2),
+#candidaturesTable th:nth-child(2),
+#candidaturesTable td:nth-child(3),
+#candidaturesTable th:nth-child(3) {
+    text-align: left;
 }
 
 #candidaturesTable td {
     border: 1px solid #EBE9D7;
+    text-align: center;
 }
 
 #candidaturesTable thead {

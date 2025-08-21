@@ -23,37 +23,42 @@
                 <td>CV</td>
                 <td>✔️ Validé </td>
                 <td>12/11/2021</td>
-                <td><img src="/wp-content/plugins/plateforme-master/imagesED/pdf-svgrepo-com (2).png" alt=""></td>
+                <td><img style="width: 28px;"
+                        src="/wp-content/plugins/plateforme-master/imagesED/pdf-svgrepo-com (2).png" alt=""></td>
             </tr>
             <tr>
                 <td>Projet de recherche</td>
                 <td>✔️ Validé </td>
                 <td>18/11/2021</td>
-                <td><img src="/wp-content/plugins/plateforme-master/imagesED/pdf-svgrepo-com (2).png" alt=""></td>
+                <td><img style="width: 28px;"
+                        src="/wp-content/plugins/plateforme-master/imagesED/pdf-svgrepo-com (2).png" alt=""></td>
             </tr>
             <tr>
                 <td>Rapport semestriel 1</td>
                 <td>✔️ Validé </td>
                 <td>01/04/2022</td>
-                <td><img src="/wp-content/plugins/plateforme-master/imagesED/pdf-svgrepo-com (2).png" alt=""></td>
+                <td><img style="width: 28px;"
+                        src="/wp-content/plugins/plateforme-master/imagesED/pdf-svgrepo-com (2).png" alt=""></td>
             </tr>
             <tr>
                 <td>Rapport semestriel 2</td>
                 <td>❌ Manquant </td>
                 <td>_</td>
-                <td><img src="/wp-content/plugins/plateforme-master/imagesED/pdf-svgrepo-com (2).png" alt=""></td>
+                <td>_</td>
             </tr>
             <tr>
                 <td>Convention cotutelle signée</td>
                 <td>✔️ Disponible </td>
                 <td>25/03/2022</td>
-                <td><img src="/wp-content/plugins/plateforme-master/imagesED/pdf-svgrepo-com (2).png" alt=""></td>
+                <td><img style="width: 28px;"
+                        src="/wp-content/plugins/plateforme-master/imagesED/pdf-svgrepo-com (2).png" alt=""></td>
             </tr>
             <tr>
                 <td>Dernière attestation d’inscription</td>
                 <td>✔️ À Jour </td>
                 <td>12/10/2024</td>
-                <td><img src="/wp-content/plugins/plateforme-master/imagesED/pdf-svgrepo-com (2).png" alt=""></td>
+                <td><img style="width: 28px;"
+                        src="/wp-content/plugins/plateforme-master/imagesED/pdf-svgrepo-com (2).png" alt=""></td>
             </tr>
         </tbody>
     </table>
@@ -1019,7 +1024,7 @@ thead {
 #candidaturesTable thead tr:first-child th:last-child {
     border-top-right-radius: 12px;
     border-bottom-right-radius: 12px;
-
+    text-align: center;
 }
 
 #candidaturesTable tbody tr:last-child td:first-child {

@@ -591,7 +591,7 @@ function plateforme_content($content)
             }
         }
     }
-    // 🔁 Chargement automatique des pages ED dynamiques
+    // 🔁 Chargement automatique des pages DL dynamiques
     $pages_DL = [
         'reservation-des-equipements-et-salles',
         'programmes-et-projets-de-recherches',
@@ -609,6 +609,10 @@ function plateforme_content($content)
         'membre-de-labo',
         'membre-de-labo-fiche-membre',
         'fiche-labo',
+        // Ajout des pages pour Directeur de Labo
+        'publication-directeur-du-labo',
+        'ajouter-une-publication-directeur-du-labo',
+        'details-publication-directeur-du-labo',
     ];
 
     foreach ($pages_DL as $page_slug) {
@@ -688,6 +692,9 @@ function plateforme_content($content)
         'membres-de-laboratoire-fiche-dun-membre' => 'MembresDeLaboratoireFicheDunMembre.php',
         'fiche-details-du-laboratoire-lsama' => 'FicheDetailsDuLaboratoireLsama.php',
         'etat-davancement-des-projets-fiche-projet' => 'EtatDavancementDesProjetsFicheProjet.php',
+        // Ajoutez 2 pages publications & ajouter-une-publication
+        'publications-chercheur' => 'Publications.php',
+        'ajouter-une-publication-chercheur' => 'AjouterUnePublication.php',
     ];
 
     foreach ($chercheur_pages as $page_slug => $php_file) {
@@ -1161,6 +1168,9 @@ function pm_template_override()
         'membres-de-laboratoire-fiche-dun-membre' => 'MembresDeLaboratoireFicheDunMembre.php',
         'fiche-details-du-laboratoire-lsama' => 'FicheDetailsDuLaboratoireLsama.php',
         'etat-davancement-des-projets-fiche-projet' => 'EtatDavancementDesProjetsFicheProjet.php',
+        // Ajoutez 2 pages publications & ajouter-une-publication
+        'publications-chercheur' => 'Publications.php',
+        'ajouter-une-publication-chercheur' => 'AjouterUnePublication.php',
     ];
 
     foreach ($chercheur_pages as $page_slug => $filename) {
@@ -1359,7 +1369,7 @@ function pm_template_override()
             }
         }
     }
-    // 🔁 Chargement automatique des pages ED dynamiques
+    // 🔁 Chargement automatique des pages DL dynamiques
     $pages_DL = [
         'reservation-des-equipements-et-salles',
         'programmes-et-projets-de-recherches',
@@ -1377,6 +1387,11 @@ function pm_template_override()
         'membre-de-labo',
         'membre-de-labo-fiche-membre',
         'fiche-labo',
+        // Ajout des pages pour Directeur de Labo
+        'publication-directeur-du-labo',
+        'ajouter-une-publication-directeur-du-labo',
+        'details-publication-directeur-du-labo'
+
     ];
 
     foreach ($pages_DL as $page_slug) {
@@ -1392,7 +1407,7 @@ function pm_template_override()
                         include $file;
                         exit;
                     } else {
-                        wp_die("❌ Le fichier <code>$page_slug.php</code> est introuvable dans <code>pagesED</code>.");
+                        wp_die("❌ Le fichier <code>$page_slug.php</code> est introuvable dans <code>pagesDL</code>.");
                     }
                 } else {
                     plateforme_redirect_home();
@@ -1443,11 +1458,6 @@ function pm_template_override()
             }
         }
     }
-
-
-
-
-
 
 }
 

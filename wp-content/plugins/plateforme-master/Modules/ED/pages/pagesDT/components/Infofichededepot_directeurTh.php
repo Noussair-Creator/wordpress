@@ -2,8 +2,8 @@
 /* General Body Style */
 
 .content-wrapper {
-    padding: 20px;
-    max-width: 1200px;
+    padding: 20px 30px 0px;
+    /* max-width: 1200px; */
     margin: auto;
 }
 

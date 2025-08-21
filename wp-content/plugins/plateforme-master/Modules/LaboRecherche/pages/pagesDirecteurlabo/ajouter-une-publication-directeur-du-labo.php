@@ -1,8 +1,8 @@
 <?php
 $role = $role ?? "service";
-require_once 'config/roles.php';
+require_once plugin_dir_path(__FILE__) . '../config/roles.php';
 
-require_once 'requireApi.php';
+require_once plugin_dir_path(__FILE__) . '../requireApi.php';
 
 ?>
 
@@ -11,7 +11,7 @@ require_once 'requireApi.php';
 
 <head>
     <meta charset="UTF-8">
-    <title>Dashboard - Laboratoire de recherche</title>
+    <title>Ajouter Une Publication</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
@@ -19,11 +19,9 @@ require_once 'requireApi.php';
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-    <!-- DataTables CSS -->
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css" />
-    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.3.6/css/buttons.dataTables.min.css">
-    <!-- Quill CSS -->
-    <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+
+
+
 
 
 
@@ -66,19 +64,8 @@ require_once 'requireApi.php';
                 <?php include 'components/Dashboard-Bar.php'; ?>
 
                 <div class="content p-4">
-                    <!-- Top Boxes (disponibilités, calendriers, carrousel) -->
-                    <?php include 'components/Top-Boxes.php'; ?>
 
-                    <!-- Stats Graphs (3 graphiques) -->
-                    <?php include 'components/stats/Stat-Box.php'; ?>
-
-
-                    <!-- Card Grid (modules) -->
-                    <?php include 'components/Card-Grid.php'; ?>
-
-
-                    <?php include 'components/actualite_manifestations.php'; ?>
-                    <?php include 'components/box_liens.php'; ?>
+                    <?php include 'components/ajouter-une-publication-directeur-du-labo.php'; ?>
 
 
 

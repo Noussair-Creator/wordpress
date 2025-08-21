@@ -115,7 +115,7 @@ $roleConfigs = [
             ["label" => "Projets", "lien" => "#"],
             ["label" => "Activités", "lien" => "#"],
             ["label" => "Bibliothèque", "lien" => "#"],
-            ["label" => "Publications", "lien" => "#"],
+            ["label" => "Publications", "lien" => "/publications-chercheur"],
             ["label" => "Partnerships", "lien" => "#"],
             ["label" => "Budgets", "lien" => "#"],
             ["label" => "Rapports", "lien" => "#"],
