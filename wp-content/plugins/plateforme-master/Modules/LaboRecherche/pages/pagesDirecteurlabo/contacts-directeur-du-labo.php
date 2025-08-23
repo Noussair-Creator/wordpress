@@ -11,7 +11,7 @@ require_once plugin_dir_path(__FILE__) . '../requireApi.php';
 
 <head>
     <meta charset="UTF-8">
-    <title>Publication</title>
+    <title>Contacts</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
@@ -19,12 +19,6 @@ require_once plugin_dir_path(__FILE__) . '../requireApi.php';
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-
-
-
-
-
-
 
     <style>
     :root {
@@ -65,10 +59,7 @@ require_once plugin_dir_path(__FILE__) . '../requireApi.php';
 
                 <div class="content p-4">
 
-                    <?php include 'components/statPublication-directeur-du-labo.php'; ?>
-                    <?php include 'components/TablePublication-directeur-du-labo.php'; ?>
-
-
+                    <?php include 'components/contacts-directeur-du-labo.php'; ?>
 
                 </div>
             </div>
@@ -77,6 +68,7 @@ require_once plugin_dir_path(__FILE__) . '../requireApi.php';
 
     <!-- Scripts -->
     <?php include 'components/scripts.php'; ?>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 
 </html>

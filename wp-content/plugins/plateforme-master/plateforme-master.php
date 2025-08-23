@@ -570,7 +570,12 @@ function plateforme_content($content)
         'conventions-de-cotutelle-commentaire',
         'admissions-doctorants-etrangers',
         'admissions-doctorants-etrangers-dossier',
-        'admissions-doctorants-etrangers-1'
+        'admissions-doctorants-etrangers-1',
+        // Ajouter d'auteres pages ici
+        'soutenances-ecole-doctorale',
+        'commission-doctorale-ecole-doctorale',
+        'contacts-ecole-doctorale',
+        'inscription-reinscription-ecole-doctorale',
     ];
 
     foreach ($pages_ed as $page_slug) {
@@ -613,6 +618,7 @@ function plateforme_content($content)
         'publication-directeur-du-labo',
         'ajouter-une-publication-directeur-du-labo',
         'details-publication-directeur-du-labo',
+        'contacts-directeur-du-labo',
     ];
 
     foreach ($pages_DL as $page_slug) {
@@ -1343,7 +1349,12 @@ function pm_template_override()
         'conventions-de-cotutelle-commentaire',
         'admissions-doctorants-etrangers',
         'admissions-doctorants-etrangers-dossier',
-        'admissions-doctorants-etrangers-1'
+        'admissions-doctorants-etrangers-1',
+        // Ajouter d'auteres pages ici
+        'soutenances-ecole-doctorale',
+        'commission-doctorale-ecole-doctorale',
+        'contacts-ecole-doctorale',
+        'inscription-reinscription-ecole-doctorale',
     ];
 
     foreach ($pages_ed as $page_slug) {
@@ -1390,7 +1401,8 @@ function pm_template_override()
         // Ajout des pages pour Directeur de Labo
         'publication-directeur-du-labo',
         'ajouter-une-publication-directeur-du-labo',
-        'details-publication-directeur-du-labo'
+        'details-publication-directeur-du-labo',
+        'contacts-directeur-du-labo',
 
     ];
 

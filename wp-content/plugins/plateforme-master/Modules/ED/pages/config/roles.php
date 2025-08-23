@@ -19,16 +19,16 @@ $roleConfigs = [
         "menu" => [
             ["label" => "Dashboard", "lien" => "/espace-ecole-doctorale"],
             ["label" => "Membres", "lien" => "#"],
-            ["label" => "Inscription & Réinscription", "lien" => "#"],
-            ["label" => "Commissions doctorales", "lien" => "#"],
-            ["label" => "Soutenances", "lien" => "#"],
+            ["label" => "Inscription & Réinscription", "lien" => "/inscription-reinscription-ecole-doctorale"],
+            ["label" => "Commissions doctorales", "lien" => "/commission-doctorale-ecole-doctorale"],
+            ["label" => "Soutenances", "lien" => "/soutenances-ecole-doctorale"],
             ["label" => "Habilitations", "lien" => "#"],
             ["label" => "Établissements & Structures", "lien" => "#"],
             ["label" => "Statistiques", "lien" => "#"],
             ["label" => "Rapports", "lien" => "#"],
             ["label" => "Bibliothèque", "lien" => "#"],
             ["label" => "Budgets", "lien" => "#"],
-            ["label" => "Contacts", "lien" => "#"],
+            ["label" => "Contacts", "lien" => "/contacts-ecole-doctorale"],
             ["label" => "Réclamations", "lien" => "#"]
         ],
         "calendriers" => [

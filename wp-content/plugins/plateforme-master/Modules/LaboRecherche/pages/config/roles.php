@@ -49,12 +49,12 @@ $roleConfigs = [
             ["label" => "Projets", "lien" => "#"],
             ["label" => "Activités", "lien" => "#"],
             ["label" => "Bibliothèque", "lien" => "#"],
-            ["label" => "Publications", "lien" => "#"],
+            ["label" => "Publications", "lien" => "/publication-directeur-du-labo"],
             ["label" => "Partenariats", "lien" => "#"],
             ["label" => "Budgets", "lien" => "#"],
             ["label" => "Rapports", "lien" => "#"],
             ["label" => "Réunions", "lien" => "#"],
-            ["label" => "Contacts", "lien" => "#"],
+            ["label" => "Contacts", "lien" => "/contacts-directeur-du-labo"],
             ["label" => "Réclamations", "lien" => "#"]
         ],
         "calendriers" => [

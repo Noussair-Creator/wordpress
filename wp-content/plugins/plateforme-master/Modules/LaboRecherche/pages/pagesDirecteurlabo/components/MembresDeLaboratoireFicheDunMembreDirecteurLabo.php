@@ -1,8 +1,8 @@
 <style>
 .content-wrapper {
     padding: 25px;
-    max-width: 900px;
-    margin: 2rem auto;
+    /* max-width: 900px;
+    margin: 2rem auto; */
 }
 
 .card {

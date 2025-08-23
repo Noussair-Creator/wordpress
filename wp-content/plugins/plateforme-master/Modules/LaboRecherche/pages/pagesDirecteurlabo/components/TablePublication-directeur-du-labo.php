@@ -1,10 +1,4 @@
 <style>
-body {
-    background-color: #f0f2f5;
-    font-family: 'Segoe UI', sans-serif;
-    padding: 20px;
-}
-
 .accordion-container {
     border-radius: 12px;
     box-shadow: 0 0 8px rgba(0, 0, 0, 0.05);

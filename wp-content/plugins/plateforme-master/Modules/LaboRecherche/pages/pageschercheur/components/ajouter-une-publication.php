@@ -14,10 +14,14 @@
 h2 {
     font-size: 1.25rem;
     font-weight: bold;
-    margin: 20px;
-    padding: 10px 10px 5px;
+    margin: 5px 20px;
+    padding: 6px 10px 5px 10px;
     color: #333;
     border: hidden;
+}
+
+#h2top {
+    margin-top: 40px;
 }
 
 .bg {
@@ -135,7 +139,7 @@ h2:not(:first-of-type) {
     cursor: pointer;
     /* margin-left: auto; */
     font-size: 20px;
-    padding: 1px 9px 4px;
+    padding: 10px;
     border-radius: 50%;
 }
 
@@ -207,7 +211,7 @@ h2:not(:first-of-type) {
 
     <!-- Associated Documents Section -->
     <div class="bg">
-        <h2>Documents associés</h2>
+        <h2 id="h2top">Documents associés</h2>
     </div>
     <!-- <hr class="shodow-lg under-line"> -->
     <label for="fileImport" class="form-label">Pièces jointes</label>
@@ -219,20 +223,24 @@ h2:not(:first-of-type) {
     <ul class="file-list" id="fileList">
         <!-- Dynamically added files will appear here -->
         <li class="file-list-item" data-filename="Deeplearning_BCI_Systems.Pdf">
-            <i class="fas fa-file-pdf"></i>
+            <img style="width: 30px;" src="/wp-content/plugins/plateforme-master/imagesED//pdf-svgrepo-com (2).png"
+                alt="fichier PDF">
             <span>Deeplearning_BCI_Systems.Pdf</span>
-            <button class="btn-remove-file" onclick="removeFile(this)">&times;</button>
+            <button class="btn-remove-file" onclick="removeFile(this)"><img style="width: 10px;"
+                    src="/wp-content/plugins/plateforme-master/imagesED/.-blanc.png" alt="X icon"></button>
         </li>
         <li class="file-list-item" data-filename="Poster_BCI2025.Pdf">
-            <i class="fas fa-file-pdf"></i>
+            <img style="width: 30px;" src="/wp-content/plugins/plateforme-master/imagesED//pdf-svgrepo-com (2).png"
+                alt="fichier PDF">
             <span>Poster_BCI2025.Pdf</span>
-            <button class="btn-remove-file" onclick="removeFile(this)">&times;</button>
+            <button class="btn-remove-file" onclick="removeFile(this)"><img style="width: 10px;"
+                    src="/wp-content/plugins/plateforme-master/imagesED/.-blanc.png" alt="X icon"></button>
         </li>
     </ul>
 
     <!-- Additional Comments Section -->
     <div class="bg">
-        <h2>Commentaire complémentaire (optionnel)</h2>
+        <h2 id="h2top">Commentaire complémentaire (optionnel)</h2>
     </div>
     <!-- <hr class="shodow-lg under-line"> -->
     <div class="mb-3">
