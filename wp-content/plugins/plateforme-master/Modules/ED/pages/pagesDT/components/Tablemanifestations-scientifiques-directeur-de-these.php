@@ -1,6 +1,13 @@
+<!-- Font Awesome for icons -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<!-- DataTables CSS -->
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
+<!-- Quill CSS -->
+<link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
 <style>
 .dashboard-sub-title {
-    font-weight: 500 !important;
+    font-size: 20px;
+    font-weight: 700 !important;
 }
 
 .filter-bar {
@@ -486,6 +493,10 @@
     border-bottom: 1px solid #eee;
 }
 
+.styled-table .text-center {
+    text-align: center;
+}
+
 .styled-table tr:last-child td {
     border-bottom: none;
 }
@@ -545,7 +556,7 @@
     transition: background-color 0.2s;
 }
 
-.dropdown-menu a:first-child {
+.dropdown-menu a:not(:last-child) {
     border-bottom: 1px solid #A6A4853D;
 }
 
@@ -587,6 +598,10 @@
 }
 
 .dataTables_wrapper .dataTables_paginate .ellipsis {
+    display: none;
+}
+
+.dataTables_length {
     display: none;
 }
 
@@ -1014,10 +1029,12 @@ thead {
 
 #candidaturesTable th {
     border: 0px solid #EBE9D7;
+    text-align: center;
 }
 
 #candidaturesTable td {
     border: 1px solid #EBE9D7;
+    text-align: center;
 }
 
 #candidaturesTable thead {
@@ -1026,10 +1043,15 @@ thead {
     transform: translateY(-15px);
 }
 
-#candidaturesTable tbody tr:first-child td {
+#candidaturesTable tbody tr:first-child td:first-child {
     border-top: 1px solid #EBE9D7 !important;
 }
 
+/*
+#candidaturesTable tbody tr:first-child td {
+text-align: left;
+}
+*/
 #candidaturesTable {
     border-collapse: separate;
     border-spacing: 0;
@@ -1270,7 +1292,7 @@ form.popup-form {
 }
 
 /* .popup-form .form-group input[type="file"] {
-    border: none;
+border: none;
 } */
 
 .popup-form .form-group textarea {
@@ -1365,18 +1387,18 @@ form.popup-form {
     border: 1px solid #DBD9C3;
 }
 </style>
-
-
 <div class="content-block">
     <div class="header-bar">
         <h2 class="dashboard-sub-title">
-            <img src="/wp-content/plugins/plateforme-master/images/ed/16406436.png" alt="Icon"
+            <img src="/wp-content/plugins/plateforme-master/imagesED/5228529.png" alt="Icon"                
                 style="width: 38px; margin-right: 8px; vertical-align: middle; font-weight: blod;">
             Liste Des Manifestations Scientifiques
         </h2>
         <!-- This button will open the modal -->
-        <button class="add-project-btn">Ajouter une activité</button>
+        <a href="/declarer-une-participation-directeur-de-these" class="add-project-btn">Déclarer Une
+            Participation</a>
     </div>
+
 
     <hr class="section-divider">
 
@@ -1391,11 +1413,9 @@ form.popup-form {
             <!-- Status Select -->
             <div class="input-with-icon">
                 <select class="filter-select">
-                    <option value="" disabled selected>Type De Dépôt</option>
-                    <option>Rapport S4</option>
-                    <option>Thèse Finale</option>
-                    <option>Rapport S1</option>
-
+                    <option value="" disabled selected>Mode</option>
+                    <option>Présentiel</option>
+                    <option>En Ligne</option>
                 </select>
                 <i class="fas fa-chevron-down icon right-icon"></i>
             </div>
@@ -1403,10 +1423,10 @@ form.popup-form {
             <!-- Date Input (Replaced Discipline) -->
             <div class="input-with-icon">
                 <select class="filter-select">
-                    <option value="" disabled selected>Statut</option>
-                    <option>Déposé</option>
-                    <option>Manquant</option>
-                    <option>À vérifier</option>
+                    <option value="" disabled selected>Type</option>
+                    <option>Séminaire</option>
+                    <option>Colloque</option>
+                    <option>École D'été</option>
                 </select>
                 <i class="fas fa-chevron-down icon right-icon"></i>
             </div>
@@ -1415,99 +1435,104 @@ form.popup-form {
         <div class="filter-actions">
             <!-- Updated Icons -->
             <button class="icon-btn" title="Filter">
-                <i class="fa fa-filter"></i>
+                <!-- <i class="fa fa-filter"></i> -->
+                <img width="20px" src="/wp-content/plugins/plateforme-master/imagesED\27) Icon-funnel.png"              
+                    alt="Icon-funnel.png">
             </button>
             <button class="icon-btn" title="Download">
-                <i class="fa fa-download"></i>
+                <!-- <i class="fa fa-download"></i> -->
+                <img width="20px" src="/wp-content/plugins/plateforme-master/imagesED\27) Icon-upload.png"              
+                    alt="Icon-upload.png">
             </button>
         </div>
     </div>
-
 
     <table id="candidaturesTable" class="styled-table display">
         <thead>
             <tr>
                 <th><input type="checkbox" id="checkAll"></th>
-                <th>Doctorant</th>
-                <th>Type de dépôt</th>
-                <th>Date limite</th>
-                <th>Fichier reçu</th>
-                <th>Statut dépôt</th>
-                <th>Format conforme</th>
+                <th>Intitulé</th>
+                <th>Type</th>
+                <th>Date</th>
+                <th>Lieu</th>
+                <th>Mode</th>
+                <th>Document</th>
                 <th>Actions</th>
             </tr>
         </thead>
         <tbody>
             <tr>
                 <td><input type="checkbox"></td>
-                <td>Ines Hamdi</td>
-                <td>Rapport S4</td>
-                <td>10/06/2025</td>
-                <td>image</td>
-                <td><span class="badge badge-success"> <i class="fa-regular fa-circle-check"
-                            style="color: #0E962D; padding-right:5px;"></i>Déposé</span></td>
-                <td>Oui</td>
-                <td>
-                    <div class="actions">
-                        <button class="action-btn">...</button>
-                        <div class="dropdown-menu">
-                            <a href="#"><i class="fa-solid fa-rotate-right"></i> Relancer</a>
-                            <a href="/fiche-de-d-ep-ot_directeurth"><i class="fa-regular fa-eye"></i> Consulter</a>
-                            <a href="#"><i class="fa-regular fa-file-lines"></i> Demander correction</a>
-                        </div>
-                    </div>
-                </td>
-            </tr>
+                <td>Journée Doctorale De L'ed FST</td>
+                <td>Séminaire</td>
+                <td>18/12/2024</td>
+                <td>Tunis</td>
+                <td>Présentiel</td>
+                <td class="text-center">
 
-            <tr>
-                <td><input type="checkbox"></td>
-                <td>Tarek Ben Amor</td>
-                <td>Thèse Finale</td>
-                <td>15/09/2025</td>
-                <td>_</td>
-                <td><span class="badge badge-danger"> <i class="fa-regular fa-circle-check"
-                            style="color: #ff4f4fff; padding-right:5px;"></i>Manquant</span></td>
-                <td>_</td>
+                    <a href="#"> <img width="20px"                            
+                            src="/wp-content/plugins/plateforme-master/imagesED/27) Icon-attach-2.png"                  
+                            alt="Icon-attach-2.png"></a>
+                </td>
                 <td>
                     <div class="actions">
                         <button class="action-btn">...</button>
                         <div class="dropdown-menu">
-                            <a href="#"><i class="fa-solid fa-rotate-right"></i> Relancer</a>
-                            <a href="/fiche-de-d-ep-ot_directeurth"><i class="fa-regular fa-eye"></i> Consulter</a>
-                            <a href="#"><i class="fa-regular fa-file-lines"></i> Demander correction</a>
+                            <a href="#"> Voir</a>
+                            <a href="#"> Participer</a>
+                            _                  <a href="#">Télécharger</a>
                         </div>
                     </div>
                 </td>
             </tr>
             <tr>
                 <td><input type="checkbox"></td>
-                <td>Rania Gharbi</td>
-                <td>Rapport S1</td>
-                <td>30/05/2025</td>
-                <td>image</td>
-                <td><span class="badge badge-warning"> <i class="fa-regular fa-circle-check"
-                            style="color: #FFD54F; padding-right:5px;"></i>À vérifier</span></td>
-                <td>
-                    Non Conforme
+                <td>Colloque IA Méditerranée 2024</td>
+                <td>Colloque</td>
+                <td>14/03/2025</td>
+                <td>Rabat</td>
+                <td>Présentiel</td>
+                <td class="text-center"><a href="#"> <img width="20px"                            
+                            src="/wp-content/plugins/plateforme-master/imagesED/27) Icon-attach-2.png"                  
+                            alt="Icon-attach-2.png"></a>
                 </td>
                 <td>
-
                     <div class="actions">
                         <button class="action-btn">...</button>
                         <div class="dropdown-menu">
-                            <a href="#"><i class="fa-solid fa-rotate-right"></i> Relancer</a>
-                            <a href="/fiche-de-d-ep-ot_directeurth"><i class="fa-regular fa-eye"></i> Consulter</a>
-                            <a href="#"><i class="fa-regular fa-file-lines"></i> Demander correction</a>
+                            <a href="#"> Voir</a>
+                            <a href="#">Participer</a>
+                            <a href="#">Télécharger</a>
                         </div>
                     </div>
                 </td>
             </tr>
+            <tr>
+                <td><input type="checkbox"></td>
+                <td>École D'été Biostat</td>
+                <td>École D'été</td>
+                <td>03/08/2023</td>
+                <td>En Ligne</td>
+                <td>En Ligne</td>
+                <td class="text-center"><a href="#"> <img width="20px"                            
+                            src="/wp-content/plugins/plateforme-master/imagesED/27) Icon-attach-2.png"                  
+                            alt="Icon-attach-2.png"></a>
+                </td>
+                <td>
+                    <div class="actions">
+                        <button class="action-btn">...</button>
+                        <div class="dropdown-menu">
+                            <a href="#"> Voir</a>
+                            <a href="#"> Participer</a>
+                            <a href="#">Télécharger</a>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+
         </tbody>
     </table>
 </div>
-
-
-
 
 <!-- JS Libraries -->
 <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
@@ -1520,6 +1545,18 @@ form.popup-form {
 <!-- User-provided scripts combined -->
 <script>
 document.addEventListener('DOMContentLoaded', function() {
+    // Check all functionality
+    const checkAll = document.getElementById('checkAll');
+    if (checkAll) {
+        checkAll.addEventListener('change', function() {
+            const checkboxes = document.querySelectorAll(
+                '#candidaturesTable tbody input[type="checkbox"]');
+            checkboxes.forEach(checkbox => {
+                checkbox.checked = this.checked;
+            });
+        });
+    }
+
     const filterButtons = document.querySelectorAll('.filter-btn');
 
     filterButtons.forEach(button => {
@@ -1535,16 +1572,19 @@ document.addEventListener('DOMContentLoaded', function() {
     actionButtons.forEach(button => {
         button.addEventListener('click', function(e) {
             e.stopPropagation();
+            // Close all other menus
             document.querySelectorAll('.dropdown-menu').forEach(menu => {
                 if (menu !== this.nextElementSibling) {
                     menu.style.display = 'none';
                 }
             });
+            // Toggle the current menu
             const menu = this.nextElementSibling;
             menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
         });
     });
 
+    // Close dropdowns when clicking anywhere else
     document.addEventListener('click', function() {
         document.querySelectorAll('.dropdown-menu').forEach(menu => {
             menu.style.display = 'none';
@@ -1557,7 +1597,6 @@ document.addEventListener('DOMContentLoaded', function() {
         ordering: false,
         info: false,
         pageLength: 5,
-        dom: 'Bfrtip',
         language: {
             paginate: {
                 previous: "<i class='fa fa-chevron-left' style='color: #c60000;'></i>",
@@ -1566,9 +1605,6 @@ document.addEventListener('DOMContentLoaded', function() {
             emptyTable: "Aucune donnée disponible"
         }
     });
-
-
-
 
     // Logic for the custom file input
     const fileUpload = document.getElementById('fileUpload');
@@ -1582,6 +1618,5 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     }
-
 });
 </script>

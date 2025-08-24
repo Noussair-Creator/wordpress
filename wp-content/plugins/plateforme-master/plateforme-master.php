@@ -656,6 +656,8 @@ function plateforme_content($content)
         'publications-et-communications_directeurth',
         //Ajouter d'autres pages ici
         'manifestations-scientifiques-directeur-de-these',
+        'declarer-une-participation-directeur-de-these',
+        'reunions-directeur-de-these',
     ];
 
     foreach ($pages_DT as $page_slug) {
@@ -1449,6 +1451,8 @@ function pm_template_override()
         'publications-et-communications_directeurth',
         //Ajouter d'autres pages ici
         'manifestations-scientifiques-directeur-de-these',
+        'declarer-une-participation-directeur-de-these',
+        'reunions-directeur-de-these',
     ];
 
     foreach ($pages_DT as $page_slug) {

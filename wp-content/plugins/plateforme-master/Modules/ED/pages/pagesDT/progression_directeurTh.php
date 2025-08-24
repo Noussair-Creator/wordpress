@@ -12,7 +12,7 @@ require_once plugin_dir_path(__FILE__) . '../requireApi.php';
 
 <head>
     <meta charset="UTF-8">
-    <title>Dashboard - ÉCOLE DOCTORALE</title>
+    <title>Progression</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
@@ -28,18 +28,18 @@ require_once plugin_dir_path(__FILE__) . '../requireApi.php';
 
 
     <style>
-        :root {
-            --red: #b60303;
-            --gray: #f3f3f3;
-            --dark: #333;
-        }
+    :root {
+        --red: #b60303;
+        --gray: #f3f3f3;
+        --dark: #333;
+    }
 
-        body {
-            margin: 0;
-            font-family: 'Segoe UI', sans-serif;
-            background: var(--gray);
-            min-height: 100vh;
-        }
+    body {
+        margin: 0;
+        font-family: 'Segoe UI', sans-serif;
+        background: var(--gray);
+        min-height: 100vh;
+    }
     </style>
 </head>
 
