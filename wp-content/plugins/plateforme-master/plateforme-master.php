@@ -576,6 +576,7 @@ function plateforme_content($content)
         'commission-doctorale-ecole-doctorale',
         'contacts-ecole-doctorale',
         'inscription-reinscription-ecole-doctorale',
+        'dossier-inscription-ecole-doctorale',
     ];
 
     foreach ($pages_ed as $page_slug) {
@@ -653,6 +654,8 @@ function plateforme_content($content)
         'progression_directeurth',
         'planification-des-soutenances_directeurth',
         'publications-et-communications_directeurth',
+        //Ajouter d'autres pages ici
+        'manifestations-scientifiques-directeur-de-these',
     ];
 
     foreach ($pages_DT as $page_slug) {
@@ -1355,6 +1358,7 @@ function pm_template_override()
         'commission-doctorale-ecole-doctorale',
         'contacts-ecole-doctorale',
         'inscription-reinscription-ecole-doctorale',
+        'dossier-inscription-ecole-doctorale',
     ];
 
     foreach ($pages_ed as $page_slug) {
@@ -1443,6 +1447,8 @@ function pm_template_override()
         'progression_directeurth',
         'planification-des-soutenances_directeurth',
         'publications-et-communications_directeurth',
+        //Ajouter d'autres pages ici
+        'manifestations-scientifiques-directeur-de-these',
     ];
 
     foreach ($pages_DT as $page_slug) {
