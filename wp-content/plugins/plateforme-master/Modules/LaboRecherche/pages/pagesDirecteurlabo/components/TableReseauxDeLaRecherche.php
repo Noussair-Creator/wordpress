@@ -1406,7 +1406,7 @@ form.popup-form {
 <div class="content-block">
     <div class="header-bar">
         <h2 class="dashboard-sub-title">
-            <img src="/wp-content/plugins/plateforme-master/images/ed/16406436.png" alt="Icon"
+            <img src="/wp-content/plugins/plateforme-master/images/icons/10550857.png" alt="Icon"
                 style="width: 38px; margin-right: 8px; vertical-align: middle; font-weight: blod;">
             Liste Des Partenaires
         </h2>
@@ -1449,10 +1449,14 @@ form.popup-form {
         <div class="filter-actions">
             <!-- Updated Icons -->
             <button class="icon-btn" title="Filter">
-                <i class="fa fa-filter"></i>
+                <!-- <i class="fa fa-filter"></i> -->
+                <img width="20px" src="/wp-content/plugins/plateforme-master/images/icons/27) Icon-funnel.png"
+                    alt="Icon-funnel">
             </button>
             <button class="icon-btn" title="Download">
-                <i class="fa fa-download"></i>
+                <!-- <i class="fa fa-download"></i> -->
+                <img width="20px" src="/wp-content/plugins/plateforme-master/images/icons/upload-red.png"
+                    alt="upload-red.png">
             </button>
         </div>
     </div>

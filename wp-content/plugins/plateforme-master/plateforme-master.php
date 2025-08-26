@@ -577,6 +577,8 @@ function plateforme_content($content)
         'contacts-ecole-doctorale',
         'inscription-reinscription-ecole-doctorale',
         'dossier-inscription-ecole-doctorale',
+        //Pages Du Doctorant
+
     ];
 
     foreach ($pages_ed as $page_slug) {
@@ -618,8 +620,12 @@ function plateforme_content($content)
         // Ajout des pages pour Directeur de Labo
         'publication-directeur-du-labo',
         'ajouter-une-publication-directeur-du-labo',
+        'modifier-une-publication-directeur-du-labo',
         'details-publication-directeur-du-labo',
         'contacts-directeur-du-labo',
+        // Ajout des pages pour Directeur de Labo 08/26/2025
+        'reclamations-directeur-du-labo',
+        'reunions-directeur-du-labo',
     ];
 
     foreach ($pages_DL as $page_slug) {
@@ -658,6 +664,10 @@ function plateforme_content($content)
         'manifestations-scientifiques-directeur-de-these',
         'declarer-une-participation-directeur-de-these',
         'reunions-directeur-de-these',
+        //Pages du coordinateur Master Nous allons changer son emplacement 
+        //'planification-des-cours-coordinateur-master',
+        //Pages du demandes de comptabilisation des crédits Nous allons changer son emplacement 
+        // 'demandes-de-comptabilisation-des-credits-doctorant',
     ];
 
     foreach ($pages_DT as $page_slug) {
@@ -685,6 +695,52 @@ function plateforme_content($content)
             }
         }
     }
+
+    // 🔁 Chargement automatique des pages pour Doctorant (D)
+    $pages_D = [
+        //Ajouter d'autres pages ici
+        'reunions-d_doctorant',
+        'demandes_doctorant',
+        'soutenance_doctorant',
+        'profile_doctorant',
+        'planning-des-cours-et-activites_doctorant',
+        'demandes-de-comptabilisation-des-credits_doctorant',
+    ];
+
+    foreach ($pages_D as $page_slug) {
+        if (is_page($page_slug)) {
+            if (is_user_logged_in()) {
+                $current_user = wp_get_current_user();
+                // You might want to adjust these roles as needed
+                $allowed_roles = ['um_doctorant', 'um_service-etablissement', 'um_service-utm'];
+
+                if (array_intersect($allowed_roles, $current_user->roles)) {
+                    // The filename should match the slug exactly
+                    $file_path = plugin_dir_path(__FILE__) . 'Modules/ED/pages/pagesD/' . $page_slug . '.php';
+
+                    if (file_exists($file_path)) {
+                        include $file_path;
+                        exit; // Important to stop further execution
+                    } else {
+                        wp_die("❌ Le fichier <code>{$page_slug}.php</code> est introuvable.");
+                    }
+                } else {
+                    plateforme_redirect_home();
+                }
+            } else {
+                plateforme_redirect_home();
+            }
+        }
+    }
+
+
+
+
+
+
+
+
+
 
     // Chargement automatique des pages LaboRecherche pour le rôle um_chercheur
     $chercheur_pages = [
@@ -1407,8 +1463,12 @@ function pm_template_override()
         // Ajout des pages pour Directeur de Labo
         'publication-directeur-du-labo',
         'ajouter-une-publication-directeur-du-labo',
+        'modifier-une-publication-directeur-du-labo',
         'details-publication-directeur-du-labo',
         'contacts-directeur-du-labo',
+        // Ajout des pages pour Directeur de Labo 08/26/2025
+        'reclamations-directeur-du-labo',
+        'reunions-directeur-du-labo',
 
     ];
 
@@ -1453,6 +1513,10 @@ function pm_template_override()
         'manifestations-scientifiques-directeur-de-these',
         'declarer-une-participation-directeur-de-these',
         'reunions-directeur-de-these',
+        //Pages du coordinateur Master Nous allons changer son emplacement 
+        //'planification-des-cours-coordinateur-master',
+        //Pages du demandes de comptabilisation des crédits Nous allons changer son emplacement 
+        // 'demandes-de-comptabilisation-des-credits-doctorant',
     ];
 
     foreach ($pages_DT as $page_slug) {
@@ -1465,6 +1529,44 @@ function pm_template_override()
                 if (array_intersect($allowed_roles, $current_user->roles)) {
                     // The filename should match the slug exactly
                     $file_path = plugin_dir_path(__FILE__) . 'Modules/ED/pages/pagesDT/' . $page_slug . '.php';
+
+                    if (file_exists($file_path)) {
+                        include $file_path;
+                        exit; // Important to stop further execution
+                    } else {
+                        wp_die("❌ Le fichier <code>{$page_slug}.php</code> est introuvable.");
+                    }
+                } else {
+                    plateforme_redirect_home();
+                }
+            } else {
+                plateforme_redirect_home();
+            }
+        }
+    }
+
+
+    // 🔁 Chargement automatique des pages pour Doctorant (D)
+    $pages_D = [
+        //Ajouter d'autres pages ici
+        'reunions-d_doctorant',
+        'demandes_doctorant',
+        'soutenance_doctorant',
+        'profile_doctorant',
+        'planning-des-cours-et-activites_doctorant',
+        'demandes-de-comptabilisation-des-credits_doctorant',
+    ];
+
+    foreach ($pages_D as $page_slug) {
+        if (is_page($page_slug)) {
+            if (is_user_logged_in()) {
+                $current_user = wp_get_current_user();
+                // You might want to adjust these roles as needed
+                $allowed_roles = ['um_doctorant', 'um_service-etablissement', 'um_service-utm'];
+
+                if (array_intersect($allowed_roles, $current_user->roles)) {
+                    // The filename should match the slug exactly
+                    $file_path = plugin_dir_path(__FILE__) . 'Modules/ED/pages/pagesD/' . $page_slug . '.php';
 
                     if (file_exists($file_path)) {
                         include $file_path;

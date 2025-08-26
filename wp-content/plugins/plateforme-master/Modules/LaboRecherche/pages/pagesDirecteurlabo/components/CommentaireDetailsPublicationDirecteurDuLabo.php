@@ -2,7 +2,6 @@
 /* Custom styles for the component */
 body {
     background-color: #f8f9fa;
-    padding: 2rem;
     font-family: 'Inter', sans-serif;
 }
 
@@ -31,14 +30,12 @@ body {
     padding-top: 20px;
 }
 </style>
-</head>
 
-<body>
 
-    <div class="comment-container">
-        <h2>Commentaires du chercheur</h2>
-        <p class="comment-text">
-            "Merci de vérifier le format IEEE. Les figures ont été compressées pour la soumission. Je reste disponible
-            pour d'éventuelles corrections avant validation."
-        </p>
-    </div>
+<div class="comment-container">
+    <h2>Commentaires du chercheur</h2>
+    <p class="comment-text">
+        "Merci de vérifier le format IEEE. Les figures ont été compressées pour la soumission. Je reste disponible
+        pour d'éventuelles corrections avant validation."
+    </p>
+</div>

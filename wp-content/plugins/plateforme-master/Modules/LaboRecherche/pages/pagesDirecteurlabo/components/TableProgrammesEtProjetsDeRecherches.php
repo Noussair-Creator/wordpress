@@ -1,14 +1,13 @@
+<!-- External CSS Libraries -->
 <!-- Font Awesome for icons -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-
 <!-- DataTables CSS -->
 <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css" />
 <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.3.6/css/buttons.dataTables.min.css">
-
 <!-- Quill CSS -->
 <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
 
-<!-- User-provided styles combined into one block -->
+<!-- Internal CSS Styles -->
 <style>
 .dashboard-sub-title {
     font-weight: bold;
@@ -1329,8 +1328,8 @@ form.popup-form {
 }
 
 .popup-form .btn-importer {
-    background-color: #e9e9e9;
-    color: #333;
+    background-color: #A6A485;
+    color: #fff !important;
     padding: 10px 16px;
     font-size: 14px;
     font-weight: 500;
@@ -1404,16 +1403,14 @@ form.popup-form {
 }
 </style>
 
-
+<!-- Main Content Block -->
 <div class="content-block">
     <div class="header-bar">
         <h2 class="dashboard-sub-title">
-            <img src="https://placehold.co/38x38/c60000/ffffff?text=Icon" alt="Icon"
+            <img src="/wp-content/plugins/plateforme-master/images/icons/10550857.png" alt="10550857.png"
                 style="width: 38px; margin-right: 8px; vertical-align: middle; font-weight: blod;">
             Liste Des Projets
-
         </h2>
-        <!-- Added "Ajouter un projet" button -->
         <button class="add-project-btn">Ajouter un projet</button>
     </div>
 
@@ -1437,25 +1434,30 @@ form.popup-form {
                 <i class="fas fa-chevron-down icon right-icon"></i>
             </div>
 
-            <!-- Date Input (Replaced Discipline) -->
+            <!-- Date Input -->
             <div class="input-with-icon">
                 <input class="filter-input date-input" type="text" placeholder="Date Deb-Fin">
-                <i class="fas fa-calendar-alt icon right-icon"></i>
+                <!-- <i class="fas fa-calendar-alt icon right-icon"></i> -->
+
+                <img class="icon right-icon" width="20px"
+                    src="/wp-content/plugins/plateforme-master/images/icons/27) Icon-calendar.png" alt="Icon-calendar">
             </div>
         </div>
 
         <div class="filter-actions">
-            <!-- Updated Icons -->
+            <!-- Action Buttons -->
             <button class="icon-btn" title="Filter">
-                <i class="fa fa-filter"></i>
+                <img width="20px" src="/wp-content/plugins/plateforme-master/images/icons/27) Icon-funnel.png"
+                    alt="Icon-funnel">
             </button>
             <button class="icon-btn" title="Download">
-                <i class="fa fa-download"></i>
+                <img width="20px" src="/wp-content/plugins/plateforme-master/images/icons/upload-red.png"
+                    alt="upload-red.png">
             </button>
         </div>
     </div>
 
-
+    <!-- Data Table -->
     <table id="candidaturesTable" class="styled-table display">
         <thead>
             <tr>
@@ -1482,13 +1484,12 @@ form.popup-form {
                     <div class="actions">
                         <button class="action-btn">...</button>
                         <div class="dropdown-menu">
-                            <a href="#">Modifier</a>
+                            <a href="#" class="btn-modifier">Modifier</a>
                             <a href="/programmes-et-projets-de-recherches-details-projet/">Voir</a>
                         </div>
                     </div>
                 </td>
             </tr>
-
             <tr>
                 <td><input type="checkbox"></td>
                 <td>Stockage Cloud De Données Santé</td>
@@ -1501,13 +1502,12 @@ form.popup-form {
                     <div class="actions">
                         <button class="action-btn">...</button>
                         <div class="dropdown-menu">
-                            <a href="#">Modifier</a>
+                            <a href="#" class="btn-modifier">Modifier</a>
                             <a href="/programmes-et-projets-de-recherches-details-projet/">Voir</a>
                         </div>
                     </div>
                 </td>
             </tr>
-
             <tr>
                 <td><input type="checkbox"></td>
                 <td>Interfaces Adaptatives AR/VR</td>
@@ -1520,7 +1520,7 @@ form.popup-form {
                     <div class="actions">
                         <button class="action-btn">...</button>
                         <div class="dropdown-menu">
-                            <a href="#">Modifier</a>
+                            <a href="#" class="btn-modifier">Modifier</a>
                             <a href="/programmes-et-projets-de-recherches-details-projet/">Voir</a>
                         </div>
                     </div>
@@ -1530,7 +1530,7 @@ form.popup-form {
     </table>
 </div>
 
-<!-- Modal HTML -->
+<!-- Modal for Adding a Project -->
 <div class="modal-overlay" id="modalObjectifs" style="display: none;">
     <div class="popup-container" id="popupContainerObjectifs">
         <div class="popup-header">
@@ -1542,12 +1542,10 @@ form.popup-form {
                 <label for="titreProjet">Titre du projet</label>
                 <input type="text" id="titreProjet">
             </div>
-
             <div class="form-group">
                 <label for="acronyme">Acronyme</label>
                 <input type="text" id="acronyme">
             </div>
-
             <div class="form-group">
                 <label for="typeProjet">Type</label>
                 <div class="input-with-icon">
@@ -1557,7 +1555,6 @@ form.popup-form {
                     <i class="fas fa-chevron-down icon right-icon"></i>
                 </div>
             </div>
-
             <div class="form-group">
                 <label for="porteur">Porteur</label>
                 <div class="input-with-icon">
@@ -1570,7 +1567,6 @@ form.popup-form {
                     <i class="fas fa-chevron-down icon right-icon"></i>
                 </div>
             </div>
-
             <div class="form-group">
                 <label for="equipe">Équipe</label>
                 <div class="input-with-icon">
@@ -1580,7 +1576,6 @@ form.popup-form {
                     <i class="fas fa-chevron-down icon right-icon"></i>
                 </div>
             </div>
-
             <div class="form-row">
                 <div class="form-group">
                     <label for="financement">Financement prévisionnel</label>
@@ -1596,35 +1591,47 @@ form.popup-form {
                     </div>
                 </div>
             </div>
-
             <div class="form-group">
                 <label for="datesDebutFin">Dates Début / Fin</label>
                 <div class="input-with-icon">
                     <input type="text" id="datesDebutFin" value="13/10/2024 - 31/01/2026">
-                    <i class="fas fa-calendar-alt icon right-icon"></i>
+                    <!-- <i class="fas fa-calendar-alt icon right-icon"></i> -->
+
+                    <img class="icon right-icon" width="20px"
+                        src="/wp-content/plugins/plateforme-master/images/icons/27) Icon-calendar.png"
+                        alt="Icon-calendar">
                 </div>
             </div>
-
             <div class="form-group">
                 <label for="objectifs">Objectifs</label>
                 <textarea id="objectifs" placeholder="Objectif"></textarea>
             </div>
-
             <div class="form-group">
                 <label for="budget">Budget</label>
                 <div class="input-file-wrapper">
                     <input type="text" class="input-file-text" value="Budget.pdf" style="border: none;" readonly>
-                    <label for="budgetUpload" class="btn-importer"><i class="fas fa-upload"></i> Importer</label>
+                    <label for="budgetUpload" class="btn-importer">
+                        <!-- <i class="fas fa-upload"></i> -->
+                        <img width="20px"
+                            src="/wp-content/plugins/plateforme-master/images/icons/27) Icon-uploadwhite.png"
+                            alt="Icon-uploadwhite">
+                        Importer
+                    </label>
                     <input type="file" id="budgetUpload" style="display:none;">
                 </div>
             </div>
-
             <div class="form-group">
                 <label for="convention">Convention</label>
                 <div class="input-file-wrapper">
                     <input type="text" class="input-file-text" value="convention.pdf" style="border: none;" readonly>
-                    <label for="conventionUpload" class="btn-importer"><i class="fas fa-upload"></i>
-                        Importer</label>
+                    <label for="conventionUpload" class="btn-importer">
+
+                        <!-- <i class="fas fa-upload"></i>  -->
+                        <img width="20px"
+                            src="/wp-content/plugins/plateforme-master/images/icons/27) Icon-uploadwhite.png"
+                            alt="Icon-upload">
+                        Importer
+                    </label>
                     <input type="file" id="conventionUpload" style="display:none;">
                 </div>
             </div>
@@ -1632,8 +1639,117 @@ form.popup-form {
     </div>
 </div>
 
+<!-- Modal for Modifying a Project -->
+<div class="modal-overlay" id="modalModifier" style="display: none;">
+    <div class="popup-container" id="popupContainerModifier">
+        <div class="popup-header">
+            <h2>Modifier le projet</h2>
+            <button class="btn-enregistrer" id="btnSaveModifier">Enregistrer</button>
+        </div>
+        <form class="popup-form">
+            <div class="form-group">
+                <label for="titreProjetModifier">Titre du projet</label>
+                <input type="text" id="titreProjetModifier">
+            </div>
+            <div class="form-group">
+                <label for="acronymeModifier">Acronyme</label>
+                <input type="text" id="acronymeModifier">
+            </div>
+            <div class="form-group">
+                <label for="typeProjetModifier">Type</label>
+                <div class="input-with-icon">
+                    <select id="typeProjetModifier">
+                        <option>Sélection..</option>
+                    </select>
+                    <i class="fas fa-chevron-down icon right-icon"></i>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="porteurModifier">Porteur</label>
+                <div class="input-with-icon">
+                    <select id="porteurModifier">
+                        <option>Sélection..</option>
+                        <option value="Dr. A. Mejri">Dr. A. Mejri</option>
+                        <option value="Y. Ben Salem">Y. Ben Salem</option>
+                        <option value="Dr. Leila Romdhane">Dr. Leila Romdhane</option>
+                    </select>
+                    <i class="fas fa-chevron-down icon right-icon"></i>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="equipeModifier">Équipe</label>
+                <div class="input-with-icon">
+                    <select id="equipeModifier">
+                        <option>Sélection..</option>
+                    </select>
+                    <i class="fas fa-chevron-down icon right-icon"></i>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="financementModifier">Financement prévisionnel</label>
+                    <input type="text" id="financementModifier">
+                </div>
+                <div class="form-group">
+                    <label for="sourceFinancementModifier">Source Financement</label>
+                    <div class="input-with-icon">
+                        <select id="sourceFinancementModifier">
+                            <option>Sélection..</option>
+                        </select>
+                        <i class="fas fa-chevron-down icon right-icon"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="datesDebutFinModifier">Dates Début / Fin</label>
+                <div class="input-with-icon">
+                    <input type="text" id="datesDebutFinModifier">
+                    <!-- <i class="fas fa-calendar-alt icon right-icon"></i> -->
 
-<!-- JS Libraries -->
+                    <img class="icon right-icon" width="20px"
+                        src="/wp-content/plugins/plateforme-master/images/icons/27) Icon-calendar.png"
+                        alt="Icon-calendar">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="objectifsModifier">Objectifs</label>
+                <textarea id="objectifsModifier" placeholder="Objectif"></textarea>
+            </div>
+            <div class="form-group">
+                <label for="budgetModifier">Budget</label>
+                <div class="input-file-wrapper">
+                    <input type="text" class="input-file-text" value="Budget.pdf" style="border: none;" readonly>
+                    <label for="budgetUploadModifier" class="btn-importer">
+
+                        <!-- <i class="fas fa-upload"></i> -->
+
+                        <img width="20px"
+                            src="/wp-content/plugins/plateforme-master/images/icons/27) Icon-uploadwhite.png"
+                            alt="Icon-upload">
+                        Importer
+                    </label>
+                    <input type="file" id="budgetUploadModifier" style="display:none;">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="conventionModifier">Convention</label>
+                <div class="input-file-wrapper">
+                    <input type="text" class="input-file-text" value="convention.pdf" style="border: none;" readonly>
+                    <label for="conventionUploadModifier" class="btn-importer">
+                        <img width="20px"
+                            src="/wp-content/plugins/plateforme-master/images/icons/27) Icon-uploadwhite.png"
+                            alt="Icon-upload">
+                        <!-- <i class="fas fa-upload"></i> -->
+                        Importer</label>
+                    <input type="file" id="conventionUploadModifier" style="display:none;">
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+<!-- JavaScript Libraries -->
 <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
 <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/buttons/2.3.6/js/dataTables.buttons.min.js"></script>
@@ -1641,11 +1757,11 @@ form.popup-form {
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="https://cdn.quilljs.com/1.3.6/quill.min.js"></script>
 
-<!-- User-provided scripts combined -->
+<!-- Custom JavaScript -->
 <script>
 document.addEventListener('DOMContentLoaded', function() {
+    // --- Filter Button Logic ---
     const filterButtons = document.querySelectorAll('.filter-btn');
-
     filterButtons.forEach(button => {
         button.addEventListener('click', function() {
             filterButtons.forEach(btn => btn.classList.remove('active'));
@@ -1655,33 +1771,38 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
+    // --- Action Menu (Dropdown) Logic ---
     const actionButtons = document.querySelectorAll('.action-btn');
     actionButtons.forEach(button => {
         button.addEventListener('click', function(e) {
-            e.stopPropagation();
+            e.stopPropagation(); // Prevent the click from closing the menu immediately
+            // Close all other open menus
             document.querySelectorAll('.dropdown-menu').forEach(menu => {
                 if (menu !== this.nextElementSibling) {
                     menu.style.display = 'none';
                 }
             });
+            // Toggle the current menu
             const menu = this.nextElementSibling;
             menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
         });
     });
 
+    // --- Close Dropdowns on Outside Click ---
     document.addEventListener('click', function() {
         document.querySelectorAll('.dropdown-menu').forEach(menu => {
             menu.style.display = 'none';
         });
     });
 
-    $('#candidaturesTable').DataTable({
+    // --- Initialize DataTables and store the instance ---
+    const table = $('#candidaturesTable').DataTable({
         paging: true,
-        searching: false,
+        searching: true, // This needs to be true for the custom search to work
         ordering: false,
         info: false,
         pageLength: 5,
-        dom: 'Bfrtip',
+        dom: 'Brtip', // 'f' has been removed to hide the default search filter
         language: {
             paginate: {
                 previous: "<i class='fa fa-chevron-left'></i>",
@@ -1691,45 +1812,109 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    // --- Modal Logic ---
+    // --- Search Functionality ---
+    const searchInput = document.querySelector('.filter-bar .filter-input');
+    searchInput.addEventListener('keyup', function() {
+        table.search(this.value).draw();
+    });
+
+    // --- Check All Functionality ---
+    const checkAll = document.getElementById('checkAll');
+    checkAll.addEventListener('click', function() {
+        // Find all checkboxes in the table body
+        const checkboxes = document.querySelectorAll('#candidaturesTable tbody input[type="checkbox"]');
+        // Set their checked property to match the "check all" checkbox
+        checkboxes.forEach(checkbox => {
+            checkbox.checked = this.checked;
+        });
+    });
+
+
+    // --- Add Project Modal Logic ---
+    const modalObjectifs = document.getElementById("modalObjectifs");
+    const popupObjectifs = document.getElementById("popupContainerObjectifs");
+    const openBtn = document.querySelector('.add-project-btn');
+
     function openmodalObjectifs() {
-        const modal = document.getElementById("modalObjectifs");
-        if (modal) {
-            modal.style.display = "flex";
+        if (modalObjectifs) {
+            modalObjectifs.style.display = "flex";
         } else {
-            console.error("Modal non trouvé : #modalObjectifs");
+            console.error("Modal not found: #modalObjectifs");
         }
     }
 
-    // Connect the "Ajouter un projet" button to the modal
-    const openBtn = document.querySelector('.add-project-btn');
+    function closeModalObjectifs() {
+        if (modalObjectifs) {
+            modalObjectifs.style.display = "none";
+        }
+    }
+
     if (openBtn) {
         openBtn.addEventListener('click', openmodalObjectifs);
     }
 
-    function closeModalObjectifs() {
-        const modal = document.getElementById("modalObjectifs");
-        if (modal) {
-            modal.style.display = "none";
-        }
-    }
-
-    const modal = document.getElementById("modalObjectifs");
-    const popup = document.getElementById("popupContainerObjectifs");
-
-    if (modal && popup) {
-        modal.addEventListener("click", function(e) {
-            // If the click is on the overlay (modal) but not on the content (popup), close it.
-            if (!popup.contains(e.target)) {
+    if (modalObjectifs && popupObjectifs) {
+        modalObjectifs.addEventListener("click", function(e) {
+            if (!popupObjectifs.contains(e.target)) {
                 closeModalObjectifs();
             }
         });
     }
 
-    // Logic for the custom file input
-    function setupFileInput(uploadId, textInputClass) {
+    // --- Modify Project Modal Logic ---
+    const modalModifier = document.getElementById("modalModifier");
+    const popupModifier = document.getElementById("popupContainerModifier");
+
+    function openModalModifier() {
+        if (modalModifier) {
+            modalModifier.style.display = "flex";
+        }
+    }
+
+    function closeModalModifier() {
+        if (modalModifier) {
+            modalModifier.style.display = "none";
+        }
+    }
+
+    // Use event delegation for the "Modifier" buttons
+    $('#candidaturesTable tbody').on('click', '.btn-modifier', function(e) {
+        e.preventDefault();
+
+        // Get data from the table row
+        const row = $(this).closest('tr');
+        const title = row.find('td:eq(1)').text();
+        const porteur = row.find('td:eq(3)').text();
+        const dateDebut = row.find('td:eq(4)').text();
+        const dateFin = row.find('td:eq(5)').text();
+        const financement = row.find('td:eq(6)').text();
+
+        // Populate the modal
+        document.getElementById('titreProjetModifier').value = title;
+        document.getElementById('porteurModifier').value = porteur;
+        document.getElementById('datesDebutFinModifier').value = `${dateDebut} - ${dateFin}`;
+        document.getElementById('financementModifier').value = financement;
+
+        openModalModifier();
+    });
+
+
+    if (modalModifier && popupModifier) {
+        modalModifier.addEventListener("click", function(e) {
+            if (!popupModifier.contains(e.target)) {
+                closeModalModifier();
+            }
+        });
+    }
+
+    document.getElementById('btnSaveModifier').addEventListener('click', closeModalModifier);
+
+
+    // --- Custom File Input Logic ---
+    function setupFileInput(uploadId) {
         const fileUpload = document.getElementById(uploadId);
         const fileText = document.querySelector(`label[for='${uploadId}']`).previousElementSibling;
+
         if (fileUpload && fileText) {
             fileUpload.addEventListener('change', function() {
                 if (this.files.length > 0) {
@@ -1742,6 +1927,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     setupFileInput('budgetUpload');
     setupFileInput('conventionUpload');
-
+    setupFileInput('budgetUploadModifier');
+    setupFileInput('conventionUploadModifier');
 });
 </script>

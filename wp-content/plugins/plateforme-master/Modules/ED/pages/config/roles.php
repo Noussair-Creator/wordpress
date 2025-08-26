@@ -63,7 +63,7 @@ $roleConfigs = [
             ["label" => "Planning des Réunions", "lien" => "#"],
             ["label" => "Documents", "lien" => "#"],
             ["label" => "Contacts", "lien" => "#"],
-            ["label" => "Réunions", "lien" => "#"],
+            ["label" => "Réunions", "lien" => "/reunions-directeur-de-these"],
             ["label" => "Réclamations", "lien" => "#"]
         ],
         "calendriers" => [
@@ -169,12 +169,13 @@ $roleConfigs = [
         "label" => "ESPACE DOCTORANT",
         "menu" => [
             ["label" => "Dashboard", "lien" => "/espace-doctorant"],
-            ["label" => "Mon Dossier", "lien" => "#"],
+            // ["label" => "Soutenances", "lien" => "#"],
+            ["label" => "Suivi des Crédits", "lien" => "/demandes-de-comptabilisation-des-credits_Doctorant"],
             ["label" => "Documents", "lien" => "#"],
             ["label" => "Planning", "lien" => "#"],
-            ["label" => "Réunions", "lien" => "#"],
+            ["label" => "Réunions", "lien" => "/reunions-d_doctorant"],
             ["label" => "État de progression", "lien" => "#"],
-            ["label" => "Suivi des soutenances", "lien" => "#"],
+            ["label" => "Suivi soutenance", "lien" => "/soutenance_doctorant"],
             ["label" => "Formations doctorales", "lien" => "#"],
             ["label" => "Réclamations", "lien" => "#"]
         ],

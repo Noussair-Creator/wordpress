@@ -1632,10 +1632,10 @@ form.popup-form {
         <!-- Tabs -->
         <div class="accordion-tabs">
             <button class="tab-btn active" data-tab="tab1"><img
-                    src="/wp-content/plugins/plateforme-master/images/ed/3655586.png" alt="Icon"> Académiques /
+                    src="/wp-content/plugins/plateforme-master/images/icons/4185473.png" alt="Icon"> Académiques /
                 Doctorants</button>
             <button class="tab-btn" data-tab="tab2"><img
-                    src="/wp-content/plugins/plateforme-master/images/ed/4981231.png" alt="Icon"> Entreprises /
+                    src="/wp-content/plugins/plateforme-master/images/icons/1654328.png" alt="Icon"> Entreprises /
                 Partenaires</button>
         </div>
 
@@ -1651,9 +1651,28 @@ form.popup-form {
                     <div class="actions-container">
                         <button class="btn-add-contact" id="addContactBtnTab1"><i class="fas fa-plus"></i> Ajouter
                             contact</button>
-                        <button class="icon-btn"><i class="fas fa-th-large"></i></button>
-                        <button class="icon-btn"><i class="fas fa-th"></i></button>
-                        <button class="icon-btn"><i class="fas fa-download"></i></button>
+
+                        <button style="background-color: #A6A485;" class="icon-btn">
+                            <img width="20px"
+                                src="/wp-content/plugins/plateforme-master/images/icons/Composant 286 – 1.png"
+                                alt="Composant 286 – 1.png">
+
+                            <!-- <i class="fas fa-th-large"></i> -->
+                        </button>
+                        <button class="icon-btn">
+                            <!-- <i class="fas fa-th"></i> -->
+                            <img width="20px"
+                                src="/wp-content/plugins/plateforme-master/images/icons/Composant 300 – 1.png"
+                                alt="Composant 300 – 1.png">
+                        </button>
+                        <button class="icon-btn">
+                            <img width="20px"
+                                src="/wp-content/plugins/plateforme-master/images/icons/27) Icon-upload.png"
+                                alt="27) Icon-upload.png">
+
+                            <!-- <i class="fas fa-download"></i> -->
+
+                        </button>
                     </div>
                 </div>
 
@@ -1672,7 +1691,8 @@ form.popup-form {
                     <tbody>
                         <tr>
                             <td><input type="checkbox"></td>
-                            <td><img src="https://placehold.co/32x32/EFEFEF/AAAAAA?text=MH" alt="Avatar" class="avatar">
+                            <td><img src="/wp-content/plugins/plateforme-master/images/newimages/person1.jpg"
+                                    alt="person1.jpg" class="avatar">
                                 Mr. Mourad Hammami</td>
                             <td>Doctorant</td>
                             <td>m.hamami@gmail.com</td>
@@ -1691,7 +1711,8 @@ form.popup-form {
                         </tr>
                         <tr>
                             <td><input type="checkbox"></td>
-                            <td><img src="https://placehold.co/32x32/EFEFEF/AAAAAA?text=SB" alt="Avatar" class="avatar">
+                            <td><img src="/wp-content/plugins/plateforme-master/images/newimages/person3.jpg"
+                                    alt="person3.jpg" class="avatar">
                                 Mr. Salah Ben Hsin</td>
                             <td>Encadrant</td>
                             <td>salahhsin9@gmail.com</td>
@@ -1725,9 +1746,27 @@ form.popup-form {
                     <div class="actions-container">
                         <button class="btn-add-contact" id="addContactBtnTab2"><i class="fas fa-plus"></i> Ajouter
                             contact</button>
-                        <button class="icon-btn"><i class="fas fa-th-large"></i></button>
-                        <button class="icon-btn"><i class="fas fa-th"></i></button>
-                        <button class="icon-btn"><i class="fas fa-download"></i></button>
+                        <button style="background-color: #A6A485;" class="icon-btn">
+                            <img width="20px"
+                                src="/wp-content/plugins/plateforme-master/images/icons/Composant 286 – 1.png"
+                                alt="Composant 286 – 1.png">
+
+                            <!-- <i class="fas fa-th-large"></i> -->
+                        </button>
+                        <button class="icon-btn">
+                            <!-- <i class="fas fa-th"></i> -->
+                            <img width="20px"
+                                src="/wp-content/plugins/plateforme-master/images/icons/Composant 300 – 1.png"
+                                alt="Composant 300 – 1.png">
+                        </button>
+                        <button class="icon-btn">
+                            <img width="20px"
+                                src="/wp-content/plugins/plateforme-master/images/icons/27) Icon-upload.png"
+                                alt="27) Icon-upload.png">
+
+                            <!-- <i class="fas fa-download"></i> -->
+
+                        </button>
                     </div>
                 </div>
 
@@ -1746,10 +1785,12 @@ form.popup-form {
                     <tbody>
                         <tr>
                             <td><input type="checkbox"></td>
-                            <td><img src="https://placehold.co/32x32/00008B/FFFFFF?text=AI" alt="Logo" class="avatar">
+                            <td><img src="/wp-content/plugins/plateforme-master/images/newimages/logo1.jpg"
+                                    alt="logo1.jpg" class="avatar">
                                 AI Tech Solutions</td>
                             <td>IA Industrielle</td>
-                            <td><img src="https://placehold.co/32x32/EFEFEF/AAAAAA?text=KJ" alt="Avatar" class="avatar">
+                            <td><img src="/wp-content/plugins/plateforme-master/images/newimages/person1.jpg"
+                                    alt="person1.jpg" class="avatar">
                                 Mr. Karim J.</td>
                             <td>+216 25 37 45 90</td>
                             <td>contact@ai-tech.com</td>
@@ -1766,10 +1807,12 @@ form.popup-form {
                         </tr>
                         <tr>
                             <td><input type="checkbox"></td>
-                            <td><img src="https://placehold.co/32x32/4682B4/FFFFFF?text=TS" alt="Logo" class="avatar">
+                            <td><img src="/wp-content/plugins/plateforme-master/images/newimages/logo2.png"
+                                    alt="logo2.jpg" class="avatar">
                                 Tech Solutions</td>
                             <td>IA Industrielle</td>
-                            <td><img src="https://placehold.co/32x32/EFEFEF/AAAAAA?text=MJ" alt="Avatar" class="avatar">
+                            <td><img src="/wp-content/plugins/plateforme-master/images/newimages/person3.jpg"
+                                    alt="person3.jpg" class="avatar">
                                 Mr. Mourad J.</td>
                             <td>+216 25 37 45 90</td>
                             <td>contact@tech.com</td>

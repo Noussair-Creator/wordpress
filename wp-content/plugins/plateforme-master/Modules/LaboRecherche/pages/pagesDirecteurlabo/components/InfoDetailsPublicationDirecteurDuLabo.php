@@ -2,7 +2,6 @@
 /* Custom styles to match the screenshot */
 body {
     background-color: #f8f9fa;
-    padding: 2rem;
     font-family: 'Inter', sans-serif;
 }
 

@@ -1,9 +1,20 @@
+<!-- Font Awesome for icons -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+<!-- DataTables CSS for styling the tables -->
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
 <style>
+body {
+    font-family: 'Segoe UI', sans-serif;
+    background-color: #f9f9f9;
+}
+
 .accordion-container {
     border-radius: 12px;
     box-shadow: 0 0 8px rgba(0, 0, 0, 0.05);
     border: 1px solid #ddd;
     overflow: hidden;
+    max-width: 1200px;
+    margin: auto;
 }
 
 .accordion-tabs {
@@ -25,10 +36,16 @@
     align-items: center;
     justify-content: center;
     gap: 10px;
+
 }
 
-.tab-btn:not(:last-child) {
-    border-right: 1px solid #ddd;
+.tab-btn:first-child {
+    border-top-left-radius: 11px;
+    margin-right: 10px;
+}
+
+.tab-btn:last-child {
+    border-top-right-radius: 11px;
 }
 
 .tab-btn.active {
@@ -193,6 +210,78 @@
     background-color: #fff9e6;
 }
 
+#candidaturesTable,
+#mesPublicationsTable {
+    border: none !important;
+    border-collapse: collapse;
+    box-shadow: none !important;
+}
+
+#candidaturesTable th,
+#mesPublicationsTable th {
+    border: 0px solid #EBE9D7;
+}
+
+#candidaturesTable td,
+#mesPublicationsTable td {
+    border: 1px solid #EBE9D7;
+}
+
+#candidaturesTable thead,
+#mesPublicationsTable thead {
+    border: none !important;
+    position: static;
+    transform: translateY(-15px);
+}
+
+#candidaturesTable tbody tr:first-child td,
+#mesPublicationsTable tbody tr:first-child td {
+    border-top: 1px solid #EBE9D7 !important;
+}
+
+#candidaturesTable,
+#mesPublicationsTable {
+    border-collapse: separate;
+    border-spacing: 0;
+}
+
+#candidaturesTable thead tr:first-child th:first-child,
+#mesPublicationsTable thead tr:first-child th:first-child {
+    border-top-left-radius: 12px;
+    border-bottom-left-radius: 12px;
+}
+
+#candidaturesTable thead tr:first-child th:last-child,
+#mesPublicationsTable thead tr:first-child th:last-child {
+    border-top-right-radius: 12px;
+    border-bottom-right-radius: 12px;
+
+}
+
+#candidaturesTable tbody tr:last-child td:first-child,
+#mesPublicationsTable tbody tr:last-child td:first-child {
+    border-bottom-left-radius: 12px;
+}
+
+#candidaturesTable tbody tr:last-child td:last-child,
+#mesPublicationsTable tbody tr:last-child td:last-child {
+    border-bottom-right-radius: 12px;
+}
+
+#candidaturesTable tbody tr:first-child td:first-child,
+#mesPublicationsTable tbody tr:first-child td:first-child {
+    border-top-left-radius: 12px;
+}
+
+#candidaturesTable tbody tr:first-child td:last-child,
+#mesPublicationsTable tbody tr:first-child td:last-child {
+    border-top-right-radius: 12px;
+}
+
+.badge-info {
+    background-color: #808066;
+}
+
 .actions {
     position: relative;
     display: inline-block;
@@ -263,12 +352,14 @@
 .dataTables_wrapper .dataTables_paginate .paginate_button.disabled:hover,
 .dataTables_wrapper .dataTables_paginate .paginate_button.disabled:active {
     cursor: default;
+    border: 2px solid #c60000;
+    color: #c60000 !important;
 }
 
 .dataTables_wrapper .dataTables_paginate .paginate_button.current {
-    color: white !important;
-    background: #c60000 !important;
-    border-color: #c60000;
+    /* color: white !important; */
+    /* background: #c60000 !important; */
+    border: none;
 }
 
 .dataTables_wrapper .dataTables_paginate .paginate_button:not(.current):hover {
@@ -315,6 +406,7 @@
 }
 </style>
 
+
 <div class="accordion-container">
     <!-- Tabs -->
     <div class="accordion-tabs">
@@ -334,7 +426,7 @@
                 <div class="filter-group">
                     <div class="search-box">
                         <i class="fa fa-search"></i>
-                        <input type="text" class="filter-input" id="reservationsSearch" placeholder="Recherchez...">
+                        <input type="text" class="filter-input" id="candidaturesSearch" placeholder="Recherchez...">
                     </div>
                     <select class="filter-select">
                         <option value="">Statut</option>
@@ -349,15 +441,20 @@
                     </div>
                 </div>
                 <div class="filter-actions">
-                    <button class="icon-btn" title="Filter"><i class="fa fa-filter"></i></button>
-                    <button class="icon-btn" title="Download"><i class="fa fa-download"></i></button>
+                    <button class="icon-btn" title="Filter"><img width="20px"
+                            src="/wp-content/plugins/plateforme-master/images/icons/27) Icon-funnel.png"
+                            alt="Icon-funnel.png"></button>
+                    <button class="icon-btn" title="Download"><img width="20px"
+                            src="/wp-content/plugins/plateforme-master/images/icons/upload-red.png"
+                            alt="upload-red.png"></button>
                 </div>
             </div>
 
-            <table class="styled-table" id="reservationsTable">
+            <table class="styled-table" id="candidaturesTable">
                 <thead>
                     <tr>
-                        <th><input type="checkbox"></th>
+                        <!-- FIX: Added ID for check-all functionality -->
+                        <th><input type="checkbox" id="checkAllSuivi"></th>
                         <th>Auteur(s)</th>
                         <th>Type</th>
                         <th>Date soumission</th>
@@ -379,7 +476,8 @@
                             <div class="actions">
                                 <button class="action-btn"><i class="fa-solid fa-ellipsis"></i></button>
                                 <div class="dropdown-menu">
-                                    <a href="#"><i class="fa-regular fa-eye"></i>Voir</a>
+                                    <a href="/details-publication-directeur-du-labo"><i
+                                            class="fa-regular fa-eye"></i>Voir</a>
                                     <a href="#"><i class="fa-regular fa-circle-check"></i>Valider</a>
                                     <a href="#"><i class="fa-regular fa-circle-xmark"></i>Rejeter</a>
                                 </div>
@@ -398,7 +496,8 @@
                             <div class="actions">
                                 <button class="action-btn"><i class="fa-solid fa-ellipsis"></i></button>
                                 <div class="dropdown-menu">
-                                    <a href="#"><i class="fa-regular fa-eye"></i>Voir</a>
+                                    <a href="/details-publication-directeur-du-labo"><i
+                                            class="fa-regular fa-eye"></i>Voir</a>
                                     <a href="#"><i class="fa-regular fa-circle-check"></i>Valider</a>
                                     <a href="#"><i class="fa-regular fa-circle-xmark"></i>Rejeter</a>
                                 </div>
@@ -417,7 +516,8 @@
                             <div class="actions">
                                 <button class="action-btn"><i class="fa-solid fa-ellipsis"></i></button>
                                 <div class="dropdown-menu">
-                                    <a href="#"><i class="fa-regular fa-eye"></i>Voir</a>
+                                    <a href="/details-publication-directeur-du-labo"><i
+                                            class="fa-regular fa-eye"></i>Voir</a>
                                     <a href="#"><i class="fa-regular fa-circle-check"></i>Valider</a>
                                     <a href="#"><i class="fa-regular fa-circle-xmark"></i>Rejeter</a>
                                 </div>
@@ -437,7 +537,7 @@
                 <div class="filter-group">
                     <div class="search-box">
                         <i class="fa fa-search"></i>
-                        <input type="text" class="filter-input" id="candidaturesSearch" placeholder="Recherchez...">
+                        <input type="text" class="filter-input" id="mesPublicationsSearch" placeholder="Recherchez...">
                     </div>
                     <select class="filter-select">
                         <option value="">Statut</option>
@@ -454,12 +554,16 @@
                 <div class="filter-actions">
                     <a href="/ajouter-une-publication-directeur-du-labo" class="add-project-btn">Ajouter une
                         publication</a>
-                    <button class="icon-btn" title="Filter"><i class="fa fa-filter"></i></button>
-                    <button class="icon-btn" title="Download"><i class="fa fa-download"></i></button>
+                    <button class="icon-btn" title="Filter">
+                        <img width="20px" src="/wp-content/plugins/plateforme-master/images/icons/27) Icon-funnel.png"
+                            alt="Icon-funnel.png"></button>
+                    <button class="icon-btn" title="Download"><img width="20px"
+                            src="/wp-content/plugins/plateforme-master/images/icons/upload-red.png"
+                            alt="upload-red.png"></button>
                 </div>
             </div>
 
-            <table id="candidaturesTable" class="styled-table display">
+            <table id="mesPublicationsTable" class="styled-table display">
                 <thead>
                     <tr>
                         <th><input type="checkbox" id="checkAll"></th>
@@ -472,7 +576,7 @@
                 </thead>
                 <tbody>
                     <tr>
-                        <td><input type="checkbox"></td>
+                        <td><input type="checkbox" class="row-checkbox"></td>
                         <td>Article IEEE</td>
                         <td>20/06/2025</td>
                         <td>Deep Learning For BCI Systems</td>
@@ -482,15 +586,17 @@
                             <div class="actions">
                                 <button class="action-btn"><i class="fa-solid fa-ellipsis"></i></button>
                                 <div class="dropdown-menu">
-                                    <a href="#"><i class="fa-regular fa-eye"></i>Voir</a>
-                                    <a href="#"><i class="fa-regular fa-pen-to-square"></i>Modifier</a>
+                                    <a href="/details-publication-directeur-du-labo"><i
+                                            class="fa-regular fa-eye"></i>Voir</a>
+                                    <a href="/modifier-une-publication-directeur-du-labo"><i
+                                            class="fa-regular fa-pen-to-square"></i>Modifier</a>
                                     <a href="#"><i class="fa-regular fa-trash-can"></i>Supprimer</a>
                                 </div>
                             </div>
                         </td>
                     </tr>
                     <tr>
-                        <td><input type="checkbox"></td>
+                        <td><input type="checkbox" class="row-checkbox"></td>
                         <td>Conférence</td>
                         <td>15/07/2025</td>
                         <td>Signal Processing In Robotics</td>
@@ -500,15 +606,17 @@
                             <div class="actions">
                                 <button class="action-btn"><i class="fa-solid fa-ellipsis"></i></button>
                                 <div class="dropdown-menu">
-                                    <a href="#"><i class="fa-regular fa-eye"></i>Voir</a>
-                                    <a href="#"><i class="fa-regular fa-pen-to-square"></i>Modifier</a>
+                                    <a href="/details-publication-directeur-du-labo"><i
+                                            class="fa-regular fa-eye"></i>Voir</a>
+                                    <a href="/modifier-une-publication-directeur-du-labo"><i
+                                            class="fa-regular fa-pen-to-square"></i>Modifier</a>
                                     <a href="#"><i class="fa-regular fa-trash-can"></i>Supprimer</a>
                                 </div>
                             </div>
                         </td>
                     </tr>
                     <tr>
-                        <td><input type="checkbox"></td>
+                        <td><input type="checkbox" class="row-checkbox"></td>
                         <td>Article Elsevier</td>
                         <td>01/05/2025</td>
                         <td>Interfaces Cerveau-Machine</td>
@@ -518,8 +626,10 @@
                             <div class="actions">
                                 <button class="action-btn"><i class="fa-solid fa-ellipsis"></i></button>
                                 <div class="dropdown-menu">
-                                    <a href="#"><i class="fa-regular fa-eye"></i>Voir</a>
-                                    <a href="#"><i class="fa-regular fa-pen-to-square"></i>Modifier</a>
+                                    <a href="/details-publication-directeur-du-labo"><i
+                                            class="fa-regular fa-eye"></i>Voir</a>
+                                    <a href="/modifier-une-publication-directeur-du-labo"><i
+                                            class="fa-regular fa-pen-to-square"></i>Modifier</a>
                                     <a href="#"><i class="fa-regular fa-trash-can"></i>Supprimer</a>
                                 </div>
                             </div>
@@ -540,8 +650,8 @@
 $(document).ready(function() {
     // --- DATATABLE INITIALIZATION ---
 
-    // Common DataTable options
-    const dataTableOptions = {
+    // Base DataTable options, shared between tables
+    const baseDataTableOptions = {
         paging: true,
         searching: true,
         ordering: false,
@@ -554,32 +664,78 @@ $(document).ready(function() {
                 next: "<i class='fa fa-chevron-right'></i>"
             },
             emptyTable: "Aucune donnée disponible"
-        },
-        columnDefs: [{
-            orderable: false,
-            targets: [0,
-                'actions'
-            ] // Disable ordering on first column and columns with 'actions' class
-        }]
+        }
     };
 
-    // Initialize DataTable for the reservations table
-    var reservationsTable = $('#reservationsTable').DataTable(dataTableOptions);
+    // --- FIX: Initialize each table with its own specific options to prevent errors ---
 
-    // Initialize DataTable for the candidatures table
-    var candidaturesTable = $('#candidaturesTable').DataTable(dataTableOptions);
+    // Options for the first table (Suivi)
+    var suiviTableOptions = $.extend(true, {}, baseDataTableOptions, {
+        columnDefs: [{
+            orderable: false,
+            targets: [0, 6] // Correct targets for checkbox and actions columns
+        }]
+    });
+    var suiviTable = $('#candidaturesTable').DataTable(suiviTableOptions);
+
+    // Options for the second table (Mes Publications)
+    var mesPublicationsTableOptions = $.extend(true, {}, baseDataTableOptions, {
+        columnDefs: [{
+            orderable: false,
+            targets: [0, 5] // Correct targets for checkbox and actions columns
+        }]
+    });
+    var mesPublicationsTable = $('#mesPublicationsTable').DataTable(mesPublicationsTableOptions);
 
 
     // --- CUSTOM SEARCH ---
 
-    // Custom search for reservations table
-    $('#reservationsSearch').on('keyup', function() {
-        reservationsTable.search(this.value).draw();
+    // Connect each search input to its corresponding table
+    $('#candidaturesSearch').on('keyup', function() {
+        suiviTable.search(this.value).draw();
     });
 
-    // Custom search for candidatures table
-    $('#candidaturesSearch').on('keyup', function() {
-        candidaturesTable.search(this.value).draw();
+    $('#mesPublicationsSearch').on('keyup', function() {
+        mesPublicationsTable.search(this.value).draw();
+    });
+
+
+    // --- CHECK ALL FUNCTIONALITY ---
+
+    // NEW: "Check All" for "Suivi Des Publications" table
+    $('#checkAllSuivi').on('click', function() {
+        var rows = suiviTable.rows({
+            'search': 'applied'
+        }).nodes();
+        $('input[type="checkbox"]', rows).prop('checked', this.checked);
+    });
+
+    // NEW: Uncheck "Check All" in first table if an individual checkbox is unchecked
+    $('#candidaturesTable tbody').on('change', 'input[type="checkbox"]', function() {
+        if (!this.checked) {
+            var el = $('#checkAllSuivi').get(0);
+            if (el && el.checked && ('indeterminate' in el)) {
+                el.indeterminate = true;
+            }
+        }
+    });
+
+    // "Check All" for "Mes Publications" table
+    $('#checkAll').on('click', function() {
+        var rows = mesPublicationsTable.rows({
+            'search': 'applied'
+        }).nodes();
+        $('input[type="checkbox"]', rows).prop('checked', this.checked);
+    });
+
+    // Uncheck "Check All" in second table if an individual checkbox is unchecked
+    $('#mesPublicationsTable tbody').on('change', 'input[type="checkbox"]', function() {
+        if (!this.checked) {
+            var el = $('#checkAll').get(0);
+            if (el && el.checked && ('indeterminate' in el)) {
+                el.indeterminate = true;
+            }
+        }
     });
 
 
@@ -592,20 +748,20 @@ $(document).ready(function() {
         $(this).addClass('active');
         $('.tab-panel').removeClass('active');
         $('#' + tabId).addClass('active');
+        // Redraw tables on tab switch to fix any layout issues
+        suiviTable.draw();
+        mesPublicationsTable.draw();
     });
 
     // Dropdown menu logic for both tables
     $(document).on('click', '.action-btn', function(e) {
         e.stopPropagation();
         let dropdown = $(this).closest('.actions').find('.dropdown-menu');
-
-        // Hide all other dropdowns before showing the new one
         $('.dropdown-menu').not(dropdown).hide();
-
         dropdown.toggle();
     });
 
-    // Close dropdowns when clicking anywhere else on the document
+    // Close dropdowns when clicking anywhere else
     $(document).on('click', function() {
         $('.dropdown-menu').hide();
     });

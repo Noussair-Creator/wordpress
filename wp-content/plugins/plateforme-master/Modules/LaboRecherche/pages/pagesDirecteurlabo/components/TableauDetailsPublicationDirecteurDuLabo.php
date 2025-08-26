@@ -1389,13 +1389,17 @@ form.popup-form {
 
                 <td>001</td>
                 <td>Deeplearning_BCI_Systems.Pdf</td>
-                <td><i class="fa-solid fa-download" style="color: #BF0404; text-align: center;"></i></td>
+                <td>
+                    <img width="20px" src="/wp-content/plugins/plateforme-master/images/icons/upload-red.png"
+                        alt="upload-red.png">
+                </td>
             </tr>
             <tr>
 
                 <td>002</td>
                 <td>Poster_Bci2025.Pdf</td>
-                <td><i class="fa-solid fa-download" style="color: #BF0404; text-align: center;"></i></td>
+                <td><img width="20px" src="/wp-content/plugins/plateforme-master/images/icons/upload-red.png"
+                        alt="upload-red.png"></td>
             </tr>
 
         </tbody>

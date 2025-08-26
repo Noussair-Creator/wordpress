@@ -134,21 +134,39 @@
                 <tr>
                     <td>001</td>
                     <td>Convention projet</td>
-                    <td><a href="#"><i class="fas fa-file-pdf pdf-icon"></i> Convention_BCI_UTM.pdf</a></td>
+                    <td><a href="#">
+
+                            <!-- <i class="fas fa-file-pdf pdf-icon"></i>  -->
+                            <img class="pdf-icon" width="20px"
+                                src="/wp-content/plugins/plateforme-master/images/icons/pdf-svgrepo-com (2).png"
+                                alt="pdf-svgrepo-com">
+                            Convention_BCI_UTM.pdf
+                        </a></td>
                     <td>1.0</td>
                     <td>01/02/2024</td>
                 </tr>
                 <tr>
                     <td>002</td>
                     <td>Planning détaillé</td>
-                    <td><a href="#"><i class="fas fa-file-excel pdf-icon"></i> Planning_BCI_Q1Q2_2025.xlsx</a></td>
+
+                    <!-- <i class="fas fa-file-excel pdf-icon"></i> -->
+                    <td><a href="#">
+                            <img class="pdf-icon" width="20px"
+                                src="/wp-content/plugins/plateforme-master/images/icons/excel-document.png"
+                                alt="excel-document">
+                            Planning_BCI_Q1Q2_2025.xlsx</a>
+                    </td>
                     <td>1.2</td>
                     <td>20/01/2025</td>
                 </tr>
                 <tr>
                     <td>003</td>
                     <td>Rapport d'étape</td>
-                    <td><a href="#"><i class="fas fa-file-pdf pdf-icon"></i> Rapport_BCI_Progress2024.pdf</a></td>
+                    <!-- <td><a href="#"><i class="fas fa-file-pdf pdf-icon"></i> -->
+                    <td><a href="#"><img class="pdf-icon" width="20px"
+                                src="/wp-content/plugins/plateforme-master/images/icons/pdf-svgrepo-com (2).png"
+                                alt="pdf-svgrepo-com">
+                            Rapport_BCI_Progress2024.pdf</a></td>
                     <td>1.0</td>
                     <td>15/12/2024</td>
                 </tr>

@@ -46,16 +46,16 @@ $roleConfigs = [
         "menu" => [
             ["label" => "Dashboard", "lien" => "/espace-directeur-de-recherche"],
             ["label" => "Membres", "lien" => "/membre-de-labo"],
-            ["label" => "Projets", "lien" => "#"],
-            ["label" => "Activités", "lien" => "#"],
+            ["label" => "Projets de recherche", "lien" => "/programmes-et-projets-de-recherches"],
+            // ["label" => "Activités", "lien" => "#"],
             ["label" => "Bibliothèque", "lien" => "#"],
             ["label" => "Publications", "lien" => "/publication-directeur-du-labo"],
-            ["label" => "Partenariats", "lien" => "#"],
-            ["label" => "Budgets", "lien" => "#"],
+            ["label" => "Réseaux de la recherche", "lien" => "/reseaux-de-la-recherche-directeur-labo"],
+            ["label" => "Budgets", "lien" => "/financement-directeur-labo"],
             ["label" => "Rapports", "lien" => "#"],
-            ["label" => "Réunions", "lien" => "#"],
+            ["label" => "Réunions", "lien" => "/reunions-directeur-du-labo"],
             ["label" => "Contacts", "lien" => "/contacts-directeur-du-labo"],
-            ["label" => "Réclamations", "lien" => "#"]
+            ["label" => "Réclamations", "lien" => "/reclamations-directeur-du-labo"]
         ],
         "calendriers" => [
             "Colloques",

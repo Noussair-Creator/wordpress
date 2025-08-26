@@ -38,7 +38,7 @@
         </div> -->
 
         <!-- Right Bar Chart -->
-        <div class="right-graph bar-chart-section" style="max-width: unset;width: 51vw;">
+        <div class="right-graph bar-chart-section" style="max-width: unset;width: 57vw;">
             <div class="graph-header">
                 <h4>Répartition par type d’activité</h4>
                 <select class="graph-select">
