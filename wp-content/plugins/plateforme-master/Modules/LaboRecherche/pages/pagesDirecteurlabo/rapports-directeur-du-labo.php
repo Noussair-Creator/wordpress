@@ -57,8 +57,7 @@ require_once plugin_dir_path(__FILE__) . '../requireApi.php';
 
                 <div class="content p-4">
 
-                    <?php include 'components/statreclamations-directeur-du-labo.php'; ?>
-                    <?php include 'components/Tablereclamations-directeur-du-labo.php'; ?>
+                    <?php include 'components/rapports-directeur-du-labo.php'; ?>
 
                 </div>
             </div>

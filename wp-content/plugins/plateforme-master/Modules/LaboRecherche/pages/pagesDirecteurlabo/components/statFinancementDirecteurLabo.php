@@ -1,7 +1,7 @@
 <div class="statistiques-wrapper">
     <div class="header-bar">
         <h2 class="dashboard-sub-title">
-            <img src="/wp-content/plugins/plateforme-master/images/ed/16406436.png" alt="Icon"
+            <img src="/wp-content/plugins/plateforme-master/images/icons/1170616.png" alt="Icon"
                 style="width: 38px; margin-right: 8px; vertical-align: middle;">
             Statistiques Générales
         </h2>

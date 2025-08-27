@@ -52,7 +52,7 @@ $roleConfigs = [
             ["label" => "Publications", "lien" => "/publication-directeur-du-labo"],
             ["label" => "Réseaux de la recherche", "lien" => "/reseaux-de-la-recherche-directeur-labo"],
             ["label" => "Budgets", "lien" => "/financement-directeur-labo"],
-            ["label" => "Rapports", "lien" => "#"],
+            ["label" => "Rapports", "lien" => "/rapports-directeur-du-labo"],
             ["label" => "Réunions", "lien" => "/reunions-directeur-du-labo"],
             ["label" => "Contacts", "lien" => "/contacts-directeur-du-labo"],
             ["label" => "Réclamations", "lien" => "/reclamations-directeur-du-labo"]

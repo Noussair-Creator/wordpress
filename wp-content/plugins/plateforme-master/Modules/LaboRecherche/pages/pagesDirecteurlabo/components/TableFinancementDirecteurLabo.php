@@ -3,7 +3,8 @@
 body {
     font-family: 'Segoe UI', sans-serif;
     background-color: #f4f5f7;
-    padding: 20px;
+    /* padding: 20px; */
+    color: #333;
 }
 
 /* Main Content Block */
@@ -12,6 +13,8 @@ body {
     border-radius: 10px;
     padding: 24px;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+    max-width: 1200px;
+    margin: auto;
 }
 
 /* Header */
@@ -137,6 +140,7 @@ body {
     text-align: center;
     border-bottom: 1px solid #EBE9D7;
     font-size: 14px;
+    white-space: nowrap;
 }
 
 .styled-table tbody td {
@@ -145,6 +149,7 @@ body {
     border: 1px solid #EBE9D7;
     border-top: none;
     font-size: 14px;
+    white-space: nowrap;
 }
 
 .styled-table th:first-child,
@@ -154,12 +159,10 @@ body {
 
 .styled-table th:first-child {
     border-top-left-radius: 12px;
-    border-bottom-left-radius: 12px;
 }
 
 .styled-table th:last-child {
     border-top-right-radius: 12px;
-    border-bottom-right-radius: 12px;
 }
 
 .styled-table tbody tr:last-child td:first-child {
@@ -265,6 +268,10 @@ body {
     padding: 5px;
 }
 
+.dropdown-menu.show {
+    display: block;
+}
+
 .dropdown-menu a {
     display: block;
     padding: 9px;
@@ -279,7 +286,7 @@ body {
     background-color: #f4f4f4;
 }
 
-/* DataTables Pagination */
+/* DataTables Customizations */
 .dataTables_wrapper .dataTables_paginate {
     display: flex;
     justify-content: center;
@@ -288,7 +295,7 @@ body {
 }
 
 .dataTables_wrapper .dataTables_paginate .paginate_button {
-    border: 2px solid #c60000;
+    border: 2px solid #c60000 !important;
     color: #c60000 !important;
     padding: 8px 14px;
     border-radius: 8px;
@@ -297,6 +304,9 @@ body {
     cursor: pointer;
     font-size: 13px;
     box-shadow: none !important;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .dataTables_wrapper .dataTables_paginate .paginate_button:hover {
@@ -305,77 +315,62 @@ body {
 }
 
 .dataTables_wrapper .dataTables_paginate .paginate_button.current {
-    background: #c60000 !important;
-    color: white !important;
+    background: #ffffffff !important;
+    color: #3333 !important;
     border-color: #c60000;
 }
 
 .dataTables_wrapper .dataTables_paginate .ellipsis {
     display: none;
 }
-
-.dataTables_wrapper .dataTables_length,
-.dataTables_wrapper .dataTables_filter,
-.dataTables_wrapper .dataTables_info,
-.dataTables_wrapper .dataTables_processing,
-.dataTables_wrapper .dataTables_paginate {
-    color: transparent;
-}
 </style>
 
 <div class="content-block">
     <div class="header-bar">
         <h2 class="dashboard-sub-title">
-            <img src="https://placehold.co/38x38/c60000/ffffff?text=B" alt="Icon"
+            <img src="/wp-content/plugins/plateforme-master/images/icons/2515972.png" alt="Icon"
                 style="width: 38px; margin-right: 8px; vertical-align: middle; border-radius: 5px;">
             Suivi Budgétaire Par Source
         </h2>
     </div>
-
     <hr class="section-divider">
-
     <div class="filter-bar">
         <div class="filter-inputs">
-            <!-- Search Input -->
             <div class="input-with-icon">
-                <input class="filter-input" type="text" placeholder="Recherchez...">
+                <input class="filter-input" type="text" id="searchInput" placeholder="Recherchez...">
                 <i class="fas fa-search icon right-icon"></i>
             </div>
-
-            <!-- Source Select -->
             <div class="input-with-icon">
-                <select class="filter-select">
-                    <option value="" disabled selected>Source</option>
-                    <option>MESRS</option>
-                    <option>Programme H2020 – BCI</option>
-                    <option>Coopération Tunisie-Belgique</option>
-                    <option>Autofinancement</option>
+                <select class="filter-select" id="sourceFilter">
+                    <option value="">Source</option>
+                    <option value="MESRS">MESRS</option>
+                    <option value="Programme H2020 – BCI">Programme H2020 – BCI</option>
+                    <option value="Coopération Tunisie-Belgique">Coopération Tunisie-Belgique</option>
+                    <option value="Autofinancement">Autofinancement</option>
                 </select>
                 <i class="fas fa-chevron-down icon right-icon"></i>
             </div>
-
-            <!-- Status Select -->
             <div class="input-with-icon">
-                <select class="filter-select">
-                    <option value="" disabled selected>Statut</option>
-                    <option>Actif</option>
-                    <option>En cours</option>
+                <select class="filter-select" id="statusFilter">
+                    <option value="">Statut</option>
+                    <option value="Actif">Actif</option>
+                    <option value="En cours">En cours</option>
                 </select>
                 <i class="fas fa-chevron-down icon right-icon"></i>
             </div>
         </div>
-
         <div class="filter-actions">
             <button class="icon-btn" title="Filter">
-                <i class="fa fa-filter"></i>
+                <img width="20px" src="/wp-content/plugins/plateforme-master/images/icons/27) Icon-funnel.png"
+                    alt="Icon-funnel">
             </button>
             <button class="icon-btn" title="Download">
-                <i class="fa fa-download"></i>
+                <img width="20px" src="/wp-content/plugins/plateforme-master/images/icons/Groupe 152.png"
+                    alt="upload-red.png">
             </button>
         </div>
     </div>
-
-    <table id="candidaturesTable" class="styled-table display">
+    <table id="candidaturesTable" class="styled-table display" style="width:100%">
         <thead>
             <tr>
                 <th><input type="checkbox" id="checkAll"></th>
@@ -391,14 +386,15 @@ body {
         </thead>
         <tbody>
             <tr>
-                <td><input type="checkbox"></td>
+                <td><input type="checkbox" class="row-checkbox"></td>
                 <td class="left">MESRS</td>
                 <td class="left">Public</td>
                 <td>200 000</td>
                 <td>120 000</td>
                 <td>80 000</td>
                 <td><span class="badge badge-success"><i class="fa-regular fa-circle-check"
-                            style="color: #0E962D; padding-right:5px;"></i>Actif</span></td>
+                            style="color: #0E962D; padding-right:5px;"></i>Actif</span>
+                </td>
                 <td>
                     <div class="icon-with-badge">
                         <i class="fas fa-paperclip main-icon"></i>
@@ -416,14 +412,15 @@ body {
                 </td>
             </tr>
             <tr>
-                <td><input type="checkbox"></td>
+                <td><input type="checkbox" class="row-checkbox"></td>
                 <td class="left">Programme H2020 – BCI</td>
                 <td class="left">International</td>
                 <td>150 000</td>
                 <td>95 000</td>
                 <td>55 000</td>
                 <td><span class="badge badge-success"><i class="fa-regular fa-circle-check"
-                            style="color: #0E962D; padding-right:5px;"></i>Actif</span></td>
+                            style="color: #0E962D; padding-right:5px;"></i>Actif</span>
+                </td>
                 <td>
                     <div class="icon-with-badge">
                         <i class="fas fa-paperclip main-icon"></i>
@@ -441,7 +438,7 @@ body {
                 </td>
             </tr>
             <tr>
-                <td><input type="checkbox"></td>
+                <td><input type="checkbox" class="row-checkbox"></td>
                 <td class="left">Coopération Tunisie-Belgique</td>
                 <td class="left">Bilatéral</td>
                 <td>100 000</td>
@@ -466,14 +463,15 @@ body {
                 </td>
             </tr>
             <tr>
-                <td><input type="checkbox"></td>
+                <td><input type="checkbox" class="row-checkbox"></td>
                 <td class="left">Autofinancement</td>
                 <td class="left">Interne</td>
                 <td>70 000</td>
                 <td>57 000</td>
                 <td>13 000</td>
                 <td><span class="badge badge-success"><i class="fa-regular fa-circle-check"
-                            style="color: #0E962D; padding-right:5px;"></i>Actif</span></td>
+                            style="color: #0E962D; padding-right:5px;"></i>Actif</span>
+                </td>
                 <td>
                     <div class="icon-with-badge">
                         <i class="fas fa-paperclip main-icon"></i>
@@ -485,7 +483,33 @@ body {
                         <button class="action-btn">...</button>
                         <div class="dropdown-menu">
                             <a href="#">Télécharger justificatif</a>
-                            <a href="/financement-fiche-de-financement">Détail</a>
+                            <a href="/financement-fiche-de-financement-directeur-labo">Détail</a>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td><input type="checkbox" class="row-checkbox"></td>
+                <td class="left">New Project Funding</td>
+                <td class="left">Private</td>
+                <td>500 000</td>
+                <td>250 000</td>
+                <td>250 000</td>
+                <td><span class="badge badge-success"><i class="fa-regular fa-circle-check"
+                            style="color: #0E962D; padding-right:5px;"></i>Actif</span>
+                </td>
+                <td>
+                    <div class="icon-with-badge">
+                        <i class="fas fa-paperclip main-icon"></i>
+                        <span class="icon-badge">5</span>
+                    </div>
+                </td>
+                <td>
+                    <div class="actions">
+                        <button class="action-btn">...</button>
+                        <div class="dropdown-menu">
+                            <a href="#">Télécharger justificatif</a>
+                            <a href="/financement-fiche-de-financement-directeur-labo">Détail</a>
                         </div>
                     </div>
                 </td>
@@ -493,3 +517,70 @@ body {
         </tbody>
     </table>
 </div>
+
+<!-- SCRIPTS -->
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+
+<script>
+$(document).ready(function() {
+    // --- TABLE 1 SCRIPT ---
+    var table1 = $('#candidaturesTable').DataTable({
+        destroy: true,
+        paging: true,
+        searching: true,
+        ordering: false,
+        info: false,
+        pageLength: 5,
+        dom: 'rt<"bottom"p><"clear">',
+        language: {
+            paginate: {
+                previous: "<i class='fa fa-chevron-left' style='color:red'></i>",
+                next: "<i class='fa fa-chevron-right' style='color:red'></i>"
+            },
+            emptyTable: "Aucune donnée disponible",
+            zeroRecords: "Aucun enregistrement correspondant trouvé"
+        }
+    });
+
+    $('#searchInput').on('keyup', function() {
+        table1.search(this.value).draw();
+    });
+
+    $('#sourceFilter').on('change', function() {
+        table1.column(1).search(this.value).draw();
+    });
+
+    $('#statusFilter').on('change', function() {
+        table1.column(6).search(this.value).draw();
+    });
+
+    $("#checkAll").on("click", function() {
+        var rows = table1.rows({
+            'search': 'applied'
+        }).nodes();
+        $('input[type="checkbox"]', rows).prop('checked', this.checked);
+    });
+
+    $('#candidaturesTable tbody').on('change', 'input[type="checkbox"]', function() {
+        if (!this.checked) {
+            var el = $('#checkAll').get(0);
+            if (el && el.checked && ('indeterminate' in el)) {
+                el.indeterminate = true;
+            }
+        }
+    });
+
+    // --- GENERIC DROPDOWN MENU LOGIC ---
+    $(document).on('click', '.action-btn', function(event) {
+        event.stopPropagation();
+        var dropdown = $(this).next('.dropdown-menu');
+        $('.dropdown-menu').not(dropdown).removeClass('show');
+        dropdown.toggleClass('show');
+    });
+
+    $(document).on('click', function() {
+        $('.dropdown-menu').removeClass('show');
+    });
+});
+</script>

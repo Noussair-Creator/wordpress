@@ -2,6 +2,9 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 <!-- DataTables CSS for styling the tables -->
 <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
+<!-- Flatpickr CSS for the date picker -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+
 <style>
 body {
     font-family: 'Segoe UI', sans-serif;
@@ -13,8 +16,6 @@ body {
     box-shadow: 0 0 8px rgba(0, 0, 0, 0.05);
     border: 1px solid #ddd;
     overflow: hidden;
-    max-width: 1200px;
-    margin: auto;
 }
 
 .accordion-tabs {
@@ -41,11 +42,13 @@ body {
 
 .tab-btn:first-child {
     border-top-left-radius: 11px;
+    border-top-right-radius: 11px;
     margin-right: 10px;
 }
 
 .tab-btn:last-child {
     border-top-right-radius: 11px;
+    border-top-left-radius: 11px;
 }
 
 .tab-btn.active {
@@ -123,6 +126,12 @@ body {
     border-radius: 6px;
 }
 
+.filter-bar .filter-input:focus,
+.filter-bar .filter-select:focus {
+    outline: none;
+    border-color: #c60000;
+}
+
 .filter-select {
     padding: 10px 12px;
     border-radius: 6px;
@@ -155,7 +164,7 @@ body {
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    color: #BF0404;
+    color: #D71920;
     font-size: 18px;
 }
 
@@ -339,8 +348,8 @@ body {
 }
 
 .dataTables_wrapper .dataTables_paginate .paginate_button {
-    border: 2px solid #c60000;
-    color: #c60000 !important;
+    border: 2px solid #D71920;
+    color: #D71920 !important;
     padding: 8px 14px;
     border-radius: 8px;
     background: white !important;
@@ -352,13 +361,12 @@ body {
 .dataTables_wrapper .dataTables_paginate .paginate_button.disabled:hover,
 .dataTables_wrapper .dataTables_paginate .paginate_button.disabled:active {
     cursor: default;
-    border: 2px solid #c60000;
-    color: #c60000 !important;
+    border: 2px solid #D71920;
+    color: #D71920 !important;
+    padding: 10px 16px;
 }
 
 .dataTables_wrapper .dataTables_paginate .paginate_button.current {
-    /* color: white !important; */
-    /* background: #c60000 !important; */
     border: none;
 }
 
@@ -383,7 +391,7 @@ body {
 }
 
 #tab2 .add-project-btn {
-    background-color: #c60000;
+    background-color: #D71920;
     color: white;
     border: none;
     border-radius: 6px;
@@ -395,7 +403,7 @@ body {
 }
 
 #tab2 .add-project-btn:hover {
-    background-color: #a50000;
+    background-color: #b8151a;
 }
 
 #tab2 .section-divider {
@@ -404,9 +412,49 @@ body {
     background-color: #eee;
     margin-bottom: 25px;
 }
+
+/* --- CUSTOM FLATPCIKR STYLES --- */
+.flatpickr-calendar .flatpickr-day.selected,
+.flatpickr-calendar .flatpickr-day.startRange,
+.flatpickr-calendar .flatpickr-day.endRange {
+    background: #D71920;
+    border-color: #D71920;
+    color: #fff;
+}
+
+.flatpickr-weekdays {
+    background: #c600001a;
+}
+
+.flatpickr-current-month input.cur-year,
+.flatpickr-current-month .flatpickr-monthDropdown-months {
+    color: #D71920;
+}
+
+.flatpickr-calendar .flatpickr-day.selected:hover,
+.flatpickr-calendar .flatpickr-day.startRange:hover,
+.flatpickr-calendar .flatpickr-day.endRange:hover {
+    background: #D71920;
+    border-color: #D71920;
+    color: #fff;
+}
+
+.flatpickr-calendar .flatpickr-day.inRange {
+    background: #fdf0f0;
+    box-shadow: -5px 0 0 #fdf0f0, 5px 0 0 #fdf0f0;
+}
+
+.flatpickr-calendar .flatpickr-day.today {
+    border-color: #D71920;
+    color: #333;
+}
+
+.flatpickr-calendar .flatpickr-day.today:hover {
+    background: #e6e6e6;
+    border-color: #D71920;
+    color: #333;
+}
 </style>
-
-
 <div class="accordion-container">
     <!-- Tabs -->
     <div class="accordion-tabs">
@@ -428,32 +476,32 @@ body {
                         <i class="fa fa-search"></i>
                         <input type="text" class="filter-input" id="candidaturesSearch" placeholder="Recherchez...">
                     </div>
-                    <select class="filter-select">
+                    <select class="filter-select" id="statusFilterSuivi">
                         <option value="">Statut</option>
                         <option value="Validée">Validée</option>
                         <option value="Rejetée">Rejetée</option>
                         <option value="En attente">En attente</option>
                     </select>
                     <div class="date-input-container">
-                        <input type="text" class="date-input" placeholder="Date" onfocus="(this.type='date')"
-                            onblur="(this.type='text')">
-                        <i class="fa fa-calendar"></i>
+                        <input type="text" class="date-input" id="dateFilterSuivi"
+                            placeholder="Sélectionner une plage de dates">
+                        <img width="20px" src="/wp-content/plugins/plateforme-master/images/icons/27) Icon-calendar.png"
+                            alt="Icon-calendar" onerror="this.style.display='none'">
                     </div>
                 </div>
                 <div class="filter-actions">
                     <button class="icon-btn" title="Filter"><img width="20px"
                             src="/wp-content/plugins/plateforme-master/images/icons/27) Icon-funnel.png"
-                            alt="Icon-funnel.png"></button>
+                            alt="Icon-funnel.png" onerror="this.style.display='none'"></button>
                     <button class="icon-btn" title="Download"><img width="20px"
-                            src="/wp-content/plugins/plateforme-master/images/icons/upload-red.png"
-                            alt="upload-red.png"></button>
+                            src="/wp-content/plugins/plateforme-master/images/icons/upload-red.png" alt="upload-red.png"
+                            onerror="this.style.display='none'"></button>
                 </div>
             </div>
 
             <table class="styled-table" id="candidaturesTable">
                 <thead>
                     <tr>
-                        <!-- FIX: Added ID for check-all functionality -->
                         <th><input type="checkbox" id="checkAllSuivi"></th>
                         <th>Auteur(s)</th>
                         <th>Type</th>
@@ -539,16 +587,18 @@ body {
                         <i class="fa fa-search"></i>
                         <input type="text" class="filter-input" id="mesPublicationsSearch" placeholder="Recherchez...">
                     </div>
-                    <select class="filter-select">
+                    <select class="filter-select" id="statusFilterMesPublications">
                         <option value="">Statut</option>
                         <option value="Validée">Validée</option>
                         <option value="Rejetée">Rejetée</option>
                         <option value="En attente">En attente</option>
                     </select>
                     <div class="date-input-container">
-                        <input type="text" class="date-input" placeholder="Date" onfocus="(this.type='date')"
-                            onblur="(this.type='text')">
-                        <i class="fa fa-calendar"></i>
+                        <input type="text" class="date-input" id="dateFilterMesPublications"
+                            placeholder="Sélectionner une plage de dates">
+                        <img width="20px" src="/wp-content/plugins/plateforme-master/images/icons/27) Icon-calendar.png"
+                            alt="Icon-calendar" onerror="this.style.display='none'">
+
                     </div>
                 </div>
                 <div class="filter-actions">
@@ -556,10 +606,10 @@ body {
                         publication</a>
                     <button class="icon-btn" title="Filter">
                         <img width="20px" src="/wp-content/plugins/plateforme-master/images/icons/27) Icon-funnel.png"
-                            alt="Icon-funnel.png"></button>
+                            alt="Icon-funnel.png" onerror="this.style.display='none'"></button>
                     <button class="icon-btn" title="Download"><img width="20px"
-                            src="/wp-content/plugins/plateforme-master/images/icons/upload-red.png"
-                            alt="upload-red.png"></button>
+                            src="/wp-content/plugins/plateforme-master/images/icons/upload-red.png" alt="upload-red.png"
+                            onerror="this.style.display='none'"></button>
                 </div>
             </div>
 
@@ -645,52 +695,92 @@ body {
 <!-- jQuery + DataTables JS -->
 <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
 <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+<!-- Flatpickr JS for the date picker -->
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+<!-- French locale for Flatpickr -->
+<script src="https://npmcdn.com/flatpickr/dist/l10n/fr.js"></script>
 
 <script>
 $(document).ready(function() {
     // --- DATATABLE INITIALIZATION ---
 
-    // Base DataTable options, shared between tables
     const baseDataTableOptions = {
         paging: true,
         searching: true,
         ordering: false,
         info: false,
-        pageLength: 5,
-        dom: 't<"bottom"p>', // 't' is table, 'p' is pagination
+        pageLength: 5, // Reverted to original value
+        dom: 't<"bottom"p>',
         language: {
             paginate: {
-                previous: "<i class='fa fa-chevron-left'></i>",
-                next: "<i class='fa fa-chevron-right'></i>"
+                previous: "<i class='fa fa-chevron-left' style='color:#C60000;'></i>",
+                next: "<i class='fa fa-chevron-right' style='color:#C60000;'></i>"
             },
-            emptyTable: "Aucune donnée disponible"
+            emptyTable: "Aucune donnée disponible dans le tableau",
+            zeroRecords: "Aucun enregistrement correspondant trouvé"
         }
     };
 
-    // --- FIX: Initialize each table with its own specific options to prevent errors ---
-
-    // Options for the first table (Suivi)
-    var suiviTableOptions = $.extend(true, {}, baseDataTableOptions, {
+    var suiviTable = $('#candidaturesTable').DataTable($.extend(true, {}, baseDataTableOptions, {
         columnDefs: [{
             orderable: false,
-            targets: [0, 6] // Correct targets for checkbox and actions columns
+            targets: [0, 6]
         }]
-    });
-    var suiviTable = $('#candidaturesTable').DataTable(suiviTableOptions);
+    }));
 
-    // Options for the second table (Mes Publications)
-    var mesPublicationsTableOptions = $.extend(true, {}, baseDataTableOptions, {
-        columnDefs: [{
-            orderable: false,
-            targets: [0, 5] // Correct targets for checkbox and actions columns
-        }]
-    });
-    var mesPublicationsTable = $('#mesPublicationsTable').DataTable(mesPublicationsTableOptions);
+    var mesPublicationsTable = $('#mesPublicationsTable').DataTable($.extend(true, {},
+        baseDataTableOptions, {
+            columnDefs: [{
+                orderable: false,
+                targets: [0, 5]
+            }]
+        }));
 
 
-    // --- CUSTOM SEARCH ---
+    // --- CUSTOM DATE RANGE FILTERING LOGIC ---
+    $.fn.dataTable.ext.search.push(
+        function(settings, data, dataIndex) {
+            let dateInputId, dateColumnIndex;
 
-    // Connect each search input to its corresponding table
+            if (settings.nTable.id === 'candidaturesTable') {
+                dateInputId = 'dateFilterSuivi';
+                dateColumnIndex = 3;
+            } else if (settings.nTable.id === 'mesPublicationsTable') {
+                dateInputId = 'dateFilterMesPublications';
+                dateColumnIndex = 2;
+            } else {
+                return true;
+            }
+
+            const dateRange = $('#' + dateInputId).val();
+            const tableDateRaw = data[dateColumnIndex] || '';
+
+            if (!dateRange) return true;
+
+            const rangeParts = dateRange.split(' to '); // Flatpickr's range separator
+            if (rangeParts.length < 2) return true;
+
+            const startDateStr = rangeParts[0];
+            const endDateStr = rangeParts[1];
+
+            const tableDateParts = tableDateRaw.split('/');
+            if (tableDateParts.length !== 3) return false;
+
+            // Note: new Date(year, monthIndex, day)
+            const tableDate = new Date(tableDateParts[2], tableDateParts[1] - 1, tableDateParts[0]);
+            const startDate = new Date(startDateStr);
+            const endDate = new Date(endDateStr);
+
+            tableDate.setHours(0, 0, 0, 0);
+            startDate.setHours(0, 0, 0, 0);
+            endDate.setHours(0, 0, 0, 0);
+
+            return tableDate >= startDate && tableDate <= endDate;
+        }
+    );
+
+    // --- EVENT LISTENERS FOR FILTERS ---
+
     $('#candidaturesSearch').on('keyup', function() {
         suiviTable.search(this.value).draw();
     });
@@ -699,10 +789,36 @@ $(document).ready(function() {
         mesPublicationsTable.search(this.value).draw();
     });
 
+    $('#statusFilterSuivi').on('change', function() {
+        suiviTable.column(5).search($(this).val()).draw();
+    });
+
+    $('#statusFilterMesPublications').on('change', function() {
+        mesPublicationsTable.column(4).search($(this).val()).draw();
+    });
+
+    // --- FLATPCIKR INITIALIZATION FOR DATE RANGE ---
+    flatpickr("#dateFilterSuivi", {
+        mode: "range",
+        dateFormat: "Y-m-d",
+        locale: "fr",
+        onChange: function(selectedDates, dateStr, instance) {
+            suiviTable.draw();
+        }
+    });
+
+    flatpickr("#dateFilterMesPublications", {
+        mode: "range",
+        dateFormat: "Y-m-d",
+        locale: "fr",
+        onChange: function(selectedDates, dateStr, instance) {
+            mesPublicationsTable.draw();
+        }
+    });
+
 
     // --- CHECK ALL FUNCTIONALITY ---
 
-    // NEW: "Check All" for "Suivi Des Publications" table
     $('#checkAllSuivi').on('click', function() {
         var rows = suiviTable.rows({
             'search': 'applied'
@@ -710,7 +826,6 @@ $(document).ready(function() {
         $('input[type="checkbox"]', rows).prop('checked', this.checked);
     });
 
-    // NEW: Uncheck "Check All" in first table if an individual checkbox is unchecked
     $('#candidaturesTable tbody').on('change', 'input[type="checkbox"]', function() {
         if (!this.checked) {
             var el = $('#checkAllSuivi').get(0);
@@ -720,7 +835,6 @@ $(document).ready(function() {
         }
     });
 
-    // "Check All" for "Mes Publications" table
     $('#checkAll').on('click', function() {
         var rows = mesPublicationsTable.rows({
             'search': 'applied'
@@ -728,7 +842,6 @@ $(document).ready(function() {
         $('input[type="checkbox"]', rows).prop('checked', this.checked);
     });
 
-    // Uncheck "Check All" in second table if an individual checkbox is unchecked
     $('#mesPublicationsTable tbody').on('change', 'input[type="checkbox"]', function() {
         if (!this.checked) {
             var el = $('#checkAll').get(0);
@@ -741,19 +854,27 @@ $(document).ready(function() {
 
     // --- UI INTERACTIONS ---
 
-    // Tab switching logic
     $('.tab-btn').on('click', function() {
         const tabId = $(this).data('tab');
+
+        if ($(this).hasClass('active')) {
+            return;
+        }
+
         $('.tab-btn').removeClass('active');
         $(this).addClass('active');
         $('.tab-panel').removeClass('active');
         $('#' + tabId).addClass('active');
-        // Redraw tables on tab switch to fix any layout issues
-        suiviTable.draw();
-        mesPublicationsTable.draw();
+
+        // *** ERROR FIX IS HERE ***
+        // The previous code had an extra `$()` wrapper which caused the error.
+        // This is the correct way to call the API.
+        $.fn.dataTable.tables({
+            visible: true,
+            api: true
+        }).columns.adjust();
     });
 
-    // Dropdown menu logic for both tables
     $(document).on('click', '.action-btn', function(e) {
         e.stopPropagation();
         let dropdown = $(this).closest('.actions').find('.dropdown-menu');
@@ -761,7 +882,6 @@ $(document).ready(function() {
         dropdown.toggle();
     });
 
-    // Close dropdowns when clicking anywhere else
     $(document).on('click', function() {
         $('.dropdown-menu').hide();
     });

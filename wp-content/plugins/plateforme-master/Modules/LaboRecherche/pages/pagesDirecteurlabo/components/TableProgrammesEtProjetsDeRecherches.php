@@ -3,12 +3,16 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 <!-- DataTables CSS -->
 <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css" />
-<link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.3.6/css/buttons.dataTables.min.css">
-<!-- Quill CSS -->
-<link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+<!-- Flatpickr CSS for Date Picker -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 
 <!-- Internal CSS Styles -->
 <style>
+body {
+    font-family: 'Segoe UI', sans-serif;
+    background-color: #f4f4f9;
+}
+
 .dashboard-sub-title {
     font-weight: bold;
 }
@@ -20,12 +24,14 @@
     gap: 1rem;
     padding-bottom: 20px;
     position: relative;
+    flex-wrap: wrap;
 }
 
 .filter-inputs {
     display: flex;
     align-items: center;
     gap: 0.75rem;
+    flex-wrap: wrap;
 }
 
 .input-with-icon {
@@ -101,72 +107,15 @@
     background-color: #f5f5f5;
 }
 
-.filter-selectgb {
-    display: contents;
-}
-
-.filter-bar {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 15px;
-    margin-bottom: 20px;
-    align-items: center;
-}
-
-.filter-input,
-.filter-select {
-    padding: 10px 12px;
-    border-radius: 6px;
-    border: 1px solid #ccc;
-    font-size: 15px;
-    background-color: #fff;
-}
-
-.filter-input {
-    width: 220px;
-}
-
-.filter-select {
-    min-width: 180px;
-}
-
 .filter-actions {
     display: flex;
     gap: 10px;
-    margin-left: auto;
-}
-
-.btn-ajouter-colonnes {
-    background: #fff;
-    border: 1px solid #ccc;
-    padding: 10px 14px;
-    border-radius: 6px;
-    font-weight: 500;
-    cursor: pointer;
-}
-
-.icon-btn {
-    width: 40px;
-    height: 40px;
-    background: #fff;
-    border-radius: 10px;
-    border: 1px solid #ddd;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #c60000;
-    font-size: 16px;
-}
-
-.icon-btn:hover {
-    background-color: #f9f9f9;
 }
 
 .content-block {
     background: #fff;
     border-radius: 10px;
     padding: 24px;
-    font-family: 'Segoe UI', sans-serif;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
 }
 
@@ -175,284 +124,6 @@
     justify-content: space-between;
     align-items: center;
     margin-bottom: 10px;
-}
-
-.add-master-btn {
-    background-color: #c60000;
-    color: white;
-    border: none;
-    border-radius: 6px;
-    padding: 8px 16px;
-    font-weight: bold;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-}
-
-.section-divider {
-    border: none;
-    border-top: 1px solid #e0e0e0;
-    margin: 16px 0;
-}
-
-.filter-bar {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    margin-bottom: 20px;
-    position: relative;
-}
-
-.search-input {
-    padding: 8px 12px;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    width: 220px;
-}
-
-.filter-select {
-    padding: 8px 12px;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    background: #f9f9f9;
-}
-
-.search-btn,
-.icon-btn {
-    padding: 8px 12px;
-    background: #fff;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    cursor: pointer;
-}
-
-.masters-table {
-    width: 100%;
-    border-collapse: separate;
-    border-spacing: 0;
-    border-radius: 10px;
-    box-shadow: 0 0 0 1px #ddd;
-}
-
-.masters-table thead tr {
-    background-color: #f3f1e9;
-}
-
-.masters-table th,
-.masters-table td {
-    padding: 14px;
-    text-align: left;
-    border-bottom: 1px solid #eee;
-}
-
-.masters-table tbody tr:last-child td {
-    border-bottom: none;
-}
-
-.pdf-icon {
-    width: 24px;
-}
-
-.coord-avatar {
-    width: 32px;
-    height: 32px;
-    border-radius: 50%;
-}
-
-.coord-placeholder {
-    color: #555;
-    font-size: 20px;
-}
-
-.action-menu {
-    background: none;
-    border: none;
-    font-size: 24px;
-    cursor: pointer;
-}
-
-.dropdown-menu {
-    background: #fff;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
-    padding: 8px;
-    border-radius: 6px;
-    display: none;
-    position: absolute;
-}
-
-.pagination-bar {
-    margin-top: 16px;
-    display: flex;
-    justify-content: center;
-    gap: 6px;
-}
-
-.pagination-bar button {
-    padding: 6px 10px;
-    border: 1px solid #ccc;
-    background: #fff;
-    border-radius: 6px;
-    cursor: pointer;
-}
-
-.search-box {
-    display: flex;
-    align-items: center;
-    border: 2px solid #dcdac2;
-    border-radius: 16px;
-    padding: 1px 16px;
-    width: 300px;
-    background-color: #fff;
-}
-
-.search-input {
-    flex: 1;
-    border: none;
-    outline: none;
-    font-size: 18px;
-    color: #666;
-    background: transparent;
-    font-family: 'Segoe UI', sans-serif;
-}
-
-.search-input::placeholder {
-    color: #aaa;
-}
-
-.search-icon {
-    color: #1c1c1c;
-    font-size: 20px;
-    margin-left: 12px;
-}
-
-.filter-group {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-}
-
-.custom-select {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    width: 220px;
-    padding: 10px 14px;
-    border: 2px solid #dcdac2;
-    border-radius: 12px;
-    background: #fff;
-    font-size: 16px;
-    color: #aaa;
-    font-family: 'Segoe UI', sans-serif;
-    position: relative;
-}
-
-.custom-select::after {
-    content: '';
-    position: absolute;
-    right: 38px;
-    top: 50%;
-    transform: translateY(-50%);
-    height: 24px;
-    border-left: 1px solid #dcdac2;
-}
-
-.select-icon {
-    color: #2a2a2a;
-    font-size: 16px;
-    padding-left: 10px;
-}
-
-.filter-actions {
-    display: flex;
-    gap: 10px;
-    margin-left: auto;
-    position: absolute;
-    right: 0;
-}
-
-.icon-button {
-    width: 44px;
-    height: 44px;
-    background: #fff;
-    border-radius: 12px;
-    border: none;
-    box-shadow: 0 0 8px rgba(0, 0, 0, 0.08);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-}
-
-.icon-button i {
-    color: #b30000;
-    font-size: 20px;
-}
-
-.action-wrapper {
-    position: relative;
-    display: inline-block;
-}
-
-.action-menu {
-    background: none;
-    border: none;
-    font-size: 18px;
-    cursor: pointer;
-    padding: 5px;
-}
-
-.action-dropdown {
-    position: absolute;
-    top: 28px;
-    right: 0;
-    background-color: white;
-    border: 1px solid #ddd;
-    border-radius: 6px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    z-index: 999;
-    min-width: 140px;
-}
-
-.action-dropdown button {
-    width: 100%;
-    background: none;
-    border: none;
-    padding: 10px;
-    text-align: left;
-    font-size: 14px;
-    cursor: pointer;
-}
-
-.action-dropdown button:hover {
-    background-color: #f0f0f0;
-}
-
-.btn-statut {
-    background-color: #c80000;
-    color: white;
-    border: none;
-    padding: 10px 24px;
-    font-size: 14px;
-    border-radius: 6px;
-    font-weight: 500;
-}
-
-.btn-ajouter-colonnes {
-    background: #fff;
-    color: #333;
-    border: 1px solid #ccc;
-    padding: 9px 14px;
-    font-size: 14px;
-    border-radius: 6px;
-    margin-left: 8px;
-    font-weight: 500;
-}
-
-.doc-count {
-    font-weight: bold;
-    margin-left: 4px;
-    font-size: 13px;
 }
 
 .add-project-btn {
@@ -470,9 +141,10 @@
     background-color: #a50000;
 }
 
-.input-with-icon .date-input {
-    padding-left: 0.75rem;
-    padding-right: 2.5rem;
+.section-divider {
+    border: none;
+    border-top: 1px solid #e0e0e0;
+    margin: 16px 0;
 }
 
 .styled-table {
@@ -482,7 +154,6 @@
     border-radius: 10px;
     box-shadow: 0 0 0 1px #ddd;
     background: #fff;
-    font-family: 'Segoe UI', sans-serif;
 }
 
 .styled-table thead {
@@ -496,214 +167,18 @@
     border-bottom: 1px solid #eee;
 }
 
-.styled-table tr:last-child td {
+.styled-table tbody tr:last-child td {
     border-bottom: none;
-}
-
-.pdf-icon {
-    width: 24px;
-}
-
-.coord-avatar {
-    width: 32px;
-    height: 32px;
-    border-radius: 50%;
-}
-
-.coord-placeholder {
-    font-size: 20px;
-    color: #666;
-}
-
-.action-menu {
-    background: none;
-    border: none;
-    font-size: 22px;
-    cursor: pointer;
-}
-
-.custom-colvis-btn {
-    background-color: #c60000;
-    color: white;
-    border: none;
-    padding: 6px 12px;
-    border-radius: 6px;
-    font-weight: bold;
-    margin-bottom: 12px;
-}
-
-.dropdown-menu {
-    display: none;
-    position: absolute;
-    top: 42px;
-    right: 0;
-    min-width: 160px;
-    background-color: #ffffff;
-    border: 1px solid #d8d4b7;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    z-index: 1000;
-}
-
-.dropdown-menu a {
-    display: block;
-    gap: 8px;
-    padding: 10px 16px;
-    text-decoration: none;
-    font-size: 14px;
-    color: #2d2a12;
-    transition: background-color 0.2s;
-}
-
-.dropdown-menu i {
-    font-size: 15px;
-    color: #2d2a12;
-}
-
-.dataTables_wrapper .dataTables_paginate {
-    display: flex;
-    justify-content: center;
-    gap: 10px;
-    margin-top: 16px;
-}
-
-.dataTables_wrapper .dataTables_paginate .paginate_button {
-    border: 2px solid #c60000;
-    color: #c60000;
-    padding: 8px 14px;
-    border-radius: 8px;
-    background: white;
-    font-weight: bold;
-    cursor: pointer;
-    font-size: 13px;
-}
-
-.dataTables_wrapper .dataTables_paginate .paginate_button.current {
-    border: none;
-    background: transparent;
-    color: black;
-    font-weight: bold;
-    font-size: 13px;
-    pointer-events: none;
-}
-
-.dataTables_wrapper .dataTables_paginate .paginate_button:hover {
-    background: #c60000;
-    border-color: red;
-}
-
-.dataTables_wrapper .dataTables_paginate .ellipsis {
-    display: none;
-}
-
-a {
-    color: inherit;
-    text-decoration: none;
-}
-
-.filter-bar {
-    background: #fff;
-    font-family: 'Poppins', sans-serif;
-    padding: 10px 0px;
-    display: grid;
-}
-
-.filter-title {
-    font-weight: bold;
-    font-size: 18px;
-    color: #2d2a12;
-    margin-bottom: 10px;
-}
-
-.filter-row {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    flex-wrap: wrap;
-}
-
-.filter-buttons {
-    display: flex;
-    border: 1px solid #d8d4b7;
-    border-radius: 5px;
-    overflow: hidden;
-    width: max-content;
-}
-
-.filter-btn {
-    padding: 8px 14px;
-    border: none;
-    background: transparent;
-    color: #2d2a12;
-    font-weight: 500;
-    cursor: pointer;
-}
-
-.filter-btn.active {
-    background-color: #b2ae90;
-    color: #fff;
-    font-weight: bold;
-}
-
-.filter-select {
-    border: 1px solid #d8d4b7;
-    border-radius: 5px;
-    padding: 10px 12px;
-    background-color: #fff;
-    color: #999;
-    font-size: 15px;
-    appearance: none;
-    background-image: url("data:image/svg+xml;utf8,<svg fill='%232d2a12' height='14' viewBox='0 0 24 24' width='14' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/></svg>");
-    background-repeat: no-repeat;
-    background-position: right 10px center;
-    background-size: 12px;
-    padding-right: 30px;
-    width: 200px;
-}
-
-.filter-actions {
-    display: flex;
-    gap: 10px;
-    margin-left: auto;
-    margin-top: -5px;
-}
-
-.icon-btn {
-    background: #fff;
-    border: none;
-    border-radius: 10px;
-    width: 40px;
-    height: 40px;
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.08);
-    cursor: pointer;
-    color: #d71920;
-    font-size: 18px;
-    transition: background 0.2s;
-}
-
-.icon-btn:hover {
-    background-color: #f8f8f8;
 }
 
 .badge {
     display: inline-block;
     padding: 4px 10px;
     font-size: 13px;
-    font-weight: 500;
+    font-weight: 600;
     border-radius: 20px;
+    text-transform: capitalize;
     border: 2px solid transparent;
-}
-
-.badge-danger {
-    color: #d71920;
-    background-color: #fff0f0;
-    border-color: #d71920;
-}
-
-.badge-warning {
-    color: #d89e00;
-    background-color: #fff9e6;
-    border-color: #d89e00;
 }
 
 .badge-success {
@@ -712,40 +187,15 @@ a {
     border-color: #198754;
 }
 
-td.statut-universitaire {
-    color: #2d2a12;
-    font-weight: 500;
-    font-size: 14px;
+.badge-warning {
+    color: #d89e00;
+    background-color: #fff9e6;
+    border-color: #d89e00;
 }
 
-.actions-menu {
-    position: absolute;
-    background: white;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    padding: 6px 0;
-    z-index: 1000;
-    width: 160px;
-}
-
-.actions-menu a {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    padding: 8px 14px;
-    color: #2d2a12;
-    text-decoration: none;
-    font-size: 14px;
-    transition: background 0.2s;
-}
-
-.actions-menu a:hover {
-    background-color: #f4f4f4;
-}
-
-.actions-menu i {
-    color: #2d2a12;
+.actions {
+    position: relative;
+    display: inline-block;
 }
 
 .action-btn {
@@ -772,324 +222,6 @@ td.statut-universitaire {
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
-.badge {
-    display: inline-block;
-    padding: 4px 10px;
-    font-size: 13px;
-    font-weight: 600;
-    border-radius: 20px;
-    text-transform: capitalize;
-    border: 2px solid transparent;
-    font-family: 'Segoe UI', sans-serif;
-}
-
-.badge-success {
-    color: #198754;
-    background-color: #e6f7ee;
-    border-color: #198754;
-}
-
-.badge-warning {
-    color: #d89e00;
-    background-color: #fff9e6;
-    border-color: #d89e00;
-}
-
-.badge-danger {
-    color: #d71920;
-    background-color: #fff0f0;
-    border-color: #d71920;
-}
-
-.badge-secondary {
-    color: #555;
-    background-color: #f0f0f0;
-    border-color: #ccc;
-}
-
-.dt-button.buttons-colvis {
-    background-color: #f9f7ef;
-    border: 1px solid #ccc;
-    padding: 8px 14px;
-    font-family: 'Poppins', sans-serif;
-    font-size: 15px;
-    color: #333;
-    display: inline-flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 8px;
-    cursor: pointer;
-    box-shadow: inset 0 0 0 1px #ddd;
-    transition: background-color 0.2s ease;
-    border-radius: 5px;
-    background-color: #fff !important;
-    padding: 7px 14px;
-    position: relative;
-    top: -71px;
-    right: 93px;
-    border: 2px solid #d71920;
-    appearance: none;
-    background-repeat: no-repeat;
-    background-position: right 10px center;
-    background-size: 12px;
-    font-weight: 700;
-    color: #d71920;
-    background: none;
-}
-
-div#candidaturesTable_wrapper div.dt-buttons {
-    float: right !important;
-}
-
-div#candidaturesTable_wrapper span.dt-down-arrow {
-    display: none;
-}
-
-.dt-button.buttons-colvis:hover {
-    background-color: #ece8dc;
-}
-
-.dt-button.buttons-colvis .dt-down-arrow {
-    font-size: 14px;
-    color: #888;
-}
-
-.dt-button-collection.fixed.four-column {
-    border-radius: 16px;
-    padding: 20px;
-    background-color: #fff;
-    border: 1px solid #ddd;
-    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.1);
-    display: grid;
-    gap: 16px;
-    font-family: 'Poppins', sans-serif;
-    min-width: 520px;
-    max-width: 727px;
-    overflow: visible;
-}
-
-.dt-button-collection .dt-button.buttons-columnVisibility {
-    border: 1px solid #ccc;
-    background-color: #fff;
-    border-radius: 50px;
-    padding: 10px 60px;
-    font-size: 14px;
-    color: #333;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: all 0.2s ease;
-}
-
-.dt-button-collection .dt-button.buttons-columnVisibility:hover {
-    background-color: #f6f6f6;
-    border-color: #999;
-}
-
-.dt-button-collection .dt-button.buttons-columnVisibility,
-.dt-button-collection .dt-button.buttons-columnVisibility.active {
-    border: 1px solid #ccc;
-    background-color: #fff !important;
-    border-radius: 50px;
-    padding: 10px 60px;
-    font-size: 14px;
-    color: #333;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: all 0.2s ease;
-    background: linear-gradient(to bottom, #fffbfb 0%, #ffffff 100%) !important;
-    box-shadow: none !important;
-}
-
-div.dt-button-collection.four-column {
-    width: 719px !important;
-}
-
-div.dt-button-collection.fixed .dt-button:first-child {
-    border-top-left-radius: 50px !important;
-    border-top-right-radius: 50px !important;
-}
-
-div.dt-button-collection.fixed .dt-button:last-child {
-    border-bottom-left-radius: 50px !important;
-    border-bottom-right-radius: 50px !important;
-}
-
-div.dt-button-background {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.7);
-    background: radial-gradient(ellipse farthest-corner at center, rgba(0, 0, 0, 0.3) 0%, rgb(195 195 195 / 70%) 100%);
-    z-index: 2001;
-}
-
-.dt-button-collection .dt-button.buttons-columnVisibility {
-    color: #000;
-    font-weight: 500;
-    font-size: 14px;
-}
-
-.dt-button-collection .dt-button.buttons-columnVisibility.active {
-    border-color: #d42d2d;
-    color: #000;
-    font-weight: 500;
-    font-size: 14px;
-}
-
-div.dt-button-collection-title h4 {
-    color: #d42d2d;
-}
-
-#candidaturesTable_paginate {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-top: 20px;
-    gap: 6px;
-    font-family: 'Poppins', sans-serif;
-    background-color: none;
-}
-
-#candidaturesTable_paginate .paginate_button {
-    background-color: #fff;
-    border: 2px solid #c40000;
-    color: #c40000;
-    font-weight: 500;
-    padding: 6px 10px;
-    min-width: 36px;
-    text-align: center;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: all 0.2s ease;
-}
-
-#candidaturesTable_paginate .paginate_button.current {
-    background-color: #c40000;
-    color: #fff !important;
-    border-color: #c40000;
-}
-
-#candidaturesTable_paginate .paginate_button:hover {
-    background-color: #f8eaea;
-}
-
-#candidaturesTable_paginate .paginate_button:before,
-#candidaturesTable_paginate .paginate_button:after {
-    font-weight: bold;
-}
-
-.dataTables_wrapper .dataTables_paginate .paginate_button {
-    border: none;
-}
-
-#candidaturesTable_paginate .paginate_button:focus {
-    outline: none;
-    box-shadow: none;
-}
-
-th {
-    border-bottom: 1px solid #EBE9D7 !important;
-    border-top: 1px solid #EBE9D7 !important;
-    padding: 10px 10px 10px !important;
-}
-
-td {
-    box-shadow: none !important;
-}
-
-thead {
-    position: relative;
-    top: -17px;
-}
-
-#candidaturesTable {
-    border: none !important;
-    border-collapse: collapse;
-    box-shadow: none !important;
-}
-
-#candidaturesTable th {
-    border: 0px solid #EBE9D7;
-}
-
-#candidaturesTable td {
-    border: 1px solid #EBE9D7;
-}
-
-#candidaturesTable thead {
-    border: none !important;
-    position: static;
-    transform: translateY(-15px);
-}
-
-#candidaturesTable tbody tr:first-child td {
-    border-top: 1px solid #EBE9D7 !important;
-}
-
-#candidaturesTable {
-    border-collapse: separate;
-    border-spacing: 0;
-    border-radius: 50x 50px 0 0;
-    overflow: hidden;
-}
-
-#candidaturesTable thead tr:first-child th:first-child {
-    border-top-left-radius: 12px;
-    border-bottom-left-radius: 12px;
-}
-
-#candidaturesTable thead tr:first-child th:last-child {
-    border-top-right-radius: 12px;
-    border-bottom-right-radius: 12px;
-}
-
-#candidaturesTable tbody tr:last-child td:first-child {
-    border-bottom-left-radius: 12px;
-}
-
-#candidaturesTable tbody tr:last-child td:last-child {
-    border-bottom-right-radius: 12px;
-}
-
-#candidaturesTable tbody tr:first-child td:first-child {
-    border-top-left-radius: 12px;
-}
-
-#candidaturesTable tbody tr:first-child td:last-child {
-    border-top-right-radius: 12px;
-}
-
-#candidaturesTable tbody tr:last-child td:first-child {
-    border-bottom-left-radius: 12px;
-}
-
-#candidaturesTable tbody tr:last-child td:last-child {
-    border-bottom-right-radius: 12px;
-}
-
-.badge-info {
-    background-color: #808066;
-}
-
-#candidaturesTable {
-    overflow: visible;
-}
-
-.actions {
-    position: relative;
-    display: inline-block;
-}
-
 .dropdown-menu {
     display: none;
     position: absolute;
@@ -1101,141 +233,116 @@ thead {
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     z-index: 1000;
+    padding: 6px 0;
 }
 
-.filter-dropdown {
-    position: relative;
-    margin-left: 12px;
-}
-
-.statut-dropdown-wrapper {
-    position: relative;
-    display: inline-block;
-    margin-left: 12px;
-}
-
-.statut-dropdown-btn {
-    background-color: #c80000;
-    color: white;
-    border: none;
-    padding: 9px 53px;
-    font-weight: 500;
+.dropdown-menu a {
+    display: block;
+    padding: 8px 14px;
+    text-decoration: none;
     font-size: 14px;
-    border-radius: 5px;
+    color: #2d2a12;
+    transition: background-color 0.2s;
 }
 
-.statut-dropdown-menu {
-    position: absolute;
-    top: 110%;
-    left: 0;
-    background-color: #fff;
-    border: 1px solid #ddd;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    display: none;
-    z-index: 9999;
-    min-width: 200px;
-    border-radius: 4px;
-    overflow: hidden;
+.dropdown-menu a:hover {
+    background-color: #f4f4f4;
 }
 
-.statut-dropdown-option {
-    padding: 10px 14px;
-    font-size: 14px;
-    cursor: pointer;
-}
-
-.statut-dropdown-option:hover {
-    background-color: #f5f5f5;
-}
-
-button.swal2-confirm.swal2-styled {
-    background-color: #c80000;
+/* --- MODIFIED SECTION START --- */
+/* DataTables Pagination */
+.dataTables_wrapper .dataTables_paginate {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    margin-top: 20px;
 }
 
 .dataTables_wrapper .dataTables_paginate .paginate_button {
-    padding: 8px 12px;
     border-radius: 8px;
-    border: 2px solid #c60000;
-    background-color: #fff;
-    color: #c60000;
+    border: 2px solid #c60000 !important;
+    background: #fff !important;
+    /* Force background to white */
+    color: #c60000 !important;
     font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    padding: 10px 16px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .dataTables_wrapper .dataTables_paginate .paginate_button.current {
-    background-color: #c60000;
-    color: #fff !important;
-    font-weight: 700;
+    /* background: #c60000 !important; */
+    /* Force background to red for current */
+    /* color: #fff !important; */
+    border-color: #c60000;
+    border: none !important;
 }
 
-button.dt-button.buttons-collection.buttons-colvis.custom-colvis-btn {
-    position: relative;
-    top: -44px;
+.dataTables_wrapper .dataTables_paginate .paginate_button:hover {
+    background: #fde0e0 !important;
+    /* Light red for hover */
 }
 
-.filter-selectgb {
-    width: max-content;
-    margin-bottom: 0px;
+.dataTables_wrapper .dataTables_paginate .paginate_button.current:hover {
+    background: #a50000 !important;
+    /* Darker red for current page hover */
 }
 
-.btn-close-x {
-    background: transparent;
-    border: none;
-    font-size: 20px;
-    font-weight: bold;
-    color: #333;
-    cursor: pointer;
-    padding: 4px 10px;
-    line-height: 1;
-    transition: color 0.2s ease;
-    margin-left: auto;
+.dataTables_wrapper .dataTables_paginate .paginate_button.disabled {
+    opacity: 0.5;
+    cursor: default;
+    background: #fff !important;
+    /* Ensure disabled is also white */
+    padding: 10px 16px;
 }
 
-.btn-close-x:hover {
-    color: #c40000;
+.dataTables_wrapper .dataTables_paginate .ellipsis {
+    display: none;
 }
 
+/* --- MODIFIED SECTION END --- */
+
+/* Modal Styles */
 .modal-overlay {
     position: fixed;
-    top: 0px;
+    top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.3);
+    background-color: rgba(0, 0, 0, 0.5);
     display: flex;
     justify-content: flex-end;
-    z-index: 999999;
+    z-index: 9999;
+    display: none;
+    /* Hidden by default */
 }
 
 .popup-container {
     background-color: white;
-    width: 400px;
+    width: 450px;
     height: 100%;
-    padding: 20px 0px;
+    padding: 0;
     box-shadow: -4px 0 10px rgba(0, 0, 0, 0.1);
     overflow-y: auto;
-    padding-top: 0px;
+    display: flex;
+    flex-direction: column;
 }
 
 .popup-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding-bottom: 10px;
-    margin-bottom: 20px;
-    padding-left: 25px;
-    padding-right: 25px;
-    box-shadow: 0px 5px 16px #00000029;
-    padding-top: 20px;
+    padding: 20px 25px;
+    box-shadow: 0px 5px 16px #0000001a;
+    flex-shrink: 0;
 }
 
-form.popup-form {
-    padding-left: 25px;
-    padding-right: 25px;
-}
-
-.popup-header h2,
-.popup-form h2 {
-    font-size: 16px;
+.popup-header h2 {
+    font-size: 18px;
     margin: 0;
     color: #2A2916;
 }
@@ -1244,13 +351,19 @@ form.popup-form {
     background-color: #c62828;
     color: white;
     border: none;
-    padding: 6px 14px;
+    padding: 8px 16px;
     border-radius: 5px;
     cursor: pointer;
     font-size: 14px;
+    font-weight: 500;
 }
 
-/* Styles for the new form inside the modal */
+.popup-form {
+    padding: 25px;
+    overflow-y: auto;
+    flex-grow: 1;
+}
+
 .popup-form .form-group {
     margin-bottom: 15px;
 }
@@ -1260,6 +373,7 @@ form.popup-form {
     font-weight: 600;
     color: #6E6D55;
     font-size: 14px;
+    /* margin-bottom: 5px; */
 }
 
 .popup-form .form-group input,
@@ -1271,7 +385,14 @@ form.popup-form {
     border-radius: 7px;
     font-size: 14px;
     box-sizing: border-box;
-    /* To include padding and border in the element's total width and height */
+}
+
+.popup-form .form-group input:focus,
+.popup-form .form-group select:focus,
+.popup-form .form-group textarea:focus {
+    outline: none;
+    border-color: #c60000;
+    box-shadow: 0 0 0 2px rgba(198, 0, 0, 0.2);
 }
 
 .popup-form .form-group textarea {
@@ -1279,37 +400,18 @@ form.popup-form {
     min-height: 80px;
 }
 
-/* Re-using input-with-icon for the new form */
-.popup-form .input-with-icon {
-    position: relative;
-}
-
-.popup-form .input-with-icon .icon {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    color: #888;
-    pointer-events: none;
-}
-
-.popup-form .input-with-icon .right-icon {
-    right: 12px;
-}
-
 .popup-form .input-with-icon select {
     -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none;
     padding-right: 30px;
-    /* Make space for the icon */
     background-color: #fff;
 }
 
-/* Specific styles for file input */
 .popup-form .input-file-wrapper {
     display: flex;
     align-items: center;
-    border: 1px solid #b5af8e;
+    /* border: 1px solid #b5af8e; */
     border-radius: 7px;
     background-color: white;
     overflow: hidden;
@@ -1321,6 +423,7 @@ form.popup-form {
     padding: 10px 12px;
     background-color: #f9f9f9;
     color: #888;
+    cursor: default;
 }
 
 .popup-form .input-file-text:focus {
@@ -1341,74 +444,67 @@ form.popup-form {
     white-space: nowrap;
 }
 
-.popup-form .btn-importer i {
-    font-size: 14px;
-}
-
-.popup-form fieldset {
-    border: 1px solid #b5af8e;
-    border-radius: 7px;
-    padding: 10px 15px;
-    margin-bottom: 15px;
-}
-
-.popup-form legend {
-    padding: 0 5px;
-    font-weight: 600;
-    color: #6E6D55;
-    font-size: 14px;
-}
-
-.popup-form .radio-group {
-    display: flex;
-    gap: 20px;
-    align-items: center;
-}
-
-.popup-form .radio-group label {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    font-weight: normal;
-}
-
 .popup-form .form-row {
     display: flex;
-    gap: 5px;
+    gap: 15px;
 }
 
 .popup-form .form-row .form-group {
     flex: 1;
 }
 
-.ql-toolbar.ql-snow {
-    border-radius: 6px 6px 0 0;
-    background-color: #ecebe3;
+/* Custom Flatpickr Theme */
+.flatpickr-day.selected,
+.flatpickr-day.startRange,
+.flatpickr-day.endRange,
+.flatpickr-day.selected.inRange,
+.flatpickr-day.startRange.inRange,
+.flatpickr-day.endRange.inRange,
+.flatpickr-day.selected:focus,
+.flatpickr-day.startRange:focus,
+.flatpickr-day.endRange:focus,
+.flatpickr-day.selected:hover,
+.flatpickr-day.startRange:hover,
+.flatpickr-day.endRange:hover,
+.flatpickr-day.selected.prevMonthDay,
+.flatpickr-day.startRange.prevMonthDay,
+.flatpickr-day.endRange.prevMonthDay,
+.flatpickr-day.selected.nextMonthDay,
+.flatpickr-day.startRange.nextMonthDay,
+.flatpickr-day.endRange.nextMonthDay {
+    background: #C60000;
+    border-color: #C60000;
 }
 
-.ql-container.ql-snow {
-    border-radius: 0 0 6px 6px;
-    font-size: 14px;
+.flatpickr-day.inRange,
+.flatpickr-day.prevMonthDay.inRange,
+.flatpickr-day.nextMonthDay.inRange {
+    background: #fde0e0;
+    border-color: #fde0e0;
+    box-shadow: -5px 0 0 #fde0e0, 5px 0 0 #fde0e0;
 }
 
-.ql-toolbar.ql-snow {
-    border: 1px solid #DBD9C3;
-    box-sizing: border-box;
-    font-family: 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif;
-    padding: 8px;
+.flatpickr-months .flatpickr-month {
+    color: #C60000;
 }
 
-.ql-editor.ql-blank {
-    border: 1px solid #DBD9C3;
+.flatpickr-weekdays {
+    background: #c600001a;
+}
+
+.flatpickr-months .flatpickr-prev-month:hover svg,
+.flatpickr-months .flatpickr-next-month:hover svg {
+    fill: #C60000;
 }
 </style>
+
 
 <!-- Main Content Block -->
 <div class="content-block">
     <div class="header-bar">
         <h2 class="dashboard-sub-title">
-            <img src="/wp-content/plugins/plateforme-master/images/icons/10550857.png" alt="10550857.png"
-                style="width: 38px; margin-right: 8px; vertical-align: middle; font-weight: blod;">
+            <img src="/wp-content/plugins/plateforme-master/images/icons/10550857.png" alt="Project Icon"
+                style="width: 38px; margin-right: 8px; vertical-align: middle;">
             Liste Des Projets
         </h2>
         <button class="add-project-btn">Ajouter un projet</button>
@@ -1420,27 +516,26 @@ form.popup-form {
         <div class="filter-inputs">
             <!-- Search Input -->
             <div class="input-with-icon">
-                <input class="filter-input" type="text" placeholder="Recherchez...">
-                <i class="fas fa-search icon right-icon search-field"></i>
+                <input class="filter-input" id="generalSearch" type="text" placeholder="Recherchez...">
+                <i class="fas fa-search icon right-icon"></i>
             </div>
 
             <!-- Status Select -->
             <div class="input-with-icon">
-                <select class="filter-select">
-                    <option value="" disabled selected>État</option>
-                    <option>Terminé</option>
-                    <option>En cours</option>
+                <select class="filter-select" id="statusFilter">
+                    <option value="">État (Tous)</option>
+                    <option value="Terminé">Terminé</option>
+                    <option value="En cours">En cours</option>
                 </select>
                 <i class="fas fa-chevron-down icon right-icon"></i>
             </div>
 
             <!-- Date Input -->
             <div class="input-with-icon">
-                <input class="filter-input date-input" type="text" placeholder="Date Deb-Fin">
-                <!-- <i class="fas fa-calendar-alt icon right-icon"></i> -->
-
+                <input class="filter-input date-input" id="dateRangeFilter" type="text" placeholder="Date Deb-Fin">
                 <img class="icon right-icon" width="20px"
-                    src="/wp-content/plugins/plateforme-master/images/icons/27) Icon-calendar.png" alt="Icon-calendar">
+                    src="/wp-content/plugins/plateforme-master/images/icons/27) Icon-calendar.png" alt="Calendar Icon"
+                    onerror="this.style.display='none'">
             </div>
         </div>
 
@@ -1448,11 +543,11 @@ form.popup-form {
             <!-- Action Buttons -->
             <button class="icon-btn" title="Filter">
                 <img width="20px" src="/wp-content/plugins/plateforme-master/images/icons/27) Icon-funnel.png"
-                    alt="Icon-funnel">
+                    alt="Funnel Icon" onerror="this.style.display='none'">
             </button>
             <button class="icon-btn" title="Download">
                 <img width="20px" src="/wp-content/plugins/plateforme-master/images/icons/upload-red.png"
-                    alt="upload-red.png">
+                    alt="Upload Icon" onerror="this.style.display='none'">
             </button>
         </div>
     </div>
@@ -1485,7 +580,7 @@ form.popup-form {
                         <button class="action-btn">...</button>
                         <div class="dropdown-menu">
                             <a href="#" class="btn-modifier">Modifier</a>
-                            <a href="/programmes-et-projets-de-recherches-details-projet/">Voir</a>
+                            <a href="#">Voir</a>
                         </div>
                     </div>
                 </td>
@@ -1503,7 +598,7 @@ form.popup-form {
                         <button class="action-btn">...</button>
                         <div class="dropdown-menu">
                             <a href="#" class="btn-modifier">Modifier</a>
-                            <a href="/programmes-et-projets-de-recherches-details-projet/">Voir</a>
+                            <a href="#">Voir</a>
                         </div>
                     </div>
                 </td>
@@ -1521,7 +616,7 @@ form.popup-form {
                         <button class="action-btn">...</button>
                         <div class="dropdown-menu">
                             <a href="#" class="btn-modifier">Modifier</a>
-                            <a href="/programmes-et-projets-de-recherches-details-projet/">Voir</a>
+                            <a href="#">Voir</a>
                         </div>
                     </div>
                 </td>
@@ -1530,14 +625,15 @@ form.popup-form {
     </table>
 </div>
 
-<!-- Modal for Adding a Project -->
-<div class="modal-overlay" id="modalObjectifs" style="display: none;">
-    <div class="popup-container" id="popupContainerObjectifs">
+<!-- Modal for Adding/Modifying a Project -->
+<div class="modal-overlay" id="projectModal">
+    <div class="popup-container">
         <div class="popup-header">
-            <h2>Ajouter un projet</h2>
-            <button class="btn-enregistrer" id="btnSaveObjectifs">Enregistrer</button>
+            <h2 id="modalTitle">Ajouter un projet</h2>
+            <button class="btn-enregistrer" id="saveProjectBtn">Enregistrer</button>
         </div>
         <form class="popup-form">
+            <input type="hidden" id="projectRowIndex">
             <div class="form-group">
                 <label for="titreProjet">Titre du projet</label>
                 <input type="text" id="titreProjet">
@@ -1560,18 +656,9 @@ form.popup-form {
                 <div class="input-with-icon">
                     <select id="porteur">
                         <option>Sélection..</option>
-                        <option value="">Dr. A. Mejri</option>
-                        <option value="">Y. Ben Salem</option>
-                        <option value="">Dr. Leila Romdhane</option>
-                    </select>
-                    <i class="fas fa-chevron-down icon right-icon"></i>
-                </div>
-            </div>
-            <div class="form-group">
-                <label for="equipe">Équipe</label>
-                <div class="input-with-icon">
-                    <select id="equipe">
-                        <option>Sélection..</option>
+                        <option value="Dr. A. Mejri">Dr. A. Mejri</option>
+                        <option value="Y. Ben Salem">Y. Ben Salem</option>
+                        <option value="Dr. Leila Romdhane">Dr. Leila Romdhane</option>
                     </select>
                     <i class="fas fa-chevron-down icon right-icon"></i>
                 </div>
@@ -1594,12 +681,10 @@ form.popup-form {
             <div class="form-group">
                 <label for="datesDebutFin">Dates Début / Fin</label>
                 <div class="input-with-icon">
-                    <input type="text" id="datesDebutFin" value="13/10/2024 - 31/01/2026">
-                    <!-- <i class="fas fa-calendar-alt icon right-icon"></i> -->
-
+                    <input type="text" id="datesDebutFin" placeholder="jj/mm/aaaa - jj/mm/aaaa">
                     <img class="icon right-icon" width="20px"
                         src="/wp-content/plugins/plateforme-master/images/icons/27) Icon-calendar.png"
-                        alt="Icon-calendar">
+                        alt="Calendar Icon" onerror="this.style.display='none'">
                 </div>
             </div>
             <div class="form-group">
@@ -1609,12 +694,11 @@ form.popup-form {
             <div class="form-group">
                 <label for="budget">Budget</label>
                 <div class="input-file-wrapper">
-                    <input type="text" class="input-file-text" value="Budget.pdf" style="border: none;" readonly>
+                    <input type="text" class="input-file-text" value="Aucun fichier choisi" readonly>
                     <label for="budgetUpload" class="btn-importer">
-                        <!-- <i class="fas fa-upload"></i> -->
                         <img width="20px"
                             src="/wp-content/plugins/plateforme-master/images/icons/27) Icon-uploadwhite.png"
-                            alt="Icon-uploadwhite">
+                            alt="Upload Icon" onerror="this.style.display='none'">
                         Importer
                     </label>
                     <input type="file" id="budgetUpload" style="display:none;">
@@ -1623,125 +707,14 @@ form.popup-form {
             <div class="form-group">
                 <label for="convention">Convention</label>
                 <div class="input-file-wrapper">
-                    <input type="text" class="input-file-text" value="convention.pdf" style="border: none;" readonly>
+                    <input type="text" class="input-file-text" value="Aucun fichier choisi" readonly>
                     <label for="conventionUpload" class="btn-importer">
-
-                        <!-- <i class="fas fa-upload"></i>  -->
                         <img width="20px"
                             src="/wp-content/plugins/plateforme-master/images/icons/27) Icon-uploadwhite.png"
-                            alt="Icon-upload">
+                            alt="Upload Icon" onerror="this.style.display='none'">
                         Importer
                     </label>
                     <input type="file" id="conventionUpload" style="display:none;">
-                </div>
-            </div>
-        </form>
-    </div>
-</div>
-
-<!-- Modal for Modifying a Project -->
-<div class="modal-overlay" id="modalModifier" style="display: none;">
-    <div class="popup-container" id="popupContainerModifier">
-        <div class="popup-header">
-            <h2>Modifier le projet</h2>
-            <button class="btn-enregistrer" id="btnSaveModifier">Enregistrer</button>
-        </div>
-        <form class="popup-form">
-            <div class="form-group">
-                <label for="titreProjetModifier">Titre du projet</label>
-                <input type="text" id="titreProjetModifier">
-            </div>
-            <div class="form-group">
-                <label for="acronymeModifier">Acronyme</label>
-                <input type="text" id="acronymeModifier">
-            </div>
-            <div class="form-group">
-                <label for="typeProjetModifier">Type</label>
-                <div class="input-with-icon">
-                    <select id="typeProjetModifier">
-                        <option>Sélection..</option>
-                    </select>
-                    <i class="fas fa-chevron-down icon right-icon"></i>
-                </div>
-            </div>
-            <div class="form-group">
-                <label for="porteurModifier">Porteur</label>
-                <div class="input-with-icon">
-                    <select id="porteurModifier">
-                        <option>Sélection..</option>
-                        <option value="Dr. A. Mejri">Dr. A. Mejri</option>
-                        <option value="Y. Ben Salem">Y. Ben Salem</option>
-                        <option value="Dr. Leila Romdhane">Dr. Leila Romdhane</option>
-                    </select>
-                    <i class="fas fa-chevron-down icon right-icon"></i>
-                </div>
-            </div>
-            <div class="form-group">
-                <label for="equipeModifier">Équipe</label>
-                <div class="input-with-icon">
-                    <select id="equipeModifier">
-                        <option>Sélection..</option>
-                    </select>
-                    <i class="fas fa-chevron-down icon right-icon"></i>
-                </div>
-            </div>
-            <div class="form-row">
-                <div class="form-group">
-                    <label for="financementModifier">Financement prévisionnel</label>
-                    <input type="text" id="financementModifier">
-                </div>
-                <div class="form-group">
-                    <label for="sourceFinancementModifier">Source Financement</label>
-                    <div class="input-with-icon">
-                        <select id="sourceFinancementModifier">
-                            <option>Sélection..</option>
-                        </select>
-                        <i class="fas fa-chevron-down icon right-icon"></i>
-                    </div>
-                </div>
-            </div>
-            <div class="form-group">
-                <label for="datesDebutFinModifier">Dates Début / Fin</label>
-                <div class="input-with-icon">
-                    <input type="text" id="datesDebutFinModifier">
-                    <!-- <i class="fas fa-calendar-alt icon right-icon"></i> -->
-
-                    <img class="icon right-icon" width="20px"
-                        src="/wp-content/plugins/plateforme-master/images/icons/27) Icon-calendar.png"
-                        alt="Icon-calendar">
-                </div>
-            </div>
-            <div class="form-group">
-                <label for="objectifsModifier">Objectifs</label>
-                <textarea id="objectifsModifier" placeholder="Objectif"></textarea>
-            </div>
-            <div class="form-group">
-                <label for="budgetModifier">Budget</label>
-                <div class="input-file-wrapper">
-                    <input type="text" class="input-file-text" value="Budget.pdf" style="border: none;" readonly>
-                    <label for="budgetUploadModifier" class="btn-importer">
-
-                        <!-- <i class="fas fa-upload"></i> -->
-
-                        <img width="20px"
-                            src="/wp-content/plugins/plateforme-master/images/icons/27) Icon-uploadwhite.png"
-                            alt="Icon-upload">
-                        Importer
-                    </label>
-                    <input type="file" id="budgetUploadModifier" style="display:none;">
-                </div>
-            </div>
-            <div class="form-group">
-                <label for="conventionModifier">Convention</label>
-                <div class="input-file-wrapper">
-                    <input type="text" class="input-file-text" value="convention.pdf" style="border: none;" readonly>
-                    <label for="conventionUploadModifier" class="btn-importer">
-                        <img width="20px"
-                            src="/wp-content/plugins/plateforme-master/images/icons/27) Icon-uploadwhite.png"
-                            alt="Icon-upload">
-                        <!-- <i class="fas fa-upload"></i> -->
-                        Importer</label>
-                    <input type="file" id="conventionUploadModifier" style="display:none;">
                 </div>
             </div>
         </form>
@@ -1752,182 +725,174 @@ form.popup-form {
 <!-- JavaScript Libraries -->
 <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
 <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
-<script src="https://cdn.datatables.net/buttons/2.3.6/js/dataTables.buttons.min.js"></script>
-<script src="https://cdn.datatables.net/buttons/2.3.6/js/buttons.colVis.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+<!-- French Locale for Flatpickr -->
+<script src="https://npmcdn.com/flatpickr/dist/l10n/fr.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<script src="https://cdn.quilljs.com/1.3.6/quill.min.js"></script>
 
 <!-- Custom JavaScript -->
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    // --- Filter Button Logic ---
-    const filterButtons = document.querySelectorAll('.filter-btn');
-    filterButtons.forEach(button => {
-        button.addEventListener('click', function() {
-            filterButtons.forEach(btn => btn.classList.remove('active'));
-            this.classList.add('active');
-            const selectedFilter = this.textContent.trim();
-            console.log("Filtre sélectionné :", selectedFilter);
-        });
-    });
 
-    // --- Action Menu (Dropdown) Logic ---
-    const actionButtons = document.querySelectorAll('.action-btn');
-    actionButtons.forEach(button => {
-        button.addEventListener('click', function(e) {
-            e.stopPropagation(); // Prevent the click from closing the menu immediately
-            // Close all other open menus
-            document.querySelectorAll('.dropdown-menu').forEach(menu => {
-                if (menu !== this.nextElementSibling) {
-                    menu.style.display = 'none';
-                }
-            });
-            // Toggle the current menu
-            const menu = this.nextElementSibling;
-            menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
-        });
-    });
+    // --- Custom Date Range Filter Logic for DataTables ---
+    $.fn.dataTable.ext.search.push(
+        function(settings, data, dataIndex) {
+            const dateRange = $('#dateRangeFilter').val();
+            if (!dateRange) {
+                return true;
+            } // No filter applied
 
-    // --- Close Dropdowns on Outside Click ---
-    document.addEventListener('click', function() {
-        document.querySelectorAll('.dropdown-menu').forEach(menu => {
-            menu.style.display = 'none';
-        });
-    });
+            const [startDateStr, endDateStr] = dateRange.split(' au '); // Updated separator for French
+            const itemDateStr = data[4]; // 'Date début' is in column index 4
 
-    // --- Initialize DataTables and store the instance ---
+            // Helper to parse DD/MM/YYYY into a Date object
+            const parseDate = (str) => {
+                if (!str || !/^\d{2}\/\d{2}\/\d{4}$/.test(str)) return null;
+                const [day, month, year] = str.split('/');
+                return new Date(year, month - 1, day);
+            };
+
+            const itemDate = parseDate(itemDateStr);
+            const startDate = parseDate(startDateStr);
+            const endDate = endDateStr ? parseDate(endDateStr) : startDate;
+
+            if (!itemDate) return false; // Don't show rows with invalid dates
+
+            // Check if the item date falls within the selected range
+            if (
+                (startDate && itemDate < startDate) ||
+                (endDate && itemDate > endDate)
+            ) {
+                return false;
+            }
+
+            return true;
+        }
+    );
+
+    // --- Initialize DataTables ---
     const table = $('#candidaturesTable').DataTable({
         paging: true,
-        searching: true, // This needs to be true for the custom search to work
+        searching: true,
         ordering: false,
         info: false,
         pageLength: 5,
-        dom: 'Brtip', // 'f' has been removed to hide the default search filter
+        dom: 'rtip',
         language: {
             paginate: {
-                previous: "<i class='fa fa-chevron-left'></i>",
-                next: "<i class='fa fa-chevron-right'></i>"
+                previous: "<i class='fa fa-chevron-left' style='color:#C60000;'></i>",
+                next: "<i class='fa fa-chevron-right' style='color:#C60000;'></i>"
             },
-            emptyTable: "Aucune donnée disponible"
+            emptyTable: "Aucune donnée disponible dans le tableau",
+            zeroRecords: "Aucun enregistrement correspondant trouvé"
         }
     });
 
-    // --- Search Functionality ---
-    const searchInput = document.querySelector('.filter-bar .filter-input');
-    searchInput.addEventListener('keyup', function() {
+    // --- Initialize Flatpickr Date Range Picker ---
+    const datePicker = flatpickr("#dateRangeFilter", {
+        mode: "range",
+        dateFormat: "d/m/Y",
+        locale: "fr", // Set locale to French
+        onChange: function(selectedDates, dateStr, instance) {
+            table.draw(); // Redraw the table when the date changes
+        }
+    });
+
+    // --- General Search Functionality ---
+    document.getElementById('generalSearch').addEventListener('keyup', function() {
         table.search(this.value).draw();
     });
 
+    // --- Status Filter Functionality ---
+    document.getElementById('statusFilter').addEventListener('change', function() {
+        const selectedStatus = this.value;
+        table.column(2).search(selectedStatus ? '^' + selectedStatus + '$' : '', true, false)
+            .draw();
+    });
+
+    // --- Action Menu (Dropdown) Logic ---
+    $('#candidaturesTable tbody').on('click', '.action-btn', function(e) {
+        e.stopPropagation();
+        const menu = $(this).next('.dropdown-menu');
+        $('.dropdown-menu').not(menu).hide();
+        menu.toggle();
+    });
+
+    // --- Close Dropdowns on Outside Click ---
+    $(document).on('click', function() {
+        $('.dropdown-menu').hide();
+    });
+
     // --- Check All Functionality ---
-    const checkAll = document.getElementById('checkAll');
-    checkAll.addEventListener('click', function() {
-        // Find all checkboxes in the table body
-        const checkboxes = document.querySelectorAll('#candidaturesTable tbody input[type="checkbox"]');
-        // Set their checked property to match the "check all" checkbox
+    document.getElementById('checkAll').addEventListener('click', function() {
+        const checkboxes = document.querySelectorAll(
+            '#candidaturesTable tbody input[type="checkbox"]');
         checkboxes.forEach(checkbox => {
             checkbox.checked = this.checked;
         });
     });
 
+    // --- Modal Logic ---
+    const modal = document.getElementById("projectModal");
+    const modalTitle = document.getElementById("modalTitle");
+    const form = modal.querySelector('.popup-form');
 
-    // --- Add Project Modal Logic ---
-    const modalObjectifs = document.getElementById("modalObjectifs");
-    const popupObjectifs = document.getElementById("popupContainerObjectifs");
-    const openBtn = document.querySelector('.add-project-btn');
-
-    function openmodalObjectifs() {
-        if (modalObjectifs) {
-            modalObjectifs.style.display = "flex";
-        } else {
-            console.error("Modal not found: #modalObjectifs");
-        }
+    function openModal() {
+        modal.style.display = "flex";
     }
 
-    function closeModalObjectifs() {
-        if (modalObjectifs) {
-            modalObjectifs.style.display = "none";
-        }
+    function closeModal() {
+        modal.style.display = "none";
+        form.reset();
     }
 
-    if (openBtn) {
-        openBtn.addEventListener('click', openmodalObjectifs);
-    }
-
-    if (modalObjectifs && popupObjectifs) {
-        modalObjectifs.addEventListener("click", function(e) {
-            if (!popupObjectifs.contains(e.target)) {
-                closeModalObjectifs();
-            }
-        });
-    }
-
-    // --- Modify Project Modal Logic ---
-    const modalModifier = document.getElementById("modalModifier");
-    const popupModifier = document.getElementById("popupContainerModifier");
-
-    function openModalModifier() {
-        if (modalModifier) {
-            modalModifier.style.display = "flex";
-        }
-    }
-
-    function closeModalModifier() {
-        if (modalModifier) {
-            modalModifier.style.display = "none";
-        }
-    }
-
-    // Use event delegation for the "Modifier" buttons
-    $('#candidaturesTable tbody').on('click', '.btn-modifier', function(e) {
-        e.preventDefault();
-
-        // Get data from the table row
-        const row = $(this).closest('tr');
-        const title = row.find('td:eq(1)').text();
-        const porteur = row.find('td:eq(3)').text();
-        const dateDebut = row.find('td:eq(4)').text();
-        const dateFin = row.find('td:eq(5)').text();
-        const financement = row.find('td:eq(6)').text();
-
-        // Populate the modal
-        document.getElementById('titreProjetModifier').value = title;
-        document.getElementById('porteurModifier').value = porteur;
-        document.getElementById('datesDebutFinModifier').value = `${dateDebut} - ${dateFin}`;
-        document.getElementById('financementModifier').value = financement;
-
-        openModalModifier();
+    document.querySelector('.add-project-btn').addEventListener('click', function() {
+        modalTitle.textContent = "Ajouter un projet";
+        form.reset();
+        openModal();
     });
 
+    $('#candidaturesTable tbody').on('click', '.btn-modifier', function(e) {
+        e.preventDefault();
+        modalTitle.textContent = "Modifier le projet";
+        const row = $(this).closest('tr');
+        document.getElementById('titreProjet').value = row.find('td:eq(1)').text();
+        document.getElementById('porteur').value = row.find('td:eq(3)').text();
+        document.getElementById('financement').value = row.find('td:eq(6)').text().replace(' TND',
+            '');
+        const dateDebut = row.find('td:eq(4)').text();
+        const dateFin = row.find('td:eq(5)').text();
+        document.getElementById('datesDebutFin').value = `${dateDebut} - ${dateFin}`;
+        openModal();
+    });
 
-    if (modalModifier && popupModifier) {
-        modalModifier.addEventListener("click", function(e) {
-            if (!popupModifier.contains(e.target)) {
-                closeModalModifier();
-            }
+    document.getElementById('saveProjectBtn').addEventListener('click', function() {
+        console.log("Saving project data...");
+        closeModal();
+        Swal.fire({
+            title: 'Succès!',
+            text: 'Le projet a été enregistré.',
+            icon: 'success',
+            confirmButtonColor: '#c62828'
         });
-    }
+    });
 
-    document.getElementById('btnSaveModifier').addEventListener('click', closeModalModifier);
-
+    modal.addEventListener("click", function(e) {
+        if (e.target === modal) {
+            closeModal();
+        }
+    });
 
     // --- Custom File Input Logic ---
     function setupFileInput(uploadId) {
         const fileUpload = document.getElementById(uploadId);
+        if (!fileUpload) return;
         const fileText = document.querySelector(`label[for='${uploadId}']`).previousElementSibling;
-
-        if (fileUpload && fileText) {
-            fileUpload.addEventListener('change', function() {
-                if (this.files.length > 0) {
-                    fileText.value = this.files[0].name;
-                } else {
-                    fileText.value = 'Aucun fichier choisi';
-                }
-            });
-        }
+        fileUpload.addEventListener('change', function() {
+            fileText.value = this.files.length > 0 ? this.files[0].name : 'Aucun fichier choisi';
+        });
     }
     setupFileInput('budgetUpload');
     setupFileInput('conventionUpload');
-    setupFileInput('budgetUploadModifier');
-    setupFileInput('conventionUploadModifier');
 });
 </script>

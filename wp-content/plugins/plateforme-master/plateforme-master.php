@@ -626,6 +626,7 @@ function plateforme_content($content)
         // Ajout des pages pour Directeur de Labo 08/26/2025
         'reclamations-directeur-du-labo',
         'reunions-directeur-du-labo',
+        'rapports-directeur-du-labo',
     ];
 
     foreach ($pages_DL as $page_slug) {
@@ -1469,6 +1470,7 @@ function pm_template_override()
         // Ajout des pages pour Directeur de Labo 08/26/2025
         'reclamations-directeur-du-labo',
         'reunions-directeur-du-labo',
+        'rapports-directeur-du-labo',
 
     ];
 

@@ -377,7 +377,6 @@
     padding: 20px;
     display: flex;
     flex-direction: column;
-    margin: 20px 0;
 }
 
 .header-row {

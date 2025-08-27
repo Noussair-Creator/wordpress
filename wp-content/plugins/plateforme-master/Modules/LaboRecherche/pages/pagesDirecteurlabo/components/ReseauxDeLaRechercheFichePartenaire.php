@@ -52,8 +52,12 @@
             <li><strong>Début de collaboration :</strong>Mars 2023</li>
             <li><strong>Durée prévue :</strong>3 ans (Mars 2023 – Février 2026)</li>
             <li><strong>Convention signée :</strong>Oui (réf. : CONV/PSACLAY/2023)</li>
-            <li><strong>Lien GED :</strong> <a href="#"><i
-                        class="fas fa-file-pdf pdf-icon"></i>Convention_ParisSaclay_2023.pdf</a></li>
+            <li><strong>Lien GED :</strong> <a href="#">
+                    <img class="pdf-icon" width="20px"
+                        src="/wp-content/plugins/plateforme-master/images/icons/pdf-svgrepo-com (2).png"
+                        alt="pdf-svgrepo-com (2).png">
+                    <!-- <i class="fas fa-file-pdf pdf-icon"></i> -->
+                    Convention_ParisSaclay_2023.pdf</a></li>
         </ul>
     </div>
     <!-- Projets de recherche associés   block -->
@@ -118,19 +122,37 @@
                 <tr>
                     <td>001</td>
                     <td>Convention signée</td>
-                    <td><a href="#"><i class="fas fa-file-pdf pdf-icon"></i> Convention_ParisSaclay_2023.pdf</a></td>
+                    <td><a href="#">
+                            <!-- <i class="fas fa-file-pdf pdf-icon"></i>  -->
+                            <img class="pdf-icon" width="20px"
+                                src="/wp-content/plugins/plateforme-master/images/icons/pdf-svgrepo-com (2).png"
+                                alt="pdf-svgrepo-com (2).png">
+                            Convention_ParisSaclay_2023.pdf
+                        </a></td>
                     <td>01/02/2024</td>
                 </tr>
                 <tr>
                     <td>002</td>
                     <td>Planning détaillé</td>
-                    <td><a href="#"><i class="fas fa-file-excel pdf-icon"></i> Planning_BCI_Q1Q2_2025.xlsx</a></td>
+                    <td><a href="#">
+                            <img class="pdf-icon" width="20px"
+                                src="/wp-content/plugins/plateforme-master/images/icons/excel-document.png"
+                                alt="excel-document.png">
+                            <!-- <i class="fas fa-file-excel pdf-icon"></i> -->
+
+                            Planning_BCI_Q1Q2_2025.xlsx</a></td>
                     <td>20/01/2025</td>
                 </tr>
                 <tr>
                     <td>003</td>
                     <td>Rapport d'étape</td>
-                    <td><a href="#"><i class="fas fa-file-pdf pdf-icon"></i> Rapport_BCI_Progress2024.pdf</a></td>
+                    <td><a href="#">
+                            <!-- <i class="fas fa-file-pdf pdf-icon"></i>  -->
+                            <img class="pdf-icon" width="20px"
+                                src="/wp-content/plugins/plateforme-master/images/icons/pdf-svgrepo-com (2).png"
+                                alt="pdf-svgrepo-com (2).png">
+                            Rapport_BCI_Progress2024.pdf
+                        </a></td>
                     <td>15/12/2024</td>
                 </tr>
             </tbody>
@@ -142,7 +164,7 @@
 
 <style>
 .content-wrapper {
-    padding: 20px;
+    /* padding: 20px; */
     font-family: 'Poppins', sans-serif;
 }
 
@@ -413,7 +435,7 @@ button.status-button {
 }
 
 .card.full-width {
-    margin-top: 20px;
+    /* margin-top: 20px; */
     border: 0px;
 }
 
