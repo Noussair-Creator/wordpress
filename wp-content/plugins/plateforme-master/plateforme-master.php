@@ -601,32 +601,36 @@ function plateforme_content($content)
     }
     // 🔁 Chargement automatique des pages DL dynamiques
     $pages_DL = [
-        'reservation-des-equipements-et-salles',
-        'programmes-et-projets-de-recherches',
-        'programmes-et-projets-de-recherches-details-projet',
-        'activites-scientifiques-directeur-labo',
-        'reseaux-de-la-recherche-directeur-labo',
-        'reseaux-de-la-recherche-details',
-        'activites-quotidiennes-directeur-labo',
-        'etat-d-avancement-des-projets',
-        'etat-d-avancement-des-projets-fiche-projet',
-        'financement-directeur-labo',
-        'financement-fiche-de-financement-directeur-labo',
-        'actualites-de-l-utm',
-        'article',
-        'membre-de-labo',
-        'membre-de-labo-fiche-membre',
+        // 'reservation-des-equipements-et-salles',
+        //'programmes-et-projets-de-recherches',
+        //'programmes-et-projets-de-recherches-details-projet',
+        // 'activites-scientifiques-directeur-labo',
+        //'reseaux-de-la-recherche-directeur-labo',
+        //'reseaux-de-la-recherche-details',
+        //'activites-quotidiennes-directeur-labo',
+        //'etat-d-avancement-des-projets',
+        //'etat-d-avancement-des-projets-fiche-projet',
+        //'financement-directeur-labo',
+        //'financement-fiche-de-financement-directeur-labo',
+        //'actualites-de-l-utm',
+        //'article',
+        //'membre-de-labo',
+        //'membre-de-labo-fiche-membre',
         'fiche-labo',
         // Ajout des pages pour Directeur de Labo
-        'publication-directeur-du-labo',
-        'ajouter-une-publication-directeur-du-labo',
-        'modifier-une-publication-directeur-du-labo',
-        'details-publication-directeur-du-labo',
-        'contacts-directeur-du-labo',
+        // 'publication-directeur-du-labo',
+        // 'ajouter-une-publication-directeur-du-labo',
+        // 'modifier-une-publication-directeur-du-labo',
+        // 'details-publication-directeur-du-labo',
+        // 'contacts-directeur-du-labo',
         // Ajout des pages pour Directeur de Labo 08/26/2025
-        'reclamations-directeur-du-labo',
-        'reunions-directeur-du-labo',
-        'rapports-directeur-du-labo',
+        //'reclamations-directeur-du-labo',
+        //'reunions-directeur-du-labo',
+        //'rapports-directeur-du-labo',
+        // 'activites-scientifiques-details',
+        //'activites-quotidiennes-details',
+        // 'profile-directeur-du-labo',
+        //'ged-directeur-du-labo',
     ];
 
     foreach ($pages_DL as $page_slug) {
@@ -637,6 +641,56 @@ function plateforme_content($content)
                 if (array_intersect($allowed_roles, $current_user->roles)) {
                     ob_start();
                     include plugin_dir_path(__FILE__) . 'Modules/LaboRecherche/pages/pagesDirecteurlabo/' . $page_slug . '.php';
+                    echo ob_get_clean();
+                    exit;
+                } else {
+                    plateforme_redirect_home();
+                }
+            } else {
+                plateforme_redirect_home();
+            }
+        }
+    }
+    // 🔁 Chargement automatique des pages pour Directeur et chercher.
+    $Pages_communes = [
+        'reservation-des-equipements-et-salles',
+        'programmes-et-projets-de-recherches',
+        'programmes-et-projets-de-recherches-details-projet',
+        'reseaux-de-la-recherche',
+        'reseaux-de-la-recherche-details',
+        'activites-quotidiennes',
+        'activites-quotidiennes-details',
+        'activites-scientifiques',
+        'activites-scientifiques-details',
+        'financement',
+        'financement-fiche-de-financement',
+        'actualites-de-l-utm',
+        'article',
+        'membre-de-labo',
+        'membre-de-labo-fiche-membre',
+        'publication',
+        'ajouter-une-publication',
+        'modifier-une-publication',
+        'details-publication',
+        'contacts',
+        'etat-d-avancement-des-projets',
+        'etat-d-avancement-des-projets-fiche-projet',
+        'rapports',
+        'reclamations',
+        'reunions',
+        'profile-directeur-du-labo',
+        'ged',
+        'bibliotheque',
+    ];
+
+    foreach ($Pages_communes as $page_slug) {
+        if (is_page($page_slug)) {
+            if (is_user_logged_in()) {
+                $current_user = wp_get_current_user();
+                $allowed_roles = ['um_chercheur', 'um_directeur_laboratoire', 'um_service-etablissement', 'um_service-utm'];
+                if (array_intersect($allowed_roles, $current_user->roles)) {
+                    ob_start();
+                    include plugin_dir_path(__FILE__) . 'Modules/LaboRecherche/pages/pagesCommunes/' . $page_slug . '.php';
                     echo ob_get_clean();
                     exit;
                 } else {
@@ -744,50 +798,50 @@ function plateforme_content($content)
 
 
     // Chargement automatique des pages LaboRecherche pour le rôle um_chercheur
-    $chercheur_pages = [
-        'programmes-projects-de-recherches' => 'ProgrammesProjectsDeRecherches.php',
-        'activites-scientifiques' => 'ActivitesScientifiques.php',
-        'reseaux-de-la-recherche' => 'ReseauxDeLaRecherche.php',
-        'activites-quotidiennes' => 'ActivitesQuotidiennes.php',
-        'etat-davancement-des-projets' => 'EtatDavancementDesProjets.php',
-        'financement' => 'Financement.php',
-        'actualites-de-lutm' => 'ActualitesDeLutm.php',
-        'membres-de-laboratoire' => 'MembresDeLaboratoire.php',
-        'comment-proteger-ma-recherche' => 'CommentProtegerMaRecherche.php',
-        'details-programmes-projets-de-recherches' => 'DetailsProgrammesProjetsDeRecherches.php',
-        'reseaux-de-la-recherche-fiche-partenaire' => 'ReseauxDeLaRechercheFichePartenaire.php',
-        'financement-fiche-de-financement' => 'FinancementFicheDeFinancement.php',
-        'membres-de-laboratoire-fiche-dun-membre' => 'MembresDeLaboratoireFicheDunMembre.php',
-        'fiche-details-du-laboratoire-lsama' => 'FicheDetailsDuLaboratoireLsama.php',
-        'etat-davancement-des-projets-fiche-projet' => 'EtatDavancementDesProjetsFicheProjet.php',
-        // Ajoutez 2 pages publications & ajouter-une-publication
-        'publications-chercheur' => 'Publications.php',
-        'ajouter-une-publication-chercheur' => 'AjouterUnePublication.php',
-    ];
+    // $chercheur_pages = [
+    //     'programmes-projects-de-recherches' => 'ProgrammesProjectsDeRecherches.php',
+    //     'activites-scientifiques' => 'ActivitesScientifiques.php',
+    //     'reseaux-de-la-recherche' => 'ReseauxDeLaRecherche.php',
+    //     'activites-quotidiennes' => 'ActivitesQuotidiennes.php',
+    //     'etat-davancement-des-projets' => 'EtatDavancementDesProjets.php',
+    //     'financement' => 'Financement.php',
+    //     'actualites-de-lutm' => 'ActualitesDeLutm.php',
+    //     'membres-de-laboratoire' => 'MembresDeLaboratoire.php',
+    //     'comment-proteger-ma-recherche' => 'CommentProtegerMaRecherche.php',
+    //     'details-programmes-projets-de-recherches' => 'DetailsProgrammesProjetsDeRecherches.php',
+    //     'reseaux-de-la-recherche-fiche-partenaire' => 'ReseauxDeLaRechercheFichePartenaire.php',
+    //     'financement-fiche-de-financement' => 'FinancementFicheDeFinancement.php',
+    //     'membres-de-laboratoire-fiche-dun-membre' => 'MembresDeLaboratoireFicheDunMembre.php',
+    //     'fiche-details-du-laboratoire-lsama' => 'FicheDetailsDuLaboratoireLsama.php',
+    //     'etat-davancement-des-projets-fiche-projet' => 'EtatDavancementDesProjetsFicheProjet.php',
+    //     //Ajoutez 2 pages publications & ajouter-une-publication
+    //     'publications-chercheur' => 'Publications.php',
+    //     'ajouter-une-publication-chercheur' => 'AjouterUnePublication.php',
+    // ];
 
-    foreach ($chercheur_pages as $page_slug => $php_file) {
-        if (is_page($page_slug)) {
-            if (is_user_logged_in()) {
-                $current_user = wp_get_current_user();
-                if (in_array('um_chercheur', $current_user->roles)) {
-                    $file = plugin_dir_path(__FILE__) . 'Modules/LaboRecherche/pages/pageschercheur' . $php_file;
+    // foreach ($chercheur_pages as $page_slug => $php_file) {
+    //     if (is_page($page_slug)) {
+    //         if (is_user_logged_in()) {
+    //             $current_user = wp_get_current_user();
+    //             if (in_array('um_chercheur', $current_user->roles)) {
+    //                 $file = plugin_dir_path(__FILE__) . 'Modules/LaboRecherche/pages/pageschercheur' . $php_file;
 
-                    if (file_exists($file)) {
-                        ob_start();
-                        include $file;
-                        echo ob_get_clean();
-                        exit;
-                    } else {
-                        wp_die("❌ Le fichier <code>$php_file</code> est introuvable dans <code>pageschercheur</code>.");
-                    }
-                } else {
-                    plateforme_redirect_home();
-                }
-            } else {
-                plateforme_redirect_home();
-            }
-        }
-    }
+    //                 if (file_exists($file)) {
+    //                     ob_start();
+    //                     include $file;
+    //                     echo ob_get_clean();
+    //                     exit;
+    //                 } else {
+    //                     wp_die("❌ Le fichier <code>$php_file</code> est introuvable dans <code>pageschercheur</code>.");
+    //                 }
+    //             } else {
+    //                 plateforme_redirect_home();
+    //             }
+    //         } else {
+    //             plateforme_redirect_home();
+    //         }
+    //     }
+    // }
     if (is_page('unite-genomique')) {
         if (is_user_logged_in()) {
 
@@ -1220,52 +1274,52 @@ function pm_template_override()
         exit;
     }
     // 🎯 Correspondance slug => nom réel du fichier
-    $chercheur_pages = [
-        'programmes-projects-de-recherches' => 'ProgrammesProjectsDeRecherches.php',
-        'activites-scientifiques' => 'ActivitesScientifiques.php',
-        'reseaux-de-la-recherche' => 'ReseauxDeLaRecherche.php',
-        'activites-quotidiennes' => 'ActivitesQuotidiennes.php',
-        'etat-davancement-des-projets' => 'EtatDavancementDesProjets.php',
-        'financement' => 'Financement.php',
-        'actualites-de-lutm' => 'ActualitesDeLutm.php',
-        'membres-de-laboratoire' => 'MembresDeLaboratoire.php',
-        'comment-proteger-ma-recherche' => 'CommentProtegerMaRecherche.php',
-        'details-programmes-projets-de-recherches' => 'DetailsProgrammesProjetsDeRecherches.php',
-        'reseaux-de-la-recherche-fiche-partenaire' => 'ReseauxDeLaRechercheFichePartenaire.php',
-        'financement-fiche-de-financement' => 'FinancementFicheDeFinancement.php',
-        'membres-de-laboratoire-fiche-dun-membre' => 'MembresDeLaboratoireFicheDunMembre.php',
-        'fiche-details-du-laboratoire-lsama' => 'FicheDetailsDuLaboratoireLsama.php',
-        'etat-davancement-des-projets-fiche-projet' => 'EtatDavancementDesProjetsFicheProjet.php',
-        // Ajoutez 2 pages publications & ajouter-une-publication
-        'publications-chercheur' => 'Publications.php',
-        'ajouter-une-publication-chercheur' => 'AjouterUnePublication.php',
-    ];
+    // $chercheur_pages = [
+    //     'programmes-projects-de-recherches' => 'ProgrammesProjectsDeRecherches.php',
+    //     'activites-scientifiques' => 'ActivitesScientifiques.php',
+    //     'reseaux-de-la-recherche' => 'ReseauxDeLaRecherche.php',
+    //     'activites-quotidiennes' => 'ActivitesQuotidiennes.php',
+    //     'etat-davancement-des-projets' => 'EtatDavancementDesProjets.php',
+    //     'financement' => 'Financement.php',
+    //     'actualites-de-lutm' => 'ActualitesDeLutm.php',
+    //     'membres-de-laboratoire' => 'MembresDeLaboratoire.php',
+    //     'comment-proteger-ma-recherche' => 'CommentProtegerMaRecherche.php',
+    //     'details-programmes-projets-de-recherches' => 'DetailsProgrammesProjetsDeRecherches.php',
+    //     'reseaux-de-la-recherche-fiche-partenaire' => 'ReseauxDeLaRechercheFichePartenaire.php',
+    //     'financement-fiche-de-financement' => 'FinancementFicheDeFinancement.php',
+    //     'membres-de-laboratoire-fiche-dun-membre' => 'MembresDeLaboratoireFicheDunMembre.php',
+    //     'fiche-details-du-laboratoire-lsama' => 'FicheDetailsDuLaboratoireLsama.php',
+    //     'etat-davancement-des-projets-fiche-projet' => 'EtatDavancementDesProjetsFicheProjet.php',
+    //     // Ajoutez 2 pages publications & ajouter-une-publication
+    //     'publications-chercheur' => 'Publications.php',
+    //     'ajouter-une-publication-chercheur' => 'AjouterUnePublication.php',
+    // ];
 
-    foreach ($chercheur_pages as $page_slug => $filename) {
-        if (is_page($page_slug)) {
-            if (is_user_logged_in()) {
-                $current_user = wp_get_current_user();
-                $allowed_roles = ['um_chercheur'];
+    // foreach ($chercheur_pages as $page_slug => $filename) {
+    //     if (is_page($page_slug)) {
+    //         if (is_user_logged_in()) {
+    //             $current_user = wp_get_current_user();
+    //             $allowed_roles = ['um_chercheur'];
 
-                if (array_intersect($allowed_roles, $current_user->roles)) {
-                    $file = plugin_dir_path(__FILE__) . 'Modules/LaboRecherche/pages/pageschercheur/' . $filename;
+    //             if (array_intersect($allowed_roles, $current_user->roles)) {
+    //                 $file = plugin_dir_path(__FILE__) . 'Modules/LaboRecherche/pages/pageschercheur/' . $filename;
 
-                    if (file_exists($file)) {
-                        ob_start();
-                        include $file;
-                        echo ob_get_clean();
-                        exit;
-                    } else {
-                        wp_die("❌ Le fichier <code>$filename</code> est introuvable dans <code>pageschercheur</code>.");
-                    }
-                } else {
-                    plateforme_redirect_home();
-                }
-            } else {
-                plateforme_redirect_home();
-            }
-        }
-    }
+    //                 if (file_exists($file)) {
+    //                     ob_start();
+    //                     include $file;
+    //                     echo ob_get_clean();
+    //                     exit;
+    //                 } else {
+    //                     wp_die("❌ Le fichier <code>$filename</code> est introuvable dans <code>pageschercheur</code>.");
+    //                 }
+    //             } else {
+    //                 plateforme_redirect_home();
+    //             }
+    //         } else {
+    //             plateforme_redirect_home();
+    //         }
+    //     }
+    // }
     if (is_page('unite-genomique')) {
         if (is_user_logged_in()) {
             include plugin_dir_path(__FILE__) . 'Modules/USCR/unite-genomique.php';
@@ -1445,33 +1499,36 @@ function pm_template_override()
     }
     // 🔁 Chargement automatique des pages DL dynamiques
     $pages_DL = [
-        'reservation-des-equipements-et-salles',
-        'programmes-et-projets-de-recherches',
-        'programmes-et-projets-de-recherches-details-projet',
-        'activites-scientifiques-directeur-labo',
-        'reseaux-de-la-recherche-directeur-labo',
-        'reseaux-de-la-recherche-details',
-        'activites-quotidiennes-directeur-labo',
-        'etat-d-avancement-des-projets',
-        'etat-d-avancement-des-projets-fiche-projet',
-        'financement-directeur-labo',
-        'financement-fiche-de-financement-directeur-labo',
-        'actualites-de-l-utm',
-        'article',
-        'membre-de-labo',
-        'membre-de-labo-fiche-membre',
+        // 'reservation-des-equipements-et-salles',
+        //'programmes-et-projets-de-recherches',
+        //'programmes-et-projets-de-recherches-details-projet',
+        // 'activites-scientifiques-directeur-labo',
+        //'reseaux-de-la-recherche-directeur-labo',
+        //'reseaux-de-la-recherche-details',
+        //'activites-quotidiennes-directeur-labo',
+        //'etat-d-avancement-des-projets',
+        //'etat-d-avancement-des-projets-fiche-projet',
+        //'financement-directeur-labo',
+        //'financement-fiche-de-financement-directeur-labo',
+        //'actualites-de-l-utm',
+        //'article',
+        //'membre-de-labo',
+        //'membre-de-labo-fiche-membre',
         'fiche-labo',
         // Ajout des pages pour Directeur de Labo
-        'publication-directeur-du-labo',
-        'ajouter-une-publication-directeur-du-labo',
-        'modifier-une-publication-directeur-du-labo',
-        'details-publication-directeur-du-labo',
-        'contacts-directeur-du-labo',
+        // 'publication-directeur-du-labo',
+        // 'ajouter-une-publication-directeur-du-labo',
+        // 'modifier-une-publication-directeur-du-labo',
+        // 'details-publication-directeur-du-labo',
+        // 'contacts-directeur-du-labo',
         // Ajout des pages pour Directeur de Labo 08/26/2025
-        'reclamations-directeur-du-labo',
-        'reunions-directeur-du-labo',
-        'rapports-directeur-du-labo',
-
+        //'reclamations-directeur-du-labo',
+        //'reunions-directeur-du-labo',
+        //'rapports-directeur-du-labo',
+        // 'activites-scientifiques-details',
+        //'activites-quotidiennes-details',
+        // 'profile-directeur-du-labo',
+        //'ged-directeur-du-labo',
     ];
 
     foreach ($pages_DL as $page_slug) {
@@ -1498,6 +1555,61 @@ function pm_template_override()
         }
     }
 
+    // 🔁 Chargement automatique des pages pour Directeur et chercher.
+    $Pages_communes = [
+        'reservation-des-equipements-et-salles',
+        'programmes-et-projets-de-recherches',
+        'programmes-et-projets-de-recherches-details-projet',
+        'reseaux-de-la-recherche',
+        'reseaux-de-la-recherche-details',
+        'activites-quotidiennes',
+        'activites-quotidiennes-details',
+        'activites-scientifiques',
+        'activites-scientifiques-details',
+        'financement',
+        'financement-fiche-de-financement',
+        'actualites-de-l-utm',
+        'article',
+        'membre-de-labo',
+        'membre-de-labo-fiche-membre',
+        'publication',
+        'ajouter-une-publication',
+        'modifier-une-publication',
+        'details-publication',
+        'contacts',
+        'etat-d-avancement-des-projets',
+        'etat-d-avancement-des-projets-fiche-projet',
+        'rapports',
+        'reclamations',
+        'reunions',
+        'profile-directeur-du-labo',
+        'ged',
+        'bibliotheque',
+    ];
+
+    foreach ($Pages_communes as $page_slug) {
+        if (is_page($page_slug)) {
+            if (is_user_logged_in()) {
+                $current_user = wp_get_current_user();
+                $allowed_roles = ['um_chercheur', 'um_directeur_laboratoire', 'um_service-etablissement', 'um_service-utm'];
+
+                if (array_intersect($allowed_roles, $current_user->roles)) {
+                    $file = plugin_dir_path(__FILE__) . 'Modules/LaboRecherche/pages/pagesCommunes/' . $page_slug . '.php';
+
+                    if (file_exists($file)) {
+                        include $file;
+                        exit;
+                    } else {
+                        wp_die("❌ Le fichier <code>$page_slug.php</code> est introuvable dans <code>pagesDL</code>.");
+                    }
+                } else {
+                    plateforme_redirect_home();
+                }
+            } else {
+                plateforme_redirect_home();
+            }
+        }
+    }
     // 🔁 Chargement automatique des pages pour Directeur de Thèse (DT)
     $pages_DT = [
         'mes-doctorants_directeurth',
