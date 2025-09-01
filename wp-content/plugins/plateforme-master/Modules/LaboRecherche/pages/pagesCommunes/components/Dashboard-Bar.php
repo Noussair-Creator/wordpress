@@ -123,7 +123,7 @@ if ($parent_id) {
         <div class="icon-box has-badge"><i class="fas fa-bell"></i><span class="badge-dot">2</span></div>
 
         <div class="icon-box">
-            <a href="/profile-directeur-du-labo" class="icon-box" title="Profil">
+            <a href="/profile_" class="icon-box" title="Profil">
                 <i class="fas fa-cog"></i>
             </a>
         </div>

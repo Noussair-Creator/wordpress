@@ -4,20 +4,20 @@
   <!-- Colonne 1 -->
   <div class="column" id="column1">
     
-    <div class="card with-image card2" draggable="true"><a href="/appel-a-candidature">
+    <div class="card with-image card2" draggable="true"><a href="/details-master">
       <div class="card-title">Plans d'études</div>
-      <a href="/appel-a-candidature"><span class="corner-icon">↗</span></a></a>
+      <a href="/details-master"><span class="corner-icon">↗</span></a></a>
     </div>
 
-    <div class="card with-image card3" draggable="true">
+    <div class="card with-image card3" draggable="true"><a href="/formulaires-administratifs">
       <div class="card-title">Formulaires administratifs</div>
-      <span class="corner-icon">↗</span>
+      <a href="/formulaires-administratifs"><span class="corner-icon">↗</span></a></a>
     </div>
 
 
-    <div class="card with-image card1" draggable="true">
+    <div class="card with-image card1" draggable="true"><a href="/stages">
       <div class="card-title">Direction des stages</div>
-      <span class="corner-icon">↗</span>
+      <a href="/stages"><span class="corner-icon">↗</span></a></a>
     </div>
   </div>
 
@@ -25,13 +25,13 @@
   <div class="column" id="column2">
 
 
-    <div class="master-feature-card">
+    <div class="master-feature-card"><a href="/emplois">
           <div class="feature-text">Emploi du temps</div>
-              <img class="card-image card-image2" src="/wp-content/plugins/plateforme-master/images/imagesstudentmaster/4388165.png" alt="">
+              <a href="/emplois"><img class="card-image card-image2" src="/wp-content/plugins/plateforme-master/images/imagesstudentmaster/4388165.png" alt=""></a></a>
     </div>
     <div class="column2ligne2">
 
-     <div class="box-soutenance">
+     <div class="box-soutenance"><a href="/soutenance">
         <div class="soutenance-content">
           <div class="soutenance-title">Soutenance</div>
           <ul class="soutenance-list">
@@ -39,15 +39,23 @@
             <li>Mémoire de<br>fin d'étude</li>
           </ul>
         </div>
-        <span class="corner-icon">↗</span>
+      <a href="/soutenance"><span class="corner-icon">↗</span></a></a>
       </div>
 
+      
+
      <div class="card ged-card card5" draggable="true">
-      <span class="corner-icon">↗</span>
+      <a href="/ged"><span class="corner-icon">↗</span></a></a>
     </div>
 
     </div>
-   
+   <!-- <div> -->
+    <!-- GED -->
+    <!-- <div class="card ged-card card5">
+    <span class="corner-icon">↗</span>
+    </div> -->
+    <!-- Formulaires -->
+  <!-- </div> -->
 
 
   </div>
@@ -135,7 +143,7 @@
 
 }
 .card.ged-card.card5 {
-  background-image: url("/imagesMaster/Groupe 2376.png");
+  background-image: url("/wp-content/plugins/plateforme-master/images/icon etudiant/Groupe 2376.png");
 background-size: 77%;
     background-repeat: no-repeat;
     padding-top: 149px;
@@ -180,9 +188,10 @@ background-size: 77%;
 
 .soutenance-content {
   background: rgba(255, 255, 255, 0.85);
-  padding: 12px;
+  padding: 24px;
   border-radius: 12px;
   width: fit-content;
+  margin-left: -30px;
 }
 
 .soutenance-title {

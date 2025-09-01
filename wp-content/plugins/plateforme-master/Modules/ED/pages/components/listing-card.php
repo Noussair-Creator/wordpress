@@ -2,8 +2,10 @@
 <div class="card-flex">
   <!-- Bloc Conventions -->
 <div class="master-feature-card">
-  <div class="feature-text">Doctorants</div>
-      <img class="card-image card-image2" src="/wp-content/plugins/plateforme-master/imagesED/these.png" alt="">
+      <div class="feature-text"><a href="doctorants">Doctorants</a></div>
+          <a href="doctorants">
+           <img class="card-image card-image2" src="/wp-content/plugins/plateforme-master/imagesED/these.png" alt="">
+          </a>
 </div>
 
 <!-- Bloc Indicateurs -->
@@ -14,14 +16,14 @@
 
 <!-- Bloc Soutenances -->
 <div class="master-feature-card">
-  <div class="feature-text">Thèses</div>
-  <img class="card-image card-image2" src="/wp-content/plugins/plateforme-master/imagesED/页面-1.png" alt="">
+  <div class="feature-text"><a href="theses">Thèses</a></div>
+  <a href="theses"><img class="card-image card-image2" src="/wp-content/plugins/plateforme-master/imagesED/页面-1.png" alt=""></a>
 </div>
 
 <!-- Bloc Rapports -->
 <div class="master-feature-card">
-  <div class="feature-text">habilitations</div>
-  <img class="card-image card-image2" src="/wp-content/plugins/plateforme-master/imagesED/text-files-svgrepo-com.png" alt="">
+  <div class="feature-text"><a href="/demande/">habilitations</a></div>
+  <a href="/demande/"><img class="card-image card-image2" src="/wp-content/plugins/plateforme-master/imagesED/text-files-svgrepo-com.png" alt=""></a>
 </div>
 
 

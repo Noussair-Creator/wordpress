@@ -63,7 +63,7 @@ require_once 'requireApi.php';
 
         <div class="content p-4">
           <!-- Top Boxes (disponibilités, calendriers, carrousel) -->
-          <?php include 'components/Top-Boxes-Utm.php'; ?>
+          <?php include 'components/Top-Boxes.php'; ?>
 
           <!-- Stats Graphs (3 graphiques) -->
           <?php include 'components/Stat-Box.php'; ?>

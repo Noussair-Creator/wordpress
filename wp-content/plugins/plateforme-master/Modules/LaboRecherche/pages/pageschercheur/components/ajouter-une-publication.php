@@ -39,7 +39,7 @@ h2 {
     padding: 3px 30px 20px 30px;
     background-color: #ffffffff;
     box-shadow: 0px -10px 12px -9px #33333350;
-    margin-top: 30px;
+    margin-top: 30px;   
     margin-left: -30px;
     margin-right: -30px;
 }
@@ -177,85 +177,98 @@ h2:not(:first-of-type) {
 </style>
 
 
-<div class="form-container">
-    <!-- General Information Section -->
-    <div class="bg">
-        <h2>Informations générales</h2>
-    </div>
-    <!-- <hr class="shodow-lg under-line"> -->
-    <div class="row g-3">
-        <div class="col-md-6">
-            <label for="publicationType" class="form-label">Type de publication :</label>
-            <select class="form-select" id="publicationType">
-                <option selected disabled value=""></option>
-                <option>Article</option>
-                <option>Rapport</option>
-                <option>Présentation</option>
-            </select>
-        </div>
-        <div class="col-md-6">
-            <label for="submissionDate" class="form-label">Date de soumission :</label>
-            <div class="input-group">
-                <input type="date" class="form-control" id="submissionDate">
-            </div>
-        </div>
-        <div class="col-12">
-            <label for="completeTitle" class="form-label">Titre complet :</label>
-            <input type="text" class="form-control" id="completeTitle">
-        </div>
-        <div class="col-12">
-            <label for="summary" class="form-label">Résumé</label>
-            <textarea class="form-control" id="summary" rows="4"></textarea>
-        </div>
+<form id="form-publication" class="form-container">
+  <!-- Informations générales -->
+  <div class="bg">
+    <h2>Informations générales</h2>
+  </div>
+
+  <div class="row g-3">
+    <div class="col-md-6">
+      <label for="publicationType" class="form-label">Type de publication :</label>
+      <!-- name DOIT être "type" -->
+      <select class="form-select" id="publicationType" name="type" required>
+        <option selected disabled value=""></option>
+        <option>Article</option>
+        <option>Rapport</option>
+        <option>Présentation</option>
+      </select>
     </div>
 
-    <!-- Associated Documents Section -->
-    <div class="bg">
-        <h2 id="h2top">Documents associés</h2>
+    <div class="col-md-6">
+      <label for="submissionDate" class="form-label">Date de publication :</label>
+      <!-- name DOIT être "date_publication" -->
+      <div class="input-group">
+        <input type="date" class="form-control" id="submissionDate" name="date_publication" required>
+      </div>
     </div>
-    <!-- <hr class="shodow-lg under-line"> -->
-    <label for="fileImport" class="form-label">Pièces jointes</label>
-    <div class="file-import-section">
-        <input type="text" class="form-control" id="fileImport" placeholder="Importer">
-        <button class="btn btn-import" type="button" id="importButton">Importer</button>
-        <input type="file" id="fileInput" multiple style="display: none;">
-    </div>
-    <ul class="file-list" id="fileList">
-        <!-- Dynamically added files will appear here -->
-        <li class="file-list-item" data-filename="Deeplearning_BCI_Systems.Pdf">
-            <img style="width: 30px;" src="/wp-content/plugins/plateforme-master/imagesED//pdf-svgrepo-com (2).png"
-                alt="fichier PDF">
-            <span>Deeplearning_BCI_Systems.Pdf</span>
-            <button class="btn-remove-file" onclick="removeFile(this)"><img style="width: 10px;"
-                    src="/wp-content/plugins/plateforme-master/imagesED/.-blanc.png" alt="X icon"></button>
-        </li>
-        <li class="file-list-item" data-filename="Poster_BCI2025.Pdf">
-            <img style="width: 30px;" src="/wp-content/plugins/plateforme-master/imagesED//pdf-svgrepo-com (2).png"
-                alt="fichier PDF">
-            <span>Poster_BCI2025.Pdf</span>
-            <button class="btn-remove-file" onclick="removeFile(this)"><img style="width: 10px;"
-                    src="/wp-content/plugins/plateforme-master/imagesED/.-blanc.png" alt="X icon"></button>
-        </li>
-    </ul>
 
-    <!-- Additional Comments Section -->
-    <div class="bg">
-        <h2 id="h2top">Commentaire complémentaire (optionnel)</h2>
+    <div class="col-12">
+      <label for="completeTitle" class="form-label">Titre complet :</label>
+      <!-- name DOIT être "titre" -->
+      <input type="text" class="form-control" id="completeTitle" name="titre" required>
     </div>
-    <!-- <hr class="shodow-lg under-line"> -->
-    <div class="mb-3">
-        <label for="comment" class="form-label">Commentaire</label>
-        <textarea class="form-control" id="comment" rows="3" placeholder="Commentaire..."></textarea>
+
+    <!-- CHAMPS ADDITIONNELS attendus par l'API -->
+    <div class="col-md-4">
+      <label for="revue" class="form-label">Revue / Support</label>
+      <!-- name DOIT être "revue" -->
+      <input type="text" class="form-control" id="revue" name="revue" placeholder="Journal / Conférence / Support">
     </div>
-    <!-- <hr class="shodow-lg under-line-reverse"> -->
-    <!-- Action Buttons -->
-    <div class="bg-reverse">
-        <div class="form-actions">
-            <button type="button" class="btn btn-draft">Enregistrer en brouillon</button>
-            <button type="submit" class="btn btn-submit">Soumettre ma demande</button>
-        </div>
+
+    <div class="col-md-4">
+      <label for="doi" class="form-label">DOI</label>
+      <!-- name DOIT être "doi" -->
+      <input type="text" class="form-control" id="doi" name="doi" placeholder="10.xxxx/xxxxx">
     </div>
-</div>
+
+    <div class="col-md-4">
+      <label for="isbn" class="form-label">ISBN</label>
+      <!-- name DOIT être "isbn" -->
+      <input type="text" class="form-control" id="isbn" name="isbn" placeholder="978-...">
+    </div>
+
+    <!-- hidden: sera rempli avec l'utilisateur connecté -->
+    <input type="hidden" id="chercheur_id" name="chercheur_id" value="">
+  </div>
+
+  <!-- Documents associés -->
+  <div class="bg">
+    <h2 id="h2top">Documents associés</h2>
+  </div>
+
+  <label for="fichier_url" class="form-label">Pièce jointe (PDF, etc.)</label>
+  <div class="file-import-section">
+    <!-- IMPORTANT: name DOIT être "fichier_url" (le JS l'attend comme champ fichier) -->
+    <input type="file" id="fichier_url" name="fichier_url" accept=".pdf,.doc,.docx,.ppt,.pptx,.zip,.png,.jpg">
+    <!-- Si tu veux garder ton UI "Importer" + input texte, tu peux -->
+    <div class="d-flex gap-2 mt-2">
+      <input type="text" class="form-control" id="fileImport" placeholder="Importer" readonly>
+      <button class="btn btn-import" type="button" id="importButton">Importer</button>
+    </div>
+  </div>
+
+  <ul class="file-list" id="fileList">
+    <!-- (facultatif) liste visuelle -->
+  </ul>
+
+  <!-- Commentaire complémentaire (non envoyé par le JS généré par défaut) -->
+  <div class="bg">
+    <h2 id="h2top">Commentaire complémentaire (optionnel)</h2>
+  </div>
+  <div class="mb-3">
+    <label for="comment" class="form-label">Commentaire</label>
+    <textarea class="form-control" id="comment" rows="3" placeholder="Commentaire..."></textarea>
+  </div>
+
+  <div class="bg-reverse">
+    <div class="form-actions">
+      <button type="button" class="btn btn-draft" id="btnSaveDraft">Enregistrer en brouillon</button>
+      <button type="button" class="btn btn-submit" id="btnSubmitPublication">Soumettre</button>
+    </div>
+  </div>
+</form>
+
 
 <!-- Bootstrap 5 JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"

@@ -2,11 +2,11 @@
   <div class="genomique-container">
     <!-- Colonne gauche : images -->
     <div class="genomique-images">
-      <img class="main-image" src="/images/img-principale.jpg" alt="Machine principale">
+      <img class="main-image" src="/wp-content/plugins/plateforme-master/images/uscr/Groupe de masques 365.png" alt="Machine principale">
 
       <div class="sub-images">
-        <img src="/images/img1.jpg" alt="Machine secondaire">
-        <img src="/images/img2.jpg" alt="Autre équipement">
+        <img src="/wp-content/plugins/plateforme-master/images/uscr/Groupe de masques 365.png" alt="Machine secondaire">
+        <img src="/wp-content/plugins/plateforme-master/images/uscr/Groupe de masques 367.png" alt="Autre équipement">
       </div>
     </div>
 
@@ -70,8 +70,9 @@
 }
 
 .sub-images img {
-  width: 48%;
-  border-radius: 16px;
+    border-radius: 16px;
+    width: 154px;
+    height: 89px;
 }
 
 .genomique-content {

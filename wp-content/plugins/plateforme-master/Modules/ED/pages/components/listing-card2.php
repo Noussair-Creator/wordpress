@@ -2,26 +2,26 @@
 <div class="card-flex">
   <!-- Bloc Conventions -->
 <div class="master-feature-card">
-  <div class="feature-text">Evaluations et rapports</div>
-      <img class="card-image card-image2" src="/wp-content/plugins/plateforme-master/imagesED/these.png" alt="">
+      <a href="/evaluations-et-rapports_directeurth"> <div class="feature-text">Evaluations et rapports</div></a>
+       <a href="/evaluations-et-rapports_directeurth">   <img class="card-image card-image2" src="/wp-content/plugins/plateforme-master/imagesED/these.png" alt=""></a>
 </div>
 
 <!-- Bloc Indicateurs -->
 <div class="master-feature-card">
-  <div class="feature-text">Suivi des<br> dépôts</div>
-  <img class="card-image card-image2" src="/wp-content/plugins/plateforme-master/imagesED/4110134.png" alt="">
+  <a href="/suivi-des-d-ep-ots_directeurth"><div class="feature-text">Suivi des<br> dépôts</div></a>
+  <a href="/suivi-des-d-ep-ots_directeurth"><img class="card-image card-image2" src="/wp-content/plugins/plateforme-master/imagesED/4110134.png" alt=""></a>
 </div>
 
 <!-- Bloc Soutenances -->
 <div class="master-feature-card">
-  <div class="feature-text">Doctorants</div>
-  <img class="card-image card-image2" src="/wp-content/plugins/plateforme-master/imagesED/页面-1.png" alt="">
+  <a href="/mes-doctorants_directeurth"><div class="feature-text">Doctorants</div></a>
+  <a href="/mes-doctorants_directeurth"><img class="card-image card-image2" src="/wp-content/plugins/plateforme-master/imagesED/页面-1.png" alt=""></a>
 </div>
 
 <!-- Bloc Rapports -->
 <div class="master-feature-card">
-  <div class="feature-text">Progression</div>
-  <img class="card-image card-image2" src="/wp-content/plugins/plateforme-master/imagesED/text-files-svgrepo-com.png" alt="">
+  <a href="/progression_directeurth"><div class="feature-text">Progression</div></a>
+  <a href="/progression_directeurth">  <img class="card-image card-image2" src="/wp-content/plugins/plateforme-master/imagesED/text-files-svgrepo-com.png" alt=""></a>
 </div>
 
 

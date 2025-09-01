@@ -80,6 +80,8 @@ require_once plugin_dir_path(__FILE__) . '../requireApi.php';
 
     <!-- Scripts -->
     <?php include 'components/scripts.php'; ?>
+
+
 </body>
 
 </html>

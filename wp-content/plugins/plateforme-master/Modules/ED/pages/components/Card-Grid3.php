@@ -5,14 +5,14 @@
   <div class="column" id="column1">
     
     <div class="card with-image card1" draggable="true">
-      <div class="card-title">Planification des soutenances</div>
-      <span class="corner-icon">↗</span>
+      <a href="/planification-des-soutenances_directeurth"><div class="card-title">Planification des soutenances</div></a>
+      <a href="/planification-des-soutenances_directeurth"><span class="corner-icon">↗</span></a>
     </div>
 
 
     <div class="card with-image card2" draggable="true"><a href="#">
-      <div class="card-title">Publications et communications</div>
-      <a href="#"><span class="corner-icon">↗</span></a></a>
+      <a href="/publications-et-communications_directeurth"><div class="card-title">Publications et communications</div></a>
+      <a href="/publications-et-communications_directeurth"><span class="corner-icon">↗</span></a>
     </div>
 
 

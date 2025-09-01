@@ -348,7 +348,7 @@ img.img-box {
     outline: none;
     float: right;
     position: relative;
-    left: 100%;
+    left: 80%;
     font-weight: 600;
 }
 
@@ -420,11 +420,13 @@ img.img-box {
 
 .voir-plus-wrapper {
     margin-top: 15px;
+
+    margin-bottom: 15px;
     text-align: right;
     width: 100%;
     float: right;
     position: relative;
-    left: 100%;
+    left: 80%;
 }
 .voir-plus-link {
   font-size: 14px;
@@ -520,9 +522,9 @@ $presences = 40;
         <div class="box-content">
           <h4>Calendriers</h4>
           <ul class="list-box">
-            <li>Examens</li>
+            <li><a href="/examens">Examens</a></li>
             <li>Rattrapage</li>
-            <li>Soutenances</li>
+            <li><a href="/soutenance">Soutenances</a></li>
           </ul>
         </div>
       </div>
@@ -550,7 +552,7 @@ $presences = 40;
             </div>
 
             <div class="voir-plus-wrapper">
-              <a href="#" class="voir-plus-link">Voir plus <span class="fleche">→</span></a>
+              <a href="/absences" class="voir-plus-link">Voir plus <span class="fleche">→</span></a>
             </div>
 
 
@@ -586,9 +588,9 @@ $presences = 40;
         <!-- Ligne 2 -->
       <div class="top-boxes" style="margin-top: 20px;">
    
-        <div class="master-feature-card">
+        <div class="master-feature-card"><a href="/notes-et-resultat">
           <div class="feature-text">Note et résultats</div>
-              <img class="card-image card-image2" src="/wp-content/plugins/plateforme-master/images/imagesstudentmaster/2574034.png" alt="">
+              <a href="/notes-et-resultat"><img class="card-image card-image2" src="/wp-content/plugins/plateforme-master/images/imagesstudentmaster/2574034.png" alt=""></a></a>
           </div>
         </div>
 

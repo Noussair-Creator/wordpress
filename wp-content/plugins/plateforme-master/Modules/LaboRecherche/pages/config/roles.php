@@ -48,15 +48,15 @@ $roleConfigs = [
             ["label" => "Membres", "lien" => "/membre-de-labo"],
             ["label" => "Projets de recherche", "lien" => "/programmes-et-projets-de-recherches"],
             // ["label" => "Activités", "lien" => "#"],
-            ["label" => "Bibliothèque", "lien" => "/bibliotheque"],
+            ["label" => "Bibliothèque", "lien" => "/bibliotheques"],
             ["label" => "Publications", "lien" => "/publication"],
-            ["label" => "Réseaux de la recherche", "lien" => "/reseaux-de-la-recherche"],
-            ["label" => "Budgets", "lien" => "/financement"],
+            ["label" => "Réseaux de la recherche", "lien" => "/reseaux-de-la-recherches"],
+            ["label" => "Budgets", "lien" => "/financements"],
             ["label" => "Réservation des équipements", "lien" => "/reservation-des-equipements-et-salles"],
             ["label" => "Rapports", "lien" => "/rapports"],
             ["label" => "Réunions", "lien" => "/reunions"],
             ["label" => "Contacts", "lien" => "/contacts"],
-            ["label" => "Réclamations", "lien" => "/reclamations"]
+            ["label" => "Réclamations", "lien" => "/reclamations_"]
         ],
         "calendriers" => [
             "Colloques",
@@ -101,7 +101,7 @@ $roleConfigs = [
             "Manifestations scientifiques"
         ],
         "boite_info" => [
-            ["titre" => "Comment protéger ma recherche ?", "lien" => "/article"],
+            ["titre" => "Comment protéger ma recherche ?", "lien" => "#"],
             ["titre" => "Comment diffuser ma recherche ?", "lien" => "#"],
             ["titre" => "La charte et procédures de publication", "lien" => "#"],
             ["titre" => "Éthique, Déontologie et Intégrité", "lien" => "#"]
@@ -115,15 +115,15 @@ $roleConfigs = [
             ["label" => "Membres", "lien" => "/membre-de-labo"],
             ["label" => "Projets de recherche", "lien" => "/programmes-et-projets-de-recherches"],
             // ["label" => "Activités", "lien" => "#"],
-            ["label" => "Bibliothèque", "lien" => "/bibliotheque"],
+            ["label" => "Bibliothèque", "lien" => "/bibliotheques"],
             ["label" => "Publications", "lien" => "/publication"],
-            ["label" => "Réseaux de la recherche", "lien" => "/reseaux-de-la-recherche"],
-            ["label" => "Budgets", "lien" => "/financement"],
+            ["label" => "Réseaux de la recherche", "lien" => "/reseaux-de-la-recherches"],
+            ["label" => "Budgets", "lien" => "/financements"],
             ["label" => "Réservation des équipements", "lien" => "/reservation-des-equipements-et-salles"],
             ["label" => "Rapports", "lien" => "/rapports"],
             ["label" => "Réunions", "lien" => "/reunions"],
             ["label" => "Contacts", "lien" => "/contacts"],
-            ["label" => "Réclamations", "lien" => "/reclamations"],
+            ["label" => "Réclamations", "lien" => "/reclamations_"],
 
         ],
         "calendriers" => [

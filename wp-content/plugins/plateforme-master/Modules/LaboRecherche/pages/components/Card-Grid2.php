@@ -7,7 +7,7 @@
    <!-- Bloc Statistiques -->
   <div class="stat-graph-card">
     <div class="stat-graph-header">
-      <strong>État d’avancement du projet</strong>
+      <a href="etat-davancement-des-projets"><strong>État d’avancement du projet</strong></a>
       <span class="stat-pourcentage">63%</span>
     </div>
     <canvas id="etatProjetChart" height="180"></canvas>
@@ -16,21 +16,21 @@
   <div class="card-flex">
 
     <div class="master-feature-card">
-      <div class="feature-text">Activités <br>scientifiques</div>
-          <img class="card-image card-image2" src="/wp-content/plugins/plateforme-master/imagesED/science_12641486.png" alt="">
+          <a href="/activites-scientifiques/"><div class="feature-text">Activités <br>scientifiques</div></a>
+          <a href="/activites-scientifiques/"><img class="card-image card-image2" src="/wp-content/plugins/plateforme-master/imagesED/science_12641486.png" alt=""></a>
     </div>
 
     <!-- Bloc Indicateurs -->
     <div class="master-feature-card">
-      <div class="feature-text">Membres du <br>laboratoire</div>
-      <img class="card-image card-image3" src="/wp-content/plugins/plateforme-master/imagesED/image-removebg-preview (24).png" alt="">
+      <a href="/membres-de-laboratoire/"><div class="feature-text">Membres du <br>laboratoire</div></a>
+      <a href="/membres-de-laboratoire/"><img class="card-image card-image3" src="/wp-content/plugins/plateforme-master/imagesED/image-removebg-preview (24).png" alt=""></a>
     </div>
 
    </div>
     
     <div class="card with-image card1" draggable="true">
-      <div class="card-title">Programmes & projets de recherches</div>
-      <span class="corner-icon">↗</span>
+      <a href="/programmes-projects-de-recherches"><div class="card-title">Programmes & projets de recherches</div></a>
+      <a href="/programmes-projects-de-recherches"><span class="corner-icon">↗</span></a>
     </div>
 
   
@@ -42,15 +42,15 @@
     
   
   <div class="card with-image card4 card7" draggable="true">
-      <div class="card-title2">Partenaires & coopérations</div>
+      <a href="/reseaux-de-la-recherche"><div class="card-title2">Partenaires & coopérations</div></a>
       <p class="card-des">Décrit les activités quotidiennes réalisées au laboratoire ainsi que l’état d’avancement des travaux de recherche.</p>
-      <span class="corner-icon">↗</span>
+      <a href="/reseaux-de-la-recherche"><span class="corner-icon">↗</span></a>
     </div>
 
    <div class="card with-image card4 card6" draggable="true">
-      <div class="card-title2">Activités quotidiennes</div>
+      <a href="/activites-quotidiennes/"><div class="card-title2">Activités quotidiennes</div></a> 
       <p class="card-des">Nous développons des synergies durables avec nos partenaires pour renforcer l'impact de nos actions.</p>
-      <span class="corner-icon">↗</span>
+      <a href="/activites-quotidiennes/"><span class="corner-icon">↗</span></a>
     </div>
 
      <div class="card ged-card card5" draggable="true">

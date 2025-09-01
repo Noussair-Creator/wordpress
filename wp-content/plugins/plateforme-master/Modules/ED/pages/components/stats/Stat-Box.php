@@ -108,7 +108,7 @@
 
   <!-- Bloc Manifestations -->
   <div class="card-photos">
-    <span class="corner-icon">↗</span>
+    <a href="/manifestations-scientifiques-ed"><span class="corner-icon">↗</span></a>
     <div class="header">
       <span>Manifestations scientifiques</span>
     </div>

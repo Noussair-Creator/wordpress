@@ -1,0 +1,18 @@
+<?php
+/**
+ * Fichier: reclamations-directeur-du-labo.php
+ * Dossier: Modules/LaboRecherche/pages/pagesDirecteurlabo/
+ * Objet: Contenu de la page "Reclamations Directeur Du Labo"
+ * Sécu: Accès direct interdit
+ */
+if (!defined('ABSPATH')) { exit; }
+
+// 👉 Votre contenu HTML/PHP ici
+?>
+<div class="content-block">
+    <div class="header-bar">
+        <h2><?php echo esc_html(get_the_title()); ?></h2>
+    </div>
+    <hr class="section-divider">
+    <p>Page: <strong>reclamations-directeur-du-labo</strong> — Dossier: <em>pagesDirecteurlabo</em></p>
+</div>

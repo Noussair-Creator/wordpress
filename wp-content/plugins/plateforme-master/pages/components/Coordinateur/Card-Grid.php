@@ -29,8 +29,8 @@
 <div class="card-flex">
   <!-- Bloc Conventions -->
 <div class="master-feature-card">
-  <div class="feature-text">Conventions & entreprises</div>
-      <img class="card-image card-image2" src="/imagesMaster/serviceCoordinateur/entreprise.png" alt="">
+      <a href="/conventions"><div class="feature-text">Conventions & entreprises</div></a>
+      <a href="/conventions"><img class="card-image card-image2" src="/imagesMaster/serviceCoordinateur/entreprise.png" alt=""></a>
 </div>
 
 <!-- Bloc Indicateurs -->
@@ -41,8 +41,8 @@
 
 <!-- Bloc Soutenances -->
 <div class="master-feature-card">
-  <div class="feature-text">Soutenances</div>
-  <img class="card-image card-image2" src="/imagesMaster/serviceCoordinateur/stage.png" alt="">
+  <a href="/soutenances_coord"><div class="feature-text">Soutenances</div></a>
+  <a href="/soutenances_coord"><img class="card-image card-image2" src="/imagesMaster/serviceCoordinateur/stage.png" alt=""></a>
 </div>
 
 <!-- Bloc Rapports -->

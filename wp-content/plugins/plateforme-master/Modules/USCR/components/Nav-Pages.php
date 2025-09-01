@@ -55,7 +55,6 @@
   align-items: center;
   justify-content: space-between;
   padding: 0 10px;
-  overflow: hidden;
   flex-wrap: nowrap;
 }
 
@@ -93,12 +92,13 @@
 }
 
 .nav-user {
-  display: flex;
-  align-items: center;
-  position: relative;
-  margin-left: 10px;
-  cursor: pointer;
-  flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    position: relative;
+    margin-left: 10px;
+    cursor: pointer;
+    flex-shrink: 0;
+    margin-right: 31px;
 }
 
 .nav-user img {

@@ -41,15 +41,40 @@ $roleConfigs = [
       ["label" => "Dashboard",                "lien" => "/espace-coordinateur"],
       ["label" => "Candidatures",             "lien" => "/candidature"],
       ["label" => "Entretiens",             "lien" => "/entretien"],
-      ["label" => "Encadrements",             "lien" => "#"],
+      ["label" => "Encadrements",             "lien" => "/encadrement_coordonnateur"],
       ["label" => "Statistiques",             "lien" => "#"],
-      ["label" => "Conventions & entreprises","lien" => "#"],
-      ["label" => "Soutenances",              "lien" => "#"],
-      ["label" => "Sujets des mémoires",      "lien" => "#"],
-      ["label" => "Rapports",                 "lien" => "#"],
+      ["label" => "Conventions & entreprises","lien" => "/conventions"],
+      ["label" => "Soutenances",              "lien" => "/soutenances_coord"],
+      ["label" => "Sujets des mémoires",      "lien" => "/sujetsmemoire"],
+      ["label" => "Rapports",                 "lien" => "/rapport"],
       ["label" => "Bibliothèque",             "lien" => "#"],
       ["label" => "Contacts",                 "lien" => "#"],
-      ["label" => "Réclamations",             "lien" => "#"],
+      ["label" => "Réclamations",             "lien" => "/reclamation_coord"],
+      ["label" => "planification des cours",             "lien" => "/cours-planification-coord"],
+    ],
+    "calendriers" => [
+      "Candidature",
+      "Inscription",
+      "Examen",
+      "Dépôt de soutenance"
+    ],
+    "assiduite" => ["Présence", "Stages"],
+    "video_link" => "https://meet.example.com/coordinateur"
+  ],
+
+
+  "um_pmo" => [
+    "label" => "PMO",
+    "menu" => [
+      ["label" => "Dashboard",                "lien" => "/dashboardPMO"],
+      ["label" => "Présentation Général",             "lien" => "/presentation-ceip"],
+      ["label" => "Statistiques",             "lien" => "#"],
+      ["label" => "Réunions",             "lien" => "#"],
+      ["label" => "Contacts",             "lien" => "#"],
+      ["label" => "Reclamations",             "lien" => "#"],
+
+
+
     ],
     "calendriers" => [
       "Candidature",
@@ -63,17 +88,17 @@ $roleConfigs = [
   "um_student_master" => [
       "label" => "ÉTUDIANT(E) MASTER",
        "menu" => [
-        ["label" => "Dashboard",              "lien" => "/MASTER/DashboardStudent.php"],
-        ["label" => "Détails Master",         "lien" => "#"],
-        ["label" => "Supports pédagogiques",  "lien" => "#"],
+        ["label" => "Dashboard",              "lien" => "/espace_etudiant_master"],
+        ["label" => "Détails Master",         "lien" => "/details-master"],
+        ["label" => "Supports pédagogiques",  "lien" => "/support-pedagogiques"],
         ["label" => "Statistiques",           "lien" => "#"],
-        ["label" => "Service Administratifs", "lien" => "#"],
-        ["label" => "Direction des stages",   "lien" => "#"],
-        ["label" => "Soutenances",            "lien" => "#"],
+        ["label" => "Service Administratifs", "lien" => "/formulaires-administratifs"],
+        ["label" => "Direction des stages",   "lien" => "/stages"],
+        ["label" => "Soutenances",            "lien" => "/soutenance"],
         ["label" => "Rapports",               "lien" => "#"],
-        ["label" => "Bibliothèque",           "lien" => "#"],
+        ["label" => "Bibliothèque",           "lien" => "/bibliotheque"],
         ["label" => "Contacts",               "lien" => "#"],
-        ["label" => "Réclamations",           "lien" => "#"],
+        ["label" => "Réclamations",           "lien" => "/suivi-reclamation"],
       ],
       "calendriers" => [
         "Examens",

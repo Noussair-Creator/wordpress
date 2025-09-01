@@ -60,7 +60,7 @@
             <button class="action-btn">⋮</button>
             <div class="dropdown-menu">
               <a href="#"><i class="fa fa-refresh"></i> Relancer le partenaire</a>
-              <a href="#"><i class="fa fa-comment"></i> Ajouter un commentaire</a>
+              <a href="#" onclick="openmodalObjectifs()"><i class="fa fa-comment"></i> Ajouter un commentaire</a>
               <a href="#"><i class="fa fa-download"></i> Télécharger dossier</a>
             </div>
           </div>
@@ -81,7 +81,7 @@
             <button class="action-btn">⋮</button>
             <div class="dropdown-menu">
               <a href="#"><i class="fa fa-refresh"></i> Relancer le partenaire</a>
-              <a href="#"><i class="fa fa-comment"></i> Ajouter un commentaire</a>
+              <a href="#" onclick="openmodalObjectifs()"><i class="fa fa-comment"></i> Ajouter un commentaire</a>
               <a href="#"><i class="fa fa-download"></i> Télécharger dossier</a>
             </div>
           </div>
@@ -102,7 +102,7 @@
             <button class="action-btn">⋮</button>
             <div class="dropdown-menu">
               <a href="#"><i class="fa fa-refresh"></i> Relancer le partenaire</a>
-              <a href="#"><i class="fa fa-comment"></i> Ajouter un commentaire</a>
+              <a href="#" onclick="openmodalObjectifs()"><i class="fa fa-comment"></i> Ajouter un commentaire</a>
               <a href="#"><i class="fa fa-download"></i> Télécharger dossier</a>
             </div>
           </div>

@@ -2061,18 +2061,29 @@ function calculate_candidate_score($candidature_id, $score_id) {
      WHERE candidat_id = %d", $candidat_id
   ));
 
-  $niveauLabels2 = [ '1' => 'L1', '2' => 'L2', '3' => 'L3' ];
+  $niveauLabels2 = [ '1' => '"Première année', '2' => 'Deuxième année', '3' => 'Troisième année"' ];
   $niveauLabels = [ '1' => 'Première année', '2' => 'Deuxième année', '3' => 'Troisième année' ];
 
-   foreach ($parcours as $p) {
-  $niveau = trim((string) $p->niveau);
-  $label = $niveauLabels[$niveau] ?? "{$niveau}ème année";
 
-  if ($p->moyenne)  $valeurs["Moyenne $label"] = floatval($p->moyenne);
-  if ($p->credit)   $valeurs["CR$niveau $label"] = floatval($p->credit);
-  if ($p->mention)  $valeurs["Mention $niveau"] = $p->mention;
-  if ($p->session)  $valeurs["Session $niveau"] = $p->session;
-}
+  foreach ($parcours as $p) {
+      $niveau = trim((string) $p->niveau);
+
+      // correspondance propre
+      if ($niveau === "1") {
+          $label = "1ère année";
+      } elseif ($niveau === "2") {
+          $label = "2ème année";
+      } elseif ($niveau === "3") {
+          $label = "3ème année";
+      } else {
+          $label = "{$niveau}ème année";
+      }
+
+      if ($p->moyenne)  $valeurs["Moyenne $label"] = floatval($p->moyenne);
+      if ($p->credit)   $valeurs["CR{$niveau}"] = floatval($p->credit);
+      if ($p->mention)  $valeurs["Mention $niveau"] = $p->mention;
+      if ($p->session)  $valeurs["Session $niveau"] = $p->session;
+  }
 
 
   // 5. Traitement des critères
@@ -2199,10 +2210,6 @@ function calculate_candidate_score($candidature_id, $score_id) {
 
 
 
-
-
-
-
     // ✅ Matières spécifiques : condition sur note minimale
     if (!empty($cfg['matieres'])) {
         foreach ($cfg['matieres'] as $m) {
@@ -2246,32 +2253,13 @@ function calculate_candidate_score($candidature_id, $score_id) {
             }
         }
 
-         // update 
-
-        
-
-
-
 
         }
       }
 
-
-
-
-   
-
-
-
   }
 
-  
 
-
-
-
-
-  
 
 
   // Calcule la somme des matières spécifiques si présentes
@@ -2301,66 +2289,6 @@ function calculate_candidate_score($candidature_id, $score_id) {
 
       $templateType  = $crit->type;
       $titreAffiche  = trim($crit->titre_affiche);
-      // update pondération
-
-      /*
-      if ($templateType === 'ponderation' && !empty($cfg['formule_json'])) {
-            $formule_pond = $cfg['formule_json'];
-            $valeur_calculee = '';
-
-
-
-            foreach ($formule_pond as $tok) {
-                if (in_array($tok, ['+', '-', '*', '/', '(', ')'])) {
-                    $valeur_calculee .= " $tok ";
-                } elseif (is_numeric($tok)) {
-                    $valeur_calculee .= " $tok ";
-                } else {
-                    $v = $valeurs[$tok] ?? 1; // valeur par défaut si non fournie
-                    $valeur_calculee .= " $v ";
-                }
-            }
-
-            // Application des coefficients dynamiques
-            if (!empty($cfg['coefficients'])) {
-
-              var_dump('coefficients');
-
-              var_dump($cfg['coefficients']);
-                
-            
-
-                    foreach ($cfg['coefficients'] as $coeff) {
-                        $nomCoeff = $coeff['nom'];
-                        $valCoeff = 1;
-                        var_dump("res");
-                        var_dump($res);
-                        var_dump($valCoeff);
-
-                        foreach ($coeff['conditions'] as $cond) {
-                            if ($res >= $cond['min'] && $res <= $cond['max']) {
-                                $valCoeff = $cond['valeur'];
-                                break;
-                            }
-                        }
-                        // injecter dans le tableau des valeurs pour usage global
-                        $valeurs[$nomCoeff] = $valCoeff;
-                    }
-
-            }
-
-            // Résultat de la pondération locale
-            try {
-                eval("\$res = round($valeur_calculee, 2);");
-                $valeurs[$titreAffiche] = $res;
-            } catch (Throwable $e) {
-                $valeurs[$titreAffiche] = 0;
-            }
-       
-
-      }
-      */
-
 
       if ($templateType === 'ponderation' && !empty($cfg['formule_json'])) {
           $formule_pond = $cfg['formule_json'];
@@ -2449,8 +2377,8 @@ function calculate_candidate_score($candidature_id, $score_id) {
     }
   }
 
+
 /*
-  
   // 7. Debug
   echo "🧮 formule de score  :";  
 
@@ -2462,7 +2390,7 @@ function calculate_candidate_score($candidature_id, $score_id) {
   echo "📊 Valeurs utilisées dans le calcul :\n\n";
   var_dump($valeurs);
   echo "</pre>";
-  */
+*/
 
   // 8. Calcul du score
   try {

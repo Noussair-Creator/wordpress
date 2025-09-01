@@ -5,8 +5,8 @@
   </div>
 
   <div class="dashboard-card">
-    <div class="card-text">Inscription &<br>Réinscription</div>
-    <img src="/wp-content/plugins/plateforme-master/imagesED/i-registration-svgrepo-com.png" alt="Inscription" class="card-icon">
+    <a href="/inscription-et-reinscription"><div class="card-text">Inscription &<br>Réinscription</div></a>
+    <a href="/inscription-et-reinscription"><img src="/wp-content/plugins/plateforme-master/imagesED/i-registration-svgrepo-com.png" alt="Inscription" class="card-icon"></a>
   </div>
 
   <div class="dashboard-card">

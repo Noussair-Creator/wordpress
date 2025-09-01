@@ -1,0 +1,87 @@
+CREATE TABLE `utm_ED_theses_doctorants` (
+  `id` BIGINT(20) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `doctorant_id` BIGINT(20) UNSIGNED NOT NULL,      -- Référence vers l'utilisateur / doctorant
+  `sujet` TEXT NOT NULL,                            -- Sujet de thèse
+  `specialite` VARCHAR(255) NOT NULL,               -- Spécialité
+  `date_debut` DATE NOT NULL,                       -- Date de début
+  `directeur_id` BIGINT(20) UNSIGNED NOT NULL,      -- Référence vers l'encadrant / wp_users
+  `laboratoire` VARCHAR(255) DEFAULT NULL,          -- Nom du laboratoire
+  `type_these` ENUM('Nationale','Internationale') DEFAULT 'Nationale',
+  `cotutelle` ENUM('Oui','Non') DEFAULT 'Non',
+  `statut` VARCHAR(50) DEFAULT 'En cours',          -- Statut de la thèse
+  `date_update` DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  INDEX `idx_doctorant` (`doctorant_id`),
+  INDEX `idx_directeur` (`directeur_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+
+
+CREATE TABLE `utm_ED_demande_stage` (
+  `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `doctorant_id` BIGINT UNSIGNED NOT NULL,
+  `type_demande` VARCHAR(100) NOT NULL DEFAULT 'Stage (long séjour)',
+  `objet_mission` TEXT NOT NULL,
+  `date_depart` DATE NOT NULL,
+  `date_retour` DATE NOT NULL,
+  `duree_totale` VARCHAR(50) GENERATED ALWAYS AS (
+    CONCAT(DATEDIFF(`date_retour`, `date_depart`) + 1, ' jours')
+  ) VIRTUAL,
+  `pays` VARCHAR(100) NOT NULL,
+  `structure_type` VARCHAR(100) DEFAULT 'Entreprise',
+  `structure_nom` VARCHAR(255),
+  `autorisation` ENUM('Oui','Non') DEFAULT 'Oui',
+  `type_financement` ENUM('Personnel','Subvention') DEFAULT 'Personnel',
+  `assurance` ENUM('Fourni','À souscrire') DEFAULT 'Fourni',
+  `fichier_lettre_invitation` VARCHAR(255),
+  `fichier_programme` VARCHAR(255),
+  `fichier_attestation` VARCHAR(255),
+  `fichier_autorisation_encadrant` VARCHAR(255),
+  `commentaire` TEXT,
+  `statut` ENUM('Brouillon','Soumise','Approuvée','Refusée') DEFAULT 'Brouillon',
+  `date_update` DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+
+CREATE TABLE utm_ED_demande_bourse (
+  id BIGINT(20) UNSIGNED NOT NULL AUTO_INCREMENT,
+  doctorant_id BIGINT(20) UNSIGNED NOT NULL,
+  objet_demande VARCHAR(255) DEFAULT '',
+  intitule_mission TEXT,
+  structure_type VARCHAR(100) DEFAULT 'Entreprise',
+  structure_nom VARCHAR(255) DEFAULT '',
+  pays VARCHAR(100) DEFAULT '',
+  date_depart DATE DEFAULT '0000-00-00',
+  date_retour DATE DEFAULT '0000-00-00',
+  duree_totale VARCHAR(50) DEFAULT NULL,
+  encadrant VARCHAR(255) DEFAULT '',
+  modalite_presence VARCHAR(50) DEFAULT 'Présentiel',
+  montant_estime VARCHAR(50) DEFAULT '',
+  financement_compl VARCHAR(10) DEFAULT 'Oui',
+  assurance VARCHAR(20) DEFAULT 'Fourni',
+  fichier_lettre_motivation VARCHAR(255) DEFAULT NULL,
+  fichier_lettre_accueil VARCHAR(255) DEFAULT NULL,
+  fichier_cv VARCHAR(255) DEFAULT NULL,
+  fichier_plan_travail VARCHAR(255) DEFAULT NULL,
+  fichier_attestation_insc VARCHAR(255) DEFAULT NULL,
+  commentaire TEXT DEFAULT '',
+  statut VARCHAR(50) DEFAULT 'Brouillon',
+  date_update DATETIME DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+
+CREATE TABLE IF NOT EXISTS `utm_Labo_laboratoire` (
+    `id` INT(11) NOT NULL AUTO_INCREMENT,
+    `logo` VARCHAR(255) DEFAULT NULL,                  -- URL ou chemin vers le logo
+    `denomination` VARCHAR(255) NOT NULL,             -- Nom du laboratoire
+    `code` VARCHAR(50) NOT NULL,                      -- Code du labo
+    `etablissement_id` INT(11) NOT NULL,             -- Référence à l'établissement
+    `date_creation` DATE DEFAULT NULL,               -- Date de création
+    `directeur_id` INT(11) DEFAULT NULL,             -- ID du directeur (utilisateur)
+    `etat` ENUM('Actif', 'Inactif') DEFAULT 'Actif', -- État du laboratoire
+    PRIMARY KEY (`id`),
+    UNIQUE KEY `code_unique` (`code`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+

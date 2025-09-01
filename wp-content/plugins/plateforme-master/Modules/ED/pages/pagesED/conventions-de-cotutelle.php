@@ -165,8 +165,7 @@ require_once plugin_dir_path(__FILE__) . '../config/roles.php';
         <?php include 'components/Statistiques/statconventions-de-cotutelle.php'; ?>
         <?php include 'components/Tableconventions-de-cotutelle.php'; ?>
 
-        <?php include 'components/modalAffectation.php'; ?>
-        <?php include 'components/ModaladdMaster.php'; ?>
+        <?php include 'components/ModalCommentaire.php'; ?>
 
 
         <!-- end code body - page -->

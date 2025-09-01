@@ -5,6 +5,11 @@
     Liste des sujets de thèse
   </h2>
 
+    <a href="/theses-add/" class="btn-telecharger">
+      Créer Un Nouveau Sujet
+  </a>
+
+
 
   </div>
 
@@ -1089,6 +1094,28 @@ button.dt-button.buttons-collection.buttons-colvis.custom-colvis-btn {
     width: max-content;
     margin-bottom: -31px;
 }
+
+.btn-telecharger {
+  display: inline-block;
+  text-align: left;
+  font: normal normal medium 14px/17px Roboto, sans-serif;
+  letter-spacing: 0px;
+  color: #FFFFFF;
+  background-color: #c62828;
+  border: 1.5px solid #c62828;
+  padding: 8px 14px;
+  border-radius: 6px;
+  text-decoration: none;
+  text-transform: capitalize;
+  opacity: 1;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.btn-telecharger:hover {
+  background-color: #c62828;
+  color: #fff;
+}
+
 </style>
 <script>
   document.addEventListener('DOMContentLoaded', function () {

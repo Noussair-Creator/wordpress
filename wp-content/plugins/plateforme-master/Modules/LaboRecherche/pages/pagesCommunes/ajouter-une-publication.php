@@ -76,6 +76,9 @@ require_once plugin_dir_path(__FILE__) . '../requireApi.php';
 
     <!-- Scripts -->
     <?php include 'components/scripts.php'; ?>
+
+    <script src="/wp-content/plugins/plateforme-master/assets/js/chercheur/publication.js"></script>
+
 </body>
 
 </html>

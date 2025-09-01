@@ -5,19 +5,19 @@
   <div class="column" id="column1">
     
     <div class="card with-image card1" draggable="true">
-      <div class="card-title">Crédits & Formations</div>
-      <span class="corner-icon">↗</span>
+      <div class="card-title"><a href="/formations/">Crédits & Formations</a></div>
+      <a href="/formations/"><span class="corner-icon">↗</span></a>
     </div>
 
 
     <div class="card with-image card2" draggable="true"><a href="#">
-      <div class="card-title">Conventions de cotutelle des doctorants</div>
-      <a href="#"><span class="corner-icon">↗</span></a></a>
+      <div class="card-title"><a href="/conventions-de-cotutelle/">Conventions de cotutelle des doctorants</a></div>
+      <a href="/conventions-de-cotutelle/"><span class="corner-icon">↗</span></a></a>
     </div>
 
     <div class="card with-image card3" draggable="true">
-      <div class="card-title">Bourse d’alternance </div>
-      <span class="corner-icon">↗</span>
+      <div class="card-title"><a href="/admissions-doctorants-etrangers-1/"> Bourse d’alternance </a></div>
+      <a href="/admissions-doctorants-etrangers-1/"><span class="corner-icon">↗</span></a>
     </div>
 
   </div>
@@ -26,13 +26,13 @@
   <div class="column" id="column2">
    
    <div class="card with-image card4 card6" draggable="true">
-      <div class="card-title2">contrats de post-doctorat</div>
-      <span class="corner-icon">↗</span>
+      <div class="card-title2"><a href="/contrats-post-doctoraux/">contrats de post-doctorat</a></div>
+      <a href="/contrats-post-doctoraux/"><span class="corner-icon">↗</span></a>
     </div>
 
     <div class="card with-image card4 card7" draggable="true">
-      <div class="card-title2">Admissions des doctorants étrangers</div>
-      <span class="corner-icon">↗</span>
+      <div class="card-title2"><a href="/admissions-doctorants-etrangers/">Admissions des doctorants étrangers</a></div>
+      <a href="/admissions-doctorants-etrangers/"><span class="corner-icon">↗</span></a>
     </div>
 
 

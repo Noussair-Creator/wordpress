@@ -59,9 +59,9 @@
           <div class="actions">
             <button class="action-btn">⋮</button>
             <div class="dropdown-menu">
+               <a href="/fiche-dun-candidat-post-doc/"><i class="fa fa-eye"></i> Détails</a>
               <a href="#"><i class="fa fa-edit"></i> Modifier</a>
               <a href="#"><i class="fa fa-trash"></i> Supprimer</a>
-              <a href="#"><i class="fa fa-eye"></i> Détails</a>
             </div>
           </div>
         </td>
@@ -79,9 +79,9 @@
           <div class="actions">
             <button class="action-btn">⋮</button>
             <div class="dropdown-menu">
+              <a href="/fiche-dun-candidat-post-doc/"><i class="fa fa-eye"></i> Détails</a>
               <a href="#"><i class="fa fa-edit"></i> Modifier</a>
               <a href="#"><i class="fa fa-trash"></i> Supprimer</a>
-              <a href="#"><i class="fa fa-eye"></i> Détails</a>
             </div>
           </div>
         </td>
@@ -99,9 +99,9 @@
           <div class="actions">
             <button class="action-btn">⋮</button>
             <div class="dropdown-menu">
+               <a href="/fiche-dune-candidature"><i class="fa fa-eye"></i> Détails</a>
               <a href="#"><i class="fa fa-edit"></i> Modifier</a>
               <a href="#"><i class="fa fa-trash"></i> Supprimer</a>
-              <a href="#"><i class="fa fa-eye"></i> Détails</a>
             </div>
           </div>
         </td>

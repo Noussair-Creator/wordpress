@@ -1395,7 +1395,7 @@ border: none;
             Liste Des Manifestations Scientifiques
         </h2>
         <!-- This button will open the modal -->
-        <a href="/declarer-une-participation-directeur-de-these" class="add-project-btn">Déclarer Une
+        <a href="/declarer-une-participation-ed" class="add-project-btn">Déclarer Une
             Participation</a>
     </div>
 

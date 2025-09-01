@@ -2,14 +2,17 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+
 <style>
-/* Custom styles to match the screenshot */
+/* Custom styles for the info component */
 .info-container {
     background-color: #ffffff;
     padding: 24px 32px;
     border-radius: 8px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
     width: 100%;
+    margin-bottom: 20px;
+    /* Added margin for spacing between components */
 }
 
 .info-header {
@@ -35,12 +38,10 @@
 .info-item {
     display: flex;
     flex-wrap: wrap;
-    /* Allow wrapping on smaller screens */
     padding: 16px 0;
     border-bottom: 1px solid #e9ecef;
     font-size: 0.95rem;
     align-items: flex-start;
-    /* Align items to the top */
 }
 
 .info-item:last-child {
@@ -51,36 +52,29 @@
     color: #555;
     font-weight: 600;
     width: 250px;
-    /* Fixed width for the label column */
     flex-shrink: 0;
-    /* Prevent the label from shrinking */
     padding-right: 15px;
 }
 
 .info-item-value {
     color: #212529;
     flex-grow: 1;
-    /* Let the value take up the remaining space */
     flex-basis: 0;
-    /* Allow it to shrink if needed */
 }
 
 /* Responsive adjustments */
 @media (max-width: 768px) {
     .info-item-label {
         width: 100%;
-        /* Stack label on top of value */
         margin-bottom: 8px;
         font-weight: 700;
     }
 
     .info-item-value {
         width: 100%;
-        /* Ensure value takes full width */
     }
 }
 </style>
-
 
 <div class="info-container">
     <div class="info-header">
@@ -133,5 +127,3 @@
         </li>
     </ul>
 </div>
-
-<!-- Bootstrap 5 JS - Now enabled -->

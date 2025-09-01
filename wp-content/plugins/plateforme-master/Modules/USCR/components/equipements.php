@@ -9,7 +9,7 @@
 
   <div class="equipements-grid">
     <div class="equipement-card">
-      <img src="/images/eq1.jpg" alt="Séquenceur">
+      <img src="/wp-content/plugins/plateforme-master/images/uscr/Groupe de masques 370.png" alt="Séquenceur">
       <div class="equipement-info">
         <span class="status">Gratuit</span>
         <h4>Séquenceur</h4>
@@ -18,7 +18,7 @@
     </div>
 
     <div class="equipement-card">
-      <img src="/images/eq2.jpg" alt="PCR en temps réel">
+      <img src="/wp-content/plugins/plateforme-master/images/uscr/Groupe de masques 369.png" alt="PCR en temps réel">
       <div class="equipement-info">
         <span class="status">Gratuit</span>
         <h4>PCR en temps réel</h4>
@@ -27,7 +27,7 @@
     </div>
 
     <div class="equipement-card">
-      <img src="/images/eq3.jpg" alt="Cytomètre">
+      <img src="/wp-content/plugins/plateforme-master/images/uscr/Groupe de masques 368.png" alt="Cytomètre">
       <div class="equipement-info">
         <span class="status">Gratuit</span>
         <h4>Cytomètre en flux 6 couleurs</h4>
@@ -36,7 +36,7 @@
     </div>
 
     <div class="equipement-card">
-      <img src="/images/eq4.jpg" alt="Unité histologie">
+      <img src="/wp-content/plugins/plateforme-master/images/uscr/Groupe de masques 371.png" alt="Unité histologie">
       <div class="equipement-info">
         <span class="status">Gratuit</span>
         <h4>Unité Histologie</h4>

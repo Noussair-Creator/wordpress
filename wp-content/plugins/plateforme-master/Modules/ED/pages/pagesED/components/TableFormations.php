@@ -122,7 +122,9 @@
           </div>
 
           <div class="filter-actions">
-            <button class="btn-statut">Ajouter une formation</button>
+            <a href="/formations-add" class="btn-statut">
+              Ajouter une formation
+            </a>
             <button class="icon-btn"><i class="fa fa-filter"></i></button>
             <button class="icon-btn"><i class="fa fa-sort"></i></button>
           </div>

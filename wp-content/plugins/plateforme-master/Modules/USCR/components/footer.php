@@ -61,12 +61,15 @@
 }
 
 .footer-coordonnees {
-  background: #f3f3ec;
-  padding: 60px 120px 20px;
-  font-family: 'Arial', sans-serif;
-  color: #2a2916;
-  position: relative;
-  z-index: 0;
+  background-image: url("/wp-content/plugins/plateforme-master/images/uscr/Tracé 1293.png");
+      background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    padding: 60px 120px 20px;
+    font-family: 'Arial', sans-serif;
+    color: #2a2916;
+    position: relative;
+    z-index: 0;
 }
 
 .footer-wrapper {

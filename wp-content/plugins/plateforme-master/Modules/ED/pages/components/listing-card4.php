@@ -3,13 +3,13 @@
   <!-- Bloc Conventions -->
 <div class="master-feature-card">
   <div class="feature-text">Projets</div>
-      <img class="card-image card-image2" src="/wp-content/plugins/plateforme-master/imagesED/documents.png" alt="">
+    <img class="card-image card-image2" src="/wp-content/plugins/plateforme-master/imagesED/documents.png" alt="">
 </div>
 
 <!-- Bloc Indicateurs -->
 <div class="master-feature-card">
-  <div class="feature-text">Publications, <br> Stages et Mobilité</div>
-  <img class="card-image card-image2" src="/wp-content/plugins/plateforme-master/imagesED/article.png" alt="">
+  <a href="/mes-publications/"><div class="feature-text">Publications, <br> Stages et Mobilité</div></a>
+  <a href="/mes-publications/"><img class="card-image card-image2" src="/wp-content/plugins/plateforme-master/imagesED/article.png" alt=""></a>
 </div>
 
 <!-- Bloc Soutenances -->
@@ -20,8 +20,8 @@
 
 <!-- Bloc Rapports -->
 <div class="master-feature-card">
-  <div class="feature-text">Tâches</div>
-  <img class="card-image card-image2" src="/wp-content/plugins/plateforme-master/imagesED/pngtree-compliance-line-icon-vector-png-image_6739692.png" alt="">
+   <a href="/taches/"><div class="feature-text">Tâches</div></a>
+   <a href="/taches/"><img class="card-image card-image2" src="/wp-content/plugins/plateforme-master/imagesED/pngtree-compliance-line-icon-vector-png-image_6739692.png" alt=""></a>
 </div>
 
 

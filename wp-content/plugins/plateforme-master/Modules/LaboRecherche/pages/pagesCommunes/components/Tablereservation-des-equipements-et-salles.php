@@ -15,604 +15,606 @@
     <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
 
     <style>
-    body {
-        background-color: #f0f2f5;
-        /* font-family: 'Segoe UI', sans-serif; */
-        /* padding: 20px; */
-    }
-
-    .accordion-container {
-        border-radius: 12px;
-        /* overflow: hidden; */
-        /* This line was causing the issue */
-        box-shadow: 0 0 8px rgba(0, 0, 0, 0.05);
-        border: 1px solid #ddd;
-    }
-
-
-    .accordion-tabs {
-        display: flex;
-        background: #f3f3f3;
-    }
-
-    .tab-btn {
-        flex: 1;
-        padding: 15px 20px;
-        font-weight: 600;
-        border: none;
-        background: #A6A485;
-        cursor: pointer;
-        font-size: 18px;
-        color: #fff;
-        transition: 0.3s;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 10px;
-        border-top-left-radius: 8px;
-        border-top-right-radius: 8px;
-    }
-
-    .tab-btn:not(:last-child) {
-        border-right: 1px solid #ddd;
-        margin-right: 10px;
-    }
-
-    .tab-btn.active {
-        background-color: #fff;
-        color: #2A2916;
-    }
-
-    .tab-btn img {
-        width: 28px;
-        height: 28px;
-    }
-
-    .accordion-content {
-        padding: 25px;
-        background: #fff;
-    }
-
-
-    .tab-panel {
-        display: none;
-    }
-
-    .tab-panel.active {
-        display: block;
-    }
-
-    .table-controls {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        flex-wrap: wrap;
-        gap: 12px;
-        margin-bottom: 25px;
-    }
-
-    .filter-selectgb {
-        display: flex;
-        gap: 12px;
-        flex-wrap: wrap;
-        align-items: center;
-    }
-
-    .search-box {
-        display: flex;
-        align-items: center;
-        border: 1px solid #d8d4b7;
-        border-radius: 6px;
-        padding: 0 10px;
-        background-color: #fff;
-    }
-
-    .search-box i {
-        color: #666;
-    }
-
-    .filter-input {
-        padding: 10px 5px;
-        border-radius: 6px;
-        border: none;
-        outline: none;
-        font-size: 14px;
-        background: #fff;
-        width: 200px;
-    }
-
-    .date-input-container {
-        display: flex;
-        align-items: center;
-        border: 1px solid #d8d4b7;
-        border-radius: 6px;
-        padding: 0 10px;
-        background-color: #fff;
-    }
-
-    .date-input {
-        padding: 10px 5px;
-        border: none;
-        outline: none;
-        font-size: 14px;
-        border-radius: 6px;
-    }
-
-    .filter-select {
-        padding: 10px 12px;
-        border-radius: 6px;
-        border: 1px solid #d8d4b7;
-        font-size: 14px;
-        background: #fff;
-        appearance: none;
-        background-image: url("data:image/svg+xml,%3Csvg fill='%232d2a12' height='14' viewBox='0 0 24 24' width='14' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M7 10l5 5 5-5z'/%3E%3C/svg%3E");
-        background-position: right 10px center;
-        background-repeat: no-repeat;
-        background-size: 12px;
-        padding-right: 30px;
-        width: 200px;
-    }
-
-    .filter-buttons {
-        display: flex;
-        border: 1px solid #d8d4b7;
-        border-radius: 5px;
-        overflow: hidden;
-        padding: 3px 5px;
-    }
-
-    .filter-btn {
-        padding: 5px 25px;
-        border: none;
-        background: transparent;
-        color: #2d2a12;
-        font-weight: 500;
-        cursor: pointer;
-        /* border-right: 1px solid #d8d4b7; */
-    }
-
-    .filter-btn:last-child {
-        border-right: none;
-    }
-
-    .filter-btn.active {
-        background-color: #b2ae90;
-        color: #fff;
-        border-radius: 3px;
-    }
-
-    .filter-actions {
-        display: flex;
-        gap: 10px;
-        align-items: center;
-    }
-
-    .btn-statut {
-        background-color: #BF0404;
-        color: white;
-        border: none;
-        padding: 10px 20px;
-        font-size: 14px;
-        border-radius: 6px;
-        font-weight: 500;
-        cursor: pointer;
-    }
-
-    .icon-btn {
-        width: 44px;
-        height: 44px;
-        background: #fff;
-        border-radius: 12px;
-        border: 1px solid #ddd;
-        box-shadow: 0 0 5px rgba(0, 0, 0, 0.08);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        cursor: pointer;
-        color: #BF0404;
-        font-size: 18px;
-    }
-
-    .styled-table {
-        width: 100%;
-        border-collapse: collapse;
-        font-family: 'Segoe UI', sans-serif;
-    }
-
-    .styled-table thead {
-        background-color: #f3f1e9;
-    }
-
-
-
-    .styled-table th,
-    .styled-table td {
-        padding: 14px;
-        text-align: left;
-        border-bottom: 1px solid #eee;
-    }
-
-    .styled-table tbody tr:hover {
-        background-color: #f9f9f9;
-    }
-
-    .styled-table th {
-        font-weight: 600;
-        color: #333;
-
-    }
-
-    .badge {
-        display: inline-flex;
-        align-items: center;
-        gap: 6px;
-        padding: 4px 12px;
-        font-size: 13px;
-        font-weight: 600;
-        border-radius: 20px;
-    }
-
-    .badge-success {
-        color: #198754;
-        background-color: #e6f7ee;
-    }
-
-    .badge-danger {
-        color: #d71920;
-        background-color: #fff0f0;
-    }
-
-    .badge-warning {
-        color: #d89e00;
-        background-color: #fff9e6;
-    }
-
-    .status-icon {
-        font-size: 20px;
-        text-align: center;
-    }
-
-    .status-icon.fa-exclamation-triangle {
-        color: #d89e00;
-    }
-
-    .status-icon.fa-check-circle {
-        color: #198754;
-    }
-
-    .status-icon.fa-times-circle {
-        color: #d71920;
-    }
-
-    .details-icon {
-        font-size: 20px;
-        color: #555;
-        cursor: pointer;
-    }
-
-    .actions {
-        position: relative;
-        display: inline-block;
-    }
-
-    .action-btn {
-        background-color: transparent;
-        border: none;
-        font-size: 20px;
-        cursor: pointer;
-        padding: 5px;
-        width: 36px;
-        height: 36px;
-    }
-
-    .dropdown-menu {
-        display: none;
-        position: absolute;
-        top: 100%;
-        right: 0;
-        min-width: 200px;
-        background-color: #ffffff;
-        border: 1px solid #d8d4b7;
-        border-radius: 8px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        z-index: 1000;
-        padding: 5px 0;
-    }
-
-    .dropdown-menu a {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        padding: 10px 16px;
-        text-decoration: none;
-        font-size: 14px;
-        color: #2d2a12;
-    }
-
-    .dropdown-menu a:hover {
-        background-color: #f5f5f5;
-    }
-
-    .dropdown-menu i {
-        width: 16px;
-        text-align: center;
-    }
-
-    .dataTables_wrapper .dataTables_paginate {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        gap: 10px;
-        margin-top: 20px;
-    }
-
-    .dataTables_wrapper .dataTables_paginate .paginate_button {
-        border: 2px solid #c60000;
-        color: #c60000 !important;
-        padding: 8px 14px;
-        border-radius: 8px;
-        background: white !important;
-        font-weight: bold;
-        cursor: pointer;
-    }
-
-    .dataTables_wrapper .dataTables_paginate .paginate_button.disabled,
-    .dataTables_wrapper .dataTables_paginate .paginate_button.disabled:hover,
-    .dataTables_wrapper .dataTables_paginate .paginate_button.disabled:active {
-        border: 2px solid #c60000;
-        color: #c60000 !important;
-        padding: 8px 14px;
-        border-radius: 8px;
-        background: white !important;
-        font-weight: bold;
-        cursor: pointer;
-    }
-
-    .dataTables_wrapper .dataTables_paginate .paginate_button.current {
-        color: black !important;
-        border: none;
-    }
-
-    /* ------------------------ */
-    .btn-close-x {
-        background: transparent;
-        border: none;
-        font-size: 20px;
-        font-weight: bold;
-        color: #fff;
-        background-color: #c62828;
-        border-radius: 5px;
-        width: 30px;
-        height: 30px;
-        line-height: 30px;
-        text-align: center;
-        cursor: pointer;
-        transition: background-color 0.2s ease;
-    }
-
-    .btn-close-x:hover {
-        background-color: #a02020;
-    }
-
-    .modal-overlay {
-        position: fixed;
-        top: 0px;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background-color: rgba(0, 0, 0, 0.3);
-        display: flex;
-        justify-content: flex-end;
-        z-index: 999999;
-    }
-
-    .popup-container {
-        background-color: white;
-        width: 400px;
-        height: 100%;
-        padding: 20px 0px;
-        box-shadow: -4px 0 10px rgba(0, 0, 0, 0.1);
-        overflow-y: auto;
-        padding-top: 0px;
-    }
-
-    .popup-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding-bottom: 10px;
-        margin-bottom: 20px;
-        padding-left: 25px;
-        padding-right: 25px;
-        box-shadow: 0px 5px 16px #00000029;
-        padding-top: 20px;
-    }
-
-    form.popup-form {
-        padding-left: 25px;
-        padding-right: 25px;
-    }
-
-    .popup-header h2,
-    .popup-form h2 {
-        font-size: 16px;
-        margin: 0;
-        color: #2A2916;
-
-    }
-
-    .btn-enregistrer {
-        background-color: #c62828;
-        color: white;
-        border: none;
-        padding: 6px 14px;
-        border-radius: 5px;
-        cursor: pointer;
-        font-size: 14px;
-    }
-
-    .popup-form .form-group {
-        margin-bottom: 15px;
-    }
-
-
-
-    .popup-form label {
-        display: block;
-        margin-bottom: 5px;
-        font-weight: 600;
-        /* color: #A6A485; */
-    }
-
-    .popup-form input,
-    .popup-form select,
-    .popup-form textarea {
-        width: 100%;
-        padding: 10px;
-        border: 1px solid #b5af8e;
-        border-radius: 7px;
-        font-size: 14px;
-        box-sizing: border-box;
-    }
-
-    .popup-form .date-time-group {
-        display: flex;
-        gap: 10px;
-    }
-
-    .popup-form .date-time-group .form-group {
-        flex: 1;
-    }
-
-    .popup-form .input-with-icon {
-        position: relative;
-    }
-
-    .popup-form .input-with-icon input {
-        padding-right: 30px;
-    }
-
-    .popup-form .input-with-icon img {
-        position: absolute;
-        top: 50%;
-        right: 10px;
-        transform: translateY(-50%);
-    }
-
-    .popup-form .input-with-icon i {
-        position: absolute;
-        top: 50%;
-        right: 10px;
-        transform: translateY(-50%);
-        color: #666;
-    }
-
-    .popup-form textarea {
-        resize: vertical;
-        min-height: 80px;
-    }
-
-    .details-modal-content {
-        padding: 25px;
-    }
-
-    .details-modal-content .detail-item {
-        margin-bottom: 15px;
-        border-bottom: 1px solid #6e6d5533;
-    }
-
-    .details-modal-content .detail-item label {
-        font-weight: 600;
-        color: #A6A485;
-        display: block;
-        font-size: 14px;
-    }
-
-    .details-modal-content .detail-item p {
-        margin: 5px 0 0;
-        font-size: 14px;
-        color: #2A2916;
-        font-weight: 500;
-    }
-
-    .details-modal-content .file-download-link {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 10px;
-        background-color: #f9f9f9;
-        border-radius: 6px;
-    }
-
-    .details-modal-content .file-download-link span {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-    }
-
-    .details-modal-content .file-download-link i {
-        color: #c62828;
-    }
-
-    .details-modal-content .download-icon {
-        color: #c62828;
-        border: 1px solid #00000030;
-        padding: 5px 8px;
-        border-radius: 5px;
-        cursor: pointer;
-    }
-
-    .details-modal-footer {
-        text-align: center;
-        padding: 20px 25px 5px;
-        box-shadow: 0px -8px 16px #00000029;
-    }
-
-    .btn-history {
-        background-color: #fff;
-        color: #c62828;
-        border: 1px solid #c62828;
-        padding: 10px 20px;
-        border-radius: 6px;
-        cursor: pointer;
-        font-weight: 600;
-    }
-
-    .maintenance-history-item {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 15px 0;
-        border-bottom: 1px solid #eee;
-    }
-
-    .maintenance-history-item:last-child {
-        border-bottom: none;
-    }
-
-    .maintenance-history-item .btn-download-report {
-        background-color: #fff;
-        border: 1px solid #ccc;
-        padding: 8px 15px;
-        border-radius: 5px;
-        cursor: pointer;
-    }
-
-    .input-file-wrapper {
-
-        position: relative;
-    }
-
-    .btn-importer {
-        border-radius: 0px 7px 7px 0px;
-        position: absolute;
-        right: 15px;
-        bottom: 0px;
-        transform: translate(15px, 5px);
-        background-color: #A6A485;
-        padding: 9px;
-        color: white;
-    }
+        body {
+            background-color: #f0f2f5;
+            /* font-family: 'Segoe UI', sans-serif; */
+            /* padding: 20px; */
+        }
+
+        .accordion-container {
+            border-radius: 12px;
+            /* overflow: hidden; */
+            /* This line was causing the issue */
+            box-shadow: 0 0 8px rgba(0, 0, 0, 0.05);
+            border: 1px solid #ddd;
+        }
+
+
+        .accordion-tabs {
+            display: flex;
+            background: #f3f3f3;
+        }
+
+        .tab-btn {
+            flex: 1;
+            padding: 15px 20px;
+            font-weight: 600;
+            border: none;
+            background: #A6A485;
+            cursor: pointer;
+            font-size: 18px;
+            color: #fff;
+            transition: 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            border-top-left-radius: 8px;
+            border-top-right-radius: 8px;
+        }
+
+        .tab-btn:not(:last-child) {
+            border-right: 1px solid #ddd;
+            margin-right: 10px;
+        }
+
+        .tab-btn.active {
+            background-color: #fff;
+            color: #2A2916;
+        }
+
+        .tab-btn img {
+            width: 28px;
+            height: 28px;
+        }
+
+        .accordion-content {
+            padding: 25px;
+            background: #fff;
+        }
+
+
+        .tab-panel {
+            display: none;
+        }
+
+        .tab-panel.active {
+            display: block;
+        }
+
+        .table-controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-bottom: 25px;
+        }
+
+        .filter-selectgb {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .search-box {
+            display: flex;
+            align-items: center;
+            border: 1px solid #d8d4b7;
+            border-radius: 6px;
+            padding: 0 10px;
+            background-color: #fff;
+        }
+
+        .search-box i {
+            color: #666;
+        }
+
+        .filter-input {
+            padding: 10px 5px;
+            border-radius: 6px;
+            border: none;
+            outline: none;
+            font-size: 14px;
+            background: #fff;
+            width: 200px;
+        }
+
+        .date-input-container {
+            display: flex;
+            align-items: center;
+            border: 1px solid #d8d4b7;
+            border-radius: 6px;
+            padding: 0 10px;
+            background-color: #fff;
+        }
+
+        .date-input {
+            padding: 10px 5px;
+            border: none;
+            outline: none;
+            font-size: 14px;
+            border-radius: 6px;
+        }
+
+        .filter-select {
+            padding: 10px 12px;
+            border-radius: 6px;
+            border: 1px solid #d8d4b7;
+            font-size: 14px;
+            background: #fff;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg fill='%232d2a12' height='14' viewBox='0 0 24 24' width='14' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M7 10l5 5 5-5z'/%3E%3C/svg%3E");
+            background-position: right 10px center;
+            background-repeat: no-repeat;
+            background-size: 12px;
+            padding-right: 30px;
+            width: 200px;
+        }
+
+        .filter-buttons {
+            display: flex;
+            border: 1px solid #d8d4b7;
+            border-radius: 5px;
+            overflow: hidden;
+            padding: 3px 5px;
+        }
+
+        .filter-btn {
+            padding: 5px 25px;
+            border: none;
+            background: transparent;
+            color: #2d2a12;
+            font-weight: 500;
+            cursor: pointer;
+            /* border-right: 1px solid #d8d4b7; */
+        }
+
+        .filter-btn:last-child {
+            border-right: none;
+        }
+
+        .filter-btn.active {
+            background-color: #b2ae90;
+            color: #fff;
+            border-radius: 3px;
+        }
+
+        .filter-actions {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .btn-statut {
+            background-color: #BF0404;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 14px;
+            border-radius: 6px;
+            font-weight: 500;
+            cursor: pointer;
+        }
+
+        .icon-btn {
+            width: 44px;
+            height: 44px;
+            background: #fff;
+            border-radius: 12px;
+            border: 1px solid #ddd;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.08);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            color: #BF0404;
+            font-size: 18px;
+        }
+
+        .styled-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-family: 'Segoe UI', sans-serif;
+        }
+
+        .styled-table thead {
+            background-color: #f3f1e9;
+        }
+
+
+
+        .styled-table th,
+        .styled-table td {
+            padding: 14px;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+
+        .styled-table tbody tr:hover {
+            background-color: #f9f9f9;
+        }
+
+        .styled-table th {
+            font-weight: 600;
+            color: #333;
+
+        }
+
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 4px 12px;
+            font-size: 13px;
+            font-weight: 600;
+            border-radius: 20px;
+        }
+
+        .badge-success {
+            color: #198754;
+            background-color: #e6f7ee;
+        }
+
+        .badge-danger {
+            color: #d71920;
+            background-color: #fff0f0;
+        }
+
+        .badge-warning {
+            color: #d89e00;
+            background-color: #fff9e6;
+        }
+
+        .status-icon {
+            font-size: 20px;
+            text-align: center;
+        }
+
+        .status-icon.fa-exclamation-triangle {
+            color: #d89e00;
+        }
+
+        .status-icon.fa-check-circle {
+            color: #198754;
+        }
+
+        .status-icon.fa-times-circle {
+            color: #d71920;
+        }
+
+        .details-icon {
+            font-size: 20px;
+            color: #555;
+            cursor: pointer;
+        }
+
+        .actions {
+            position: relative;
+            display: inline-block;
+        }
+
+        .action-btn {
+            background-color: transparent;
+            border: none;
+            /* font-size: 20px; */
+            cursor: pointer;
+            padding: 5px;
+            width: 36px;
+            height: 36px;
+            font-size: 24px;
+            font-weight: bolder;
+        }
+
+        .dropdown-menu {
+            display: none;
+            position: absolute;
+            top: 100%;
+            right: 0;
+            min-width: 200px;
+            background-color: #ffffff;
+            border: 1px solid #d8d4b7;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+            padding: 5px 0;
+        }
+
+        .dropdown-menu a {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 16px;
+            text-decoration: none;
+            font-size: 14px;
+            color: #2d2a12;
+        }
+
+        .dropdown-menu a:hover {
+            background-color: #f5f5f5;
+        }
+
+        .dropdown-menu i {
+            width: 16px;
+            text-align: center;
+        }
+
+        .dataTables_wrapper .dataTables_paginate {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .dataTables_wrapper .dataTables_paginate .paginate_button {
+            border: 2px solid #c60000;
+            color: #c60000 !important;
+            padding: 8px 14px;
+            border-radius: 8px;
+            background: white !important;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .dataTables_wrapper .dataTables_paginate .paginate_button.disabled,
+        .dataTables_wrapper .dataTables_paginate .paginate_button.disabled:hover,
+        .dataTables_wrapper .dataTables_paginate .paginate_button.disabled:active {
+            border: 2px solid #c60000;
+            color: #c60000 !important;
+            padding: 8px 14px;
+            border-radius: 8px;
+            background: white !important;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .dataTables_wrapper .dataTables_paginate .paginate_button.current {
+            color: black !important;
+            border: none;
+        }
+
+        /* ------------------------ */
+        .btn-close-x {
+            background: transparent;
+            border: none;
+            font-size: 20px;
+            font-weight: bold;
+            color: #fff;
+            background-color: #c62828;
+            border-radius: 5px;
+            width: 30px;
+            height: 30px;
+            line-height: 30px;
+            text-align: center;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+
+        .btn-close-x:hover {
+            background-color: #a02020;
+        }
+
+        .modal-overlay {
+            position: fixed;
+            top: 0px;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.3);
+            display: flex;
+            justify-content: flex-end;
+            z-index: 999999;
+        }
+
+        .popup-container {
+            background-color: white;
+            width: 400px;
+            height: 100%;
+            padding: 20px 0px;
+            box-shadow: -4px 0 10px rgba(0, 0, 0, 0.1);
+            overflow-y: auto;
+            padding-top: 0px;
+        }
+
+        .popup-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+            padding-left: 25px;
+            padding-right: 25px;
+            box-shadow: 0px 5px 16px #00000029;
+            padding-top: 20px;
+        }
+
+        form.popup-form {
+            padding-left: 25px;
+            padding-right: 25px;
+        }
+
+        .popup-header h2,
+        .popup-form h2 {
+            font-size: 16px;
+            margin: 0;
+            color: #2A2916;
+
+        }
+
+        .btn-enregistrer {
+            background-color: #c62828;
+            color: white;
+            border: none;
+            padding: 6px 14px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .popup-form .form-group {
+            margin-bottom: 15px;
+        }
+
+
+
+        .popup-form label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 600;
+            /* color: #A6A485; */
+        }
+
+        .popup-form input,
+        .popup-form select,
+        .popup-form textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #b5af8e;
+            border-radius: 7px;
+            font-size: 14px;
+            box-sizing: border-box;
+        }
+
+        .popup-form .date-time-group {
+            display: flex;
+            gap: 10px;
+        }
+
+        .popup-form .date-time-group .form-group {
+            flex: 1;
+        }
+
+        .popup-form .input-with-icon {
+            position: relative;
+        }
+
+        .popup-form .input-with-icon input {
+            padding-right: 30px;
+        }
+
+        .popup-form .input-with-icon img {
+            position: absolute;
+            top: 50%;
+            right: 10px;
+            transform: translateY(-50%);
+        }
+
+        .popup-form .input-with-icon i {
+            position: absolute;
+            top: 50%;
+            right: 10px;
+            transform: translateY(-50%);
+            color: #666;
+        }
+
+        .popup-form textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        .details-modal-content {
+            padding: 25px;
+        }
+
+        .details-modal-content .detail-item {
+            margin-bottom: 15px;
+            border-bottom: 1px solid #6e6d5533;
+        }
+
+        .details-modal-content .detail-item label {
+            font-weight: 600;
+            color: #A6A485;
+            display: block;
+            font-size: 14px;
+        }
+
+        .details-modal-content .detail-item p {
+            margin: 5px 0 0;
+            font-size: 14px;
+            color: #2A2916;
+            font-weight: 500;
+        }
+
+        .details-modal-content .file-download-link {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            background-color: #f9f9f9;
+            border-radius: 6px;
+        }
+
+        .details-modal-content .file-download-link span {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .details-modal-content .file-download-link i {
+            color: #c62828;
+        }
+
+        .details-modal-content .download-icon {
+            color: #c62828;
+            border: 1px solid #00000030;
+            padding: 5px 8px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .details-modal-footer {
+            text-align: center;
+            padding: 20px 25px 5px;
+            box-shadow: 0px -8px 16px #00000029;
+        }
+
+        .btn-history {
+            background-color: #fff;
+            color: #c62828;
+            border: 1px solid #c62828;
+            padding: 10px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .maintenance-history-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .maintenance-history-item:last-child {
+            border-bottom: none;
+        }
+
+        .maintenance-history-item .btn-download-report {
+            background-color: #fff;
+            border: 1px solid #ccc;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .input-file-wrapper {
+
+            position: relative;
+        }
+
+        .btn-importer {
+            border-radius: 0px 7px 7px 0px;
+            position: absolute;
+            right: 15px;
+            bottom: 0px;
+            transform: translate(15px, 5px);
+            background-color: #A6A485;
+            padding: 9px;
+            color: white;
+        }
     </style>
 </head>
 
@@ -699,7 +701,7 @@
                                             style="color: #198754;"></i>Validée</span></td>
                                 <td>
                                     <div class="actions">
-                                        <button class="action-btn">⋮</button>
+                                        <button class="action-btn">...</button>
                                         <div class="dropdown-menu">
                                             <a href="#" class="openModifierModal">Modifier</a>
                                             <a href="#">Voir</a>
@@ -719,7 +721,7 @@
                                             style="color: #d71920;"></i>Refusée</span></td>
                                 <td>
                                     <div class="actions">
-                                        <button class="action-btn">⋮</button>
+                                        <button class="action-btn">...</button>
                                         <div class="dropdown-menu">
                                             <a href="#" class="openModifierModal">Modifier</a>
                                             <a href="#">Voir</a>
@@ -739,7 +741,7 @@
                                             style="color: #d89e00;"></i>En attente</span></td>
                                 <td>
                                     <div class="actions">
-                                        <button class="action-btn">⋮</button>
+                                        <button class="action-btn">...</button>
                                         <div class="dropdown-menu">
                                             <a href="#" class="openModifierModal">Modifier</a>
                                             <a href="#">Voir</a>
@@ -812,7 +814,7 @@
                                 <td class="details-icon openDetailsModal"><i class="fa fa-eye"></i></td>
                                 <td>
                                     <div class="actions">
-                                        <button class="action-btn">⋮</button>
+                                        <button class="action-btn">...</button>
                                         <div class="dropdown-menu">
                                             <a href="#"><i class="fa fa-file-alt"></i> Protocole d'utilisation</a>
                                             <a href="#" class="openModifierEquipementModal"><i class="fa fa-edit"></i>
@@ -834,7 +836,7 @@
                                 <td class="details-icon openDetailsModal"><i class="fa fa-eye"></i></td>
                                 <td>
                                     <div class="actions">
-                                        <button class="action-btn">⋮</button>
+                                        <button class="action-btn">...</button>
                                         <div class="dropdown-menu">
                                             <a href="#"><i class="fa fa-file-alt"></i> Protocole d'utilisation</a>
                                             <a href="#" class="openModifierEquipementModal"><i class="fa fa-edit"></i>
@@ -856,7 +858,7 @@
                                 <td class="details-icon openDetailsModal"><i class="fa fa-eye"></i></td>
                                 <td>
                                     <div class="actions">
-                                        <button class="action-btn">⋮</button>
+                                        <button class="action-btn">...</button>
                                         <div class="dropdown-menu">
                                             <a href="#"><i class="fa fa-file-alt"></i> Protocole d'utilisation</a>
                                             <a href="#" class="openModifierEquipementModal"><i class="fa fa-edit"></i>
@@ -879,7 +881,7 @@
                                 <td class="details-icon openDetailsModal"><i class="fa fa-eye"></i></td>
                                 <td>
                                     <div class="actions">
-                                        <button class="action-btn">⋮</button>
+                                        <button class="action-btn">...</button>
                                         <div class="dropdown-menu">
                                             <a href="#"><i class="fa fa-file-alt"></i> Protocole d'utilisation</a>
                                             <a href="#" class="openModifierEquipementModal"><i class="fa fa-edit"></i>
@@ -902,7 +904,7 @@
                                 <td class="details-icon openDetailsModal"><i class="fa fa-eye"></i></td>
                                 <td>
                                     <div class="actions">
-                                        <button class="action-btn">⋮</button>
+                                        <button class="action-btn">...</button>
                                         <div class="dropdown-menu">
                                             <a href="#"><i class="fa fa-file-alt"></i> Protocole d'utilisation</a>
                                             <a href="#" class="openModifierEquipementModal"><i class="fa fa-edit"></i>
@@ -1324,264 +1326,264 @@
     <script src="https://cdn.quilljs.com/1.3.6/quill.min.js"></script>
 
     <script>
-    $(document).ready(function() {
-        // Initialize DataTable for the reservations table
-        var reservationsTable = $('#reservationsTable').DataTable({
-            paging: true,
-            searching: true,
-            ordering: false,
-            info: false,
-            pageLength: 5,
-            dom: 't<"bottom"p>',
-            language: {
-                paginate: {
-                    previous: "<i class='fa fa-chevron-left'></i>",
-                    next: "<i class='fa fa-chevron-right'></i>"
+        $(document).ready(function () {
+            // Initialize DataTable for the reservations table
+            var reservationsTable = $('#reservationsTable').DataTable({
+                paging: true,
+                searching: true,
+                ordering: false,
+                info: false,
+                pageLength: 5,
+                dom: 't<"bottom"p>',
+                language: {
+                    paginate: {
+                        previous: "<i class='fa fa-chevron-left'></i>",
+                        next: "<i class='fa fa-chevron-right'></i>"
+                    },
+                    emptyTable: "Aucune donnée disponible",
+                    zeroRecords: "Aucun enregistrement correspondant trouvé"
                 },
-                emptyTable: "Aucune donnée disponible",
-                zeroRecords: "Aucun enregistrement correspondant trouvé"
-            },
-            columnDefs: [{
-                "orderable": false,
-                "targets": [0, 7]
-            }]
-        });
+                columnDefs: [{
+                    "orderable": false,
+                    "targets": [0, 7]
+                }]
+            });
 
-        // Custom search for reservations table
-        $('#reservationsSearch').on('keyup', function() {
-            reservationsTable.search(this.value).draw();
-        });
+            // Custom search for reservations table
+            $('#reservationsSearch').on('keyup', function () {
+                reservationsTable.search(this.value).draw();
+            });
 
-        // Status filter for reservations table
-        $('#statusFilter').on('change', function() {
-            var status = $(this).val();
-            if (status) {
-                // The search will look for the text inside the span
-                reservationsTable.column(6).search(status).draw();
-            } else {
-                reservationsTable.column(6).search('').draw();
-            }
-        });
-
-        // Date filter for reservations table (more flexible search)
-        $('#dateFilter').on('keyup', function() {
-            reservationsTable.column(4).search(this.value).draw();
-        });
-
-
-        // "Check all" functionality for reservations table
-        $("#checkAllReservations").on("click", function() {
-            var rows = reservationsTable.rows({
-                'search': 'applied'
-            }).nodes();
-            $('input[type="checkbox"]', rows).prop('checked', this.checked);
-        });
-
-        // Handle individual checkbox clicks to uncheck "check all"
-        $('#reservationsTable tbody').on('change', 'input[type="checkbox"]', function() {
-            if (!this.checked) {
-                var el = $('#checkAllReservations').get(0);
-                if (el && el.checked && ('indeterminate' in el)) {
-                    el.indeterminate = true;
+            // Status filter for reservations table
+            $('#statusFilter').on('change', function () {
+                var status = $(this).val();
+                if (status) {
+                    // The search will look for the text inside the span
+                    reservationsTable.column(6).search(status).draw();
+                } else {
+                    reservationsTable.column(6).search('').draw();
                 }
-            }
-        });
+            });
+
+            // Date filter for reservations table (more flexible search)
+            $('#dateFilter').on('keyup', function () {
+                reservationsTable.column(4).search(this.value).draw();
+            });
 
 
-        // Initialize DataTable for the equipments table
-        var equipementsTable = $('#equipementsTable').DataTable({
-            paging: true,
-            searching: true,
-            ordering: false,
-            info: false,
-            pageLength: 5,
-            dom: 't<"bottom"p>',
-            language: {
-                paginate: {
-                    previous: "<i class='fa fa-chevron-left'></i>",
-                    next: "<i class='fa fa-chevron-right'></i>"
+            // "Check all" functionality for reservations table
+            $("#checkAllReservations").on("click", function () {
+                var rows = reservationsTable.rows({
+                    'search': 'applied'
+                }).nodes();
+                $('input[type="checkbox"]', rows).prop('checked', this.checked);
+            });
+
+            // Handle individual checkbox clicks to uncheck "check all"
+            $('#reservationsTable tbody').on('change', 'input[type="checkbox"]', function () {
+                if (!this.checked) {
+                    var el = $('#checkAllReservations').get(0);
+                    if (el && el.checked && ('indeterminate' in el)) {
+                        el.indeterminate = true;
+                    }
+                }
+            });
+
+
+            // Initialize DataTable for the equipments table
+            var equipementsTable = $('#equipementsTable').DataTable({
+                paging: true,
+                searching: true,
+                ordering: false,
+                info: false,
+                pageLength: 5,
+                dom: 't<"bottom"p>',
+                language: {
+                    paginate: {
+                        previous: "<i class='fa fa-chevron-left'></i>",
+                        next: "<i class='fa fa-chevron-right'></i>"
+                    },
+                    emptyTable: "Aucune donnée disponible",
+                    zeroRecords: "Aucun enregistrement correspondant trouvé"
                 },
-                emptyTable: "Aucune donnée disponible",
-                zeroRecords: "Aucun enregistrement correspondant trouvé"
-            },
-            columnDefs: [{
-                "orderable": false,
-                "targets": [0, 6, 7]
-            }]
-        });
+                columnDefs: [{
+                    "orderable": false,
+                    "targets": [0, 6, 7]
+                }]
+            });
 
-        // Category filter for equipments table
-        $('#categoryFilter').on('change', function() {
-            var category = $(this).val();
-            equipementsTable.column(1).search(category).draw();
-        });
+            // Category filter for equipments table
+            $('#categoryFilter').on('change', function () {
+                var category = $(this).val();
+                equipementsTable.column(1).search(category).draw();
+            });
 
-        // Filter button logic for Equipments table
-        $('.filter-buttons .filter-btn').on('click', function() {
-            $('.filter-buttons .filter-btn').removeClass('active');
-            $(this).addClass('active');
+            // Filter button logic for Equipments table
+            $('.filter-buttons .filter-btn').on('click', function () {
+                $('.filter-buttons .filter-btn').removeClass('active');
+                $(this).addClass('active');
 
-            var filterValue = $(this).text().trim(); // "Tous", "Disponibles", "Reservés"
+                var filterValue = $(this).text().trim(); // "Tous", "Disponibles", "Reservés"
 
-            if (filterValue === "Tous") {
-                equipementsTable.column(4).search('').draw();
-            } else if (filterValue === "Disponibles") {
-                equipementsTable.column(4).search("Disponible").draw();
-            } else if (filterValue === "Reservés") {
-                equipementsTable.column(4).search("Reservé").draw();
-            }
-        });
-
-        // "Check all" functionality for equipments table
-        $("#checkAllEquipements").on("click", function() {
-            var rows = equipementsTable.rows({
-                'search': 'applied'
-            }).nodes();
-            $('input[type="checkbox"]', rows).prop('checked', this.checked);
-        });
-
-        // Handle individual checkbox clicks to uncheck "check all" for equipments
-        $('#equipementsTable tbody').on('change', 'input[type="checkbox"]', function() {
-            if (!this.checked) {
-                var el = $('#checkAllEquipements').get(0);
-                if (el && el.checked && ('indeterminate' in el)) {
-                    el.indeterminate = true;
+                if (filterValue === "Tous") {
+                    equipementsTable.column(4).search('').draw();
+                } else if (filterValue === "Disponibles") {
+                    equipementsTable.column(4).search("Disponible").draw();
+                } else if (filterValue === "Reservés") {
+                    equipementsTable.column(4).search("Reservé").draw();
                 }
-            }
+            });
+
+            // "Check all" functionality for equipments table
+            $("#checkAllEquipements").on("click", function () {
+                var rows = equipementsTable.rows({
+                    'search': 'applied'
+                }).nodes();
+                $('input[type="checkbox"]', rows).prop('checked', this.checked);
+            });
+
+            // Handle individual checkbox clicks to uncheck "check all" for equipments
+            $('#equipementsTable tbody').on('change', 'input[type="checkbox"]', function () {
+                if (!this.checked) {
+                    var el = $('#checkAllEquipements').get(0);
+                    if (el && el.checked && ('indeterminate' in el)) {
+                        el.indeterminate = true;
+                    }
+                }
+            });
+
+
+            // Tab switching logic
+            $('.tab-btn').on('click', function () {
+                const tabId = $(this).data('tab');
+                $('.tab-btn').removeClass('active');
+                $(this).addClass('active');
+                $('.tab-panel').removeClass('active');
+                $('#' + tabId).addClass('active');
+            });
+
+            // Dropdown menu logic for both tables
+            $(document).on('click', '.action-btn', function (e) {
+                e.stopPropagation();
+                let dropdown = $(this).closest('.actions').find('.dropdown-menu');
+                $('.dropdown-menu').not(dropdown).hide(); // Hide other menus
+                dropdown.toggle(); // Toggle current menu
+            });
+
+            // Close dropdowns when clicking outside
+            $(document).on('click', function () {
+                $('.dropdown-menu').hide();
+            });
+
+            // Open reservation modal
+            $('#openReservationModal').on('click', function () {
+                openmodalObjectifs();
+            });
+
+            // Open and populate Modifier Reservation modal
+            $(document).on('click', '.openModifierModal', function (e) {
+                e.preventDefault();
+
+                // Get data from the table row
+                var row = $(this).closest('tr');
+                var type = row.find('td:eq(1)').text();
+                var nom = row.find('td:eq(2)').text();
+                var date = row.find('td:eq(4)').text();
+                var heure = row.find('td:eq(5)').text();
+
+                // Populate the modal fields
+                $('#modifier-type-reservation').val(type);
+                $('#modifier-nom-equipement').val(nom);
+                $('#modifier-date-reservation').val(date);
+                $('#modifier-heure-reservation').val(heure);
+
+                // Open the modal
+                openModalModifierReservation();
+            });
+
+
+            // Open equipement modal
+            $('#openEquipementModal').on('click', function () {
+                openModalAjouterEquipement();
+            });
+
+            // --- NEW --- Open and populate Modifier Equipement modal
+            $(document).on('click', '.openModifierEquipementModal', function (e) {
+                e.preventDefault();
+
+                // Get data from the table row
+                var row = $(this).closest('tr');
+                var nom = row.find('td:eq(1)').text();
+                var modele = row.find('td:eq(2)').text();
+                var disponibilite = row.find('td:eq(4)').text();
+
+                // Populate the modal fields
+                $('#modifier-nom-appareil').val(nom);
+                $('#modifier-modele-appareil').val(modele);
+                $('#modifier-disponibilite-appareil').val(disponibilite);
+                // You might need to add logic to select the correct category based on 'nom'
+
+                // Open the modal
+                openModalModifierEquipement();
+            });
+
+
+            // Open maintenance modal
+            $(document).on('click', '.openMaintenanceModal', function (e) {
+                e.preventDefault();
+                openModalMaintenance();
+            });
+
+            // Open details modal
+            $(document).on('click', '.openDetailsModal', function () {
+                openModalDetailsAppareil();
+            });
+
+            // Open history modal
+            $(document).on('click', '.openHistoryModal', function () {
+                openModalHistorique();
+            });
+
+            // Generic modal close logic
+            $('.modal-overlay').on('click', function (e) {
+                if ($(e.target).is('.modal-overlay')) {
+                    $(this).hide();
+                }
+            });
+            $('.btn-close-x').on('click', function () {
+                $(this).closest('.modal-overlay').hide();
+            });
+
         });
 
+        function openmodalObjectifs() {
+            $('#modalObjectifs').css('display', 'flex');
+        }
 
-        // Tab switching logic
-        $('.tab-btn').on('click', function() {
-            const tabId = $(this).data('tab');
-            $('.tab-btn').removeClass('active');
-            $(this).addClass('active');
-            $('.tab-panel').removeClass('active');
-            $('#' + tabId).addClass('active');
-        });
+        function openModalModifierReservation() {
+            $('#modalModifierReservation').css('display', 'flex');
+        }
 
-        // Dropdown menu logic for both tables
-        $(document).on('click', '.action-btn', function(e) {
-            e.stopPropagation();
-            let dropdown = $(this).closest('.actions').find('.dropdown-menu');
-            $('.dropdown-menu').not(dropdown).hide(); // Hide other menus
-            dropdown.toggle(); // Toggle current menu
-        });
+        function openModalAjouterEquipement() {
+            $('#modalAjouterEquipement').css('display', 'flex');
+        }
 
-        // Close dropdowns when clicking outside
-        $(document).on('click', function() {
-            $('.dropdown-menu').hide();
-        });
+        // --- NEW --- Function to open the modifier equipement modal
+        function openModalModifierEquipement() {
+            $('#modalModifierEquipement').css('display', 'flex');
+        }
 
-        // Open reservation modal
-        $('#openReservationModal').on('click', function() {
-            openmodalObjectifs();
-        });
+        function openModalMaintenance() {
+            $('#modalMaintenance').css('display', 'flex');
+        }
 
-        // Open and populate Modifier Reservation modal
-        $(document).on('click', '.openModifierModal', function(e) {
-            e.preventDefault();
+        function openModalDetailsAppareil() {
+            $('#modalDetailsAppareil').css('display', 'flex');
+        }
 
-            // Get data from the table row
-            var row = $(this).closest('tr');
-            var type = row.find('td:eq(1)').text();
-            var nom = row.find('td:eq(2)').text();
-            var date = row.find('td:eq(4)').text();
-            var heure = row.find('td:eq(5)').text();
-
-            // Populate the modal fields
-            $('#modifier-type-reservation').val(type);
-            $('#modifier-nom-equipement').val(nom);
-            $('#modifier-date-reservation').val(date);
-            $('#modifier-heure-reservation').val(heure);
-
-            // Open the modal
-            openModalModifierReservation();
-        });
-
-
-        // Open equipement modal
-        $('#openEquipementModal').on('click', function() {
-            openModalAjouterEquipement();
-        });
-
-        // --- NEW --- Open and populate Modifier Equipement modal
-        $(document).on('click', '.openModifierEquipementModal', function(e) {
-            e.preventDefault();
-
-            // Get data from the table row
-            var row = $(this).closest('tr');
-            var nom = row.find('td:eq(1)').text();
-            var modele = row.find('td:eq(2)').text();
-            var disponibilite = row.find('td:eq(4)').text();
-
-            // Populate the modal fields
-            $('#modifier-nom-appareil').val(nom);
-            $('#modifier-modele-appareil').val(modele);
-            $('#modifier-disponibilite-appareil').val(disponibilite);
-            // You might need to add logic to select the correct category based on 'nom'
-
-            // Open the modal
-            openModalModifierEquipement();
-        });
-
-
-        // Open maintenance modal
-        $(document).on('click', '.openMaintenanceModal', function(e) {
-            e.preventDefault();
-            openModalMaintenance();
-        });
-
-        // Open details modal
-        $(document).on('click', '.openDetailsModal', function() {
-            openModalDetailsAppareil();
-        });
-
-        // Open history modal
-        $(document).on('click', '.openHistoryModal', function() {
-            openModalHistorique();
-        });
-
-        // Generic modal close logic
-        $('.modal-overlay').on('click', function(e) {
-            if ($(e.target).is('.modal-overlay')) {
-                $(this).hide();
-            }
-        });
-        $('.btn-close-x').on('click', function() {
-            $(this).closest('.modal-overlay').hide();
-        });
-
-    });
-
-    function openmodalObjectifs() {
-        $('#modalObjectifs').css('display', 'flex');
-    }
-
-    function openModalModifierReservation() {
-        $('#modalModifierReservation').css('display', 'flex');
-    }
-
-    function openModalAjouterEquipement() {
-        $('#modalAjouterEquipement').css('display', 'flex');
-    }
-
-    // --- NEW --- Function to open the modifier equipement modal
-    function openModalModifierEquipement() {
-        $('#modalModifierEquipement').css('display', 'flex');
-    }
-
-    function openModalMaintenance() {
-        $('#modalMaintenance').css('display', 'flex');
-    }
-
-    function openModalDetailsAppareil() {
-        $('#modalDetailsAppareil').css('display', 'flex');
-    }
-
-    function openModalHistorique() {
-        $('#modalHistorique').css('display', 'flex');
-    }
+        function openModalHistorique() {
+            $('#modalHistorique').css('display', 'flex');
+        }
     </script>
 </body>
 

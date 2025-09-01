@@ -10,7 +10,7 @@
       <div class="stars">★★★★★</div>
       <p>Le lorem ipsum est, en imprimerie, une suite de mots sans signification utilisée à titre provisoire pour calibrer une mise en page…</p>
       <div class="author">
-        <img src="/images/users/user1.jpg" alt="user">
+        <img src="/wp-content/plugins/plateforme-master/images/uscr/Groupe de masques 372.png" alt="user">
         <div>
           <strong>Pr. Manel Slimen</strong><br>
           <span>Enseignant(e)</span>
@@ -22,7 +22,7 @@
       <div class="stars">★★★★★</div>
       <p>Le lorem ipsum est, en imprimerie, une suite de mots sans signification utilisée à titre provisoire pour calibrer une mise en page…</p>
       <div class="author">
-        <img src="/images/users/user1.jpg" alt="user">
+        <img src="/wp-content/plugins/plateforme-master/images/uscr/Groupe de masques 372.png" alt="user">
         <div>
           <strong>Pr. Manel Slimen</strong><br>
           <span>Enseignant(e)</span>
@@ -33,7 +33,7 @@
       <div class="stars">★★★★★</div>
       <p>Le lorem ipsum est, en imprimerie, une suite de mots sans signification utilisée à titre provisoire pour calibrer une mise en page…</p>
       <div class="author">
-        <img src="/images/users/user1.jpg" alt="user">
+        <img src="/wp-content/plugins/plateforme-master/images/uscr/Groupe de masques 372.png" alt="user">
         <div>
           <strong>Pr. Manel Slimen</strong><br>
           <span>Enseignant(e)</span>
@@ -44,7 +44,7 @@
       <div class="stars">★★★★★</div>
       <p>Le lorem ipsum est, en imprimerie, une suite de mots sans signification utilisée à titre provisoire pour calibrer une mise en page…</p>
       <div class="author">
-        <img src="/images/users/user1.jpg" alt="user">
+        <img src="/wp-content/plugins/plateforme-master/images/uscr/Groupe de masques 372.png" alt="user">
         <div>
           <strong>Pr. Manel Slimen</strong><br>
           <span>Enseignant(e)</span>
@@ -56,7 +56,7 @@
       <div class="stars">★★★★★</div>
       <p>Le lorem ipsum est, en imprimerie, une suite de mots sans signification utilisée à titre provisoire pour calibrer une mise en page…</p>
       <div class="author">
-        <img src="/images/users/user1.jpg" alt="user">
+        <img src="/wp-content/plugins/plateforme-master/images/uscr/Groupe de masques 372.png" alt="user">
         <div>
           <strong>Pr. Manel Slimen</strong><br>
           <span>Enseignant(e)</span>
@@ -67,7 +67,7 @@
       <div class="stars">★★★★★</div>
       <p>Le lorem ipsum est, en imprimerie, une suite de mots sans signification utilisée à titre provisoire pour calibrer une mise en page…</p>
       <div class="author">
-        <img src="/images/users/user1.jpg" alt="user">
+        <img src="/wp-content/plugins/plateforme-master/images/uscr/Groupe de masques 372.png" alt="user">
         <div>
           <strong>Pr. Manel Slimen</strong><br>
           <span>Enseignant(e)</span>
@@ -79,7 +79,7 @@
       <div class="stars">★★★★★</div>
       <p>Le lorem ipsum est, en imprimerie, une suite de mots sans signification utilisée à titre provisoire pour calibrer une mise en page…</p>
       <div class="author">
-        <img src="/images/users/user1.jpg" alt="user">
+        <img src="/wp-content/plugins/plateforme-master/images/uscr/Groupe de masques 372.png" alt="user">
         <div>
           <strong>Pr. Manel Slimen</strong><br>
           <span>Enseignant(e)</span>

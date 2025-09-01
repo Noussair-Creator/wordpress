@@ -2,26 +2,26 @@
 <div class="card-flex">
   <!-- Bloc Conventions -->
 <div class="master-feature-card">
-  <div class="feature-text">Candidatures <br>ED</div>
-      <img class="card-image card-image2" src="/wp-content/plugins/plateforme-master/imagesED/850337.png" alt="">
+      <a href="/candidatures-ed_comissioned"><div class="feature-text">Candidatures <br>ED</div></a>
+      <a href="/candidatures-ed_comissioned"><img class="card-image card-image2" src="/wp-content/plugins/plateforme-master/imagesED/850337.png" alt=""></a>
 </div>
 
 <!-- Bloc Indicateurs -->
 <div class="master-feature-card">
-  <div class="feature-text">Formations <br> Doctorales</div>
-  <img class="card-image card-image2" src="/wp-content/plugins/plateforme-master/imagesED/19-qualification.png" alt="">
+  <a href="/formation-doctorale_comissioned/"><div class="feature-text">Formations <br> Doctorales</div></a>
+  <a href="/formation-doctorale_comissioned/"><img class="card-image card-image2" src="/wp-content/plugins/plateforme-master/imagesED/19-qualification.png" alt=""></a>
 </div>
 
 <!-- Bloc Soutenances -->
 <div class="master-feature-card">
-  <div class="feature-text">Pré-Soutenances / Soutenances</div>
-  <img class="card-image card-image2" src="/wp-content/plugins/plateforme-master/imagesED/these.png" alt="">
+  <a href="/soutenances_comissioned"><div class="feature-text">Pré-Soutenances / Soutenances</div></a>
+  <a href="/soutenances_comissioned"><img class="card-image card-image2" src="/wp-content/plugins/plateforme-master/imagesED/these.png" alt=""></a>
 </div>
 
 <!-- Bloc Rapports -->
 <div class="master-feature-card">
-  <div class="feature-text">Financements et Conformité</div>
-  <img class="card-image card-image2" src="/wp-content/plugins/plateforme-master/imagesED/pngtree-compliance-line-icon-vector-png-image_6739692.png" alt="">
+  <a href="/financements-et-conformite_comissioned"><div class="feature-text">Financements et Conformité</div></a>
+  <a href="/financements-et-conformite_comissioned"><img class="card-image card-image2" src="/wp-content/plugins/plateforme-master/imagesED/pngtree-compliance-line-icon-vector-png-image_6739692.png" alt=""></a>
 </div>
 
 

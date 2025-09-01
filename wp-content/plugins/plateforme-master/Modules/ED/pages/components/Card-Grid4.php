@@ -7,27 +7,27 @@
 
     <div class="boxLine">
          <div class="card with-image card3" draggable="true">
-          <div class="card-title">Inscription en thèse</div>
-          <span class="corner-icon">↗</span>
+          <a href="/inscription-en-these/"><div class="card-title">Inscription en thèse</div></a>
+          <a href="/inscription-en-these/"><span class="corner-icon">↗</span></a>
         </div>
 
 
-        <div class="card with-image card2" draggable="true"><a href="#">
-          <div class="card-title">Demandes administratives</div>
-          <a href="#"><span class="corner-icon">↗</span></a></a>
+        <div class="card with-image card2" draggable="true">
+          <a href="/demande-adm/"> <div class="card-title">Demandes administratives</div></a>
+          <a href="/demande-adm/"><span class="corner-icon">↗</span></a>
         </div>
 
     </div>
    <div class="boxLine">
          <div class="card with-image card1" draggable="true">
-          <div class="card-title">Manifestations scientifiques</div>
-          <span class="corner-icon">↗</span>
+          <a href="/manifestation-scientifiques/"><div class="card-title">Manifestations scientifiques</div></a>
+          <a href="/manifestation-scientifiques/"><span class="corner-icon">↗</span></a>
         </div>
 
 
-        <div class="card with-image card4" draggable="true"><a href="#">
-          <div class="card-title">Appel à <br> Projets</div>
-          <a href="#"><span class="corner-icon">↗</span></a></a>
+        <div class="card with-image card4" draggable="true">
+          <a href="/appel-a-projets/"><div class="card-title">Appel à <br> Projets</div></a>
+          <a href="/appel-a-projets/"><span class="corner-icon">↗</span></a>
         </div>
 
     </div>

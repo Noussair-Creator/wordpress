@@ -377,28 +377,29 @@ img.img-box {
 ?>
 <?php if ($role === 'um_doctorant'): ?>
 <div class="boxINFO doctorant-progress-box">
-  <div class="doctorant-header">
-    <h6>Avancement du doctorat:</h6>
-    <div class="credit-box">
-      <strong>Crédits :</strong>
-      <span class="credit-value" id="credit-value">17/30</span>
+  <a href="/suivi-de-la-these-etat-de-these">
+    <div class="doctorant-header">
+      <h6>Avancement du doctorat:</h6>
+      <div class="credit-box">
+        <strong>Crédits :</strong>
+        <span class="credit-value" id="credit-value">17/30</span>
+      </div>
+      <div class="doctorant-legend">
+        <span><span class="dot dot-filled"></span> = étape complétée</span>
+        <span><span class="dot dot-empty"></span> = étape à venir</span>
+      </div>
     </div>
-    <div class="doctorant-legend">
-      <span><span class="dot dot-filled"></span> = étape complétée</span>
-      <span><span class="dot dot-empty"></span> = étape à venir</span>
+
+    <div class="progression-doctorat" id="progression-doctorat">
+      <div class="step"><div class="dot"></div><span>Inscription</span></div>
+      <div class="line"></div>
+      <div class="step"><div class="dot"></div><span>Pré-soutenance</span></div>
+      <div class="line"></div>
+      <div class="step"><div class="dot"></div><span>Dépôt</span></div>
+      <div class="line"></div>
+      <div class="step"><div class="dot"></div><span>Soutenance</span></div>
     </div>
-  </div>
-
-  <div class="progression-doctorat" id="progression-doctorat">
-    <div class="step"><div class="dot"></div><span>Inscription</span></div>
-    <div class="line"></div>
-    <div class="step"><div class="dot"></div><span>Pré-soutenance</span></div>
-    <div class="line"></div>
-    <div class="step"><div class="dot"></div><span>Dépôt</span></div>
-    <div class="line"></div>
-    <div class="step"><div class="dot"></div><span>Soutenance</span></div>
-  </div>
-
+  </a>
 </div>
 <?php endif; ?>
 

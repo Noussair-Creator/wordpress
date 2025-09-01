@@ -1,199 +1,199 @@
 <style>
-body {
-    background-color: #f8f9fa;
-    font-family: 'Poppins', sans-serif;
-}
+    body {
+        background-color: #f8f9fa;
+        font-family: 'Poppins', sans-serif;
+    }
 
-.content-wrapper {
-    padding: 25px;
-}
+    .content-wrapper {
+        padding: 25px;
+    }
 
-.card {
-    background: #fff;
-    padding: 20px;
-    border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
-    border: none;
-    position: relative;
-}
+    .card {
+        background: #fff;
+        padding: 20px;
+        border-radius: 12px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+        border: none;
+        position: relative;
+    }
 
-.card h3 {
-    font-size: 21px;
-    margin-bottom: 14px;
-    font-weight: bold;
-    border-bottom: 1px solid #eee;
-    padding-bottom: 15px;
-    color: #2A2916;
-}
+    .card h3 {
+        font-size: 21px;
+        margin-bottom: 14px;
+        font-weight: bold;
+        border-bottom: 1px solid #eee;
+        padding-bottom: 15px;
+        color: #2A2916;
+    }
 
-.card .dropdown {
-    position: absolute;
-    top: 20px;
-    right: 20px;
-}
+    .card .dropdown {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+    }
 
-.kebab-button {
-    background: transparent;
-    border: none;
-    font-size: 16px;
-    color: #6c757d;
-    cursor: pointer;
-}
+    .kebab-button {
+        background: transparent;
+        border: none;
+        font-size: 16px;
+        color: #6c757d;
+        cursor: pointer;
+    }
 
-.styled-list {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    font-family: 'Poppins', sans-serif;
-    font-size: 14px;
-}
+    .styled-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        font-family: 'Poppins', sans-serif;
+        font-size: 14px;
+    }
 
-.styled-list li {
-    padding: 15px 10px;
-    border-bottom: 1px solid #f0f0f0;
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-    color: #333;
-    gap: 110px;
-}
+    .styled-list li {
+        padding: 15px 10px;
+        border-bottom: 1px solid #f0f0f0;
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        color: #333;
+        gap: 110px;
+    }
 
-.styled-list li:last-child {
-    border-bottom: none;
-}
+    .styled-list li:last-child {
+        border-bottom: none;
+    }
 
-.styled-list strong {
-    font-weight: 500;
-    color: #6E6D55;
-    min-width: 240px;
-}
+    .styled-list strong {
+        font-weight: 500;
+        color: #6E6D55;
+        min-width: 240px;
+    }
 
-.styled-list span {
-    display: flex;
-    align-items: center;
-    text-align: right;
-}
+    .styled-list span {
+        display: flex;
+        align-items: center;
+        text-align: right;
+    }
 
-.styled-list li a {
-    text-decoration: none;
-    font-weight: 500;
-    color: black;
-}
+    .styled-list li a {
+        text-decoration: none;
+        font-weight: 500;
+        color: black;
+    }
 
-.styled-list li a[href^="mailto"] {
-    color: #0d6efd;
-    text-decoration: underline;
-}
+    .styled-list li a[href^="mailto"] {
+        color: #0d6efd;
+        text-decoration: underline;
+    }
 
-.profile-pic {
-    width: 30px;
-    height: 30px;
-    border-radius: 50%;
-    margin-right: 12px;
-    object-fit: cover;
-}
+    .profile-pic {
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        margin-right: 12px;
+        object-fit: cover;
+    }
 
-.pdf-icon {
-    color: #d93025;
-    margin-right: 6px;
-}
+    .pdf-icon {
+        color: #d93025;
+        margin-right: 6px;
+    }
 
-.status-active-icon {
-    color: #28a745;
-    font-size: 10px;
-    margin-right: 8px;
-}
+    .status-active-icon {
+        color: #28a745;
+        font-size: 10px;
+        margin-right: 8px;
+    }
 
-/* Modal Styles with Specificity */
-#editMemberModal {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    display: none;
-    /* Hidden by default */
-    justify-content: flex-end;
-    /* Position popup to the right */
-    align-items: center;
-    z-index: 1000;
-}
+    /* Modal Styles with Specificity */
+    #editMemberModal {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        display: none;
+        /* Hidden by default */
+        justify-content: flex-end;
+        /* Position popup to the right */
+        align-items: center;
+        z-index: 1000;
+    }
 
-#editMemberModal.show {
-    display: flex;
-    /* Show the modal */
-}
+    #editMemberModal.show {
+        display: flex;
+        /* Show the modal */
+    }
 
-#editMemberModal .popup-container {
-    background-color: white;
-    width: 450px;
-    height: 100%;
-    box-shadow: -4px 0 10px rgba(0, 0, 0, 0.1);
-    overflow-y: auto;
-    display: flex;
-    flex-direction: column;
-}
+    #editMemberModal .popup-container {
+        background-color: white;
+        width: 450px;
+        height: 100%;
+        box-shadow: -4px 0 10px rgba(0, 0, 0, 0.1);
+        overflow-y: auto;
+        display: flex;
+        flex-direction: column;
+    }
 
-#editMemberModal .popup-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 20px 25px;
-    box-shadow: 0px 5px 16px #0000001A;
-    flex-shrink: 0;
-}
+    #editMemberModal .popup-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 20px 25px;
+        box-shadow: 0px 5px 16px #0000001A;
+        flex-shrink: 0;
+    }
 
-#editMemberModal .popup-header h2 {
-    font-size: 18px;
-    margin: 0;
-    color: #2A2916;
-}
+    #editMemberModal .popup-header h2 {
+        font-size: 18px;
+        margin: 0;
+        color: #2A2916;
+    }
 
-#editMemberModal .popup-header .header-actions {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-}
+    #editMemberModal .popup-header .header-actions {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+    }
 
-#editMemberModal .popup-form {
-    padding: 25px;
-    flex-grow: 1;
-    overflow-y: auto;
-}
+    #editMemberModal .popup-form {
+        padding: 25px;
+        flex-grow: 1;
+        overflow-y: auto;
+    }
 
-#editMemberModal .btn-enregistrer {
-    background-color: #c62828;
-    color: white;
-    border: none;
-    padding: 8px 18px;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 14px;
-}
+    #editMemberModal .btn-enregistrer {
+        background-color: #c62828;
+        color: white;
+        border: none;
+        padding: 8px 18px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 14px;
+    }
 
-#editMemberModal .popup-form .form-group {
-    margin-bottom: 20px;
-}
+    #editMemberModal .popup-form .form-group {
+        margin-bottom: 20px;
+    }
 
-#editMemberModal .popup-form .form-group label {
-    display: block;
-    font-weight: 600;
-    color: #6E6D55;
-    margin-bottom: 8px;
-    font-size: 14px;
-}
+    #editMemberModal .popup-form .form-group label {
+        display: block;
+        font-weight: 600;
+        color: #6E6D55;
+        margin-bottom: 8px;
+        font-size: 14px;
+    }
 
-#editMemberModal .popup-form .form-group input[type="text"],
-#editMemberModal .popup-form .form-group input[type="email"],
-#editMemberModal .popup-form .form-group select {
-    width: 100%;
-    padding: 10px 12px;
-    border: 1px solid #b5af8e;
-    border-radius: 7px;
-    font-size: 14px;
-    box-sizing: border-box;
-}
+    #editMemberModal .popup-form .form-group input[type="text"],
+    #editMemberModal .popup-form .form-group input[type="email"],
+    #editMemberModal .popup-form .form-group select {
+        width: 100%;
+        padding: 10px 12px;
+        border: 1px solid #b5af8e;
+        border-radius: 7px;
+        font-size: 14px;
+        box-sizing: border-box;
+    }
 </style>
 
 
@@ -218,7 +218,7 @@ body {
             <li>
                 <strong>Nom complet :</strong>
                 <span>
-                    <img src="https://placehold.co/30x30/EFEFEF/AAAAAA?text=User"
+                    <img src="/wp-content/plugins/plateforme-master/images/icons/Groupe de masques 435.png"
                         onerror="this.onerror=null;this.src='https://placehold.co/30x30/EFEFEF/AAAAAA?text=User';"
                         class="profile-pic" alt="Profile Picture">
                     Dr. Sarra Messaoudi
@@ -237,7 +237,14 @@ body {
             <li>
                 <strong>CV / Dossier :</strong>
                 <span>
-                    <a href="#"><i class="fas fa-file-pdf pdf-icon"></i>CV_Sarra_Messaoudi.pdf</a>
+                    <a href="#">
+
+                        <!-- <i class="fas fa-file-pdf pdf-icon"></i> -->
+
+                        <img class="pdf-icon" width="20px"
+                            src="/wp-content/plugins/plateforme-master/images/icons/pdf-svgrepo-com (2).png"
+                            alt="pdf-svgrepo-com (2).png">
+                        CV_Sarra_Messaoudi.pdf</a>
                 </span>
             </li>
             <li>
@@ -293,39 +300,39 @@ body {
 
 <!-- Custom JS for Modal -->
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-    const editBtn = document.getElementById('editBtn');
-    const editModal = document.getElementById('editMemberModal');
-    const saveBtn = document.getElementById('saveEditMemberBtn');
+    document.addEventListener('DOMContentLoaded', function () {
+        const editBtn = document.getElementById('editBtn');
+        const editModal = document.getElementById('editMemberModal');
+        const saveBtn = document.getElementById('saveEditMemberBtn');
 
-    // Function to show the modal
-    const showModal = () => {
-        editModal.classList.add('show');
-    };
+        // Function to show the modal
+        const showModal = () => {
+            editModal.classList.add('show');
+        };
 
-    // Function to hide the modal
-    const hideModal = () => {
-        editModal.classList.remove('show');
-    };
+        // Function to hide the modal
+        const hideModal = () => {
+            editModal.classList.remove('show');
+        };
 
-    // Event listener for the edit button
-    editBtn.addEventListener('click', function(event) {
-        event.preventDefault(); // Prevent default link behavior
-        showModal();
-    });
+        // Event listener for the edit button
+        editBtn.addEventListener('click', function (event) {
+            event.preventDefault(); // Prevent default link behavior
+            showModal();
+        });
 
-    // Event listener for the save button
-    saveBtn.addEventListener('click', function() {
-        // Add save logic here if needed
-        hideModal();
-    });
-
-    // Event listener to close modal when clicking on the overlay
-    editModal.addEventListener('click', function(event) {
-        // We check if the clicked element is the overlay itself, not a child
-        if (event.target === editModal) {
+        // Event listener for the save button
+        saveBtn.addEventListener('click', function () {
+            // Add save logic here if needed
             hideModal();
-        }
+        });
+
+        // Event listener to close modal when clicking on the overlay
+        editModal.addEventListener('click', function (event) {
+            // We check if the clicked element is the overlay itself, not a child
+            if (event.target === editModal) {
+                hideModal();
+            }
+        });
     });
-});
 </script>

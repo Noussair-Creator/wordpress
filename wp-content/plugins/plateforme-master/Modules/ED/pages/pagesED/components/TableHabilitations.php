@@ -59,7 +59,7 @@
       <div class="actions">
         <button class="action-btn">⋮</button>
         <div class="dropdown-menu">
-          <a href="#"><i class="fa fa-eye"></i> Consulter</a>
+          <a href="/demande-affichage/"><i class="fa fa-eye"></i> Consulter</a>
           <a href="#"><i class="fa fa-check"></i> Valider</a>
           <a href="#"><i class="fa fa-times"></i> Rejeter</a>
         </div>
@@ -79,7 +79,7 @@
       <div class="actions">
         <button class="action-btn">⋮</button>
         <div class="dropdown-menu">
-          <a href="#"><i class="fa fa-eye"></i> Consulter</a>
+          <a href="/demande-affichage/"><i class="fa fa-eye"></i> Consulter</a>
           <a href="#"><i class="fa fa-check"></i> Valider</a>
           <a href="#"><i class="fa fa-times"></i> Rejeter</a>
         </div>
@@ -99,7 +99,7 @@
       <div class="actions">
         <button class="action-btn">⋮</button>
         <div class="dropdown-menu">
-          <a href="#"><i class="fa fa-eye"></i> Consulter</a>
+          <a href="/demande-affichage/"><i class="fa fa-eye"></i> Consulter</a>
           <a href="#"><i class="fa fa-check"></i> Valider</a>
           <a href="#"><i class="fa fa-times"></i> Rejeter</a>
         </div>
