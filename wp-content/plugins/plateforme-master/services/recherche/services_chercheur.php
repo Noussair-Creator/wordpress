@@ -1,631 +1,159 @@
 <?php
-/** Services chercheur — tables $wpdb->prefix . 'recherche_<entite>' */
 if (!defined('ABSPATH')) { exit; }
 
-function svc_read_input(WP_REST_Request $req){
-  $data = $req->get_json_params();
-  if (empty($data) || !is_array($data)) { $data = $req->get_body_params(); }
-  if (empty($data) || !is_array($data)) { $data = $req->get_params(); }
-  return is_array($data) ? $data : array();
+/* ---------- Helpers génériques ---------- */
+function svc_now(){ return current_time('mysql'); }
+function svc_table_exists($table){
+  global $wpdb;
+  $like = $wpdb->esc_like($table);
+  $exists = $wpdb->get_var( $wpdb->prepare("SHOW TABLES LIKE %s", $like) );
+  return strtolower($exists) === strtolower($table);
 }
-
-// === chercheur ===
-function svc_chercheur_table(){ global $wpdb; return $wpdb->prefix . 'recherche_chercheur'; }
-function svc_chercheur_allowed(){ return array('email', 'nom', 'prenom', 'grade', 'laboratoire_id', 'orcid', 'photo_url', 'site_web', 'specialite'); }
-
-function svc_chercheur_list(WP_REST_Request $req){
-  global $wpdb; $table = svc_chercheur_table();
-  $page = max(1, intval($req->get_param('page') ?: 1));
-  $per  = max(1, min(200, intval($req->get_param('per_page') ?: 20)));
-  $off  = ($page - 1) * $per;
-  $sql  = $wpdb->prepare("SELECT * FROM $table ORDER BY id DESC LIMIT %d OFFSET %d", $per, $off);
-  return $wpdb->get_results($sql, ARRAY_A);
+function svc_pub_table(){ global $wpdb; return $wpdb->prefix . 'recherche_publication'; }
+function svc_pub_allowed(){
+  return array('date_publication','titre','type','fichier_url','resume','commentaire','chercheur_id');
 }
-
-function svc_chercheur_get(WP_REST_Request $req){
-  global $wpdb; $table = svc_chercheur_table(); $id = intval($req['id']);
-  $row = $wpdb->get_row($wpdb->prepare("SELECT * FROM $table WHERE id=%d", $id), ARRAY_A);
-  if(!$row) return new WP_Error('not_found','Not found',array('status'=>404));
-  return $row;
+function svc_pick($src, $keys){
+  $out=array();
+  foreach($keys as $k){ if(array_key_exists($k,$src)) $out[$k]=$src[$k]; }
+  return $out;
 }
+function svc_current_user_id(){ return get_current_user_id(); }
+function svc_is_admin(){ return current_user_can('manage_options'); }
 
-function svc_chercheur_create(WP_REST_Request $req){
-  global $wpdb; $table = svc_chercheur_table(); $allowed = svc_chercheur_allowed();
-  $data = svc_read_input($req); $ins = array();
-  foreach ($allowed as $k){
-    if(isset($data[$k])){
-      if ($k === 'email') { $v = sanitize_email($data[$k]); }
-      else { $v = is_scalar($data[$k]) ? sanitize_text_field($data[$k]) : wp_json_encode($data[$k]); }
-      $ins[$k]=$v;
-    }
-  }
-  if(empty($ins)) return new WP_Error('bad_request','No valid fields',array('status'=>400));
-  $ok = $wpdb->insert($table, $ins); if(!$ok) return new WP_Error('db_error','Insert failed',array('status'=>500));
-  $id = $wpdb->insert_id; return array('id'=>$id) + $ins;
-}
-
-function svc_chercheur_update(WP_REST_Request $req){
-  global $wpdb; $table = svc_chercheur_table(); $allowed = svc_chercheur_allowed();
-  $id = intval($req['id']); $data = svc_read_input($req); $upd = array();
-  foreach ($allowed as $k){
-    if(array_key_exists($k,$data)){
-      if ($k === 'email') { $v = sanitize_email($data[$k]); }
-      else { $v = is_scalar($data[$k]) ? sanitize_text_field($data[$k]) : wp_json_encode($data[$k]); }
-      $upd[$k]=$v;
-    }
-  }
-  if(empty($upd)) return new WP_Error('bad_request','No valid fields',array('status'=>400));
-  $ok = $wpdb->update($table, $upd, array('id'=>$id)); if($ok===false) return new WP_Error('db_error','Update failed',array('status'=>500));
-  return array('id'=>$id) + $upd;
-}
-
-function svc_chercheur_delete(WP_REST_Request $req){
-  global $wpdb; $table = svc_chercheur_table(); $id = intval($req['id']);
-  $ok = $wpdb->delete($table, array('id'=>$id)); if(!$ok) return new WP_Error('db_error','Delete failed',array('status'=>500));
-  return new WP_REST_Response(null, 204);
-}
-
-// === document ===
-function svc_document_table(){ global $wpdb; return $wpdb->prefix . 'recherche_document'; }
-function svc_document_allowed(){ return array('fichier_path', 'titre', 'chercheur_id', 'date_upload', 'type', 'visibility'); }
-
-function svc_document_list(WP_REST_Request $req){
-  global $wpdb; $table = svc_document_table();
-  $page = max(1, intval($req->get_param('page') ?: 1));
-  $per  = max(1, min(200, intval($req->get_param('per_page') ?: 20)));
-  $off  = ($page - 1) * $per;
-  $sql  = $wpdb->prepare("SELECT * FROM $table ORDER BY id DESC LIMIT %d OFFSET %d", $per, $off);
-  return $wpdb->get_results($sql, ARRAY_A);
-}
-
-function svc_document_get(WP_REST_Request $req){
-  global $wpdb; $table = svc_document_table(); $id = intval($req['id']);
-  $row = $wpdb->get_row($wpdb->prepare("SELECT * FROM $table WHERE id=%d", $id), ARRAY_A);
-  if(!$row) return new WP_Error('not_found','Not found',array('status'=>404));
-  return $row;
-}
-
-function svc_document_create(WP_REST_Request $req){
-  global $wpdb; $table = svc_document_table(); $allowed = svc_document_allowed();
-  $data = svc_read_input($req); $ins = array();
-  foreach ($allowed as $k){
-    if(isset($data[$k])){
-      if ($k === 'email') { $v = sanitize_email($data[$k]); }
-      else { $v = is_scalar($data[$k]) ? sanitize_text_field($data[$k]) : wp_json_encode($data[$k]); }
-      $ins[$k]=$v;
-    }
-  }
-  if(empty($ins)) return new WP_Error('bad_request','No valid fields',array('status'=>400));
-  $ok = $wpdb->insert($table, $ins); if(!$ok) return new WP_Error('db_error','Insert failed',array('status'=>500));
-  $id = $wpdb->insert_id; return array('id'=>$id) + $ins;
-}
-
-function svc_document_update(WP_REST_Request $req){
-  global $wpdb; $table = svc_document_table(); $allowed = svc_document_allowed();
-  $id = intval($req['id']); $data = svc_read_input($req); $upd = array();
-  foreach ($allowed as $k){
-    if(array_key_exists($k,$data)){
-      if ($k === 'email') { $v = sanitize_email($data[$k]); }
-      else { $v = is_scalar($data[$k]) ? sanitize_text_field($data[$k]) : wp_json_encode($data[$k]); }
-      $upd[$k]=$v;
-    }
-  }
-  if(empty($upd)) return new WP_Error('bad_request','No valid fields',array('status'=>400));
-  $ok = $wpdb->update($table, $upd, array('id'=>$id)); if($ok===false) return new WP_Error('db_error','Update failed',array('status'=>500));
-  return array('id'=>$id) + $upd;
-}
-
-function svc_document_delete(WP_REST_Request $req){
-  global $wpdb; $table = svc_document_table(); $id = intval($req['id']);
-  $ok = $wpdb->delete($table, array('id'=>$id)); if(!$ok) return new WP_Error('db_error','Delete failed',array('status'=>500));
-  return new WP_REST_Response(null, 204);
-}
-
-// === enseignement ===
-function svc_enseignement_table(){ global $wpdb; return $wpdb->prefix . 'recherche_enseignement'; }
-function svc_enseignement_allowed(){ return array('annee_universitaire', 'ue', 'volume_horaire', 'chercheur_id', 'niveau', 'semestre', 'type'); }
-
-function svc_enseignement_list(WP_REST_Request $req){
-  global $wpdb; $table = svc_enseignement_table();
-  $page = max(1, intval($req->get_param('page') ?: 1));
-  $per  = max(1, min(200, intval($req->get_param('per_page') ?: 20)));
-  $off  = ($page - 1) * $per;
-  $sql  = $wpdb->prepare("SELECT * FROM $table ORDER BY id DESC LIMIT %d OFFSET %d", $per, $off);
-  return $wpdb->get_results($sql, ARRAY_A);
-}
-
-function svc_enseignement_get(WP_REST_Request $req){
-  global $wpdb; $table = svc_enseignement_table(); $id = intval($req['id']);
-  $row = $wpdb->get_row($wpdb->prepare("SELECT * FROM $table WHERE id=%d", $id), ARRAY_A);
-  if(!$row) return new WP_Error('not_found','Not found',array('status'=>404));
-  return $row;
-}
-
-function svc_enseignement_create(WP_REST_Request $req){
-  global $wpdb; $table = svc_enseignement_table(); $allowed = svc_enseignement_allowed();
-  $data = svc_read_input($req); $ins = array();
-  foreach ($allowed as $k){
-    if(isset($data[$k])){
-      if ($k === 'email') { $v = sanitize_email($data[$k]); }
-      else { $v = is_scalar($data[$k]) ? sanitize_text_field($data[$k]) : wp_json_encode($data[$k]); }
-      $ins[$k]=$v;
-    }
-  }
-  if(empty($ins)) return new WP_Error('bad_request','No valid fields',array('status'=>400));
-  $ok = $wpdb->insert($table, $ins); if(!$ok) return new WP_Error('db_error','Insert failed',array('status'=>500));
-  $id = $wpdb->insert_id; return array('id'=>$id) + $ins;
-}
-
-function svc_enseignement_update(WP_REST_Request $req){
-  global $wpdb; $table = svc_enseignement_table(); $allowed = svc_enseignement_allowed();
-  $id = intval($req['id']); $data = svc_read_input($req); $upd = array();
-  foreach ($allowed as $k){
-    if(array_key_exists($k,$data)){
-      if ($k === 'email') { $v = sanitize_email($data[$k]); }
-      else { $v = is_scalar($data[$k]) ? sanitize_text_field($data[$k]) : wp_json_encode($data[$k]); }
-      $upd[$k]=$v;
-    }
-  }
-  if(empty($upd)) return new WP_Error('bad_request','No valid fields',array('status'=>400));
-  $ok = $wpdb->update($table, $upd, array('id'=>$id)); if($ok===false) return new WP_Error('db_error','Update failed',array('status'=>500));
-  return array('id'=>$id) + $upd;
-}
-
-function svc_enseignement_delete(WP_REST_Request $req){
-  global $wpdb; $table = svc_enseignement_table(); $id = intval($req['id']);
-  $ok = $wpdb->delete($table, array('id'=>$id)); if(!$ok) return new WP_Error('db_error','Delete failed',array('status'=>500));
-  return new WP_REST_Response(null, 204);
-}
-
-// === laboratoire ===
-function svc_laboratoire_table(){ global $wpdb; return $wpdb->prefix . 'recherche_laboratoire'; }
-function svc_laboratoire_allowed(){ return array(); }
-
-function svc_laboratoire_list(WP_REST_Request $req){
-  global $wpdb; $table = svc_laboratoire_table();
-  $page = max(1, intval($req->get_param('page') ?: 1));
-  $per  = max(1, min(200, intval($req->get_param('per_page') ?: 20)));
-  $off  = ($page - 1) * $per;
-  $sql  = $wpdb->prepare("SELECT * FROM $table ORDER BY id DESC LIMIT %d OFFSET %d", $per, $off);
-  return $wpdb->get_results($sql, ARRAY_A);
-}
-
-function svc_laboratoire_get(WP_REST_Request $req){
-  global $wpdb; $table = svc_laboratoire_table(); $id = intval($req['id']);
-  $row = $wpdb->get_row($wpdb->prepare("SELECT * FROM $table WHERE id=%d", $id), ARRAY_A);
-  if(!$row) return new WP_Error('not_found','Not found',array('status'=>404));
-  return $row;
-}
-
-function svc_laboratoire_create(WP_REST_Request $req){
-  global $wpdb; $table = svc_laboratoire_table(); $allowed = svc_laboratoire_allowed();
-  $data = svc_read_input($req); $ins = array();
-  foreach ($allowed as $k){
-    if(isset($data[$k])){
-      if ($k === 'email') { $v = sanitize_email($data[$k]); }
-      else { $v = is_scalar($data[$k]) ? sanitize_text_field($data[$k]) : wp_json_encode($data[$k]); }
-      $ins[$k]=$v;
-    }
-  }
-  if(empty($ins)) return new WP_Error('bad_request','No valid fields',array('status'=>400));
-  $ok = $wpdb->insert($table, $ins); if(!$ok) return new WP_Error('db_error','Insert failed',array('status'=>500));
-  $id = $wpdb->insert_id; return array('id'=>$id) + $ins;
-}
-
-function svc_laboratoire_update(WP_REST_Request $req){
-  global $wpdb; $table = svc_laboratoire_table(); $allowed = svc_laboratoire_allowed();
-  $id = intval($req['id']); $data = svc_read_input($req); $upd = array();
-  foreach ($allowed as $k){
-    if(array_key_exists($k,$data)){
-      if ($k === 'email') { $v = sanitize_email($data[$k]); }
-      else { $v = is_scalar($data[$k]) ? sanitize_text_field($data[$k]) : wp_json_encode($data[$k]); }
-      $upd[$k]=$v;
-    }
-  }
-  if(empty($upd)) return new WP_Error('bad_request','No valid fields',array('status'=>400));
-  $ok = $wpdb->update($table, $upd, array('id'=>$id)); if($ok===false) return new WP_Error('db_error','Update failed',array('status'=>500));
-  return array('id'=>$id) + $upd;
-}
-
-function svc_laboratoire_delete(WP_REST_Request $req){
-  global $wpdb; $table = svc_laboratoire_table(); $id = intval($req['id']);
-  $ok = $wpdb->delete($table, array('id'=>$id)); if(!$ok) return new WP_Error('db_error','Delete failed',array('status'=>500));
-  return new WP_REST_Response(null, 204);
-}
-
-// === manifestation ===
-function svc_manifestation_table(){ global $wpdb; return $wpdb->prefix . 'recherche_manifestation'; }
-function svc_manifestation_allowed(){ return array('date', 'intitule', 'type', 'chercheur_id', 'lieu', 'preuve_url', 'role'); }
-
-function svc_manifestation_list(WP_REST_Request $req){
-  global $wpdb; $table = svc_manifestation_table();
-  $page = max(1, intval($req->get_param('page') ?: 1));
-  $per  = max(1, min(200, intval($req->get_param('per_page') ?: 20)));
-  $off  = ($page - 1) * $per;
-  $sql  = $wpdb->prepare("SELECT * FROM $table ORDER BY id DESC LIMIT %d OFFSET %d", $per, $off);
-  return $wpdb->get_results($sql, ARRAY_A);
-}
-
-function svc_manifestation_get(WP_REST_Request $req){
-  global $wpdb; $table = svc_manifestation_table(); $id = intval($req['id']);
-  $row = $wpdb->get_row($wpdb->prepare("SELECT * FROM $table WHERE id=%d", $id), ARRAY_A);
-  if(!$row) return new WP_Error('not_found','Not found',array('status'=>404));
-  return $row;
-}
-
-function svc_manifestation_create(WP_REST_Request $req){
-  global $wpdb; $table = svc_manifestation_table(); $allowed = svc_manifestation_allowed();
-  $data = svc_read_input($req); $ins = array();
-  foreach ($allowed as $k){
-    if(isset($data[$k])){
-      if ($k === 'email') { $v = sanitize_email($data[$k]); }
-      else { $v = is_scalar($data[$k]) ? sanitize_text_field($data[$k]) : wp_json_encode($data[$k]); }
-      $ins[$k]=$v;
-    }
-  }
-  if(empty($ins)) return new WP_Error('bad_request','No valid fields',array('status'=>400));
-  $ok = $wpdb->insert($table, $ins); if(!$ok) return new WP_Error('db_error','Insert failed',array('status'=>500));
-  $id = $wpdb->insert_id; return array('id'=>$id) + $ins;
-}
-
-function svc_manifestation_update(WP_REST_Request $req){
-  global $wpdb; $table = svc_manifestation_table(); $allowed = svc_manifestation_allowed();
-  $id = intval($req['id']); $data = svc_read_input($req); $upd = array();
-  foreach ($allowed as $k){
-    if(array_key_exists($k,$data)){
-      if ($k === 'email') { $v = sanitize_email($data[$k]); }
-      else { $v = is_scalar($data[$k]) ? sanitize_text_field($data[$k]) : wp_json_encode($data[$k]); }
-      $upd[$k]=$v;
-    }
-  }
-  if(empty($upd)) return new WP_Error('bad_request','No valid fields',array('status'=>400));
-  $ok = $wpdb->update($table, $upd, array('id'=>$id)); if($ok===false) return new WP_Error('db_error','Update failed',array('status'=>500));
-  return array('id'=>$id) + $upd;
-}
-
-function svc_manifestation_delete(WP_REST_Request $req){
-  global $wpdb; $table = svc_manifestation_table(); $id = intval($req['id']);
-  $ok = $wpdb->delete($table, array('id'=>$id)); if(!$ok) return new WP_Error('db_error','Delete failed',array('status'=>500));
-  return new WP_REST_Response(null, 204);
-}
-
-// === notification ===
-function svc_notification_table(){ global $wpdb; return $wpdb->prefix . 'recherche_notification'; }
-function svc_notification_allowed(){ return array('lu', 'chercheur_id'); }
-
-function svc_notification_list(WP_REST_Request $req){
-  global $wpdb; $table = svc_notification_table();
-  $page = max(1, intval($req->get_param('page') ?: 1));
-  $per  = max(1, min(200, intval($req->get_param('per_page') ?: 20)));
-  $off  = ($page - 1) * $per;
-  $sql  = $wpdb->prepare("SELECT * FROM $table ORDER BY id DESC LIMIT %d OFFSET %d", $per, $off);
-  return $wpdb->get_results($sql, ARRAY_A);
-}
-
-function svc_notification_get(WP_REST_Request $req){
-  global $wpdb; $table = svc_notification_table(); $id = intval($req['id']);
-  $row = $wpdb->get_row($wpdb->prepare("SELECT * FROM $table WHERE id=%d", $id), ARRAY_A);
-  if(!$row) return new WP_Error('not_found','Not found',array('status'=>404));
-  return $row;
-}
-
-function svc_notification_create(WP_REST_Request $req){
-  global $wpdb; $table = svc_notification_table(); $allowed = svc_notification_allowed();
-  $data = svc_read_input($req); $ins = array();
-  foreach ($allowed as $k){
-    if(isset($data[$k])){
-      if ($k === 'email') { $v = sanitize_email($data[$k]); }
-      else { $v = is_scalar($data[$k]) ? sanitize_text_field($data[$k]) : wp_json_encode($data[$k]); }
-      $ins[$k]=$v;
-    }
-  }
-  if(empty($ins)) return new WP_Error('bad_request','No valid fields',array('status'=>400));
-  $ok = $wpdb->insert($table, $ins); if(!$ok) return new WP_Error('db_error','Insert failed',array('status'=>500));
-  $id = $wpdb->insert_id; return array('id'=>$id) + $ins;
-}
-
-function svc_notification_update(WP_REST_Request $req){
-  global $wpdb; $table = svc_notification_table(); $allowed = svc_notification_allowed();
-  $id = intval($req['id']); $data = svc_read_input($req); $upd = array();
-  foreach ($allowed as $k){
-    if(array_key_exists($k,$data)){
-      if ($k === 'email') { $v = sanitize_email($data[$k]); }
-      else { $v = is_scalar($data[$k]) ? sanitize_text_field($data[$k]) : wp_json_encode($data[$k]); }
-      $upd[$k]=$v;
-    }
-  }
-  if(empty($upd)) return new WP_Error('bad_request','No valid fields',array('status'=>400));
-  $ok = $wpdb->update($table, $upd, array('id'=>$id)); if($ok===false) return new WP_Error('db_error','Update failed',array('status'=>500));
-  return array('id'=>$id) + $upd;
-}
-
-function svc_notification_delete(WP_REST_Request $req){
-  global $wpdb; $table = svc_notification_table(); $id = intval($req['id']);
-  $ok = $wpdb->delete($table, array('id'=>$id)); if(!$ok) return new WP_Error('db_error','Delete failed',array('status'=>500));
-  return new WP_REST_Response(null, 204);
-}
-
-// === projet ===
-function svc_projet_table(){ global $wpdb; return $wpdb->prefix . 'recherche_projet'; }
-function svc_projet_allowed(){ return array('date_debut', 'titre', 'budget', 'chercheur_id', 'date_fin', 'resume', 'statut', 'type_financement'); }
-
-function svc_projet_list(WP_REST_Request $req){
-  global $wpdb; $table = svc_projet_table();
-  $page = max(1, intval($req->get_param('page') ?: 1));
-  $per  = max(1, min(200, intval($req->get_param('per_page') ?: 20)));
-  $off  = ($page - 1) * $per;
-  $sql  = $wpdb->prepare("SELECT * FROM $table ORDER BY id DESC LIMIT %d OFFSET %d", $per, $off);
-  return $wpdb->get_results($sql, ARRAY_A);
-}
-
-function svc_projet_get(WP_REST_Request $req){
-  global $wpdb; $table = svc_projet_table(); $id = intval($req['id']);
-  $row = $wpdb->get_row($wpdb->prepare("SELECT * FROM $table WHERE id=%d", $id), ARRAY_A);
-  if(!$row) return new WP_Error('not_found','Not found',array('status'=>404));
-  return $row;
-}
-
-function svc_projet_create(WP_REST_Request $req){
-  global $wpdb; $table = svc_projet_table(); $allowed = svc_projet_allowed();
-  $data = svc_read_input($req); $ins = array();
-  foreach ($allowed as $k){
-    if(isset($data[$k])){
-      if ($k === 'email') { $v = sanitize_email($data[$k]); }
-      else { $v = is_scalar($data[$k]) ? sanitize_text_field($data[$k]) : wp_json_encode($data[$k]); }
-      $ins[$k]=$v;
-    }
-  }
-  if(empty($ins)) return new WP_Error('bad_request','No valid fields',array('status'=>400));
-  $ok = $wpdb->insert($table, $ins); if(!$ok) return new WP_Error('db_error','Insert failed',array('status'=>500));
-  $id = $wpdb->insert_id; return array('id'=>$id) + $ins;
-}
-
-function svc_projet_update(WP_REST_Request $req){
-  global $wpdb; $table = svc_projet_table(); $allowed = svc_projet_allowed();
-  $id = intval($req['id']); $data = svc_read_input($req); $upd = array();
-  foreach ($allowed as $k){
-    if(array_key_exists($k,$data)){
-      if ($k === 'email') { $v = sanitize_email($data[$k]); }
-      else { $v = is_scalar($data[$k]) ? sanitize_text_field($data[$k]) : wp_json_encode($data[$k]); }
-      $upd[$k]=$v;
-    }
-  }
-  if(empty($upd)) return new WP_Error('bad_request','No valid fields',array('status'=>400));
-  $ok = $wpdb->update($table, $upd, array('id'=>$id)); if($ok===false) return new WP_Error('db_error','Update failed',array('status'=>500));
-  return array('id'=>$id) + $upd;
-}
-
-function svc_projet_delete(WP_REST_Request $req){
-  global $wpdb; $table = svc_projet_table(); $id = intval($req['id']);
-  $ok = $wpdb->delete($table, array('id'=>$id)); if(!$ok) return new WP_Error('db_error','Delete failed',array('status'=>500));
-  return new WP_REST_Response(null, 204);
-}
-
-// === projet_membre ===
-function svc_projet_membre_table(){ global $wpdb; return $wpdb->prefix . 'recherche_projet_membre'; }
-function svc_projet_membre_allowed(){ return array('chercheur_id', 'projet_id', 'role_projet'); }
-
-function svc_projet_membre_list(WP_REST_Request $req){
-  global $wpdb; $table = svc_projet_membre_table();
-  $page = max(1, intval($req->get_param('page') ?: 1));
-  $per  = max(1, min(200, intval($req->get_param('per_page') ?: 20)));
-  $off  = ($page - 1) * $per;
-  $sql  = $wpdb->prepare("SELECT * FROM $table ORDER BY id DESC LIMIT %d OFFSET %d", $per, $off);
-  return $wpdb->get_results($sql, ARRAY_A);
-}
-
-function svc_projet_membre_get(WP_REST_Request $req){
-  global $wpdb; $table = svc_projet_membre_table(); $id = intval($req['id']);
-  $row = $wpdb->get_row($wpdb->prepare("SELECT * FROM $table WHERE id=%d", $id), ARRAY_A);
-  if(!$row) return new WP_Error('not_found','Not found',array('status'=>404));
-  return $row;
-}
-
-function svc_projet_membre_create(WP_REST_Request $req){
-  global $wpdb; $table = svc_projet_membre_table(); $allowed = svc_projet_membre_allowed();
-  $data = svc_read_input($req); $ins = array();
-  foreach ($allowed as $k){
-    if(isset($data[$k])){
-      if ($k === 'email') { $v = sanitize_email($data[$k]); }
-      else { $v = is_scalar($data[$k]) ? sanitize_text_field($data[$k]) : wp_json_encode($data[$k]); }
-      $ins[$k]=$v;
-    }
-  }
-  if(empty($ins)) return new WP_Error('bad_request','No valid fields',array('status'=>400));
-  $ok = $wpdb->insert($table, $ins); if(!$ok) return new WP_Error('db_error','Insert failed',array('status'=>500));
-  $id = $wpdb->insert_id; return array('id'=>$id) + $ins;
-}
-
-function svc_projet_membre_update(WP_REST_Request $req){
-  global $wpdb; $table = svc_projet_membre_table(); $allowed = svc_projet_membre_allowed();
-  $id = intval($req['id']); $data = svc_read_input($req); $upd = array();
-  foreach ($allowed as $k){
-    if(array_key_exists($k,$data)){
-      if ($k === 'email') { $v = sanitize_email($data[$k]); }
-      else { $v = is_scalar($data[$k]) ? sanitize_text_field($data[$k]) : wp_json_encode($data[$k]); }
-      $upd[$k]=$v;
-    }
-  }
-  if(empty($upd)) return new WP_Error('bad_request','No valid fields',array('status'=>400));
-  $ok = $wpdb->update($table, $upd, array('id'=>$id)); if($ok===false) return new WP_Error('db_error','Update failed',array('status'=>500));
-  return array('id'=>$id) + $upd;
-}
-
-function svc_projet_membre_delete(WP_REST_Request $req){
-  global $wpdb; $table = svc_projet_membre_table(); $id = intval($req['id']);
-  $ok = $wpdb->delete($table, array('id'=>$id)); if(!$ok) return new WP_Error('db_error','Delete failed',array('status'=>500));
-  return new WP_REST_Response(null, 204);
-}
-
-// === publication ===
-function svc_publication_table(){ global $wpdb; return $wpdb->prefix . 'recherche_publication'; }
-function svc_publication_allowed(){
-  return array('date_publication','titre','type'  ,'fichier_url',
-               // nouveaux champs :
-               'resume','commentaire');
-}
-
+/* ---------- LIST ---------- */
 function svc_publication_list(WP_REST_Request $req){
-  global $wpdb; $table = svc_publication_table();
-  $page = max(1, intval($req->get_param('page') ?: 1));
-  $per  = max(1, min(200, intval($req->get_param('per_page') ?: 20)));
-  $off  = ($page - 1) * $per;
-  $sql  = $wpdb->prepare("SELECT * FROM $table ORDER BY id DESC LIMIT %d OFFSET %d", $per, $off);
-  return $wpdb->get_results($sql, ARRAY_A);
+  global $wpdb;
+  $table = svc_pub_table();
+  if(!svc_table_exists($table)){
+    return new WP_Error('missing_table','Table publication manquante: '.$table, array('status'=>500));
+  }
+  $me    = svc_current_user_id();
+  $per   = max(1, min(100, intval($req->get_param('per_page')?:50)));
+  $paged = max(1, intval($req->get_param('paged')?:1));
+  $offset= ($paged-1)*$per;
+
+  $where = "WHERE (deleted_at IS NULL OR deleted_at='0000-00-00 00:00:00')";
+  $params = array();
+  if(!svc_is_admin()){
+    $where  .= " AND chercheur_id=%d";
+    $params[] = $me;
+  }
+
+  $items = $wpdb->get_results(
+    $wpdb->prepare("SELECT * FROM {$table} {$where} ORDER BY date_publication DESC, id DESC LIMIT %d OFFSET %d", array_merge($params, array($per, $offset))),
+    ARRAY_A
+  );
+  $total = $wpdb->get_var( $wpdb->prepare("SELECT COUNT(*) FROM {$table} {$where}", $params) );
+
+  return array(
+    'items'    => $items ?: array(),
+    'total'    => intval($total),
+    'per_page' => $per,
+    'paged'    => $paged
+  );
 }
 
+/* ---------- GET ---------- */
 function svc_publication_get(WP_REST_Request $req){
-  global $wpdb; $table = svc_publication_table(); $id = intval($req['id']);
-  $row = $wpdb->get_row($wpdb->prepare("SELECT * FROM $table WHERE id=%d", $id), ARRAY_A);
-  if(!$row) return new WP_Error('not_found','Not found',array('status'=>404));
+  global $wpdb;
+  $table = svc_pub_table();
+  $id = intval($req['id']);
+  $row = $wpdb->get_row( $wpdb->prepare("SELECT * FROM {$table} WHERE id=%d", $id), ARRAY_A );
+  if(!$row) return new WP_Error('not_found','Publication introuvable', array('status'=>404));
+  if(!svc_is_admin() && intval($row['chercheur_id']) !== svc_current_user_id()){
+    return new WP_Error('forbidden','Accès refusé', array('status'=>403));
+  }
   return $row;
 }
 
+/* ---------- CREATE ---------- */
 function svc_publication_create(WP_REST_Request $req){
-  global $wpdb; $table = svc_publication_table(); $allowed = svc_publication_allowed();
-  $data = svc_read_input($req); $ins = array();
-  foreach ($allowed as $k){
-    if(isset($data[$k])){
-      if ($k === 'email') { $v = sanitize_email($data[$k]); }
-      else { $v = is_scalar($data[$k]) ? sanitize_text_field($data[$k]) : wp_json_encode($data[$k]); }
-      $ins[$k]=$v;
-    }
+  global $wpdb;
+  $table = svc_pub_table();
+  if(!svc_table_exists($table)){
+    return new WP_Error('missing_table','Table publication manquante: '.$table, array('status'=>500));
   }
-  if(empty($ins)) return new WP_Error('bad_request','No valid fields',array('status'=>400));
-  $ok = $wpdb->insert($table, $ins); if(!$ok) return new WP_Error('db_error','Insert failed',array('status'=>500));
-  $id = $wpdb->insert_id; return array('id'=>$id) + $ins;
+  $d = $req->get_json_params();
+  $date  = sanitize_text_field($d['date_publication'] ?? '');
+  $titre = sanitize_text_field($d['titre'] ?? '');
+  $type  = sanitize_text_field($d['type'] ?? '');
+  if(!$date || !$titre || !$type){
+    return new WP_Error('bad_request','date_publication, titre, type requis', array('status'=>400));
+  }
+
+  $data = array(
+    'chercheur_id'   => isset($d['chercheur_id']) ? intval($d['chercheur_id']) : svc_current_user_id(),
+    'date_publication'=> $date,
+    'titre'          => $titre,
+    'type'           => $type,
+    'fichier_url'    => sanitize_text_field($d['fichier_url'] ?? ''),
+    'resume'         => sanitize_text_field($d['resume'] ?? ''),
+    'commentaire'    => sanitize_textarea_field($d['commentaire'] ?? ''),
+    'created_at'     => svc_now(),
+    'updated_at'     => svc_now(),
+  );
+  $ok = $wpdb->insert($table, $data);
+  if(!$ok){
+    error_log('[publication.create] '.$wpdb->last_error);
+    return new WP_Error('sql_error','Échec insertion', array('status'=>500));
+  }
+  return array('id'=>intval($wpdb->insert_id));
 }
 
+/* ---------- UPDATE (PUT/PATCH) ---------- */
 function svc_publication_update(WP_REST_Request $req){
-  global $wpdb; $table = svc_publication_table(); $allowed = svc_publication_allowed();
-  $id = intval($req['id']); $data = svc_read_input($req); $upd = array();
-  foreach ($allowed as $k){
-    if(array_key_exists($k,$data)){
-      if ($k === 'email') { $v = sanitize_email($data[$k]); }
-      else { $v = is_scalar($data[$k]) ? sanitize_text_field($data[$k]) : wp_json_encode($data[$k]); }
-      $upd[$k]=$v;
+  global $wpdb;
+  $table = svc_pub_table();
+  $id = intval($req['id']);
+  $row = $wpdb->get_row( $wpdb->prepare("SELECT * FROM {$table} WHERE id=%d", $id), ARRAY_A );
+  if(!$row) return new WP_Error('not_found','Publication introuvable', array('status'=>404));
+  if(!svc_is_admin() && intval($row['chercheur_id']) !== svc_current_user_id()){
+    return new WP_Error('forbidden','Accès refusé', array('status'=>403));
+  }
+
+  $d = $req->get_json_params();
+  $allowed = svc_pub_allowed();
+  $update = array();
+  foreach($allowed as $k){
+    if(array_key_exists($k,$d)){
+      $update[$k] = ($k==='commentaire')
+        ? sanitize_textarea_field($d[$k])
+        : sanitize_text_field($d[$k]);
     }
   }
-  if(empty($upd)) return new WP_Error('bad_request','No valid fields',array('status'=>400));
-  $ok = $wpdb->update($table, $upd, array('id'=>$id)); if($ok===false) return new WP_Error('db_error','Update failed',array('status'=>500));
-  return array('id'=>$id) + $upd;
+  if(!$update) return array('ok'=>true);
+  $update['updated_at'] = svc_now();
+
+  $ok = $wpdb->update($table, $update, array('id'=>$id));
+  if($ok===false){
+    error_log('[publication.update] '.$wpdb->last_error);
+    return new WP_Error('sql_error','Échec mise à jour', array('status'=>500));
+  }
+  return array('ok'=>true);
 }
 
+/* ---------- DELETE (soft) ---------- */
 function svc_publication_delete(WP_REST_Request $req){
-  global $wpdb; $table = svc_publication_table(); $id = intval($req['id']);
-  $ok = $wpdb->delete($table, array('id'=>$id)); if(!$ok) return new WP_Error('db_error','Delete failed',array('status'=>500));
-  return new WP_REST_Response(null, 204);
-}
-
-// === reunion ===
-function svc_reunion_table(){ global $wpdb; return $wpdb->prefix . 'recherche_reunion'; }
-function svc_reunion_allowed(){ return array('date', 'sujet', 'chercheur_id', 'compte_rendu_url', 'lien_visio', 'type'); }
-
-function svc_reunion_list(WP_REST_Request $req){
-  global $wpdb; $table = svc_reunion_table();
-  $page = max(1, intval($req->get_param('page') ?: 1));
-  $per  = max(1, min(200, intval($req->get_param('per_page') ?: 20)));
-  $off  = ($page - 1) * $per;
-  $sql  = $wpdb->prepare("SELECT * FROM $table ORDER BY id DESC LIMIT %d OFFSET %d", $per, $off);
-  return $wpdb->get_results($sql, ARRAY_A);
-}
-
-function svc_reunion_get(WP_REST_Request $req){
-  global $wpdb; $table = svc_reunion_table(); $id = intval($req['id']);
-  $row = $wpdb->get_row($wpdb->prepare("SELECT * FROM $table WHERE id=%d", $id), ARRAY_A);
-  if(!$row) return new WP_Error('not_found','Not found',array('status'=>404));
-  return $row;
-}
-
-function svc_reunion_create(WP_REST_Request $req){
-  global $wpdb; $table = svc_reunion_table(); $allowed = svc_reunion_allowed();
-  $data = svc_read_input($req); $ins = array();
-  foreach ($allowed as $k){
-    if(isset($data[$k])){
-      if ($k === 'email') { $v = sanitize_email($data[$k]); }
-      else { $v = is_scalar($data[$k]) ? sanitize_text_field($data[$k]) : wp_json_encode($data[$k]); }
-      $ins[$k]=$v;
-    }
+  global $wpdb;
+  $table = svc_pub_table();
+  $id = intval($req['id']);
+  $row = $wpdb->get_row( $wpdb->prepare("SELECT * FROM {$table} WHERE id=%d", $id), ARRAY_A );
+  if(!$row) return new WP_Error('not_found','Publication introuvable', array('status'=>404));
+  if(!svc_is_admin() && intval($row['chercheur_id']) !== svc_current_user_id()){
+    return new WP_Error('forbidden','Accès refusé', array('status'=>403));
   }
-  if(empty($ins)) return new WP_Error('bad_request','No valid fields',array('status'=>400));
-  $ok = $wpdb->insert($table, $ins); if(!$ok) return new WP_Error('db_error','Insert failed',array('status'=>500));
-  $id = $wpdb->insert_id; return array('id'=>$id) + $ins;
-}
-
-function svc_reunion_update(WP_REST_Request $req){
-  global $wpdb; $table = svc_reunion_table(); $allowed = svc_reunion_allowed();
-  $id = intval($req['id']); $data = svc_read_input($req); $upd = array();
-  foreach ($allowed as $k){
-    if(array_key_exists($k,$data)){
-      if ($k === 'email') { $v = sanitize_email($data[$k]); }
-      else { $v = is_scalar($data[$k]) ? sanitize_text_field($data[$k]) : wp_json_encode($data[$k]); }
-      $upd[$k]=$v;
-    }
+  // soft-delete si la colonne existe
+  $has_deleted = $wpdb->get_var( $wpdb->prepare(
+    "SELECT COUNT(*) FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA=DATABASE() AND TABLE_NAME=%s AND COLUMN_NAME='deleted_at'",
+    $table
+  ));
+  if($has_deleted){
+    $ok = $wpdb->update($table, array('deleted_at'=>svc_now()), array('id'=>$id));
+    if($ok===false) return new WP_Error('sql_error','Échec suppression', array('status'=>500));
+    return array('deleted'=>true,'soft'=>true);
   }
-  if(empty($upd)) return new WP_Error('bad_request','No valid fields',array('status'=>400));
-  $ok = $wpdb->update($table, $upd, array('id'=>$id)); if($ok===false) return new WP_Error('db_error','Update failed',array('status'=>500));
-  return array('id'=>$id) + $upd;
+  // sinon hard delete
+  $ok = $wpdb->delete($table, array('id'=>$id));
+  return array('deleted'=> (bool)$ok, 'soft'=>false);
 }
-
-function svc_reunion_delete(WP_REST_Request $req){
-  global $wpdb; $table = svc_reunion_table(); $id = intval($req['id']);
-  $ok = $wpdb->delete($table, array('id'=>$id)); if(!$ok) return new WP_Error('db_error','Delete failed',array('status'=>500));
-  return new WP_REST_Response(null, 204);
-}
-
-// === these ===
-function svc_these_table(){ global $wpdb; return $wpdb->prefix . 'recherche_these'; }
-function svc_these_allowed(){ return array('date_debut', 'doctorant_nom', 'sujet', 'date_soutenance', 'encadrant_id', 'statut'); }
-
-function svc_these_list(WP_REST_Request $req){
-  global $wpdb; $table = svc_these_table();
-  $page = max(1, intval($req->get_param('page') ?: 1));
-  $per  = max(1, min(200, intval($req->get_param('per_page') ?: 20)));
-  $off  = ($page - 1) * $per;
-  $sql  = $wpdb->prepare("SELECT * FROM $table ORDER BY id DESC LIMIT %d OFFSET %d", $per, $off);
-  return $wpdb->get_results($sql, ARRAY_A);
-}
-
-function svc_these_get(WP_REST_Request $req){
-  global $wpdb; $table = svc_these_table(); $id = intval($req['id']);
-  $row = $wpdb->get_row($wpdb->prepare("SELECT * FROM $table WHERE id=%d", $id), ARRAY_A);
-  if(!$row) return new WP_Error('not_found','Not found',array('status'=>404));
-  return $row;
-}
-
-function svc_these_create(WP_REST_Request $req){
-  global $wpdb; $table = svc_these_table(); $allowed = svc_these_allowed();
-  $data = svc_read_input($req); $ins = array();
-  foreach ($allowed as $k){
-    if(isset($data[$k])){
-      if ($k === 'email') { $v = sanitize_email($data[$k]); }
-      else { $v = is_scalar($data[$k]) ? sanitize_text_field($data[$k]) : wp_json_encode($data[$k]); }
-      $ins[$k]=$v;
-    }
-  }
-  if(empty($ins)) return new WP_Error('bad_request','No valid fields',array('status'=>400));
-  $ok = $wpdb->insert($table, $ins); if(!$ok) return new WP_Error('db_error','Insert failed',array('status'=>500));
-  $id = $wpdb->insert_id; return array('id'=>$id) + $ins;
-}
-
-function svc_these_update(WP_REST_Request $req){
-  global $wpdb; $table = svc_these_table(); $allowed = svc_these_allowed();
-  $id = intval($req['id']); $data = svc_read_input($req); $upd = array();
-  foreach ($allowed as $k){
-    if(array_key_exists($k,$data)){
-      if ($k === 'email') { $v = sanitize_email($data[$k]); }
-      else { $v = is_scalar($data[$k]) ? sanitize_text_field($data[$k]) : wp_json_encode($data[$k]); }
-      $upd[$k]=$v;
-    }
-  }
-  if(empty($upd)) return new WP_Error('bad_request','No valid fields',array('status'=>400));
-  $ok = $wpdb->update($table, $upd, array('id'=>$id)); if($ok===false) return new WP_Error('db_error','Update failed',array('status'=>500));
-  return array('id'=>$id) + $upd;
-}
-
-function svc_these_delete(WP_REST_Request $req){
-  global $wpdb; $table = svc_these_table(); $id = intval($req['id']);
-  $ok = $wpdb->delete($table, array('id'=>$id)); if(!$ok) return new WP_Error('db_error','Delete failed',array('status'=>500));
-  return new WP_REST_Response(null, 204);
-}
-

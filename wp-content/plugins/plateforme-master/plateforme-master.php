@@ -16,15 +16,17 @@ require_once plugin_dir_path(__FILE__) . 'includes/apicandidats.php';
 require_once plugin_dir_path(__FILE__) . 'includes/api-universites.php';
 
 
+require_once plugin_dir_path(__FILE__) . 'includes/reclamations-api.php';
+// require_once plugin_dir_path(__FILE__) . 'includes//doctorants/api_doctorants.php';
+// require_once plugin_dir_path(__FILE__) . 'includes//recherche/api_chercheur.php';
+// require_once plugin_dir_path(__FILE__) . 'includes/recherche/api_directeurderecherche2.php';
+require_once plugin_dir_path(__FILE__) . 'includes/laboratoire/api_laboratoire.php';
 
-require_once plugin_dir_path(__FILE__) . 'includes//doctorants/api_doctorants.php';
-require_once plugin_dir_path(__FILE__) . 'includes//recherche/api_chercheur.php';
-require_once plugin_dir_path(__FILE__) . 'includes/recherche/api_directeurderecherche.php';
+// CORRECT PATH
+// require_once plugin_dir_path(__FILE__) . 'includes/directeur_de_labo/api_directeurderecherche.php';
 
 require_once plugin_dir_path(__FILE__) . 'includes/pmo/api_pmo.php';
-
-require_once plugin_dir_path(__FILE__) . 'includes/directeur_de_labo/api_directeurderecherche.php';
-
+require_once plugin_dir_path(__FILE__) . 'includes/api-messages.php';
 
 
 
@@ -622,14 +624,9 @@ function plateforme_content($content)
     if (is_page('messages')) {
         if (is_user_logged_in()) {
             $current_user = wp_get_current_user();
-            if (in_array('um_student_master', $current_user->roles)) {
-                ob_start();
 
-                include plugin_dir_path(__FILE__) . 'Modules/Master/pagesstudentmaster/messages.php';
+            include plugin_dir_path(__FILE__) . 'Modules/Master/pagesstudentmaster/messages.php';
 
-            } else {
-                plateforme_redirect_home();
-            }
         } else {
             plateforme_redirect_home();
         }
@@ -1646,10 +1643,9 @@ function pm_template_override()
     } elseif (is_page('messages')) {
         if (is_user_logged_in()) {
             $user = wp_get_current_user();
-            if (in_array('um_student_master', $user->roles)) {
-                include plugin_dir_path(__FILE__) . 'Modules/Master/pagesstudentmaster/messages.php';
-                exit;
-            }
+            include plugin_dir_path(__FILE__) . 'Modules/Master/pagesstudentmaster/messages.php';
+            exit;
+
         }
 
         wp_redirect(home_url());
@@ -2374,4 +2370,22 @@ function pm_enqueue_frontend_assets()
               'nonce'  => wp_create_nonce('wp_rest')
           ]);*/
     }
+
+
 }
+
+// Injecte window.PMSettings et window.userId pour le JS
+add_action('wp_enqueue_scripts', function () {
+    // Charge un "handle" pour attacher l'inline (peut être ton bundle JS si tu en as un)
+    wp_enqueue_script('messages-runtime', false, [], null, true);
+
+    // restUrl = rest_url(), nonce = wp_create_nonce('wp_rest'), userId = ID courant
+    wp_add_inline_script('messages-runtime', sprintf(
+        'window.PMSettings=%s; window.userId=%d;',
+        wp_json_encode([
+            'restUrl' => rest_url(),                 // ex: https://site.tld/wp-json/
+            'nonce' => wp_create_nonce('wp_rest'), // Nonce REST
+        ]),
+        get_current_user_id()
+    ), 'before');
+});

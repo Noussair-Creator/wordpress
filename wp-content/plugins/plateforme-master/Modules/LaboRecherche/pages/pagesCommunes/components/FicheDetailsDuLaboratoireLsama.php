@@ -1312,30 +1312,43 @@
                 <h2>Modifier Détails du laboratoire</h2>
                 <button class="btn-enregistrer" id="btnSaveInfo">Enregistrer</button>
             </div>
-            <form class="popup-form">
+            <form class="popup-form" id="laboInfoForm" enctype="multipart/form-data">
                 <div class="logo-upload-section">
                     <label class="logo-placeholder" for="logoUpload">
                         <i class="fa fa-camera"></i>
-                        <input type="file" id="logoUpload" hidden>
+                        <input type="file" id="logoUpload" hidden accept="image/*">
                     </label>
                     <div class="logo-inputs">
                         <div class="form-group">
                             <label for="laboNom">Nom</label>
                             <input type="text" id="laboNom">
                         </div>
-                        <div class="form-group">
-                            <label for="laboEtablissement">Etablissement</label>
-                            <input type="text" id="laboEtablissement">
-                        </div>
+
+                        <?php
+                        // PHP logic to control visibility based on user role
+                        $current_user = wp_get_current_user();
+                        $roles = (array) $current_user->roles;
+                        $role = $roles[0] ?? null;
+
+                        if ($role === 'um_service-utm'):
+                            ?>
+                            <div class="form-group">
+                                <label for="laboEtablissement">Etablissement</label>
+                                <input type="text" id="laboEtablissement" disabled>
+                            </div>
+                        <?php endif; ?>
+
                     </div>
                 </div>
-                <div class="form-group">
-                    <label for="laboDirecteur">Directeur Du Laboratoire</label>
-                    <select id="laboDirecteur">
-                        <option>Sélection..</option>
-                        <option>Mr. Ahmed Ben Ahmed</option>
-                    </select>
-                </div>
+                <?php if ($role === 'um_service-utm'): ?>
+                    <div class="form-group">
+                        <label for="laboDirecteur">Directeur Du Laboratoire</label>
+                        <select id="laboDirecteur">
+                            <option>Sélection..</option>
+                            <option value="1">Mr. Ahmed Ben Ahmed</option>
+                        </select>
+                    </div>
+                <?php endif; ?>
                 <div class="form-group">
                     <label for="laboDateCreation">Date De Création</label>
                     <input type="date" id="laboDateCreation">
@@ -1343,8 +1356,8 @@
                 <div class="form-group">
                     <label for="laboEtat">Etat</label>
                     <select id="laboEtat">
-                        <option>Actif</option>
-                        <option>Inactif</option>
+                        <option value="actif">Actif</option>
+                        <option value="inactif">Inactif</option>
                     </select>
                 </div>
                 <hr class="form-divider">
@@ -1395,6 +1408,13 @@
 
 
     <script>
+        // In a real WordPress environment, API settings are usually available globally.
+        // For this example, we'll define a placeholder.
+        const wpApiSettings = {
+            root: '/wp-json/',
+            nonce: '<?php echo wp_create_nonce("wp_rest"); ?>' // Example of how to generate nonce
+        };
+
         document.addEventListener("DOMContentLoaded", function () {
             // --- MODAL 1: Informations générales ---
 
@@ -1446,91 +1466,133 @@
                 projectSelect.addEventListener('change', function () {
                     if (this.value && this.value !== "Sélection..") {
                         const projectName = this.value;
-
-                        // Prevent adding duplicates
                         if (document.querySelector(`[data-project-name="${projectName}"]`)) {
                             this.value = "Sélection..";
                             return;
                         }
-
                         const projectItem = document.createElement('div');
                         projectItem.className = 'added-project-item';
                         projectItem.setAttribute('data-project-name', projectName);
-
                         const nameSpan = document.createElement('span');
                         nameSpan.textContent = projectName;
-
                         const deleteBtn = document.createElement('button');
                         deleteBtn.innerHTML = '<i class="fa fa-trash"></i>';
                         deleteBtn.onclick = function () {
                             projectItem.remove();
                         };
-
                         projectItem.appendChild(nameSpan);
                         projectItem.appendChild(deleteBtn);
                         addedProjectsList.appendChild(projectItem);
-
-                        // Reset dropdown
                         this.value = "Sélection..";
                     }
                 });
             }
 
-            // --- Original Scripts (if any) ---
-
-            const btnStatus = document.getElementById("dropdownStatutInscription");
-            if (btnStatus) {
-                const statusItems = document.querySelectorAll("#dropdownMenuStatut .dropdown-item");
-                statusItems.forEach(item => {
-                    item.addEventListener("click", function (e) {
-                        e.preventDefault();
-                        const selected = this.textContent.trim();
-                        btnStatus.textContent = selected;
-                        btnStatus.classList.remove("accepted", "pending", "rejected", "btn-status");
-                        btnStatus.classList.add("btn-status");
-
-                        if (selected === "Acceptée") btnStatus.classList.add("accepted");
-                        else if (selected === "En Attente") btnStatus.classList.add("pending");
-                        else if (selected === "Refusée") btnStatus.classList.add("rejected");
-                    });
-                });
-            }
-
-
-            const dragZone = document.getElementById('dragZone');
-            if (dragZone) {
-                let draggedItem = null;
-
-                dragZone.addEventListener('dragstart', function (e) {
-                    draggedItem = e.target;
-                    e.target.style.opacity = '0.5';
-                });
-
-                dragZone.addEventListener('dragend', function (e) {
-                    e.target.style.opacity = '1';
-                });
-
-                dragZone.addEventListener('dragover', function (e) {
-                    e.preventDefault();
-                });
-
-                dragZone.addEventListener('drop', function (e) {
-                    e.preventDefault();
-                    const target = e.target.closest('.box');
-                    if (target && draggedItem !== target) {
-                        const allBoxes = [...dragZone.querySelectorAll('.box')];
-                        const draggedIndex = allBoxes.indexOf(draggedItem);
-                        const targetIndex = allBoxes.indexOf(target);
-
-                        if (draggedIndex < targetIndex) {
-                            target.after(draggedItem);
-                        } else {
-                            target.before(draggedItem);
-                        }
-                    }
-                });
+            // --- LOGIC FOR SAVING LABORATORY INFO ---
+            const btnSaveInfo = document.getElementById('btnSaveInfo');
+            if (btnSaveInfo) {
+                btnSaveInfo.addEventListener('click', handleSaveLaboInfo);
             }
         });
+
+        /**
+         * Uploads a file to the WordPress media library.
+         * @param {File} file The file to upload.
+         * @returns {Promise<object>} A promise that resolves with the media object from the API.
+         */
+        async function uploadFile(file) {
+            const formData = new FormData();
+            formData.append('file', file, file.name);
+
+            const response = await fetch(`${wpApiSettings.root}wp/v2/media`, {
+                method: 'POST',
+                headers: {
+                    'X-WP-Nonce': wpApiSettings.nonce
+                },
+                body: formData
+            });
+
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData.message || 'File upload failed');
+            }
+            return response.json();
+        }
+
+        /**
+         * Handles the click event on the "Enregistrer" button for the laboratory info modal.
+         * Gathers form data, handles file upload, and sends it to the custom REST API endpoint.
+         * @param {Event} event The click event.
+         */
+        async function handleSaveLaboInfo(event) {
+            event.preventDefault();
+            const saveButton = event.target;
+            saveButton.textContent = 'Enregistrement...';
+            saveButton.disabled = true;
+
+            const logoUploadInput = document.getElementById('logoUpload');
+            let logoUrl = null; // Use null when no file is uploaded
+
+            // 1. Handle file upload ONLY IF a file is selected
+            if (logoUploadInput.files.length > 0) {
+                try {
+                    const uploadedMedia = await uploadFile(logoUploadInput.files[0]);
+                    logoUrl = uploadedMedia.source_url;
+                } catch (error) {
+                    console.error('File upload failed:', error);
+                    alert(`Erreur de téléversement du logo: ${error.message}`);
+                    saveButton.textContent = 'Enregistrer';
+                    saveButton.disabled = false;
+                    return;
+                }
+            }
+
+            // 2. Format date from YYYY-MM-DD to a compatible format
+            const dateValue = document.getElementById('laboDateCreation').value;
+
+            // 3. Construct the data payload
+            const laboData = {
+                nom: document.getElementById('laboNom').value,
+                logo_laboratoire: logoUrl, // This will be null if no file was chosen
+                date_de_creation: dateValue, // Send in YYYY-MM-DD format
+                etat: document.getElementById('laboEtat').value,
+                objectif_general: document.getElementById('laboObjectifGeneral').value,
+                axes_de_recherche: document.getElementById('laboAxesRecherche').value
+            };
+
+            // 4. Send the data to the custom REST API endpoint
+            try {
+                // const apiUrl =
+                //   `${wpApiSettings.root}plateforme-directeur-de-labo/v2/laboratoires`; // Corrected to plural "laboratoires"
+                const apiUrl = `${wpApiSettings.root}plateforme-labo/v1/laboratoires`;
+                const response = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-WP-Nonce': wpApiSettings.nonce
+                    },
+                    body: JSON.stringify(laboData)
+                });
+
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(errorData.message || 'Une erreur est survenue lors de l\'enregistrement.');
+                }
+
+                const result = await response.json();
+                console.log('Laboratoire créé avec succès:', result);
+                alert('Les détails du laboratoire ont été enregistrés avec succès!');
+                document.getElementById('modalInfo').style.display = 'none';
+                location.reload();
+
+            } catch (error) {
+                console.error('Échec de l\'enregistrement des détails du laboratoire:', error);
+                alert(`Erreur: ${error.message}`);
+            } finally {
+                saveButton.textContent = 'Enregistrer';
+                saveButton.disabled = false;
+            }
+        }
     </script>
 </body>
 
