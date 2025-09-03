@@ -802,11 +802,92 @@ function plateforme_content($content)
         }
     }
 
-
-    if (is_page('presentation-de-la-plateforme')) {
+    if (is_page('')) {
         if (is_user_logged_in()) {
 
             include plugin_dir_path(__FILE__) . 'Modules/USCR/presentation-de-la-plateforme.php';
+
+        } else {
+            plateforme_redirect_home();
+        }
+    }
+
+
+    // create page UTM
+    if (is_page('UTM')) {
+        if (is_user_logged_in()) {
+
+            include plugin_dir_path(__FILE__) . 'Modules/SiteRecherche/utm.php';
+
+        } else {
+            plateforme_redirect_home();
+        }
+    }
+    // create page presentation-utm
+    if (is_page('presentation-utm')) {
+        if (is_user_logged_in()) {
+
+            include plugin_dir_path(__FILE__) . 'Modules/SiteRecherche/presentation-utm.php';
+
+        } else {
+            plateforme_redirect_home();
+        }
+    }
+    // create page presentation-utm
+    if (is_page('coordonnees')) {
+        if (is_user_logged_in()) {
+
+            include plugin_dir_path(__FILE__) . 'Modules/SiteRecherche/coordonnees.php';
+
+        } else {
+            plateforme_redirect_home();
+        }
+    }
+    // create page publications-utm
+    if (is_page('publications-utm')) {
+        if (is_user_logged_in()) {
+
+            include plugin_dir_path(__FILE__) . 'Modules/SiteRecherche/publications-utm.php';
+
+        } else {
+            plateforme_redirect_home();
+        }
+    }
+    // create page publications-utm-details
+    if (is_page('publications-utm-details')) {
+        if (is_user_logged_in()) {
+
+            include plugin_dir_path(__FILE__) . 'Modules/SiteRecherche/publications-utm-details';
+
+        } else {
+            plateforme_redirect_home();
+        }
+    }
+    // create page projets-de-cooperation-utm
+    if (is_page('projets-de-cooperation-utm')) {
+        if (is_user_logged_in()) {
+
+            include plugin_dir_path(__FILE__) . 'Modules/SiteRecherche/projets-de-cooperation-utm';
+
+        } else {
+            plateforme_redirect_home();
+        }
+    }
+    // create page annonces-de-soutenances-utm
+    if (is_page('annonces-de-soutenances-utm')) {
+        if (is_user_logged_in()) {
+
+            include plugin_dir_path(__FILE__) . 'Modules/SiteRecherche/annonces-de-soutenances-utm.php';
+
+        } else {
+            plateforme_redirect_home();
+        }
+    }
+    // create page ouverture-sur-lenvironnement-utm
+    if (is_page('ouverture-sur-lenvironnement-utm')) {
+        if (is_user_logged_in()) {
+
+            include plugin_dir_path(__FILE__) . 'Modules/SiteRecherche/ouverture-sur-lenvironnement-utm.php';
 
         } else {
             plateforme_redirect_home();
@@ -1870,6 +1951,95 @@ function pm_template_override()
         wp_redirect(home_url());
         exit;
     }
+    // UTM
+    if (is_page('UTM')) {
+        if (is_user_logged_in()) {
+            include plugin_dir_path(__FILE__) . 'Modules/SiteRecherche/utm.php';
+            exit;
+        }
+
+        wp_redirect(home_url());
+        exit;
+    }
+    // presentation-utm
+    if (is_page('presentation-utm')) {
+        if (is_user_logged_in()) {
+            include plugin_dir_path(__FILE__) . 'Modules/SiteRecherche/presentation-utm.php';
+            exit;
+        }
+
+        wp_redirect(home_url());
+        exit;
+    }
+    // coordonnees
+    if (is_page('coordonnees')) {
+        if (is_user_logged_in()) {
+            include plugin_dir_path(__FILE__) . 'Modules/SiteRecherche/coordonnees.php';
+            exit;
+        }
+
+        wp_redirect(home_url());
+        exit;
+    }
+
+    // publications-utm
+    if (is_page('publications-utm')) {
+        if (is_user_logged_in()) {
+            include plugin_dir_path(__FILE__) . 'Modules/SiteRecherche/publications-utm.php';
+            exit;
+        }
+
+        wp_redirect(home_url());
+        exit;
+    }
+    // publications-utm-details
+    if (is_page('publications-utm-details')) {
+        if (is_user_logged_in()) {
+            include plugin_dir_path(__FILE__) . 'Modules/SiteRecherche/publications-utm-details.php';
+            exit;
+        }
+
+        wp_redirect(home_url());
+        exit;
+    }
+    // projets-de-cooperation-utm
+    if (is_page('projets-de-cooperation-utm')) {
+        if (is_user_logged_in()) {
+            include plugin_dir_path(__FILE__) . 'Modules/SiteRecherche/projets-de-cooperation-utm.php';
+            exit;
+        }
+
+        wp_redirect(home_url());
+        exit;
+    }
+    // annonces-de-soutenances-utm
+    if (is_page('annonces-de-soutenances-utm')) {
+        if (is_user_logged_in()) {
+            include plugin_dir_path(__FILE__) . 'Modules/SiteRecherche/annonces-de-soutenances-utm.php';
+            exit;
+        }
+
+        wp_redirect(home_url());
+        exit;
+    }
+    //ouverture-sur-lenvironnement-utm
+    if (is_page('ouverture-sur-lenvironnement-utm')) {
+        if (is_user_logged_in()) {
+            include plugin_dir_path(__FILE__) . 'Modules/SiteRecherche/ouverture-sur-lenvironnement-utm.php';
+            exit;
+        }
+
+        wp_redirect(home_url());
+        exit;
+    }
+
+
+
+
+
+
+
+
     // page profile 
     if (is_page('mon-profile')) {
         if (is_user_logged_in()) {
