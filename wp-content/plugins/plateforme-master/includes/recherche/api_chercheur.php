@@ -15,6 +15,249 @@ add_action('rest_api_init', function () {
     'methods' => 'GET', 'callback' => function(){ return array('message'=>'ok'); }, 'permission_callback' => '__return_true' ));
 });
 
+
+// etablissement 
+
+add_action('rest_api_init', function(){
+  register_rest_route('plateforme-recherche/v1', '/etablissements', array(
+    'methods'  => 'GET',
+    'callback' => 'svc_etablissements_list',
+    'permission_callback' => function(){ return is_user_logged_in(); },
+  ));
+});
+
+
+
+/* ===============================
+ *  ROUTES REST: /membre
+ * =============================== */
+
+
+
+// Normalise un rôle saisi (accepte "chercheur", "um_chercheur", etc.)
+if (!function_exists('svc_roles_normalize')) {
+  function svc_roles_normalize($role){
+    $r = strtolower(trim((string)$role));
+    $r = str_replace(array(' ', '-'), '_', $r);
+    if (in_array($r, array('chercheur','doctorant','student_master'), true)) {
+      $r = 'um_' . $r;
+    }
+    return $r;
+  }
+}
+
+add_action('rest_api_init', function () {
+  $ns = 'plateforme-recherche/v1';
+
+  register_rest_route($ns, '/users', array(
+    array(
+      'methods'  => WP_REST_Server::READABLE, // GET
+      'callback' => 'svc_users_list',
+      'permission_callback' => function(){ return is_user_logged_in(); },
+      'args' => array(
+        'page'             => array('type'=>'integer'),
+        'per_page'         => array('type'=>'integer'),
+        'search'           => array('type'=>'string'),
+        // Rôles: roles[]=um_chercheur&roles[]=um_doctorant  (ou CSV "chercheur,doctorant")
+        'roles'            => array('type'=>'array', 'items'=>array('type'=>'string')),
+        // Filtre établissement via usermeta 'institut_id'
+        'etablissement_id' => array('type'=>'integer'),
+        'institut_id'      => array('type'=>'integer'),
+        // Exclure les comptes déjà membres de ce laboratoire
+        'exclude_lab'      => array('type'=>'integer'),
+        // Tri
+        'orderby'          => array('type'=>'string', 'description'=>'id|display_name|email|registered|etablissement'),
+        'order'            => array('type'=>'string', 'description'=>'ASC|DESC'),
+        // Ajouter id + nom d’établissement dans la réponse
+        'with_etablissement' => array('type'=>'boolean'),
+      ),
+    ),
+  ));
+});
+
+
+add_action('rest_api_init', function () {
+  $ns = 'plateforme-recherche/v1';
+
+  // /membre  (liste + création)
+  register_rest_route($ns, '/membre', array(
+    array(
+      'methods'  => 'GET',
+      'callback' => 'svc_membre_list',
+      'permission_callback' => function(){ return is_user_logged_in(); },
+      'args' => array(
+        'page'           => array('type'=>'integer'),
+        'per_page'       => array('type'=>'integer'),
+        'search'         => array('type'=>'string', 'description'=>'Recherche sur nom utilisateur, email, grade, spécialité'),
+        'grade'          => array('type'=>'string'),
+        'laboratoire_id' => array('type'=>'integer'),
+        'user_id'        => array('type'=>'integer'),
+        'orderby'        => array('type'=>'string', 'description'=>"id|created_at|updated_at|grade|specialite|user"),
+        'order'          => array('type'=>'string', 'description'=>"ASC|DESC"),
+        'me'             => array('type'=>'boolean', 'required'=>false, 'description'=>'Limiter aux lignes du user connecté'),
+        'with_user'      => array('type'=>'boolean', 'required'=>false, 'description'=>'Joindre les infos de l’utilisateur'),
+      'with_projects' => array('type'=>'boolean', 'required'=>false),
+      'orderby'       => array('type'=>'string', 'description'=>"id|created_at|updated_at|grade|specialite|user|etablissement|last_activity"),
+      ),
+    ),
+    array(
+      'methods'  => 'POST',
+      'callback' => 'svc_membre_create',
+      'permission_callback' => function(){ return is_user_logged_in(); },
+      'args' => svc_membre_args_create(),
+    ),
+  ));
+
+  // /membre/{id}  (lecture + MAJ + suppression)
+  register_rest_route($ns, '/membre/(?P<id>\d+)', array(
+    array(
+      'methods'  => 'GET',
+      'callback' => 'svc_membre_get',
+      'permission_callback' => function(){ return is_user_logged_in(); },
+      'args' => array(
+        'id'        => array('required'=>true, 'validate_callback' => function($p){ return is_numeric($p); }),
+        'with_user' => array('type'=>'boolean', 'required'=>false),
+      ),
+    ),
+    array(
+      'methods'  => 'PATCH',
+      'callback' => 'svc_membre_update',
+      'permission_callback' => function(){ return is_user_logged_in(); },
+      'args' => array_merge(
+        array('id' => array(
+          'required' => true,
+          'validate_callback' => function($p){ return is_numeric($p); }
+        )),
+        svc_membre_args_update()
+      ),
+    ),
+    array(
+      'methods'  => 'PUT',
+      'callback' => 'svc_membre_update',
+      'permission_callback' => function(){ return is_user_logged_in(); },
+      'args' => array_merge(
+        array('id' => array(
+          'required' => true,
+          'validate_callback' => function($p){ return is_numeric($p); }
+        )),
+        svc_membre_args_update()
+      ),
+    ),
+    // ✅ Accepter POST sur /membre/{id} (ex: multipart + _method=PUT)
+    array(
+      'methods'  => 'POST',
+      'callback' => 'svc_membre_update',
+      'permission_callback' => function(){ return is_user_logged_in(); },
+      'args' => array_merge(
+        array('id' => array(
+          'required' => true,
+          'validate_callback' => function($p){ return is_numeric($p); }
+        )),
+        svc_membre_args_update()
+      ),
+    ),
+    array(
+      'methods'  => 'DELETE',
+      'callback' => 'svc_membre_delete',
+      'permission_callback' => function(){ return is_user_logged_in(); },
+    ),
+  ));
+
+  // Raccourci: /membre/mine  (les lignes du user courant, filtrables par laboratoire_id)
+  register_rest_route($ns, '/membre/mine', array(
+    array(
+      'methods'  => 'GET',
+      'callback' => 'svc_membre_mine',
+      'permission_callback' => function(){ return is_user_logged_in(); },
+      'args' => array(
+        'laboratoire_id' => array('type'=>'integer', 'required'=>false),
+        'with_user'      => array('type'=>'boolean', 'required'=>false),
+      ),
+    ),
+  ));
+});
+
+
+/* ===============================
+ *  ARGS DEFINITIONS
+ * =============================== */
+
+function svc_membre_common_field_defs($for_update = false){
+  $req = !$for_update; // requis à la création, optionnel en update
+  return array(
+    'user_id' => array(
+      'type' => 'integer','required' => $req,
+      'sanitize_callback' => 'absint',
+      'validate_callback' => function($v){ return empty($v) || is_numeric($v); }
+    ),
+    'laboratoire_id' => array(
+      'type' => 'integer','required' => $req,
+      'sanitize_callback' => 'absint',
+      'validate_callback' => function($v){ return empty($v) || is_numeric($v); }
+    ),
+    'grade' => array(
+      'type' => 'string','required' => $req,
+      'sanitize_callback' => 'sanitize_text_field'
+    ),
+    'specialite' => array(
+      'type' => 'string','required' => false,
+      'sanitize_callback' => 'sanitize_text_field'
+    ),
+    'api' => array(
+      'type' => 'string','required' => false,
+      'sanitize_callback' => 'sanitize_text_field'
+    ),
+    'service' => array(
+      'type' => 'string','required' => false,
+      'sanitize_callback' => 'sanitize_text_field'
+    ),
+  );
+}
+function svc_membre_args_create(){ return svc_membre_common_field_defs(false); }
+function svc_membre_args_update(){ return svc_membre_common_field_defs(true); }
+
+
+add_action('rest_api_init', function () {
+  $ns = 'plateforme-recherche/v1';
+
+  register_rest_route($ns, '/membre', array(
+    array(
+      'methods'  => 'GET',
+      'callback' => 'svc_membre_list',
+      'permission_callback' => function(){ return is_user_logged_in(); },
+      'args' => array(
+        'page'             => array('type'=>'integer'),
+        'per_page'         => array('type'=>'integer'),
+        'search'           => array('type'=>'string', 'description'=>'Recherche sur nom, email, grade, spécialité'),
+        'grade'            => array('type'=>'string'),
+        'laboratoire_id'   => array('type'=>'integer'),
+        'user_id'          => array('type'=>'integer'),
+        'orderby'          => array('type'=>'string', 'description'=>"id|created_at|updated_at|grade|specialite|user|role|etablissement"),
+        'order'            => array('type'=>'string', 'description'=>"ASC|DESC"),
+        'me'               => array('type'=>'boolean', 'required'=>false),
+        'with_user'        => array('type'=>'boolean', 'required'=>false),
+        // 🔹 NOUVEAU : filtres rôles (accepte roles[]=… ou roles=…,...)
+        'roles'            => array(
+          'type' => 'array', 'required' => false,
+          'items' => array('type' => 'string'),
+          'description' => 'Ex: um_chercheur, um_doctorant, um_student_master (ou chercheur, doctorant, student_master)'
+        ),
+        // 🔹 NOUVEAU : filtre établissement via meta user "institut_id"
+        'etablissement_id' => array('type'=>'integer', 'required'=>false, 'description'=>'Filtre par institut_id (meta user)'),
+        // alias possible (au cas où côté front)
+        'institut_id'      => array('type'=>'integer', 'required'=>false),
+        // 🔹 pour renvoyer id + nom de l’établissement
+        'with_etablissement' => array('type'=>'boolean', 'required'=>false),
+      ),
+    ),
+
+    // … (les autres méthodes POST/PATCH/PUT/DELETE inchangées)
+  ));
+});
+
+
+// ###################################### 
+
 // Paramètres/validation pour chercheur
 function svc_chercheur_args_create(){ return array(
     'email' => array('required' => true, 'validate_callback' => function($param){ return is_scalar($param) || is_array($param); }, 'sanitize_callback' => 'sanitize_text_field'),
@@ -120,9 +363,8 @@ add_action('rest_api_init', function () {
 });
 
 // Paramètres/validation pour laboratoire
-function svc_laboratoire_args_create(){ return array(); }
-function svc_laboratoire_args_update(){ return array(); }
 
+/*
 add_action('rest_api_init', function () {
   $ns = 'plateforme-recherche/v1';
   register_rest_route($ns, '/laboratoire', array(
@@ -134,8 +376,222 @@ add_action('rest_api_init', function () {
     array('methods'=>'PATCH','callback'=>'svc_laboratoire_update','permission_callback'=>function(){ return is_user_logged_in(); }, 'args'=>array_merge(array('id'=>array('required'=>true,'validate_callback'=>function($p){return is_numeric($p);})), svc_laboratoire_args_update())),
     array('methods'=>'PUT','callback'=>'svc_laboratoire_update','permission_callback'=>function(){ return is_user_logged_in(); }, 'args'=>array_merge(array('id'=>array('required'=>true,'validate_callback'=>function($p){return is_numeric($p);})), svc_laboratoire_args_update())),
     array('methods'=>'DELETE','callback'=>'svc_laboratoire_delete','permission_callback'=>function(){ return is_user_logged_in(); })
+    array('methods'=>'POST','callback'=>'svc_laboratoire_update','permission_callback'=>function(){ return is_user_logged_in(); }, 'args'=>array_merge(array('id'=>array('required'=>true,'validate_callback'=>fn($p)=>is_numeric($p))), svc_laboratoire_args_update()))
+
   ));
 });
+*/
+add_action('rest_api_init', function () {
+  $ns = 'plateforme-recherche/v1';
+
+  // /laboratoire (liste + création)
+  register_rest_route($ns, '/laboratoire', array(
+    array(
+      'methods'  => 'GET',
+      'callback' => 'svc_laboratoire_list',
+      'permission_callback' => function(){ return is_user_logged_in(); },
+    ),
+    array(
+      'methods'  => 'POST',
+      'callback' => 'svc_laboratoire_create',
+      'permission_callback' => function(){ return is_user_logged_in(); },
+      'args' => svc_laboratoire_args_create(),
+    ),
+  ));
+
+  // /laboratoire/{id} (lecture + maj + suppression)
+  register_rest_route($ns, '/laboratoire/(?P<id>\d+)', array(
+    array(
+      'methods'  => 'GET',
+      'callback' => 'svc_laboratoire_get',
+      'permission_callback' => function(){ return is_user_logged_in(); },
+    ),
+    array(
+      'methods'  => 'PATCH',
+      'callback' => 'svc_laboratoire_update',
+      'permission_callback' => function(){ return is_user_logged_in(); },
+      'args' => array_merge(
+        array('id' => array(
+          'required' => true,
+          'validate_callback' => function($p){ return is_numeric($p); }
+        )),
+        svc_laboratoire_args_update()
+      ),
+    ),
+    array(
+      'methods'  => 'PUT',
+      'callback' => 'svc_laboratoire_update',
+      'permission_callback' => function(){ return is_user_logged_in(); },
+      'args' => array_merge(
+        array('id' => array(
+          'required' => true,
+          'validate_callback' => function($p){ return is_numeric($p); }
+        )),
+        svc_laboratoire_args_update()
+      ),
+    ),
+    // ✅ Accepter aussi POST sur /laboratoire/{id} (multipart + _method=PUT)
+    array(
+      'methods'  => 'POST',
+      'callback' => 'svc_laboratoire_update',
+      'permission_callback' => function(){ return is_user_logged_in(); },
+      'args' => array_merge(
+        array('id' => array(
+          'required' => true,
+          'validate_callback' => function($p){ return is_numeric($p); }
+        )),
+        svc_laboratoire_args_update()
+      ),
+    ),
+    array(
+      'methods'  => 'DELETE',
+      'callback' => 'svc_laboratoire_delete',
+      'permission_callback' => function(){ return is_user_logged_in(); },
+    ),
+  ));
+});
+
+
+function svc_labo_common_field_defs($for_update = false){
+  $req = !$for_update;
+  return array(
+    'logo_id' => array(
+      'type' => 'integer','required' => false,
+      'sanitize_callback' => 'absint'
+    ),
+    'logo_url' => array(
+      'type' => 'string','required' => false,
+      'sanitize_callback' => 'esc_url_raw',
+      'validate_callback' => function($v){ return empty($v) || filter_var($v, FILTER_VALIDATE_URL); }
+    ),
+    // 🔹 nouveau champ si tu veux passer un fichier direct (multipart)
+    'logo_file' => array(
+      'required' => false,
+      'description' => 'Fichier logo à uploader',
+    ),
+    'denomination' => array(
+      'type' => 'string','required' => $req,
+      'sanitize_callback' => 'sanitize_text_field'
+    ),
+    'code_lr' => array(
+      'type' => 'string','required' => false,
+      'sanitize_callback' => 'sanitize_text_field'
+    ),
+    'etablissement_label' => array(
+      'type' => 'string','required' => false,
+      'sanitize_callback' => 'sanitize_text_field'
+    ),
+    'date_creation' => array(
+      'type' => 'string','required' => false,
+      'validate_callback' => function($v){ return empty($v) || preg_match('/^\d{4}-\d{2}-\d{2}$/',$v); }
+    ),
+    'directeur_nom' => array(
+      'type' => 'string','required' => false,
+      'sanitize_callback' => 'sanitize_text_field'
+    ),
+    'directeur_email' => array(
+      'type' => 'string','required' => false,
+      'sanitize_callback' => 'sanitize_email',
+      'validate_callback' => function($v){ return empty($v) || is_email($v); }
+    ),
+    'directeur_user_id' => array(
+      'type' => 'integer','required' => false,
+      'sanitize_callback' => 'absint'
+    ),
+    'statut' => array(
+      'type' => 'string','required' => false,
+      'enum' => array('Actif','Inactif','Suspendu'),
+      'sanitize_callback' => 'sanitize_text_field'
+    ),
+    'objectif_general' => array(
+      'type' => 'string','required' => false,
+      'sanitize_callback' => function($v){ return wp_kses_post($v); }
+    ),
+    'axes_recherche' => array(
+          'type' => 'array',
+          'required' => false,
+          'items' => array('type' => 'string'),
+          'validate_callback' => function($v){
+            // Accepter array OU string (JSON / séparée par \n ,)
+            return is_array($v) || is_string($v) || $v === null;
+          },
+          'sanitize_callback' => function($v){
+            if (is_array($v)) {
+              return array_values(array_filter(array_map('trim', $v), fn($s)=>$s!==''));
+            }
+            if (is_string($v)) {
+              $s = trim($v);
+              if ($s === '') return array();
+              // tenter JSON
+              $decoded = json_decode($s, true);
+              if (json_last_error() === JSON_ERROR_NONE && is_array($decoded)) {
+                return array_values(array_filter(array_map('trim', $decoded), fn($s)=>$s!==''));
+              }
+              // fallback split par \n ou virgule
+              $parts = preg_split('/\r?\n|,/', $s);
+              return array_values(array_filter(array_map('trim', $parts), fn($s)=>$s!==''));
+            }
+            return array();
+          }
+        ),
+
+    'site_web' => array(
+      'type' => 'string','required' => false,
+      'sanitize_callback' => 'esc_url_raw',
+      'validate_callback' => function($v){ return empty($v) || filter_var($v, FILTER_VALIDATE_URL); }
+    ),
+    'telephone' => array(
+      'type' => 'string','required' => false,
+      'sanitize_callback' => 'sanitize_text_field'
+    ),
+    'email_contact' => array(
+      'type' => 'string','required' => false,
+      'sanitize_callback' => 'sanitize_email',
+      'validate_callback' => function($v){ return empty($v) || is_email($v); }
+    ),
+    'meta_json' => array(
+      'type' => 'object','required' => false
+    ),
+  );
+}
+
+
+function svc_laboratoire_args_create(){ return svc_labo_common_field_defs(false); }
+function svc_laboratoire_args_update(){ return svc_labo_common_field_defs(true); }
+
+add_action('rest_api_init', function () {
+  $ns = 'plateforme-recherche/v1';
+
+  // Filtre sur la liste : .../laboratoire?me=1  (retourne les labos du user connecté)
+  register_rest_route($ns, '/laboratoire', array(
+    array(
+      'methods'  => 'GET',
+      'callback' => 'svc_laboratoire_list',
+      'permission_callback' => function(){ return is_user_logged_in(); },
+      'args' => array(
+        'page' => array('type'=>'integer'),
+        'per_page' => array('type'=>'integer'),
+        'search' => array('type'=>'string'),
+        'statut' => array('type'=>'string'),
+        'etablissement_id' => array('type'=>'integer'),
+        'orderby' => array('type'=>'string'),
+        'order' => array('type'=>'string'),
+        // 👇 nouveau
+        'me' => array('type'=>'boolean', 'required'=>false),
+      ),
+    ),
+  ));
+
+  // Endpoint dédié: .../laboratoire/mine  (raccourci)
+  register_rest_route($ns, '/laboratoire/mine', array(
+    array(
+      'methods'  => 'GET',
+      'callback' => 'svc_laboratoire_mine',
+      'permission_callback' => function(){ return is_user_logged_in(); },
+    ),
+  ));
+});
+
 
 // Paramètres/validation pour manifestation
 function svc_manifestation_args_create(){ return array(

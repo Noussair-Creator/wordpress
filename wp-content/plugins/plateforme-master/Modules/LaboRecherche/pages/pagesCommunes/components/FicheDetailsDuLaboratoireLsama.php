@@ -1210,8 +1210,14 @@
 
         <!-- Informations générales block -->
         <div class="card full-width">
-            <h3>Informations générales<a href="#" id="modifyInfoBtn"><i class="fa-regular fa-pen-to-square"
-                        style="color: #b60303;"></i></a></h3>
+            <h3>Informations générales
+
+            <?php if ($role !== 'um_chercheur') { ?>
+                <a href="#" id="modifyInfoBtn"><i class="fa-regular fa-pen-to-square"
+                        style="color: #b60303;"></i></a>
+                    
+            <?php } ?>
+                    </h3>
 
             <ul class="styled-list">
                 <li><strong>Logo et Dénomination :</strong><span><img
@@ -1316,7 +1322,7 @@
                 <div class="logo-upload-section">
                     <label class="logo-placeholder" for="logoUpload">
                         <i class="fa fa-camera"></i>
-                        <input type="file" id="logoUpload" hidden accept="image/*">
+                        <input type="file" id="logoUpload" name="logo_file"  hidden accept="image/*">
                     </label>
                     <div class="logo-inputs">
                         <div class="form-group">
@@ -1352,6 +1358,10 @@
                 <div class="form-group">
                     <label for="laboDateCreation">Date De Création</label>
                     <input type="date" id="laboDateCreation">
+                </div>
+                <div class="form-group">
+                    <label for="code_lr">Code LR</label>
+                    <input type="text" id="code_lr">
                 </div>
                 <div class="form-group">
                     <label for="laboEtat">Etat</label>
@@ -1405,6 +1415,23 @@
             </form>
         </div>
     </div>
+
+<?php
+$current_user = wp_get_current_user();
+$roles = (array) $current_user->roles;
+$role  = $roles[0] ?? '';
+$user_id = get_current_user_id();
+?>
+<script>
+  window.PMSettings = {
+    restUrl: "<?= esc_url( rest_url() ) ?>",          // ex: https://utmresearchplatform.clickerp.tn/wp-json/
+    nonce: "<?= wp_create_nonce('wp_rest') ?>",       // nonce pour X-WP-Nonce
+    role: "<?= esc_js( $role ) ?>",                   // rôle principal de l’utilisateur
+    userId: <?= (int) $user_id ?>                     // ID WP de l’utilisateur
+  };
+</script>
+
+
 
 
     <script>
@@ -1495,105 +1522,324 @@
             }
         });
 
-        /**
-         * Uploads a file to the WordPress media library.
-         * @param {File} file The file to upload.
-         * @returns {Promise<object>} A promise that resolves with the media object from the API.
-         */
-        async function uploadFile(file) {
-            const formData = new FormData();
-            formData.append('file', file, file.name);
+        
 
-            const response = await fetch(`${wpApiSettings.root}wp/v2/media`, {
-                method: 'POST',
-                headers: {
-                    'X-WP-Nonce': wpApiSettings.nonce
-                },
-                body: formData
-            });
+</script>
 
-            if (!response.ok) {
-                const errorData = await response.json();
-                throw new Error(errorData.message || 'File upload failed');
-            }
-            return response.json();
-        }
 
-        /**
-         * Handles the click event on the "Enregistrer" button for the laboratory info modal.
-         * Gathers form data, handles file upload, and sends it to the custom REST API endpoint.
-         * @param {Event} event The click event.
-         */
-        async function handleSaveLaboInfo(event) {
-            event.preventDefault();
-            const saveButton = event.target;
-            saveButton.textContent = 'Enregistrement...';
-            saveButton.disabled = true;
+<script>
+'use strict';
 
-            const logoUploadInput = document.getElementById('logoUpload');
-            let logoUrl = null; // Use null when no file is uploaded
+/* 1) Normaliser PMSettings.restUrl et construire les endpoints de façon sûre */
+(function ensurePM(){
+  if (!window.PMSettings) window.PMSettings = {};
+  const guess = new URL('/wp-json/', window.location.origin).href;   // https://domain/wp-json/
+  let base = PMSettings.restUrl || guess;
 
-            // 1. Handle file upload ONLY IF a file is selected
-            if (logoUploadInput.files.length > 0) {
-                try {
-                    const uploadedMedia = await uploadFile(logoUploadInput.files[0]);
-                    logoUrl = uploadedMedia.source_url;
-                } catch (error) {
-                    console.error('File upload failed:', error);
-                    alert(`Erreur de téléversement du logo: ${error.message}`);
-                    saveButton.textContent = 'Enregistrer';
-                    saveButton.disabled = false;
-                    return;
-                }
-            }
+  try { base = new URL(base, window.location.origin).href; }
+  catch { base = guess; }
 
-            // 2. Format date from YYYY-MM-DD to a compatible format
-            const dateValue = document.getElementById('laboDateCreation').value;
+  // s'assurer qu'on finit exactement par /wp-json/
+  base = base.replace(/\/+$/,'') + '/';
+  if (!/\/wp-json\/$/i.test(base)) {
+    // si on n'a pas /wp-json/, on l'ajoute
+    if (!base.endsWith('/')) base += '/';
+    base += 'wp-json/';
+  }
+  PMSettings.restUrl = base;
 
-            // 3. Construct the data payload
-            const laboData = {
-                nom: document.getElementById('laboNom').value,
-                logo_laboratoire: logoUrl, // This will be null if no file was chosen
-                date_de_creation: dateValue, // Send in YYYY-MM-DD format
-                etat: document.getElementById('laboEtat').value,
-                objectif_general: document.getElementById('laboObjectifGeneral').value,
-                axes_de_recherche: document.getElementById('laboAxesRecherche').value
-            };
+  // helpers robustes
+  window.restEndpoint = (path='') => new URL(path.replace(/^\/+/,''),
+    PMSettings.restUrl).href;
+})();
 
-            // 4. Send the data to the custom REST API endpoint
-            try {
-                // const apiUrl =
-                //   `${wpApiSettings.root}plateforme-directeur-de-labo/v2/laboratoires`; // Corrected to plural "laboratoires"
-                const apiUrl = `${wpApiSettings.root}plateforme-labo/v1/laboratoires`;
-                const response = await fetch(apiUrl, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-WP-Nonce': wpApiSettings.nonce
-                    },
-                    body: JSON.stringify(laboData)
-                });
+/* 2) Endpoints sûrs */
+const API_LABO = restEndpoint('plateforme-recherche/v1/laboratoire'); // ex: https://.../wp-json/plateforme-recherche/v1/laboratoire
+/*
+/* 3) Enregistrement (FormData direct vers ton service: fichier + champs) 
+async function handleSaveLaboInfo(e){
+  e.preventDefault();
+  const btn = e.target;
+  btn.disabled = true; btn.textContent = 'Enregistrement…';
 
-                if (!response.ok) {
-                    const errorData = await response.json();
-                    throw new Error(errorData.message || 'Une erreur est survenue lors de l\'enregistrement.');
-                }
+  try{
+    const fd = new FormData();
+    fd.append('denomination', document.getElementById('laboNom').value || '');
+    fd.append('date_creation', document.getElementById('laboDateCreation').value || '');
+    fd.append('statut', (document.getElementById('laboEtat').value === 'actif') ? 'Actif' : 'Inactif');
+    fd.append('objectif_general', document.getElementById('laboObjectifGeneral').value || '');
+    fd.append('code_lr', document.getElementById('code_lr').value || '');
 
-                const result = await response.json();
-                console.log('Laboratoire créé avec succès:', result);
-                alert('Les détails du laboratoire ont été enregistrés avec succès!');
-                document.getElementById('modalInfo').style.display = 'none';
-                location.reload();
 
-            } catch (error) {
-                console.error('Échec de l\'enregistrement des détails du laboratoire:', error);
-                alert(`Erreur: ${error.message}`);
-            } finally {
-                saveButton.textContent = 'Enregistrer';
-                saveButton.disabled = false;
-            }
-        }
-    </script>
+    const axesRaw = document.getElementById('laboAxesRecherche').value || '';
+    const axesArr = axesRaw.split(/\r?\n|,/).map(s=>s.trim()).filter(Boolean);
+
+    // 👇 envoyer sous forme de tableau pour REST (axes_recherche[]=…)
+    axesArr.forEach(v => fd.append('axes_recherche[]', v));
+
+    const logoInput = document.getElementById('logoUpload');
+    if (logoInput?.files?.length) fd.append('logo_file', logoInput.files[0]); // ton service lit $req->get_file_params()
+
+    // POST (création) ou "PUT" (maj) via POST + _method=PUT (WP gère mal PUT multipart)
+    const laboId = window.currentLaboId || null;
+    const url = laboId ? `${API_LABO}/${laboId}` : API_LABO;
+    if (laboId) fd.append('_method','PUT');
+
+    console.log('[LABO] URL →', url);
+    const res = await fetch(url, {
+      method: 'POST',                         // toujours POST (multipart)
+      headers: { 'X-WP-Nonce': PMSettings.nonce || '' },
+      body: fd,
+      credentials: 'include'
+    });
+
+    const txt = await res.text();
+    if (!res.ok) {
+      let msg = `Erreur API (${res.status})`;
+      try { msg = (JSON.parse(txt).message) || msg; } catch {}
+      throw new Error(msg);
+    }
+    console.log('OK:', txt);
+    alert('Enregistré avec succès');
+    document.getElementById('modalInfo').style.display = 'none';
+    location.reload();
+
+  } catch(err){
+    console.error(err);
+    alert(err.message || 'Échec de l’enregistrement');
+  } finally {
+    btn.disabled = false; btn.textContent = 'Enregistrer';
+  }
+}
+
+/* 4) Bind 
+document.addEventListener('DOMContentLoaded', ()=>{
+  const btn = document.getElementById('btnSaveInfo');
+  if (btn) btn.addEventListener('click', handleSaveLaboInfo);
+
+  // Debug utile: vérifie les URLs en console
+  console.log('PMSettings.restUrl =', PMSettings.restUrl);
+  console.log('API_LABO =', API_LABO);
+});*/
+</script>
+
+
+<script>
+document.addEventListener('DOMContentLoaded', async () => {
+  try {
+    const url = `${PMSettings.restUrl}plateforme-recherche/v1/laboratoire/mine`;
+
+    const res = await fetch(url, {
+      headers: { 'X-WP-Nonce': PMSettings.nonce, 'Accept':'application/json' },
+      credentials: 'include'
+    });
+    if (!res.ok) throw new Error(`Erreur API (${res.status})`);
+
+    const labo = await res.json();
+    if (!labo || !labo.id) return;
+
+    // --- Logo + dénomination ---
+    const logoImg = document.querySelector('.styled-list img');
+    const nomStrong = document.querySelector('.styled-list strong[style*="color: #2A2916"]');
+    if (logoImg && labo.logo_url) logoImg.src = labo.logo_url;
+    if (nomStrong) nomStrong.textContent = labo.denomination || '';
+
+    // --- Code LR ---
+    const codeRow = document.querySelector('.styled-list li:nth-child(2)');
+    if (codeRow) codeRow.innerHTML = `<strong>Code LR :</strong> ${labo.code_lr || ''}`;
+
+    // --- Établissement (nom jointure) ---
+    const etabRow = document.querySelector('.styled-list li:nth-child(3)');
+    if (etabRow) etabRow.innerHTML = `<strong>Établissement :</strong> ${labo.etablissement_nom || ''}`;
+
+    // --- Date création ---
+    const dateRow = document.querySelector('.styled-list li:nth-child(4)');
+    if (dateRow) dateRow.innerHTML = `<strong>Date de création :</strong> ${labo.date_creation || ''}`;
+
+    // --- Directeur (nom complet depuis usermeta) ---
+    const dirRow = document.querySelector('.styled-list li:nth-child(5)');
+    if (dirRow) dirRow.innerHTML = `<strong>Directeur du laboratoire :</strong> ${labo.directeur_nom_complet || labo.directeur_nom || ''}`;
+
+    // --- Statut ---
+    const statutRow = document.querySelector('.styled-list li:nth-child(6)');
+    if (statutRow) {
+      const actif = labo.statut === 'Actif';
+      statutRow.innerHTML = `<strong>Statut du financement :</strong>
+        <span><i class="fas fa-circle status-active-icon" style="color:${actif?'#28a745':'#dc3545'}"></i>${labo.statut}</span>`;
+    }
+
+    // --- Objectif général ---
+    const objRow = document.querySelector('.card.full-width:nth-of-type(2) li:first-child');
+    if (objRow) objRow.innerHTML = `<strong>Objectif général :</strong> ${labo.objectif_general || ''}`;
+
+    // --- Axes de recherche ---
+    const axesRow = document.querySelector('.card.full-width:nth-of-type(2) li:nth-child(2) ul');
+    if (axesRow && Array.isArray(labo.axes_recherche)) {
+      axesRow.innerHTML = '';
+      labo.axes_recherche.forEach(ax => {
+        const li = document.createElement('li');
+        li.textContent = ax;
+        axesRow.appendChild(li);
+      });
+    }
+
+    // Tu peux ensuite remplir la partie Projets associés et Effectif scientifique
+    // avec des données si elles sont exposées par ton service.
+
+  } catch (e) {
+    console.error('[Labo] Erreur chargement', e);
+  }
+});
+</script>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const form   = document.getElementById('laboInfoForm');
+  const btn    = document.getElementById('btnSaveInfo');
+  const idInp  = ensureHiddenId(); // crée <input type="hidden" id="laboId">
+  const apiBase = new URL('plateforme-recherche/v1/laboratoire', PMSettings.restUrl).href;
+
+  // ---- 1) Précharger les données du labo du directeur connecté ----
+  (async function preload() {
+    try {
+      const url = new URL('plateforme-recherche/v1/laboratoire/mine', PMSettings.restUrl).href;
+      const r = await fetch(url, { headers: {'X-WP-Nonce': PMSettings.nonce, 'Accept':'application/json'}, credentials: 'include' });
+      if (!r.ok) return; // pas de labo encore
+      const labo = await r.json();
+      if (!labo || !labo.id) return;
+
+      // Remplir le formulaire
+      idInp.value = labo.id;                                          // cache l'id
+      setVal('#laboNom', labo.denomination);
+      setVal('#laboDateCreation', labo.date_creation);                // format YYYY-MM-DD attendu
+      setVal('#code_lr', labo.code_lr);
+      setSelectEtat('#laboEtat', labo.statut);
+      setVal('#laboObjectifGeneral', labo.objectif_general);
+      setAxes('#laboAxesRecherche', labo.axes_recherche);
+      setLogoPreview(labo.logo_url);
+    } catch(e){ console.warn('[labo preload]', e); }
+  })();
+
+  // ---- 2) Aperçu logo (sans supprimer l'input du DOM) ----
+  const fileInput = document.getElementById('logoUpload');
+  const placeholder = document.querySelector('.logo-placeholder');
+  if (fileInput && placeholder) {
+    placeholder.addEventListener('click', () => fileInput.click());
+    fileInput.addEventListener('change', () => {
+      const f = fileInput.files?.[0];
+      if (!f) return;
+      if (!f.type.startsWith('image/')) { alert('Veuillez sélectionner une image.'); fileInput.value = ''; return; }
+      const url = URL.createObjectURL(f);
+      setLogoPreview(url, true); // blob local
+    });
+  }
+
+  // ---- 3) Enregistrement (insert ou update si laboId présent) ----
+  if (btn) btn.addEventListener('click', async (e) => {
+    e.preventDefault();
+    btn.disabled = true; btn.textContent = 'Enregistrement…';
+    try {
+      const fd = new FormData(form);
+      // Normaliser les noms attendus par le service
+      fd.set('denomination', getVal('#laboNom'));
+      fd.set('date_creation', getVal('#laboDateCreation'));
+      fd.set('statut', (getVal('#laboEtat') === 'actif') ? 'Actif' : 'Inactif');
+      fd.set('objectif_general', getVal('#laboObjectifGeneral'));
+      if (getVal('#code_lr')) fd.set('code_lr', getVal('#code_lr'));
+
+      // Axes en array (REST args de type array)
+      const axes = (getVal('#laboAxesRecherche') || '')
+        .split(/\r?\n|,/).map(s=>s.trim()).filter(Boolean);
+      // supprimer toute clé axes_recherche existante, puis l'envoyer en []
+      fd.delete('axes_recherche');
+      axes.forEach(v => fd.append('axes_recherche[]', v));
+
+      // fichier : l'input s'appelle déjà name="logo_file" dans ton HTML → OK
+
+      // Choix insert / update
+      const laboId = idInp.value ? parseInt(idInp.value,10) : null;
+      const url = laboId ? `${apiBase}/${laboId}` : apiBase;
+      if (laboId) fd.append('_method','PUT');            // WP REST & multipart
+
+      const resp = await fetch(url, {
+        method: 'POST',
+        headers: { 'X-WP-Nonce': PMSettings.nonce },
+        body: fd,
+        credentials: 'include'
+      });
+
+      const txt = await resp.text();
+      if (!resp.ok) {
+        let msg = `Erreur API (${resp.status})`;
+        try { msg = (JSON.parse(txt).message) || msg; } catch {}
+        throw new Error(msg);
+      }
+
+      alert('Enregistré avec succès');
+      // si création, récupérer l'id retourné et le ranger dans le hidden pour les prochaines MAJ
+      try {
+        const out = JSON.parse(txt);
+        if (out?.id) idInp.value = out.id;
+      } catch {}
+      document.getElementById('modalInfo').style.display = 'none';
+      location.reload();
+    } catch (err){
+      console.error(err);
+      alert(err.message || 'Échec de l’enregistrement');
+    } finally {
+      btn.disabled = false; btn.textContent = 'Enregistrer';
+    }
+  });
+
+  // ------------ Helpers ------------
+  function ensureHiddenId(){
+    let el = document.getElementById('laboId');
+    if (!el) {
+      el = document.createElement('input');
+      el.type = 'hidden';
+      el.id = 'laboId';
+      el.name = 'labo_id';
+      form.appendChild(el);
+    }
+    return el;
+  }
+  function setVal(sel, v){ const el = document.querySelector(sel); if (el) el.value = v || ''; }
+  function getVal(sel){ const el = document.querySelector(sel); return el ? el.value : ''; }
+  function setSelectEtat(sel, statut){
+    const el = document.querySelector(sel); if (!el) return;
+    el.value = String(statut).toLowerCase()==='actif' ? 'actif' : 'inactif';
+  }
+  function setAxes(sel, arr){
+    const el = document.querySelector(sel); if (!el) return;
+    if (Array.isArray(arr)) el.value = arr.join('\n'); else el.value = '';
+  }
+  function setLogoPreview(url, fromBlob=false){
+    if (!url) return;
+    // ne pas vider le label (il contient l'input). On gère un <img> dédié.
+    let img = placeholder.querySelector('img.logo-thumb');
+    if (!img) {
+      img = document.createElement('img');
+      img.className = 'logo-thumb';
+      img.style.maxWidth = '100%';
+      img.style.maxHeight = '100%';
+      img.style.width = '100%';
+      img.style.height = '100%';
+      img.style.objectFit = 'cover';
+      img.style.borderRadius = '50%';
+      // on remplace l’icône caméra visuellement, sans supprimer l’input
+      // on supprime seulement les <i> s'ils existent
+      const icon = placeholder.querySelector('i.fa-camera');
+      if (icon) icon.remove();
+      placeholder.appendChild(img);
+    }
+    img.src = url;
+    // libérer blob URL après chargement (si aperçu local)
+    if (fromBlob) img.onload = () => URL.revokeObjectURL(url);
+  }
+});
+</script>
+
+
+
 </body>
 
 </html>

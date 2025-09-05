@@ -59,7 +59,7 @@ require_once 'requireApi.php';
         <?php include 'components/Nav-Pages.php'; ?>
 
         <!-- Dashboard Top Bar -->
-        <?php include 'components/Dashboard-Bar.php'; ?>
+        <?php include 'wp-content/plugins/plateforme-master/pages/components/Dashboard-Bar.php'; ?>
 
         <div class="content p-4">
           <!-- Top Boxes (disponibilités, calendriers, carrousel) -->

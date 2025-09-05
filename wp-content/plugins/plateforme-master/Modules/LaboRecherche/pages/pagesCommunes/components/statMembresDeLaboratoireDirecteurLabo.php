@@ -15,11 +15,11 @@
         <div class="left-stats">
             <div class="stat-box">
                 <span class="label">Total des membres</span>
-                <span class="value">15</span>
+                <span class="value">0</span>
             </div>
             <div class="stat-box">
                 <span class="label">Membres actifs</span>
-                <span class="value">11</span>
+                <span class="value">0</span>
             </div>
         </div>
 
@@ -40,7 +40,7 @@
         <!-- Right Bar Chart -->
         <div class="right-graph bar-chart-section" style="max-width: unset;width: 57vw;">
             <div class="graph-header">
-                <h4>Répartition par type d’activité</h4>
+                <h4>Répartition par Spécialité</h4>
                 <select class="graph-select">
                     <option>2024 - 2025</option>
                 </select>

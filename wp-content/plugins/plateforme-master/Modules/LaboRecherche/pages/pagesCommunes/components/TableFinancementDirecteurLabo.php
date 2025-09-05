@@ -13,8 +13,8 @@
         border-radius: 10px;
         padding: 24px;
         box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
-        max-width: 1200px;
-        margin: auto;
+        /* max-width: 1200px;*/
+        margin: 20px 0;
     }
 
     /* Header */
@@ -35,7 +35,7 @@
     .section-divider {
         border: none;
         border-top: 1px solid #e0e0e0;
-        margin: 16px 0;
+        margin: 10px 0;
     }
 
     /* Filter Bar */
@@ -44,7 +44,8 @@
         justify-content: space-between;
         align-items: center;
         gap: 1rem;
-        padding-bottom: 20px;
+        padding-bottom: 30px;
+        position: relative;
         flex-wrap: wrap;
     }
 
@@ -322,6 +323,65 @@
 
     .dataTables_wrapper .dataTables_paginate .ellipsis {
         display: none;
+    }
+
+
+
+
+    #candidaturesTable {
+        border: none !important;
+        border-collapse: collapse;
+        box-shadow: none !important;
+    }
+
+    #candidaturesTable th {
+        border: 0px solid #EBE9D7;
+    }
+
+    #candidaturesTable td {
+        border: 1px solid #EBE9D7;
+    }
+
+    #candidaturesTable thead {
+        border: none !important;
+        position: static;
+        transform: translateY(-15px);
+    }
+
+    #candidaturesTable tbody tr:first-child td {
+        border-top: 1px solid #EBE9D7 !important;
+    }
+
+    #candidaturesTable {
+        border-collapse: separate;
+        border-spacing: 0;
+    }
+
+    #candidaturesTable thead tr:first-child th:first-child {
+        border-top-left-radius: 12px;
+        border-bottom-left-radius: 12px;
+    }
+
+    #candidaturesTable thead tr:first-child th:last-child {
+        border-top-right-radius: 12px;
+        border-bottom-right-radius: 12px;
+
+    }
+
+    #candidaturesTable tbody tr:last-child td:first-child {
+        border-bottom-left-radius: 12px;
+    }
+
+    #candidaturesTable tbody tr:last-child td:last-child {
+        border-bottom-right-radius: 12px;
+    }
+
+    #candidaturesTable tbody tr:first-child td:first-child {
+        border-top-left-radius: 12px;
+    }
+
+    #candidaturesTable tbody tr:first-child td:last-child {
+        border-top-right-radius: 12px;
     }
 </style>
 

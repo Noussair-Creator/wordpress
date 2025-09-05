@@ -59,7 +59,7 @@ require_once plugin_dir_path(__FILE__) . '../config/roles.php';
         <?php include plugin_dir_path(__FILE__) . '../components/Nav-Pages.php'; ?>
 
         <!-- Dashboard Top Bar -->
-        <?php include plugin_dir_path(__FILE__) . '../components/Dashboard-Bar.php'; ?>
+        <?php include plugin_dir_path(__FILE__) . 'wp-content/plugins/plateforme-master/pages/components/Dashboard-Bar.php'; ?>
 
         <div class="content p-4">
           <?php include 'components/planifier-soutenance_comissionEd.php'; ?>

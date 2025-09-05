@@ -17,16 +17,18 @@ require_once plugin_dir_path(__FILE__) . 'includes/api-universites.php';
 
 
 require_once plugin_dir_path(__FILE__) . 'includes/reclamations-api.php';
-// require_once plugin_dir_path(__FILE__) . 'includes//doctorants/api_doctorants.php';
-// require_once plugin_dir_path(__FILE__) . 'includes//recherche/api_chercheur.php';
-// require_once plugin_dir_path(__FILE__) . 'includes/recherche/api_directeurderecherche2.php';
-require_once plugin_dir_path(__FILE__) . 'includes/laboratoire/api_laboratoire.php';
+require_once plugin_dir_path(__FILE__) . 'includes//doctorants/api_doctorants.php';
+require_once plugin_dir_path(__FILE__) . 'includes//recherche/api_chercheur.php';
+require_once plugin_dir_path(__FILE__) . 'includes/recherche/api_directeurderecherche.php';
+
 
 // CORRECT PATH
 // require_once plugin_dir_path(__FILE__) . 'includes/directeur_de_labo/api_directeurderecherche.php';
 
 require_once plugin_dir_path(__FILE__) . 'includes/pmo/api_pmo.php';
 require_once plugin_dir_path(__FILE__) . 'includes/api-messages.php';
+
+require_once plugin_dir_path(__FILE__) . 'includes/api-profile.php';
 
 
 
@@ -605,17 +607,12 @@ function plateforme_content($content)
             plateforme_redirect_home();
         }
     }
-    if (is_page('profile')) {
+    if (is_page('profile2')) {
         if (is_user_logged_in()) {
             $current_user = wp_get_current_user();
-            if (in_array('um_student_master', $current_user->roles)) {
-                ob_start();
 
-                include plugin_dir_path(__FILE__) . 'Modules/Master/pagesstudentmaster/profile.php';
+            include plugin_dir_path(__FILE__) . 'Modules/profile/profile.php';
 
-            } else {
-                plateforme_redirect_home();
-            }
         } else {
             plateforme_redirect_home();
         }
@@ -625,7 +622,7 @@ function plateforme_content($content)
         if (is_user_logged_in()) {
             $current_user = wp_get_current_user();
 
-            include plugin_dir_path(__FILE__) . 'Modules/Master/pagesstudentmaster/messages.php';
+            include plugin_dir_path(__FILE__) . 'Modules/Messages/messages.php';
 
         } else {
             plateforme_redirect_home();
@@ -776,21 +773,16 @@ function plateforme_content($content)
     }
     //Page Profile directeur Du labo  'um_directeur_laboratoire'
 
-    if (is_page('mon-profile')) {
-        if (is_user_logged_in()) {
-            $current_user = wp_get_current_user();
-            if (in_array('um_directeur_laboratoire', $current_user->roles)) {
-                ob_start();
+    //   if (is_page('mon-profile')) {
+    //     if (is_user_logged_in()) {
+    //         $current_user = wp_get_current_user();
 
-                include plugin_dir_path(__FILE__) . 'Modules/Master/pagesstudentmaster/profile.php';
+    //         include plugin_dir_path(__FILE__) . 'Modules/profile/profile.php';
 
-            } else {
-                plateforme_redirect_home();
-            }
-        } else {
-            plateforme_redirect_home();
-        }
-    }
+    //     } else {
+    //         plateforme_redirect_home();
+    //     }
+    // }
     //PMO
     if (is_page('pmo')) {
         if (is_user_logged_in()) {
@@ -802,7 +794,8 @@ function plateforme_content($content)
         }
     }
 
-    if (is_page('')) {
+
+    if (is_page('presentation-de-la-plateforme')) {
         if (is_user_logged_in()) {
 
             include plugin_dir_path(__FILE__) . 'Modules/USCR/presentation-de-la-plateforme.php';
@@ -811,6 +804,26 @@ function plateforme_content($content)
             plateforme_redirect_home();
         }
     }
+
+
+
+
+    if (is_page('dashboardpmo')) {
+        if (is_user_logged_in()) {
+            $current_user = wp_get_current_user();
+            if (in_array('um_pmo', $current_user->roles)) {
+                ob_start();
+
+                include plugin_dir_path(__FILE__) . '/Modules/PMO/DashboardPMO.php';
+
+            } else {
+                plateforme_redirect_home();
+            }
+        } else {
+            plateforme_redirect_home();
+        }
+    }
+
 
 
     // create page UTM
@@ -893,25 +906,32 @@ function plateforme_content($content)
             plateforme_redirect_home();
         }
     }
-
-
-
-
-    if (is_page('dashboardpmo')) {
+    // create page etablissements UTM Details
+    if (is_page('etablissements-utm-details')) {
         if (is_user_logged_in()) {
-            $current_user = wp_get_current_user();
-            if (in_array('um_pmo', $current_user->roles)) {
-                ob_start();
 
-                include plugin_dir_path(__FILE__) . '/Modules/PMO/DashboardPMO.php';
+            include plugin_dir_path(__FILE__) . 'Modules/SiteRecherche/etablissements-utm-details.php';
 
-            } else {
-                plateforme_redirect_home();
-            }
         } else {
             plateforme_redirect_home();
         }
     }
+
+
+    // create page Structures de recherche UTM
+    if (is_page('structures-de-recherche-utm')) {
+        if (is_user_logged_in()) {
+
+            include plugin_dir_path(__FILE__) . 'Modules/SiteRecherche/structures-de-recherche-utm.php';
+
+        } else {
+            plateforme_redirect_home();
+        }
+    }
+
+
+
+
     // 🔁 Chargement automatique des pages ED dynamiques
     $pages_DL = [
         // 'reservation-des-equipements-et-salles',
@@ -994,7 +1014,7 @@ function plateforme_content($content)
         'profile_',
         'ged_',
         'bibliotheques',
-        'fiche-details-du-laboratoire-lsama_',
+        'fiche-details-du-labo_',
     ];
 
     foreach ($Pages_communes as $page_slug) {
@@ -1710,13 +1730,12 @@ function pm_template_override()
 
         wp_redirect(home_url());
         exit;
-    } elseif (is_page('profile')) {
+    } elseif (is_page('profile2')) {
         if (is_user_logged_in()) {
             $user = wp_get_current_user();
-            if (in_array('um_student_master', $user->roles)) {
-                include plugin_dir_path(__FILE__) . 'Modules/Master/pagesstudentmaster/profile.php';
-                exit;
-            }
+            include plugin_dir_path(__FILE__) . 'Modules/profile/profile.php';
+            exit;
+
         }
 
         wp_redirect(home_url());
@@ -1724,7 +1743,7 @@ function pm_template_override()
     } elseif (is_page('messages')) {
         if (is_user_logged_in()) {
             $user = wp_get_current_user();
-            include plugin_dir_path(__FILE__) . 'Modules/Master/pagesstudentmaster/messages.php';
+            include plugin_dir_path(__FILE__) . 'Modules/Messages/messages.php';
             exit;
 
         }
@@ -1951,6 +1970,19 @@ function pm_template_override()
         wp_redirect(home_url());
         exit;
     }
+    // page profile 
+    // if (is_page('mon-profile')) {
+    //     if (is_user_logged_in()) {
+    //         include plugin_dir_path(__FILE__) . 'Modules/profile/profile.php';
+    //         exit;
+    //     }
+
+    //     wp_redirect(home_url());
+    //     exit;
+    // }
+
+
+
     // UTM
     if (is_page('UTM')) {
         if (is_user_logged_in()) {
@@ -2033,23 +2065,30 @@ function pm_template_override()
         exit;
     }
 
-
-
-
-
-
-
-
-    // page profile 
-    if (is_page('mon-profile')) {
+    //etablissements-utm-details
+    if (is_page('etablissements-utm-details')) {
         if (is_user_logged_in()) {
-            include plugin_dir_path(__FILE__) . 'Modules/Master/pagesstudentmaster/profile.php';
+            include plugin_dir_path(__FILE__) . 'Modules/SiteRecherche/etablissements-utm-details.php';
             exit;
         }
 
         wp_redirect(home_url());
         exit;
     }
+    //ouverture-sur-lenvironnement-utm
+    if (is_page('structures-de-recherche-utm')) {
+        if (is_user_logged_in()) {
+            include plugin_dir_path(__FILE__) . 'Modules/SiteRecherche/structures-de-recherche-utm.php';
+            exit;
+        }
+
+        wp_redirect(home_url());
+        exit;
+    }
+
+
+
+
     // 🔁 Chargement automatique des pages ED dynamiques
     $pages_ed = [
         'inscription-et-reinscription',
@@ -2360,7 +2399,7 @@ function pm_template_override()
         'profile_',
         'ged_',
         'bibliotheques',
-        'fiche-details-du-laboratoire-lsama_',
+        'fiche-details-du-labo_',
     ];
 
     foreach ($Pages_communes as $page_slug) {
@@ -2558,4 +2597,13 @@ add_action('wp_enqueue_scripts', function () {
         ]),
         get_current_user_id()
     ), 'before');
+});
+
+// Donner la capacité d'upload aux rôles front qui en ont besoin
+add_action('init', function () {
+    foreach (['administrator', 'editor', 'author', 'um_service-utm', 'um_directeur_laboratoire'] as $role_name) {
+        if ($role = get_role($role_name)) {
+            $role->add_cap('upload_files');
+        }
+    }
 });

@@ -8,6 +8,7 @@ require_once 'requireApi.php';
 
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
   <meta charset="UTF-8">
   <title>Dashboard - Laboratoire de recherche</title>
@@ -19,12 +20,12 @@ require_once 'requireApi.php';
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
- 
 
 
- 
 
- 
+
+
+
   <style>
     :root {
       --red: #b60303;
@@ -36,10 +37,9 @@ require_once 'requireApi.php';
       margin: 0;
       font-family: 'Segoe UI', sans-serif;
       background: var(--gray);
-      min-height: 100vh; 
+      min-height: 100vh;
     }
-
-    </style>
+  </style>
 </head>
 
 
@@ -51,9 +51,9 @@ require_once 'requireApi.php';
     <div class="row">
       <!-- Sidebar -->
       <div class="col-md-3 col-lg-2 p-0 sidbarcol">
-    
+
         <?php include 'components/sidebar.php'; ?>
-        
+
       </div>
 
       <div class="col-md-9 col-lg-10 p-0">
@@ -61,7 +61,7 @@ require_once 'requireApi.php';
         <?php include 'components/Nav-Pages.php'; ?>
 
         <!-- Dashboard Top Bar -->
-        <?php include 'components/Dashboard-Bar.php'; ?>
+        <?php include 'wp-content/plugins/plateforme-master/pages/components/Dashboard-Bar.php'; ?>
 
         <div class="content p-4">
           <!-- Top Boxes (disponibilités, calendriers, carrousel) -->
@@ -78,7 +78,7 @@ require_once 'requireApi.php';
           <?php include 'components/actualite_manifestations.php'; ?>
           <?php include 'components/box_liens.php'; ?>
 
-          
+
 
         </div>
       </div>
@@ -88,4 +88,5 @@ require_once 'requireApi.php';
   <!-- Scripts -->
   <?php include 'components/scripts.php'; ?>
 </body>
+
 </html>

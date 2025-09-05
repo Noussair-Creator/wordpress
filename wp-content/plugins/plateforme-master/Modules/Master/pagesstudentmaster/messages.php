@@ -1,6 +1,6 @@
 <?php
 $role = $role ?? "student";
-require_once plugin_dir_path(__FILE__).'../config/roles.php';
+require_once dirname(__DIR__, 2) . '/config/roles.php';
 
 ?>
 
@@ -38,26 +38,26 @@ require_once plugin_dir_path(__FILE__).'../config/roles.php';
 
 <body>
   <!-- Header -->
-  <?php include 'components/header.php'; ?>
+  <?php include plugin_dir_path(__FILE__).'..components/header.php'; ?>
 
   <div class="container-fluid">
     <div class="row">
       <!-- Sidebar -->
       <div class="col-md-3 col-lg-2 p-0 sidbarcol">
-        <?php include 'components/sidebar.php'; ?>
+        <?php include plugin_dir_path(__FILE__).'..components/sidebar.php'; ?>
       </div>
 
       <div class="col-md-9 col-lg-10 p-0">
         <!-- Nav pages -->
-        <?php include 'components/Nav-Pages.php'; ?>
+        <?php include plugin_dir_path(__FILE__).'..components/Nav-Pages.php'; ?>
 
         <!-- Dashboard Top Bar -->
-        <?php include 'components/Dashboard-Bar.php'; ?>
+        <?php include plugin_dir_path(__FILE__).'..components/Dashboard-Bar.php'; ?>
 
         <!-- Place ce wrapper à l'endroit où tu inclus tes deux fichiers -->
-  <div class="content p-4">
+        <div class="content p-4">
           <!-- Top Boxes (disponibilités, calendriers, carrousel) -->
-         <?php include 'components/messages-list.php'; ?>
+         <?php include plugin_dir_path(__FILE__).'..components/messages-list.php'; ?>
 
         </div>
 
@@ -66,6 +66,6 @@ require_once plugin_dir_path(__FILE__).'../config/roles.php';
   </div>
 
   <!-- Scripts -->
-  <?php include 'components/scripts.php'; ?>
+  <?php include plugin_dir_path(__FILE__).'..components/scripts.php'; ?>
 </body>
 </html>

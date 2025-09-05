@@ -61,6 +61,12 @@
 
         .tab-btn:first-child {
             border-top-left-radius: 10px;
+            margin-right: 10px;
+        }
+
+        .tab-btn {
+            border-top-right-radius: 8px;
+            border-top-left-radius: 8px;
         }
 
         .tab-btn:last-child {
@@ -92,7 +98,7 @@
             align-items: center;
             flex-wrap: wrap;
             gap: 12px;
-            margin-bottom: 20px;
+            margin-bottom: 30px;
         }
 
         .filters-row {
@@ -172,8 +178,8 @@
             background: none;
             border: 1px solid #ccc;
             border-radius: 5px;
-            width: 30px;
-            height: 30px;
+            width: 40px;
+            height: 40px;
             cursor: pointer;
         }
 
@@ -198,7 +204,7 @@
         }
 
         .styled-table thead {
-            background: #f7f7f7;
+            background: #EBE9D7;
         }
 
         .styled-table th,
@@ -499,6 +505,75 @@
 
         .ql-editor.ql-blank {
             border: 1px solid #DBD9C3;
+        }
+
+
+        #table1,
+        #table2 {
+            border: none !important;
+            border-collapse: collapse;
+            box-shadow: none !important;
+        }
+
+        #table1 th,
+        #table2 th {
+            border: 0px solid #EBE9D7;
+        }
+
+        #table1 td,
+        #table2 td {
+            border: 1px solid #EBE9D7;
+        }
+
+        #table1 thead,
+        #table2 thead {
+            border: none !important;
+            position: static;
+            transform: translateY(-15px);
+        }
+
+        #table1 tbody tr:first-child td,
+        #table2 tbody tr:first-child td {
+            border-top: 1px solid #EBE9D7 !important;
+        }
+
+        #table1,
+        #table2 {
+            border-collapse: separate;
+            border-spacing: 0;
+        }
+
+        #table1 thead tr:first-child th:first-child,
+        #table2 thead tr:first-child th:first-child {
+            border-top-left-radius: 12px;
+            border-bottom-left-radius: 12px;
+        }
+
+        #table1 thead tr:first-child th:last-child,
+        #table2 thead tr:first-child th:last-child {
+            border-top-right-radius: 12px;
+            border-bottom-right-radius: 12px;
+
+        }
+
+        #table1 tbody tr:last-child td:first-child,
+        #table2 tbody tr:last-child td:first-child {
+            border-bottom-left-radius: 12px;
+        }
+
+        #table1 tbody tr:last-child td:last-child,
+        #table2 tbody tr:last-child td:last-child {
+            border-bottom-right-radius: 12px;
+        }
+
+        #table1 tbody tr:first-child td:first-child,
+        #table2 tbody tr:first-child td:first-child {
+            border-top-left-radius: 12px;
+        }
+
+        #table1 tbody tr:first-child td:last-child,
+        #table2 tbody tr:first-child td:last-child {
+            border-top-right-radius: 12px;
         }
     </style>
 </head>

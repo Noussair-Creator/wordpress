@@ -32,11 +32,43 @@
 
         /* Hero section styling */
         .hero-bg {
-            /* Using the same background image path as provided */
             background-image: url('/wp-content/plugins/plateforme-master/images/SiteRechercheImages/Groupe 3330 (1).png');
             background-size: cover;
             background-position: center;
+            padding: 13rem 0;
+            color: white;
         }
+
+        .hero-bg h1 {
+            font-size: 50px;
+            width: 340px;
+            font-weight: 500;
+            /* text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5); */
+        }
+
+        .breadcrumb-custom {
+            background-color: rgb(83 81 81 / 40%);
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            border-radius: 0.25rem;
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+        }
+
+        .breadcrumb-custom a {
+            color: white;
+            text-decoration: none;
+        }
+
+        .breadcrumb-custom a:hover {
+            text-decoration: underline;
+        }
+
+        .breadcrumb-custom span {
+            color: #e9ecef;
+            margin: 0 0.5rem;
+        }
+
 
         /* Main Content Styling */
         .main-content {
@@ -50,16 +82,16 @@
             background-color: #ffffff;
             border-radius: 1rem;
             padding: 2.5rem;
-            box-shadow: 0 0.5rem 1.5rem rgba(0, 0, 0, 0.07);
-            border: 1px solid #dee2e6;
+            box-shadow: 1px 1px 14px 1px rgba(0, 0, 0, 0.15);
+            /* border: 1px solid #dee2e6; */
         }
 
         .summary-card {
             background-color: #ffffff;
             border-radius: 1rem;
             padding: 2.5rem;
-            box-shadow: 0 0.5rem 1.5rem rgba(0, 0, 0, 0.07);
-            border: 1px solid #dee2e6;
+            box-shadow: 1px 1px 14px 1px rgba(0, 0, 0, 0.15);
+            /* border: 1px solid #dee2e6; */
             margin-top: 2rem;
         }
 
@@ -143,13 +175,14 @@
 <body>
 
     <!-- Hero Section -->
-    <section class="hero-bg text-white">
-        <div class="d-flex align-items-center" style="min-height: 425px; background-color: rgba(10, 20, 40, 0.5);">
-            <div class="container">
-                <a href="/utm" class="text-white text-decoration-none mb-3 d-inline-block"><i
-                        class="fas fa-arrow-left me-2"></i>Retour</a>
-                <h1 class="display-5 fw-bold">Publications</h1>
+    <section class="hero-bg">
+        <div class="container">
+            <div class="breadcrumb-custom">
+                <a href="#">Université de Tunis El Manar</a><span>›</span> <a href="/structures-de-recherche-utm">
+                    Structures de recherche </a> <span>›</span> <a href="/publications-utm">Publications</a>
+                <span>›</span> Détails
             </div>
+            <h1 class="text-start">Publications</h1>
         </div>
     </section>
 

@@ -28,28 +28,60 @@
         background-image: url('/wp-content/plugins/plateforme-master/images/SiteRechercheImages/Groupe 3330 (1).png');
         background-size: cover;
         background-position: center;
-        /* Adjusted padding */
-        padding: 14rem 0;
+        padding: 7rem 0;
+        color: white;
+    }
+
+    .hero-bg h1 {
+        font-size: 50px;
+        width: 340px;
+        font-weight: 500;
+        /* text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5); */
+    }
+
+    .breadcrumb-custom {
+        background-color: rgb(83 81 81 / 40%);
+        display: inline-block;
+        padding: 0.5rem 1rem;
+        border-radius: 0.25rem;
+        margin-bottom: 1rem;
+        font-size: 0.9rem;
+    }
+
+    .breadcrumb-custom a {
+        color: white;
+        text-decoration: none;
+    }
+
+    .breadcrumb-custom a:hover {
+        text-decoration: underline;
+    }
+
+    .breadcrumb-custom span {
+        color: #e9ecef;
+        margin: 0 0.5rem;
     }
 
     .search-box {
         background-color: white;
         padding: 2rem;
         border-radius: 1rem;
-        box-shadow: 0 0.5rem 1.5rem rgba(0, 0, 0, 0.05);
-        border: 1px solid #dee2e6;
+        box-shadow: 1px 1px 14px 1px rgba(0, 0, 0, 0.15);
+        /* border: 1px solid #dee2e6; */
     }
 
     .search-box .form-select {
         height: 50px;
         border-radius: 0.5rem;
+        border: 1px solid #A6A485;
     }
 
     .search-box .btn {
+        box-shadow: 1px 1px 14px 1px rgba(0, 0, 0, 0.15);
         height: 50px;
         width: 50px;
         border-radius: 0.5rem;
-        border: 1px solid #ced4da;
+        /* border: 1px solid #ced4da; */
         background-color: #fff;
         color: #b60303;
         font-size: 1.2rem;
@@ -64,7 +96,7 @@
         background-color: #ffffff;
         border-radius: 1rem;
         padding: 1.5rem;
-        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+        box-shadow: 1px 1px 14px 1px rgba(0, 0, 0, 0.15);
         height: 100%;
         position: relative;
         overflow: hidden;
@@ -155,11 +187,18 @@
 </style>
 <!-- Hero Section -->
 <section class="hero-bg">
+    <div class="container">
+        <div class="breadcrumb-custom">
+            <a href="#">Université de Tunis El Manar</a><span>›</span> <a href="/structures-de-recherche-utm">
+                Structures de recherche </a> <span>›</span>Ouverture sur l’environnement
+        </div>
+        <h1 class="text-start">Ouverture sur l’environnement</h1>
+    </div>
 </section>
 
 <!-- Search Section -->
 <div class="container" style="margin-top: -50px; position: relative; z-index: 10;">
-    <div class="col-lg-10 mx-auto">
+    <div class="col-lg-12 mx-auto">
         <div class="search-box">
             <div class="row g-3 align-items-center">
                 <div class="col-lg-5">

@@ -24,10 +24,47 @@
 
 
     /* Hero section styling */
+    /* .hero-bg {
+        background-image: url('/wp-content/plugins/plateforme-master/images/SiteRechercheImages/Groupe 3330 (1).png');
+        background-size: cover;
+        background-position: center;
+    } */
     .hero-bg {
         background-image: url('/wp-content/plugins/plateforme-master/images/SiteRechercheImages/Groupe 3330 (1).png');
         background-size: cover;
         background-position: center;
+        padding: 7rem 0;
+        color: white;
+    }
+
+    .hero-bg h1 {
+        font-size: 50px;
+        width: 340px;
+        font-weight: 500;
+        /* text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5); */
+    }
+
+    .breadcrumb-custom {
+        background-color: rgb(83 81 81 / 40%);
+        display: inline-block;
+        padding: 0.5rem 1rem;
+        border-radius: 0.25rem;
+        margin-bottom: 1rem;
+        font-size: 0.9rem;
+    }
+
+    .breadcrumb-custom a {
+        color: white;
+        text-decoration: none;
+    }
+
+    .breadcrumb-custom a:hover {
+        text-decoration: underline;
+    }
+
+    .breadcrumb-custom span {
+        color: #e9ecef;
+        margin: 0 0.5rem;
     }
 
     /* Main Content Styling */
@@ -41,8 +78,8 @@
         background-color: #ffffff;
         border-radius: 1rem;
         padding: 2rem;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-        border: 1px solid #dee2e6;
+        box-shadow: 1px 1px 14px 1px rgba(0, 0, 0, 0.15);
+        /* border: 1px solid #dee2e6; */
     }
 
     .search-card .form-select {
@@ -78,17 +115,18 @@
         background-repeat: no-repeat;
         background-position: calc(100% + 20px) calc(100% + 10px);
         background-size: 60%;
-        border: 1px solid #e9ecef;
+        /* border: 1px solid #e9ecef; */
         border-radius: 1rem;
         padding: 2rem;
         margin-bottom: 1.5rem;
         position: relative;
         transition: all 0.3s ease;
         overflow: hidden;
+        box-shadow: 1px 1px 14px 1px rgba(0, 0, 0, 0.15);
     }
 
     .project-card:hover {
-        box-shadow: 0 8px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        box-shadow: 1px 1px 14px 1px rgba(0, 0, 0, 0.15);
         transform: translateY(-5px);
         border-color: #dee2e6;
     }
@@ -197,7 +235,7 @@
 
 
 <!-- Hero Section -->
-<section class="hero-bg text-white">
+<!-- <section class="hero-bg text-white">
     <div class="d-flex align-items-center" style="min-height: 425px; background-color: rgba(10, 20, 40, 0.5);">
         <div class="container">
             <a href="/utm" class="text-white text-decoration-none mb-3 d-inline-block"><i
@@ -205,11 +243,21 @@
             <h1 class="display-5 fw-bold">Projets de coopération</h1>
         </div>
     </div>
+</section> -->
+
+<section class="hero-bg">
+    <div class="container">
+        <div class="breadcrumb-custom">
+            <a href="#">Université de Tunis El Manar</a><span>›</span> <a href="/structures-de-recherche-utm">
+                Structures de recherche </a> <span>›</span>Projets de coopération
+        </div>
+        <h1 class="text-start">Projets de coopération</h1>
+    </div>
 </section>
 
 <main class="container main-content">
     <!-- Search Section -->
-    <div class="search-card col-lg-10 mx-auto mb-5">
+    <div class="search-card col-lg-12 mx-auto mb-5">
         <h5 class="fw-bold mb-3">Recherche</h5>
         <div class="row g-3 align-items-center">
             <div class="col-lg-5">
@@ -242,7 +290,7 @@
     </div>
 
     <!-- Projects Grid -->
-    <section class="col-lg-9 mx-auto">
+    <section class="col-lg-12 mx-auto">
         <div id="projectsGrid" class="row">
             <!-- Project Card 1 -->
             <div class="col-lg-6" data-keywords="IA,Agriculture" data-status="En cours">

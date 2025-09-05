@@ -1,3 +1,65 @@
+
+
+<?php
+$current_user = wp_get_current_user();
+$roles = (array) $current_user->roles;
+$role  = $roles[0] ?? '';
+$user_id = get_current_user_id();
+?>
+
+<script>
+  window.PMSettings = {
+    restUrl: "<?= esc_url( rest_url() ) ?>",          // ex: https://utmresearchplatform.clickerp.tn/wp-json/
+    nonce: "<?= wp_create_nonce('wp_rest') ?>",       // nonce pour X-WP-Nonce
+    role: "<?= esc_js( $role ) ?>",                   // rôle principal de l’utilisateur
+    userId: <?= (int) $user_id ?>                     // ID WP de l’utilisateur
+  };
+</script>
+<?php
+// Récupère le labo du directeur connecté en réutilisant ton endpoint REST
+$labo = null;
+if ( function_exists('rest_do_request') ) {
+    $req = new WP_REST_Request('GET', '/plateforme-recherche/v1/laboratoire/mine');
+    $res = rest_do_request($req);
+    if ( ! is_wp_error($res) && (int) $res->get_status() === 200 ) {
+        $labo = $res->get_data();
+    }
+}
+
+// Prépare les valeurs pour la box
+$fiche_labo = [];
+if ($labo) {
+    $fiche_labo = [
+        'Code LR'                 => $labo['code_lr'] ?? '',
+        'Établissement'           => $labo['etablissement_nom'] ?? '',
+        'Date de création'        => $labo['date_creation'] ?? '',
+        'Directeur du laboratoire'=> $labo['directeur_nom_complet'] ?? ($labo['directeur_nom'] ?? '')
+    ];
+
+    $labo_logo_url = !empty($labo['logo_url'])
+        ? $labo['logo_url']
+        : plugins_url('imagesED/logo-lsama.png', __FILE__);
+
+    $labo_title = $labo['denomination'] ?? ($label ?? 'Laboratoire');
+
+    // Lien "fiche détail" (ajuste le pattern selon ton permalink)
+    $slug = !empty($labo['slug'])
+        ? sanitize_title($labo['slug'])
+        : sanitize_title($labo_title);
+
+    $labo_fiche_url = home_url("/fiche-details-du-labo_");
+} else {
+    // Fallback : conserve l'ancien tableau si dispo
+    $fiche_labo     = $data['fiche_labo'] ?? [];
+    $labo_logo_url  = plugins_url('imagesED/logo-lsama.png', __FILE__);
+    $labo_title     = $label ?? 'Laboratoire';
+    $labo_fiche_url = '/fiche-details-du-labo_';
+}
+?>
+
+
+
+
 <style>
     /* Styles spécifiques au bloc .top-boxes */
     .top-boxes {
@@ -459,29 +521,28 @@
             continue;
 
         // 🔷 Box spéciale fiche labo
-        if ($key === 'fiche_labo'):
-            ?>
-            <div class="box-labo-info">
-                <div class="labo-info-left">
-                    <h4 class="labo-info-title"><?= esc_html($label) ?></h4>
-                    <div class="labo-info-list">
-                        <?php foreach ($data[$key] as $infoLabel => $val): ?>
-                            <div class="labo-info-item">
-                                <span class="labo-info-label"><?= esc_html($infoLabel) ?> :</span>
-                                <span class="labo-info-value"><?= esc_html($val) ?></span>
-                            </div>
-                        <?php endforeach; ?>
-                    </div>
+        if ($key === 'fiche_labo'): ?>
+        <div class="box-labo-info" id="box-fiche-labo">
+            <div class="labo-info-left">
+            <h4 class="labo-info-title"><?= esc_html($labo_title) ?></h4>
+            <div class="labo-info-list">
+                <?php foreach ($fiche_labo as $infoLabel => $val): ?>
+                <div class="labo-info-item">
+                    <span class="labo-info-label"><?= esc_html($infoLabel) ?> :</span>
+                    <span class="labo-info-value"><?= esc_html($val) ?></span>
                 </div>
-                <div class="labo-info-logo">
-                    <a href="/fiche-details-du-laboratoire-lsama_"><img
-                            src="<?= esc_url('/wp-content/plugins/plateforme-master/imagesED/logo-lsama.png') ?>"
-                            alt="Logo laboratoire"></a>
-                </div>
+                <?php endforeach; ?>
             </div>
-            <?php
-            continue;
-        endif;
+            </div>
+
+            <div class="labo-info-logo">
+            <a href="<?= esc_url($labo_fiche_url) ?>">
+                <img src="<?= esc_url($labo_logo_url) ?>" alt="<?= esc_attr($labo_title) ?>">
+            </a>
+            </div>
+        </div>
+        <?php continue; endif; 
+
 
         // 🔷 Box standard
         $iconFile = "/wp-content/plugins/plateforme-master/imagesED/27) Icon-" . $iconMap[$key] . ".png";
@@ -504,3 +565,111 @@
         </div>
     <?php endforeach; ?>
 </div>
+
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const box = document.getElementById('box-fiche-labo');
+  if (!box) return;
+  const items = box.querySelectorAll('.labo-info-item');
+  items.forEach(item => {
+    const label = item.querySelector('.labo-info-label')?.textContent.trim();
+    if (label === 'Statut du financement') {
+      const valEl = item.querySelector('.labo-info-value');
+      const s = (valEl?.textContent || '').trim().toLowerCase();
+      const dot = document.createElement('i');
+      dot.className = 'fas fa-circle';
+      dot.style.marginRight = '6px';
+      dot.style.color = (s === 'actif') ? '#28a745' : '#dc3545';
+      valEl.prepend(dot);
+    }
+  });
+});
+
+
+
+/* ---------- Rendu de la table ---------- */
+function renderMembersIntoTable(rows){
+  const tbody = document.querySelector('#candidaturesTable tbody');
+  if (!tbody) return;
+
+  if (!Array.isArray(rows) || rows.length === 0){
+    tbody.innerHTML = `<tr><td colspan="7">Aucun membre</td></tr>`;
+    return;
+  }
+
+  const avatar = '/wp-content/plugins/plateforme-master/images/icons/Groupe de masques 435.png';
+  const html = rows.map(r => {
+    const nameHtml = `
+      <img src="${avatar}" alt="profile" class="coord-avatar">
+      <span class="coord-placeholder">${escapeHtml(r.user_display_name || 'Utilisateur')}</span>
+    `;
+    return `
+      <tr>
+        <td><input type="checkbox" data-membre-id="${r.id}"></td>
+        <td class="left">${nameHtml}</td>
+        <td class="left">${escapeHtml(r.grade || '')}</td>
+        <td>${escapeHtml(r.specialite || '')}</td>
+        <td>${escapeHtml(r.projets_lies || '')}</td>
+        <td>${formatFRDate(r.last_activity || r.updated_at || r.created_at || '')}</td>
+        <td>
+          <div class="actions">
+            <button class="action-btn">...</button>
+            <div class="dropdown-menu">
+              <a href="#" class="edit-btn" data-membre-id="${r.id}">Modifier</a>
+              <a href="/membre-de-labo-fiche-membres/?id=${r.id}">Détail</a>
+            </div>
+          </div>
+        </td>
+      </tr>`;
+  }).join('');
+
+  tbody.innerHTML = html;
+
+  // Si DataTables est déjà initialisé, on invalide/redessine sans ré‑initialiser
+  if (window.jQuery && jQuery.fn && jQuery.fn.dataTable && jQuery.fn.dataTable.isDataTable('#candidaturesTable')){
+    jQuery('#candidaturesTable').DataTable().rows().invalidate().draw(false);
+  }
+}
+
+/* ---------- FONCTION DEMANDÉE : charge la table ---------- */
+async function loadMembersTable(laboratoireId){
+  const tbody = document.querySelector('#candidaturesTable tbody');
+  if (tbody) tbody.innerHTML = `<tr><td colspan="7">Chargement…</td></tr>`;
+
+  try {
+    let labId = parseInt(laboratoireId || '0', 10) || 0;
+    if (!labId) labId = await ensureLabId();
+    if (!labId){
+      if (tbody) tbody.innerHTML = `<tr><td colspan="7">Identifiant du laboratoire introuvable.</td></tr>`;
+      return;
+    }
+
+    const rows = await apiGet('/membre', {
+      laboratoire_id: labId,
+      with_user: 1,
+      with_projects: 1,        // nécessite l’agrégation côté API (sinon ce champ sera vide)
+      with_etablissement: 1,
+      orderby: 'last_activity',// ou 'updated_at'
+      order: 'DESC',
+      per_page: 200
+    });
+
+    console.log("test imen hnayet");
+
+    renderMembersIntoTable(rows);
+
+  } catch(e){
+    console.error('[loadMembersTable] Erreur:', e);
+    if (tbody) tbody.innerHTML = `<tr><td colspan="7">Erreur: ${escapeHtml(e.message || 'échec appel API')}</td></tr>`;
+  }
+}
+
+/* ---------- Exemple d’appel au chargement ---------- */
+document.addEventListener('DOMContentLoaded', function(){
+  // Option 1: passer l’ID si vous l’avez en PHP : loadMembersTable(123);
+  // Option 2: laisser ensureLabId() le déduire :
+  loadMembersTable();
+});
+
+</script>

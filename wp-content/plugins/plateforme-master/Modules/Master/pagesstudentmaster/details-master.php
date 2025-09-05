@@ -61,7 +61,7 @@ require_once plugin_dir_path(__FILE__).'../config/roles.php';
         <!-- Nav pages -->
         <?php include 'components/Nav-Pages.php'; ?>
         <!-- Dashboard Top Bar -->
-        <?php include 'components/Dashboard-Bar.php'; ?>
+        <?php include 'wp-content/plugins/plateforme-master/pages/components/Dashboard-Bar.php'; ?>
 
         <div class="content">
           <!-- Bloc 1 : Objectifs -->

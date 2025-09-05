@@ -11,495 +11,595 @@
 
 
 <style>
-body {
-    font-family: 'Inter', sans-serif;
-    background-color: #f9fafb;
-}
-
-.content-block {
-    background: #fff;
-    border-radius: 10px;
-    padding: 24px;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
-}
-
-.header-bar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 10px;
-}
-
-.dashboard-sub-title {
-    font-weight: bold;
-    font-size: 1.5rem;
-    display: flex;
-    align-items: center;
-}
-
-.add-contact-btn {
-    background-color: #c60000;
-    color: white;
-    border: none;
-    border-radius: 6px;
-    padding: 10px 20px;
-    font-weight: bold;
-    cursor: pointer;
-    transition: background-color: 0.2s;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
-
-.add-contact-btn:hover {
-    background-color: #a50000;
-}
-
-.section-divider {
-    border: none;
-    border-top: 1px solid #e0e0e0;
-    margin: 16px 0;
-}
-
-.filter-bar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 1rem;
-    padding-bottom: 20px;
-}
-
-.search-input-wrapper {
-    position: relative;
-}
-
-.search-input {
-    border: 1px solid #e0e0e0;
-    border-radius: 6px;
-    padding: 0.6rem 2.5rem 0.6rem 0.75rem;
-    background-color: #fdfdfd;
-    font-size: 14px;
-    height: 42px;
-    width: 250px;
-}
-
-.search-input-wrapper .fa-search {
-    position: absolute;
-    top: 50%;
-    right: 0.85rem;
-    transform: translateY(-50%);
-    color: #6b7280;
-}
-
-.filter-actions {
-    display: flex;
-    gap: 10px;
-    align-items: center;
-}
-
-.icon-btn {
-    width: 42px;
-    height: 42px;
-    border: 1px solid #e0e0e0;
-    border-radius: 6px;
-    background-color: #fdfdfd;
-    color: #BF0404;
-    cursor: pointer;
-    transition: background-color: 0.2s;
-    font-size: 16px;
-}
-
-.icon-btn:hover {
-    background-color: #f5f5f5;
-}
-
-.styled-table {
-    width: 100%;
-    border-collapse: separate;
-    border-spacing: 0;
-    border: 1px solid #e0e0e0;
-    border-radius: 12px;
-}
-
-.styled-table thead {
-    background-color: #f3f1e9;
-}
-
-.styled-table th,
-.styled-table td {
-    padding: 14px;
-    text-align: left;
-    border-bottom: 1px solid #e0e0e0;
-}
-
-.styled-table th:first-child {
-    border-top-left-radius: 12px;
-}
-
-.styled-table th:last-child {
-    border-top-right-radius: 12px;
-}
-
-.styled-table tbody tr:last-child td:first-child {
-    border-bottom-left-radius: 12px;
-}
-
-.styled-table tbody tr:last-child td:last-child {
-    border-bottom-right-radius: 12px;
-}
-
-
-.styled-table tbody tr:last-child td {
-    border-bottom: none;
-}
-
-.styled-table th {
-    font-weight: 600;
-}
-
-.styled-table td {
-    vertical-align: middle;
-}
-
-.styled-table .org-name,
-.styled-table .contact-person {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-
-.org-logo,
-.contact-avatar {
-    width: 32px;
-    height: 32px;
-    border-radius: 50%;
-    object-fit: cover;
-}
-
-.org-logo {
-    border: 1px solid #ddd;
-}
-
-.actions {
-    position: relative;
-    display: inline-block;
-}
-
-.action-btn {
-    background: none;
-    border: none;
-    font-size: 24px;
-    font-weight: bold;
-    cursor: pointer;
-}
-
-/* --- Final DataTables Pagination Styles --- */
-.datatable-footer {
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-    margin-top: 20px;
-}
-
-.dataTables_paginate {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-    color: #a50000;
-}
-
-.dataTables_paginate .paginate_button {
-    order: 2;
-    /* Default order for buttons */
-    width: 40px;
-    height: 40px;
-    border: 1px solid #ef8585;
-    border-radius: 12px;
-    background-color: #ff0000ff;
-    color: #ef8585 !important;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-decoration: none;
-    transition: background-color 0.2s;
-}
-
-.dataTables_paginate .paginate_button#contactsTable_previous {
-    order: 1;
-    /* Previous button first */
-}
-
-.dataTables_paginate .paginate_button#contactsTable_next {
-    order: 3;
-    /* Next button last */
-}
-
-.dataTables_paginate .paginate_button:hover {
-    background-color: #fef2f2;
-}
-
-.dataTables_paginate .paginate_button.disabled,
-.dataTables_paginate .paginate_button.disabled:hover {
-    border-color: #e0e0e0;
-    color: #bdbdbd !important;
-    cursor: default;
-    background-color: #f5f5f5;
-}
-
-.pagination-page-info {
-    order: 2;
-    /* Page number in the middle */
-    font-weight: bold;
-    font-size: 16px;
-    color: #333;
-}
-
-.dataTables_wrapper .dataTables_paginate .paginate_button,
-.dataTables_wrapper .dataTables_paginate .paginate_button:hover {
-    box-sizing: border-box;
-    display: inline-block;
-    min-width: 1.5em;
-    padding: .5em 1em;
-    margin-left: 2px;
-    text-align: center;
-    text-decoration: none !important;
-    cursor: pointer;
-    color: red !important;
-    border: 2px solid red;
-    border-radius: 2px;
-    background: transparent;
-}
-
-.dataTables_wrapper .dataTables_paginate .paginate_button.disabled,
-.dataTables_wrapper .dataTables_paginate .paginate_button.disabled:hover,
-.dataTables_wrapper .dataTables_paginate .paginate_button.disabled:active {
-    cursor: default;
-    color: #ff0000ff !important;
-    border: 2px solid red;
-    background: transparent;
-    box-shadow: none;
-}
-
-/* Modal Styles */
-.modal-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.3);
-    display: flex;
-    justify-content: flex-end;
-    z-index: 999999;
-}
-
-.popup-container {
-    background-color: white;
-    width: 450px;
-    height: 100%;
-    box-shadow: -4px 0 10px rgba(0, 0, 0, 0.1);
-    overflow-y: auto;
-}
-
-.popup-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 20px 25px;
-    box-shadow: 0 5px 16px rgba(0, 0, 0, 0.16);
-    margin-bottom: 20px;
-}
-
-.popup-form,
-.popup-details {
-    padding: 0 25px;
-}
-
-.popup-form .form-group {
-    margin-bottom: 15px;
-}
-
-.popup-form label {
-    display: block;
-    font-weight: 500;
-    color: #555;
-    margin-bottom: 8px;
-    font-size: 14px;
-}
-
-.popup-form input {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 6px;
-    box-sizing: border-box;
-}
-
-.popup-form .form-section-title,
-.popup-details .details-section-title {
-    font-weight: bold;
-    font-size: 1rem;
-    margin-top: 20px;
-    margin-bottom: 15px;
-    padding-bottom: 10px;
-    border-bottom: 1px solid #eee;
-}
-
-.popup-header h2 {
-    font-size: 16px;
-    margin: 0;
-    color: #2A2916;
-}
-
-.btn-enregistrer {
-    background-color: #c62828;
-    color: white;
-    border: none;
-    padding: 8px 18px;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 14px;
-    font-weight: bold;
-}
-
-.ql-toolbar.ql-snow {
-    border-radius: 6px 6px 0 0;
-    background-color: #ecebe3;
-    border: 1px solid #DBD9C3;
-}
-
-.ql-container.ql-snow {
-    border-radius: 0 0 6px 6px;
-    font-size: 14px;
-    border: 1px solid #DBD9C3;
-}
-
-/* Action Dropdown Menu */
-.dropdown-menu {
-    display: none;
-    position: absolute;
-    right: 0;
-    background-color: white;
-    min-width: 160px;
-    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
-    z-index: 10;
-    border-radius: 8px;
-    border: 1px solid #ddd;
-    padding: 5px 0;
-}
-
-.dropdown-menu a {
-    color: black;
-    padding: 12px 16px;
-    text-decoration: none;
-    display: block;
-    font-size: 14px;
-}
-
-.dropdown-menu a:hover {
-    background-color: #f1f1f1;
-}
-
-/* New styles for Add Contact Modal */
-.logo-upload-placeholder {
-    width: 100px;
-    height: 100px;
-    border: 2px dashed #ccc;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    margin-bottom: 15px;
-    position: relative;
-    overflow: hidden;
-}
-
-.logo-upload-placeholder i {
-    font-size: 2rem;
-    color: #ccc;
-}
-
-.logo-upload-placeholder .image-preview {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-
-.input-with-icon {
-    position: relative;
-}
-
-.input-with-icon input {
-    padding-left: 45px;
-}
-
-.input-with-icon .icon {
-    position: absolute;
-    left: 0;
-    top: 0;
-    height: 100%;
-    width: 40px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-right: 1px solid #ccc;
-}
-
-.input-with-icon .icon-right {
-    left: auto;
-    right: 0;
-    border-right: none;
-    border-left: 1px solid #ccc;
-}
-
-.input-with-icon input.website-input {
-    padding-left: 15px;
-    padding-right: 45px;
-}
-
-/* --- NEW: Styles for Detail Modal --- */
-.detail-header {
-    text-align: center;
-    margin-bottom: 25px;
-}
-
-.detail-logo,
-.detail-avatar {
-    width: 100px;
-    height: 100px;
-    border-radius: 50%;
-    object-fit: cover;
-    margin: 0 auto 10px auto;
-    display: block;
-}
-
-.detail-logo {
-    border: 1px solid #eee;
-}
-
-.detail-name {
-    font-weight: bold;
-    font-size: 1.2rem;
-    margin: 0;
-}
-
-.detail-info-grid {
-    display: grid;
-    grid-template-columns: max-content 1fr;
-    gap: 10px 15px;
-    margin-bottom: 15px;
-}
-
-.detail-info-grid .label {
-    font-weight: 500;
-    color: #555;
-}
-
-.detail-info-grid .value {
-    color: #333;
-}
+    body {
+        font-family: 'Inter', sans-serif;
+        background-color: #f9fafb;
+    }
+
+    .content-block {
+        background: #fff;
+        border-radius: 10px;
+        padding: 24px;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+    }
+
+    .header-bar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 10px;
+    }
+
+    .dashboard-sub-title {
+        font-weight: bold;
+        font-size: 1.5rem;
+        display: flex;
+        align-items: center;
+    }
+
+    .add-contact-btn {
+        background-color: #c60000;
+        color: white;
+        border: none;
+        border-radius: 6px;
+        padding: 10px 20px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: background-color: 0.2s;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .add-contact-btn:hover {
+        background-color: #a50000;
+    }
+
+    .section-divider {
+        border: none;
+        border-top: 1px solid #e0e0e0;
+        margin: 10px 0;
+    }
+
+    .filter-bar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 1rem;
+        padding-bottom: 30px;
+    }
+
+    .search-input-wrapper {
+        position: relative;
+    }
+
+    .search-input {
+        border: 1px solid #e0e0e0;
+        border-radius: 6px;
+        padding: 0.6rem 2.5rem 0.6rem 0.75rem;
+        background-color: #fdfdfd;
+        font-size: 14px;
+        height: 42px;
+        width: 250px;
+    }
+
+    .search-input-wrapper .fa-search {
+        position: absolute;
+        top: 50%;
+        right: 0.85rem;
+        transform: translateY(-50%);
+        color: #6b7280;
+    }
+
+    .filter-actions {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+    }
+
+    .icon-btn {
+        width: 42px;
+        height: 42px;
+        border: 1px solid #e0e0e0;
+        border-radius: 6px;
+        background-color: #fdfdfd;
+        color: #BF0404;
+        cursor: pointer;
+        transition: background-color: 0.2s;
+        font-size: 16px;
+    }
+
+    .icon-btn:hover {
+        background-color: #f5f5f5;
+    }
+
+    .styled-table {
+        width: 100%;
+        border-collapse: separate;
+        border-spacing: 0;
+        border: 1px solid #e0e0e0;
+        border-radius: 12px;
+    }
+
+    .styled-table thead {
+        background-color: #f3f1e9;
+    }
+
+    .styled-table th,
+    .styled-table td {
+        padding: 14px;
+        text-align: left;
+        border-bottom: 1px solid #e0e0e0;
+    }
+
+    .styled-table th:first-child {
+        border-top-left-radius: 12px;
+    }
+
+    .styled-table th:last-child {
+        border-top-right-radius: 12px;
+    }
+
+    .styled-table tbody tr:last-child td:first-child {
+        border-bottom-left-radius: 12px;
+    }
+
+    .styled-table tbody tr:last-child td:last-child {
+        border-bottom-right-radius: 12px;
+    }
+
+
+    .styled-table tbody tr:last-child td {
+        border-bottom: none;
+    }
+
+    .styled-table th {
+        font-weight: 600;
+    }
+
+    .styled-table td {
+        vertical-align: middle;
+    }
+
+    .styled-table .org-name,
+    .styled-table .contact-person {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .org-logo,
+    .contact-avatar {
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        object-fit: cover;
+    }
+
+    .org-logo {
+        border: 1px solid #ddd;
+    }
+
+    .actions {
+        position: relative;
+        display: inline-block;
+    }
+
+    .action-btn {
+        background: none;
+        border: none;
+        font-size: 24px;
+        font-weight: bold;
+        cursor: pointer;
+    }
+
+    /* --- Final DataTables Pagination Styles --- */
+    .datatable-footer {
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        margin-top: 20px;
+    }
+
+    .dataTables_paginate {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        color: #a50000;
+    }
+
+    .dataTables_paginate .paginate_button {
+        order: 2;
+        /* Default order for buttons */
+        width: 40px;
+        height: 40px;
+        border: 1px solid #ef8585;
+        border-radius: 12px;
+        background-color: #ff0000ff;
+        color: #ef8585 !important;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-decoration: none;
+        transition: background-color 0.2s;
+    }
+
+    .dataTables_paginate .paginate_button#contactsTable_previous {
+        order: 1;
+        /* Previous button first */
+    }
+
+    .dataTables_paginate .paginate_button#contactsTable_next {
+        order: 3;
+        /* Next button last */
+    }
+
+    .dataTables_paginate .paginate_button:hover {
+        background-color: #fef2f2;
+    }
+
+    .dataTables_paginate .paginate_button.disabled,
+    .dataTables_paginate .paginate_button.disabled:hover {
+        border-color: #e0e0e0;
+        color: #bdbdbd !important;
+        cursor: default;
+        background-color: #f5f5f5;
+    }
+
+    .pagination-page-info {
+        order: 2;
+        /* Page number in the middle */
+        font-weight: bold;
+        font-size: 16px;
+        color: #333;
+    }
+
+    .dataTables_wrapper .dataTables_paginate .paginate_button,
+    .dataTables_wrapper .dataTables_paginate .paginate_button:hover {
+        box-sizing: border-box;
+        display: inline-block;
+        min-width: 1.5em;
+        padding: .5em 1em;
+        margin-left: 2px;
+        text-align: center;
+        text-decoration: none !important;
+        cursor: pointer;
+        color: red !important;
+        border: 2px solid red;
+        border-radius: 2px;
+        background: transparent;
+    }
+
+    .dataTables_wrapper .dataTables_paginate .paginate_button.disabled,
+    .dataTables_wrapper .dataTables_paginate .paginate_button.disabled:hover,
+    .dataTables_wrapper .dataTables_paginate .paginate_button.disabled:active {
+        cursor: default;
+        color: #ff0000ff !important;
+        border: 2px solid red;
+        background: transparent;
+        box-shadow: none;
+    }
+
+    /* Modal Styles */
+    .modal-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.3);
+        display: flex;
+        justify-content: flex-end;
+        z-index: 999999;
+    }
+
+    .popup-container {
+        background-color: white;
+        width: 450px;
+        height: 100%;
+        box-shadow: -4px 0 10px rgba(0, 0, 0, 0.1);
+        overflow-y: auto;
+    }
+
+    .popup-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 20px 25px;
+        box-shadow: 0 5px 16px rgba(0, 0, 0, 0.16);
+        margin-bottom: 20px;
+    }
+
+    .popup-form,
+    .popup-details {
+        padding: 0 25px;
+    }
+
+    .popup-form .form-group {
+        margin-bottom: 15px;
+    }
+
+    .popup-form label {
+        display: block;
+        font-weight: 500;
+        color: #555;
+        margin-bottom: 8px;
+        font-size: 14px;
+    }
+
+    .popup-form input {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 6px;
+        box-sizing: border-box;
+    }
+
+    .popup-form .form-section-title,
+    .popup-details .details-section-title {
+        font-weight: bold;
+        font-size: 1rem;
+        margin-top: 20px;
+        margin-bottom: 15px;
+        padding-bottom: 10px;
+        border-bottom: 1px solid #eee;
+    }
+
+    .popup-header h2 {
+        font-size: 16px;
+        margin: 0;
+        color: #2A2916;
+    }
+
+    .btn-enregistrer {
+        background-color: #c62828;
+        color: white;
+        border: none;
+        padding: 8px 18px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 14px;
+        font-weight: bold;
+    }
+
+    .ql-toolbar.ql-snow {
+        border-radius: 6px 6px 0 0;
+        background-color: #ecebe3;
+        border: 1px solid #DBD9C3;
+    }
+
+    .ql-container.ql-snow {
+        border-radius: 0 0 6px 6px;
+        font-size: 14px;
+        border: 1px solid #DBD9C3;
+    }
+
+    /* Action Dropdown Menu */
+    .dropdown-menu {
+        display: none;
+        position: absolute;
+        right: 0;
+        background-color: white;
+        min-width: 160px;
+        box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+        z-index: 10;
+        border-radius: 8px;
+        border: 1px solid #ddd;
+        padding: 5px 0;
+    }
+
+    .dropdown-menu a {
+        color: black;
+        padding: 12px 16px;
+        text-decoration: none;
+        display: block;
+        font-size: 14px;
+    }
+
+    .dropdown-menu a:hover {
+        background-color: #f1f1f1;
+    }
+
+    /* New styles for Add Contact Modal */
+    .logo-upload-placeholder {
+        width: 100px;
+        height: 100px;
+        border: 2px dashed #ccc;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        margin-bottom: 15px;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .logo-upload-placeholder i {
+        font-size: 2rem;
+        color: #ccc;
+    }
+
+    .logo-upload-placeholder .image-preview {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .input-with-icon {
+        position: relative;
+    }
+
+    .input-with-icon input {
+        padding-left: 45px;
+    }
+
+    .input-with-icon .icon {
+        position: absolute;
+        left: 0;
+        top: 0;
+        height: 100%;
+        width: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-right: 1px solid #ccc;
+    }
+
+    .input-with-icon .icon-right {
+        left: auto;
+        right: 0;
+        border-right: none;
+        border-left: 1px solid #ccc;
+    }
+
+    .input-with-icon input.website-input {
+        padding-left: 15px;
+        padding-right: 45px;
+    }
+
+    /* --- UPDATED: Styles for Detail Modal --- */
+    #detailContactModal .popup-header {
+        display: none;
+    }
+
+    #detailContactModal .popup-details {
+        padding: 25px;
+    }
+
+    .detail-header {
+        text-align: center;
+        margin-bottom: 25px;
+    }
+
+    .detail-logo,
+    .detail-avatar {
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        object-fit: cover;
+        margin: 0 auto 10px auto;
+        display: block;
+    }
+
+    .detail-logo {
+        border: 1px solid #eee;
+    }
+
+    .detail-name {
+        font-weight: bold;
+        font-size: 1.2rem;
+        margin: 0;
+        color: #333;
+    }
+
+    .detail-info-item {
+        padding-bottom: 12px;
+        margin-bottom: 12px;
+        border-bottom: 1px solid #ebeae4;
+    }
+
+    .detail-info-grid .detail-info-item:last-child {
+        border-bottom: none;
+        margin-bottom: 0;
+    }
+
+    .detail-info-item .label {
+        display: block;
+        font-weight: 500;
+        color: #605E3E;
+        font-size: 14px;
+        margin-bottom: 4px;
+    }
+
+    .detail-info-item .value {
+        display: block;
+        color: #333;
+        font-size: 16px;
+    }
+
+    .detail-info-item .value a {
+        color: #007bff;
+        text-decoration: none;
+    }
+
+    .detail-info-item .value a:hover {
+        text-decoration: underline;
+    }
+
+    .popup-details .details-section-title {
+        display: none;
+    }
+
+
+    #contactsTable {
+        border: none !important;
+        border-collapse: collapse;
+        box-shadow: none !important;
+        /* overflow: visible; */
+    }
+
+    #contactsTable th {
+        border: 0px solid #EBE9D7;
+        text-align: center;
+    }
+
+    #contactsTable td {
+        border: 1px solid #EBE9D7;
+        text-align: center;
+    }
+
+    #contactsTable thead {
+        border: none !important;
+        position: static;
+        transform: translateY(-15px);
+    }
+
+    #contactsTable tbody tr:first-child td:first-child {
+        border-top: 1px solid #EBE9D7 !important;
+    }
+
+    #contactsTable {
+        border-collapse: separate;
+        border-spacing: 0;
+        border-radius: 50x 50px 0 0;
+        /* overflow: hidden; */
+    }
+
+    #contactsTable thead tr:first-child th:first-child {
+        border-top-left-radius: 12px;
+        border-bottom-left-radius: 12px;
+    }
+
+    #contactsTable thead tr:first-child th:last-child {
+        border-top-right-radius: 12px;
+        border-bottom-right-radius: 12px;
+    }
+
+    #contactsTable tbody tr:last-child td:first-child {
+        border-bottom-left-radius: 12px;
+    }
+
+    #contactsTable tbody tr:last-child td:last-child {
+        border-bottom-right-radius: 12px;
+    }
+
+    #contactsTable tbody tr:first-child td:first-child {
+        border-top-left-radius: 12px;
+    }
+
+    #contactsTable tbody tr:first-child td:last-child {
+        border-top-right-radius: 12px;
+    }
+
+    #contactsTable tbody tr:last-child td:first-child {
+        border-bottom-left-radius: 12px;
+    }
+
+    #contactsTable tbody tr:last-child td:last-child {
+        border-bottom-right-radius: 12px;
+    }
 </style>
 
 <div class="content-block">
@@ -790,42 +890,59 @@ body {
 <!-- ======================================================= -->
 <div class="modal-overlay" id="detailContactModal" style="display: none;">
     <div class="popup-container">
-        <div class="popup-header">
-            <h2>Details Contact</h2>
-        </div>
+        <!-- The popup-header is removed to match the new design -->
         <div class="popup-details">
             <div class="detail-header">
                 <img src="" alt="Organization Logo" class="detail-logo" id="detailOrgLogo">
                 <h3 class="detail-name" id="detailOrgName"></h3>
             </div>
+
             <div class="detail-info-grid">
-                <span class="label">Domaine :</span>
-                <span class="value" id="detailOrgDomain"></span>
-                <span class="label">Matricule :</span>
-                <span class="value">A45RGHKS-20255</span> <!-- Example static value -->
-                <span class="label">Email Organisation :</span>
-                <span class="value" id="detailOrgEmail"></span>
-                <span class="label">Adresse Organisation :</span>
-                <span class="value">Cité Khadhra 1003</span> <!-- Example static value -->
-                <span class="label">Téléphone :</span>
-                <span class="value" id="detailOrgPhone"></span>
-                <span class="label">Site Web :</span>
-                <span class="value"><a href="#" id="detailOrgWebsite" target="_blank"></a></span>
+                <div class="detail-info-item">
+                    <span class="label">Domaine :</span>
+                    <span class="value" id="detailOrgDomain"></span>
+                </div>
+                <div class="detail-info-item">
+                    <span class="label">Matricule :</span>
+                    <span class="value">A45RGHKS-20255</span>
+                </div>
+                <div class="detail-info-item">
+                    <span class="label">Email Organisation :</span>
+                    <span class="value" id="detailOrgEmail"></span>
+                </div>
+                <div class="detail-info-item">
+                    <span class="label">Adresse Organisation :</span>
+                    <span class="value">Cité Khadhra 1003</span>
+                </div>
+                <div class="detail-info-item">
+                    <span class="label">Téléphone :</span>
+                    <span class="value" id="detailOrgPhone"></span>
+                </div>
+                <div class="detail-info-item">
+                    <span class="label">Site Web :</span>
+                    <span class="value"><a href="#" id="detailOrgWebsite" target="_blank"></a></span>
+                </div>
             </div>
-
-            <h3 class="details-section-title">Détails du contact principal</h3>
-
+            <hr style="margin-inline: -25px;color: #605E3E;box-shadow: -1px 1px 0px black;">
+            <!-- The h3 title is removed and the avatar header acts as a separator -->
             <div class="detail-header">
                 <img src="" alt="Contact Avatar" class="detail-avatar" id="detailContactAvatar">
                 <h3 class="detail-name" id="detailContactName"></h3>
             </div>
+
             <div class="detail-info-grid">
-                <span class="label">Fonction :</span>
-                <span class="value">Directeur</span> <!-- Example static value -->
-                <span class="label">Email :</span>
-                <span class="value" id="detailContactEmail"></span>
-                <span class="label">Téléphone :</span>
-                <span class="value" id="detailContactPhone"></span>
+                <div class="detail-info-item">
+                    <span class="label">Fonction :</span>
+                    <span class="value">Directeur</span>
+                </div>
+                <div class="detail-info-item">
+                    <span class="label">Email :</span>
+                    <span class="value" id="detailContactEmail"></span>
+                </div>
+                <div class="detail-info-item">
+                    <span class="label">Téléphone :</span>
+                    <span class="value" id="detailContactPhone"></span>
+                </div>
             </div>
         </div>
     </div>
@@ -840,293 +957,293 @@ body {
 <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
 
 <script>
-// --- SCRIPT FOR MODALS AND QUILL EDITOR ---
+    // --- SCRIPT FOR MODALS AND QUILL EDITOR ---
 
-// function openmodalObjectifs() {
-//     document.getElementById("modalObjectifs").style.display = "flex";
-// }
+    // function openmodalObjectifs() {
+    //     document.getElementById("modalObjectifs").style.display = "flex";
+    // }
 
-function openAddContactModal() {
-    document.getElementById("addContactModal").style.display = "flex";
-}
-
-// --- SCRIPT FOR EDIT MODAL ---
-function openEditContactModal(element) {
-    // Find the table row (tr) that contains the clicked "Modifier" link
-    const row = element.closest('tr');
-
-    // Extract data from the row's cells
-    const orgLogoSrc = row.querySelector('.org-logo').src;
-    const orgName = row.querySelector('.org-name span').textContent;
-    const orgDomain = row.cells[2].textContent;
-    const contactAvatarSrc = row.querySelector('.contact-avatar').src;
-    const contactName = row.querySelector('.contact-person span').textContent;
-    const phone = row.cells[4].textContent;
-    const email = row.cells[5].textContent;
-
-    // Populate the edit modal with the extracted data
-    document.getElementById('editOrgLogoPreview').src = orgLogoSrc;
-    document.getElementById('editOrgLogoPreview').style.display = 'block';
-    document.getElementById('editOrgLogoPlaceholder').querySelector('i').style.display = 'none';
-
-    document.getElementById('editOrgName').value = orgName;
-    document.getElementById('editOrgDomain').value = orgDomain;
-    document.getElementById('editOrgEmail').value = email;
-    document.getElementById('editOrgPhone').value = phone;
-
-    document.getElementById('editContactAvatarPreview').src = contactAvatarSrc;
-    document.getElementById('editContactAvatarPreview').style.display = 'block';
-    document.getElementById('editContactAvatarPlaceholder').querySelector('i').style.display = 'none';
-    document.getElementById('editContactName').value = contactName;
-
-    // Display the edit modal
-    document.getElementById("editContactModal").style.display = "flex";
-}
-
-// --- NEW SCRIPT FOR DETAIL MODAL ---
-function openDetailContactModal(element) {
-    // Find the table row (tr) that contains the clicked "Détail" link
-    const row = element.closest('tr');
-
-    // Extract data from the row's cells
-    const orgLogoSrc = row.querySelector('.org-logo').src;
-    const orgName = row.querySelector('.org-name span').textContent;
-    const orgDomain = row.cells[2].textContent;
-    const orgPhone = row.cells[4].textContent;
-    const orgEmail = row.cells[5].textContent;
-    const contactAvatarSrc = row.querySelector('.contact-avatar').src;
-    const contactName = row.querySelector('.contact-person span').textContent;
-    // Assuming contact email and phone are the same as org for this example
-    const contactEmail = orgEmail;
-    const contactPhone = orgPhone;
-
-    // Populate the detail modal with the extracted data
-    document.getElementById('detailOrgLogo').src = orgLogoSrc;
-    document.getElementById('detailOrgName').textContent = orgName;
-    document.getElementById('detailOrgDomain').textContent = orgDomain;
-    document.getElementById('detailOrgEmail').textContent = orgEmail;
-    document.getElementById('detailOrgPhone').textContent = orgPhone;
-
-    // Example for website link
-    const website = "www.ai-solution.tn"; // Example static value
-    const websiteLink = document.getElementById('detailOrgWebsite');
-    websiteLink.href = 'http://' + website;
-    websiteLink.textContent = website;
-
-    document.getElementById('detailContactAvatar').src = contactAvatarSrc;
-    document.getElementById('detailContactName').textContent = contactName;
-    document.getElementById('detailContactEmail').textContent = contactEmail;
-    document.getElementById('detailContactPhone').textContent = contactPhone;
-
-    // Display the detail modal
-    document.getElementById("detailContactModal").style.display = "flex";
-}
-
-
-document.addEventListener("DOMContentLoaded", function() {
-    // Initialize Quill Editor
-    const quill = new Quill('#objectifSpecifique', {
-        theme: 'snow',
-        placeholder: 'Ajouter un commentaire...',
-        modules: {
-            toolbar: [
-                ['bold', 'italic', 'underline'],
-                ['link'],
-                [{
-                    'list': 'bullet'
-                }]
-            ]
-        }
-    });
-
-    // Close modals on outside click
-    document.querySelectorAll('.modal-overlay').forEach(modal => {
-        modal.addEventListener('click', function(e) {
-            if (e.target === this) {
-                this.style.display = 'none';
-            }
-        });
-    });
-
-    // --- SCRIPT FOR IMAGE UPLOAD (ADD MODAL) ---
-    const orgLogoPlaceholder = document.getElementById('orgLogoPlaceholder');
-    const orgLogoInput = document.getElementById('orgLogoInput');
-    const orgLogoPreview = document.getElementById('orgLogoPreview');
-
-    const contactAvatarPlaceholder = document.getElementById('contactAvatarPlaceholder');
-    const contactAvatarInput = document.getElementById('contactAvatarInput');
-    const contactAvatarPreview = document.getElementById('contactAvatarPreview');
-
-    orgLogoPlaceholder.addEventListener('click', () => orgLogoInput.click());
-    contactAvatarPlaceholder.addEventListener('click', () => contactAvatarInput.click());
-
-    orgLogoInput.addEventListener('change', function(event) {
-        const file = event.target.files[0];
-        if (file) {
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                orgLogoPreview.src = e.target.result;
-                orgLogoPreview.style.display = 'block';
-                orgLogoPlaceholder.querySelector('i').style.display = 'none';
-            }
-            reader.readAsDataURL(file);
-        }
-    });
-
-    contactAvatarInput.addEventListener('change', function(event) {
-        const file = event.target.files[0];
-        if (file) {
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                contactAvatarPreview.src = e.target.result;
-                contactAvatarPreview.style.display = 'block';
-                contactAvatarPlaceholder.querySelector('i').style.display = 'none';
-            }
-            reader.readAsDataURL(file);
-        }
-    });
-
-    // --- SCRIPT FOR IMAGE UPLOAD (EDIT MODAL) ---
-    const editOrgLogoPlaceholder = document.getElementById('editOrgLogoPlaceholder');
-    const editOrgLogoInput = document.getElementById('editOrgLogoInput');
-    const editOrgLogoPreview = document.getElementById('editOrgLogoPreview');
-
-    const editContactAvatarPlaceholder = document.getElementById('editContactAvatarPlaceholder');
-    const editContactAvatarInput = document.getElementById('editContactAvatarInput');
-    const editContactAvatarPreview = document.getElementById('editContactAvatarPreview');
-
-    editOrgLogoPlaceholder.addEventListener('click', () => editOrgLogoInput.click());
-    editContactAvatarPlaceholder.addEventListener('click', () => editContactAvatarInput.click());
-
-    editOrgLogoInput.addEventListener('change', function(event) {
-        const file = event.target.files[0];
-        if (file) {
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                editOrgLogoPreview.src = e.target.result;
-                editOrgLogoPreview.style.display = 'block';
-                editOrgLogoPlaceholder.querySelector('i').style.display = 'none';
-            }
-            reader.readAsDataURL(file);
-        }
-    });
-
-    editContactAvatarInput.addEventListener('change', function(event) {
-        const file = event.target.files[0];
-        if (file) {
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                editContactAvatarPreview.src = e.target.result;
-                editContactAvatarPreview.style.display = 'block';
-                editContactAvatarPlaceholder.querySelector('i').style.display = 'none';
-            }
-            reader.readAsDataURL(file);
-        }
-    });
-
-
-    // --- SCRIPT FOR ACTION DROPDOWN ---
-    function toggleDropdown(button) {
-        // Close all other dropdowns first
-        document.querySelectorAll('.dropdown-menu').forEach(menu => {
-            if (menu !== button.nextElementSibling) {
-                menu.style.display = 'none';
-            }
-        });
-        // Toggle the clicked dropdown
-        const menu = button.nextElementSibling;
-        menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
+    function openAddContactModal() {
+        document.getElementById("addContactModal").style.display = "flex";
     }
 
-    // Attach event listeners to all action buttons
-    document.querySelectorAll('.action-btn').forEach(button => {
-        button.addEventListener('click', function(event) {
-            // Stop the click from bubbling up to the window
-            event.stopPropagation();
-            toggleDropdown(this);
-        });
-    });
+    // --- SCRIPT FOR EDIT MODAL ---
+    function openEditContactModal(element) {
+        // Find the table row (tr) that contains the clicked "Modifier" link
+        const row = element.closest('tr');
 
-    // Close dropdowns if clicking outside
-    window.addEventListener('click', function(event) {
-        document.querySelectorAll('.dropdown-menu').forEach(menu => {
-            menu.style.display = 'none';
-        });
-    });
+        // Extract data from the row's cells
+        const orgLogoSrc = row.querySelector('.org-logo').src;
+        const orgName = row.querySelector('.org-name span').textContent;
+        const orgDomain = row.cells[2].textContent;
+        const contactAvatarSrc = row.querySelector('.contact-avatar').src;
+        const contactName = row.querySelector('.contact-person span').textContent;
+        const phone = row.cells[4].textContent;
+        const email = row.cells[5].textContent;
 
-    // =================================================================
-    // ========= DATATABLES INITIALIZATION AND FUNCTIONALITY ===========
-    // =================================================================
+        // Populate the edit modal with the extracted data
+        document.getElementById('editOrgLogoPreview').src = orgLogoSrc;
+        document.getElementById('editOrgLogoPreview').style.display = 'block';
+        document.getElementById('editOrgLogoPlaceholder').querySelector('i').style.display = 'none';
 
-    const table = $('#contactsTable').DataTable({
-        paging: true,
-        pagingType: 'simple',
-        searching: true,
-        ordering: false,
-        info: false, // Turn off the default info
-        pageLength: 5,
-        language: {
-            paginate: {
-                previous: "<i class='fa fa-chevron-left'></i>",
-                next: "<i class='fa fa-chevron-right'></i>"
-            },
-            emptyTable: "Aucune donnée disponible",
-            zeroRecords: "Aucun enregistrement correspondant trouvé",
-        },
-        // Custom layout for footer
-        "dom": '<"top">rt<"bottom"<"datatable-footer"p>><"clear">'
-    });
+        document.getElementById('editOrgName').value = orgName;
+        document.getElementById('editOrgDomain').value = orgDomain;
+        document.getElementById('editOrgEmail').value = email;
+        document.getElementById('editOrgPhone').value = phone;
 
-    // Custom function to create and manage the page number display
-    const updatePaginationDisplay = () => {
-        const pageInfo = table.page.info();
-        const currentPage = pageInfo.page + 1;
-        let pageInfoSpan = $('.pagination-page-info');
+        document.getElementById('editContactAvatarPreview').src = contactAvatarSrc;
+        document.getElementById('editContactAvatarPreview').style.display = 'block';
+        document.getElementById('editContactAvatarPlaceholder').querySelector('i').style.display = 'none';
+        document.getElementById('editContactName').value = contactName;
 
-        // If the span doesn't exist, create it
-        if (pageInfoSpan.length === 0) {
-            pageInfoSpan = $('<span class="pagination-page-info"></span>').insertAfter(
-                '#contactsTable_previous');
-        }
+        // Display the edit modal
+        document.getElementById("editContactModal").style.display = "flex";
+    }
 
-        // Update the text
-        pageInfoSpan.text(currentPage);
-    };
+    // --- NEW SCRIPT FOR DETAIL MODAL ---
+    function openDetailContactModal(element) {
+        // Find the table row (tr) that contains the clicked "Détail" link
+        const row = element.closest('tr');
 
-    // Initial display and on every page change
-    updatePaginationDisplay();
-    table.on('draw', updatePaginationDisplay);
+        // Extract data from the row's cells
+        const orgLogoSrc = row.querySelector('.org-logo').src;
+        const orgName = row.querySelector('.org-name span').textContent;
+        const orgDomain = row.cells[2].textContent;
+        const orgPhone = row.cells[4].textContent;
+        const orgEmail = row.cells[5].textContent;
+        const contactAvatarSrc = row.querySelector('.contact-avatar').src;
+        const contactName = row.querySelector('.contact-person span').textContent;
+        // Assuming contact email and phone are the same as org for this example
+        const contactEmail = orgEmail;
+        const contactPhone = orgPhone;
+
+        // Populate the detail modal with the extracted data
+        document.getElementById('detailOrgLogo').src = orgLogoSrc;
+        document.getElementById('detailOrgName').textContent = orgName;
+        document.getElementById('detailOrgDomain').textContent = orgDomain;
+        document.getElementById('detailOrgEmail').textContent = orgEmail;
+        document.getElementById('detailOrgPhone').textContent = orgPhone;
+
+        // Example for website link
+        const website = "www.ai-solution.tn"; // Example static value
+        const websiteLink = document.getElementById('detailOrgWebsite');
+        websiteLink.href = 'http://' + website;
+        websiteLink.textContent = website;
+
+        document.getElementById('detailContactAvatar').src = contactAvatarSrc;
+        document.getElementById('detailContactName').textContent = contactName;
+        document.getElementById('detailContactEmail').textContent = contactEmail;
+        document.getElementById('detailContactPhone').textContent = contactPhone;
+
+        // Display the detail modal
+        document.getElementById("detailContactModal").style.display = "flex";
+    }
 
 
-    // Link custom search input to DataTable's search
-    $('#searchInput').on('keyup', function() {
-        table.search(this.value).draw();
-    });
-
-
-    // --- CHECK ALL FUNCTIONALITY ---
-    const checkAll = document.getElementById('checkAll');
-
-    // Event listener for the main "check all" checkbox in the header
-    checkAll.addEventListener('change', function() {
-        // Get all checkboxes in the current view
-        const rows = table.rows({
-            'search': 'applied'
-        }).nodes();
-        $('input[type="checkbox"]', rows).prop('checked', this.checked);
-    });
-
-    // Handle clicks on individual checkboxes
-    $('#contactsTableBody').on('change', 'input[type="checkbox"]', function() {
-        // If this checkbox is unchecked
-        if (!this.checked) {
-            var el = $('#checkAll').get(0);
-            // If "check all" box is checked, uncheck it
-            if (el && el.checked && ('indeterminate' in el)) {
-                el.indeterminate = true;
+    document.addEventListener("DOMContentLoaded", function () {
+        // Initialize Quill Editor
+        const quill = new Quill('#objectifSpecifique', {
+            theme: 'snow',
+            placeholder: 'Ajouter un commentaire...',
+            modules: {
+                toolbar: [
+                    ['bold', 'italic', 'underline'],
+                    ['link'],
+                    [{
+                        'list': 'bullet'
+                    }]
+                ]
             }
-        }
-    });
+        });
 
-});
+        // Close modals on outside click
+        document.querySelectorAll('.modal-overlay').forEach(modal => {
+            modal.addEventListener('click', function (e) {
+                if (e.target === this) {
+                    this.style.display = 'none';
+                }
+            });
+        });
+
+        // --- SCRIPT FOR IMAGE UPLOAD (ADD MODAL) ---
+        const orgLogoPlaceholder = document.getElementById('orgLogoPlaceholder');
+        const orgLogoInput = document.getElementById('orgLogoInput');
+        const orgLogoPreview = document.getElementById('orgLogoPreview');
+
+        const contactAvatarPlaceholder = document.getElementById('contactAvatarPlaceholder');
+        const contactAvatarInput = document.getElementById('contactAvatarInput');
+        const contactAvatarPreview = document.getElementById('contactAvatarPreview');
+
+        orgLogoPlaceholder.addEventListener('click', () => orgLogoInput.click());
+        contactAvatarPlaceholder.addEventListener('click', () => contactAvatarInput.click());
+
+        orgLogoInput.addEventListener('change', function (event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    orgLogoPreview.src = e.target.result;
+                    orgLogoPreview.style.display = 'block';
+                    orgLogoPlaceholder.querySelector('i').style.display = 'none';
+                }
+                reader.readAsDataURL(file);
+            }
+        });
+
+        contactAvatarInput.addEventListener('change', function (event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    contactAvatarPreview.src = e.target.result;
+                    contactAvatarPreview.style.display = 'block';
+                    contactAvatarPlaceholder.querySelector('i').style.display = 'none';
+                }
+                reader.readAsDataURL(file);
+            }
+        });
+
+        // --- SCRIPT FOR IMAGE UPLOAD (EDIT MODAL) ---
+        const editOrgLogoPlaceholder = document.getElementById('editOrgLogoPlaceholder');
+        const editOrgLogoInput = document.getElementById('editOrgLogoInput');
+        const editOrgLogoPreview = document.getElementById('editOrgLogoPreview');
+
+        const editContactAvatarPlaceholder = document.getElementById('editContactAvatarPlaceholder');
+        const editContactAvatarInput = document.getElementById('editContactAvatarInput');
+        const editContactAvatarPreview = document.getElementById('editContactAvatarPreview');
+
+        editOrgLogoPlaceholder.addEventListener('click', () => editOrgLogoInput.click());
+        editContactAvatarPlaceholder.addEventListener('click', () => editContactAvatarInput.click());
+
+        editOrgLogoInput.addEventListener('change', function (event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    editOrgLogoPreview.src = e.target.result;
+                    editOrgLogoPreview.style.display = 'block';
+                    editOrgLogoPlaceholder.querySelector('i').style.display = 'none';
+                }
+                reader.readAsDataURL(file);
+            }
+        });
+
+        editContactAvatarInput.addEventListener('change', function (event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    editContactAvatarPreview.src = e.target.result;
+                    editContactAvatarPreview.style.display = 'block';
+                    editContactAvatarPlaceholder.querySelector('i').style.display = 'none';
+                }
+                reader.readAsDataURL(file);
+            }
+        });
+
+
+        // --- SCRIPT FOR ACTION DROPDOWN ---
+        function toggleDropdown(button) {
+            // Close all other dropdowns first
+            document.querySelectorAll('.dropdown-menu').forEach(menu => {
+                if (menu !== button.nextElementSibling) {
+                    menu.style.display = 'none';
+                }
+            });
+            // Toggle the clicked dropdown
+            const menu = button.nextElementSibling;
+            menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
+        }
+
+        // Attach event listeners to all action buttons
+        document.querySelectorAll('.action-btn').forEach(button => {
+            button.addEventListener('click', function (event) {
+                // Stop the click from bubbling up to the window
+                event.stopPropagation();
+                toggleDropdown(this);
+            });
+        });
+
+        // Close dropdowns if clicking outside
+        window.addEventListener('click', function (event) {
+            document.querySelectorAll('.dropdown-menu').forEach(menu => {
+                menu.style.display = 'none';
+            });
+        });
+
+        // =================================================================
+        // ========= DATATABLES INITIALIZATION AND FUNCTIONALITY ===========
+        // =================================================================
+
+        const table = $('#contactsTable').DataTable({
+            paging: true,
+            pagingType: 'simple',
+            searching: true,
+            ordering: false,
+            info: false, // Turn off the default info
+            pageLength: 5,
+            language: {
+                paginate: {
+                    previous: "<i class='fa fa-chevron-left'></i>",
+                    next: "<i class='fa fa-chevron-right'></i>"
+                },
+                emptyTable: "Aucune donnée disponible",
+                zeroRecords: "Aucun enregistrement correspondant trouvé",
+            },
+            // Custom layout for footer
+            "dom": '<"top">rt<"bottom"<"datatable-footer"p>><"clear">'
+        });
+
+        // Custom function to create and manage the page number display
+        const updatePaginationDisplay = () => {
+            const pageInfo = table.page.info();
+            const currentPage = pageInfo.page + 1;
+            let pageInfoSpan = $('.pagination-page-info');
+
+            // If the span doesn't exist, create it
+            if (pageInfoSpan.length === 0) {
+                pageInfoSpan = $('<span class="pagination-page-info"></span>').insertAfter(
+                    '#contactsTable_previous');
+            }
+
+            // Update the text
+            pageInfoSpan.text(currentPage);
+        };
+
+        // Initial display and on every page change
+        updatePaginationDisplay();
+        table.on('draw', updatePaginationDisplay);
+
+
+        // Link custom search input to DataTable's search
+        $('#searchInput').on('keyup', function () {
+            table.search(this.value).draw();
+        });
+
+
+        // --- CHECK ALL FUNCTIONALITY ---
+        const checkAll = document.getElementById('checkAll');
+
+        // Event listener for the main "check all" checkbox in the header
+        checkAll.addEventListener('change', function () {
+            // Get all checkboxes in the current view
+            const rows = table.rows({
+                'search': 'applied'
+            }).nodes();
+            $('input[type="checkbox"]', rows).prop('checked', this.checked);
+        });
+
+        // Handle clicks on individual checkboxes
+        $('#contactsTableBody').on('change', 'input[type="checkbox"]', function () {
+            // If this checkbox is unchecked
+            if (!this.checked) {
+                var el = $('#checkAll').get(0);
+                // If "check all" box is checked, uncheck it
+                if (el && el.checked && ('indeterminate' in el)) {
+                    el.indeterminate = true;
+                }
+            }
+        });
+
+    });
 </script>

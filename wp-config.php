@@ -85,16 +85,17 @@ $table_prefix = 'utm_';
  *
  * @link https://developer.wordpress.org/advanced-administration/debug/debug-wordpress/
  */
-define('WP_DEBUG', false);
+define('WP_DEBUG', true);
 
 
-define('WP_DEBUG_LOG', false);
-define('WP_DEBUG_DISPLAY', false); //r ne pas afficher les erreurs à l'écran
+define('WP_DEBUG_LOG', true);
+define('WP_DEBUG_DISPLAY', true); //r ne pas afficher les erreurs à l'écran
 @ini_set('display_errors', 0);
 
 /* Add any custom values between this line and the "stop editing" line. */
 
-
+define('WP_HOME', 'http://wordpress.test');
+define('WP_SITEURL', 'http://wordpress.test');
 
 /* That's all, stop editing! Happy publishing. */
 

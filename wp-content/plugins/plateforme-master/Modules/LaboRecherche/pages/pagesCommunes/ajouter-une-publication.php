@@ -27,18 +27,18 @@ require_once plugin_dir_path(__FILE__) . '../requireApi.php';
 
 
     <style>
-    :root {
-        --red: #b60303;
-        --gray: #f3f3f3;
-        --dark: #333;
-    }
+        :root {
+            --red: #b60303;
+            --gray: #f3f3f3;
+            --dark: #333;
+        }
 
-    body {
-        margin: 0;
-        font-family: 'Segoe UI', sans-serif;
-        background: var(--gray);
-        min-height: 100vh;
-    }
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', sans-serif;
+            background: var(--gray);
+            min-height: 100vh;
+        }
     </style>
 </head>
 
@@ -61,7 +61,7 @@ require_once plugin_dir_path(__FILE__) . '../requireApi.php';
                 <?php include 'components/Nav-Pages.php'; ?>
 
                 <!-- Dashboard Top Bar -->
-                <?php include 'components/Dashboard-Bar.php'; ?>
+                <?php include 'wp-content/plugins/plateforme-master/pages/components/Dashboard-Bar.php'; ?>
 
                 <div class="content p-4">
 

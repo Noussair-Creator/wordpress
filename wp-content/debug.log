@@ -416,3 +416,39 @@ Stack trace:
   thrown in C:\laragon\www\wordpress\wp-content\plugins\plateforme-master\includes\pmo\api_pmo.php on line 24
 [02-Sep-2025 09:45:29 UTC] PHP Warning:  Constant GE_MODULE already defined in C:\laragon\www\wordpress\wp-content\plugins\GestionMasters\GestionMasters.php on line 11
 [02-Sep-2025 10:45:30 Africa/Tunis] PHP Warning:  Undefined variable $email in C:\laragon\www\wordpress\wp-content\plugins\secure-login\includes\login-handler.php on line 4
+[05-Sep-2025 10:10:03 UTC] PHP Warning:  Constant GE_MODULE already defined in C:\laragon\www\wordpress\wp-content\plugins\GestionMasters\GestionMasters.php on line 11
+[05-Sep-2025 11:10:03 Africa/Tunis] PHP Warning:  Undefined variable $email in C:\laragon\www\wordpress\wp-content\plugins\secure-login\includes\login-handler.php on line 4
+[05-Sep-2025 11:10:03 Africa/Tunis] PHP Deprecated:  strpos(): Passing null to parameter #1 ($haystack) of type string is deprecated in C:\laragon\www\wordpress\wp-includes\functions.php on line 7360
+[05-Sep-2025 11:10:03 Africa/Tunis] PHP Deprecated:  str_replace(): Passing null to parameter #3 ($subject) of type array|string is deprecated in C:\laragon\www\wordpress\wp-includes\functions.php on line 2195
+[05-Sep-2025 10:10:31 UTC] PHP Warning:  Constant GE_MODULE already defined in C:\laragon\www\wordpress\wp-content\plugins\GestionMasters\GestionMasters.php on line 11
+[05-Sep-2025 11:10:31 Africa/Tunis] PHP Warning:  Undefined variable $email in C:\laragon\www\wordpress\wp-content\plugins\secure-login\includes\login-handler.php on line 4
+[05-Sep-2025 10:10:40 UTC] PHP Warning:  Constant GE_MODULE already defined in C:\laragon\www\wordpress\wp-content\plugins\GestionMasters\GestionMasters.php on line 11
+[05-Sep-2025 11:10:40 Africa/Tunis] PHP Warning:  Undefined variable $email in C:\laragon\www\wordpress\wp-content\plugins\secure-login\includes\login-handler.php on line 4
+[05-Sep-2025 10:10:40 UTC] PHP Warning:  Constant GE_MODULE already defined in C:\laragon\www\wordpress\wp-content\plugins\GestionMasters\GestionMasters.php on line 11
+[05-Sep-2025 11:10:40 Africa/Tunis] PHP Warning:  Undefined variable $email in C:\laragon\www\wordpress\wp-content\plugins\secure-login\includes\login-handler.php on line 4
+[05-Sep-2025 10:10:48 UTC] PHP Warning:  Constant GE_MODULE already defined in C:\laragon\www\wordpress\wp-content\plugins\GestionMasters\GestionMasters.php on line 11
+[05-Sep-2025 11:10:48 Africa/Tunis] PHP Warning:  Undefined variable $email in C:\laragon\www\wordpress\wp-content\plugins\secure-login\includes\login-handler.php on line 4
+[05-Sep-2025 11:10:48 Africa/Tunis] PHP Deprecated:  Le fichier class-phpmailer.php est <strong>obsolète</strong> depuis la version 5.5.0 ! Utilisez wp-includes/PHPMailer/PHPMailer.php à la place. The PHPMailer class has been moved to wp-includes/PHPMailer subdirectory and now uses the PHPMailer\PHPMailer namespace. in C:\laragon\www\wordpress\wp-includes\functions.php on line 6121
+[05-Sep-2025 11:10:48 Africa/Tunis] PHP Deprecated:  Le fichier class-smtp.php est <strong>obsolète</strong> depuis la version 5.5.0 ! Utilisez wp-includes/PHPMailer/SMTP.php à la place. The SMTP class has been moved to the wp-includes/PHPMailer subdirectory and now uses the PHPMailer\PHPMailer namespace. in C:\laragon\www\wordpress\wp-includes\functions.php on line 6121
+[05-Sep-2025 10:10:50 UTC] PHP Warning:  Constant GE_MODULE already defined in C:\laragon\www\wordpress\wp-content\plugins\GestionMasters\GestionMasters.php on line 11
+[05-Sep-2025 11:10:50 Africa/Tunis] PHP Warning:  Undefined variable $email in C:\laragon\www\wordpress\wp-content\plugins\secure-login\includes\login-handler.php on line 4
+[05-Sep-2025 10:11:04 UTC] PHP Warning:  Constant GE_MODULE already defined in C:\laragon\www\wordpress\wp-content\plugins\GestionMasters\GestionMasters.php on line 11
+[05-Sep-2025 11:11:04 Africa/Tunis] PHP Warning:  Undefined variable $email in C:\laragon\www\wordpress\wp-content\plugins\secure-login\includes\login-handler.php on line 4
+[05-Sep-2025 10:11:26 UTC] PHP Warning:  Constant GE_MODULE already defined in C:\laragon\www\wordpress\wp-content\plugins\GestionMasters\GestionMasters.php on line 11
+[05-Sep-2025 11:11:26 Africa/Tunis] PHP Warning:  Undefined variable $email in C:\laragon\www\wordpress\wp-content\plugins\secure-login\includes\login-handler.php on line 4
+[05-Sep-2025 10:13:04 UTC] PHP Warning:  Constant GE_MODULE already defined in C:\laragon\www\wordpress\wp-content\plugins\GestionMasters\GestionMasters.php on line 11
+[05-Sep-2025 11:13:04 Africa/Tunis] PHP Warning:  Undefined variable $email in C:\laragon\www\wordpress\wp-content\plugins\secure-login\includes\login-handler.php on line 4
+[05-Sep-2025 10:13:05 UTC] PHP Warning:  Constant GE_MODULE already defined in C:\laragon\www\wordpress\wp-content\plugins\GestionMasters\GestionMasters.php on line 11
+[05-Sep-2025 11:13:05 Africa/Tunis] PHP Warning:  Undefined variable $email in C:\laragon\www\wordpress\wp-content\plugins\secure-login\includes\login-handler.php on line 4
+[05-Sep-2025 10:15:05 UTC] PHP Warning:  Constant GE_MODULE already defined in C:\laragon\www\wordpress\wp-content\plugins\GestionMasters\GestionMasters.php on line 11
+[05-Sep-2025 11:15:05 Africa/Tunis] PHP Warning:  Undefined variable $email in C:\laragon\www\wordpress\wp-content\plugins\secure-login\includes\login-handler.php on line 4
+[05-Sep-2025 10:15:06 UTC] PHP Warning:  Constant GE_MODULE already defined in C:\laragon\www\wordpress\wp-content\plugins\GestionMasters\GestionMasters.php on line 11
+[05-Sep-2025 11:15:06 Africa/Tunis] PHP Warning:  Undefined variable $email in C:\laragon\www\wordpress\wp-content\plugins\secure-login\includes\login-handler.php on line 4
+[05-Sep-2025 10:17:06 UTC] PHP Warning:  Constant GE_MODULE already defined in C:\laragon\www\wordpress\wp-content\plugins\GestionMasters\GestionMasters.php on line 11
+[05-Sep-2025 11:17:06 Africa/Tunis] PHP Warning:  Undefined variable $email in C:\laragon\www\wordpress\wp-content\plugins\secure-login\includes\login-handler.php on line 4
+[05-Sep-2025 10:17:07 UTC] PHP Warning:  Constant GE_MODULE already defined in C:\laragon\www\wordpress\wp-content\plugins\GestionMasters\GestionMasters.php on line 11
+[05-Sep-2025 11:17:07 Africa/Tunis] PHP Warning:  Undefined variable $email in C:\laragon\www\wordpress\wp-content\plugins\secure-login\includes\login-handler.php on line 4
+[05-Sep-2025 10:19:07 UTC] PHP Warning:  Constant GE_MODULE already defined in C:\laragon\www\wordpress\wp-content\plugins\GestionMasters\GestionMasters.php on line 11
+[05-Sep-2025 11:19:07 Africa/Tunis] PHP Warning:  Undefined variable $email in C:\laragon\www\wordpress\wp-content\plugins\secure-login\includes\login-handler.php on line 4
+[05-Sep-2025 10:19:08 UTC] PHP Warning:  Constant GE_MODULE already defined in C:\laragon\www\wordpress\wp-content\plugins\GestionMasters\GestionMasters.php on line 11
+[05-Sep-2025 11:19:08 Africa/Tunis] PHP Warning:  Undefined variable $email in C:\laragon\www\wordpress\wp-content\plugins\secure-login\includes\login-handler.php on line 4

@@ -615,6 +615,76 @@
             padding: 9px;
             color: white;
         }
+
+
+
+        #equipementsTable,
+        #reservationsTable {
+            border: none !important;
+            border-collapse: collapse;
+            box-shadow: none !important;
+        }
+
+        #equipementsTable th,
+        #reservationsTable th {
+            border: 0px solid #EBE9D7;
+        }
+
+        #equipementsTable td,
+        #reservationsTable td {
+            border: 1px solid #EBE9D7;
+        }
+
+        #equipementsTable thead,
+        #reservationsTable thead {
+            border: none !important;
+            position: static;
+            transform: translateY(-15px);
+        }
+
+        #equipementsTable tbody tr:first-child td,
+        #reservationsTable tbody tr:first-child td {
+            border-top: 1px solid #EBE9D7 !important;
+        }
+
+        #equipementsTable,
+        #reservationsTable {
+            border-collapse: separate;
+            border-spacing: 0;
+        }
+
+        #equipementsTable thead tr:first-child th:first-child,
+        #reservationsTable thead tr:first-child th:first-child {
+            border-top-left-radius: 12px;
+            border-bottom-left-radius: 12px;
+        }
+
+        #equipementsTable thead tr:first-child th:last-child,
+        #reservationsTable thead tr:first-child th:last-child {
+            border-top-right-radius: 12px;
+            border-bottom-right-radius: 12px;
+
+        }
+
+        #equipementsTable tbody tr:last-child td:first-child,
+        #reservationsTable tbody tr:last-child td:first-child {
+            border-bottom-left-radius: 12px;
+        }
+
+        #equipementsTable tbody tr:last-child td:last-child,
+        #reservationsTable tbody tr:last-child td:last-child {
+            border-bottom-right-radius: 12px;
+        }
+
+        #equipementsTable tbody tr:first-child td:first-child,
+        #reservationsTable tbody tr:first-child td:first-child {
+            border-top-left-radius: 12px;
+        }
+
+        #equipementsTable tbody tr:first-child td:last-child,
+        #reservationsTable tbody tr:first-child td:last-child {
+            border-top-right-radius: 12px;
+        }
     </style>
 </head>
 
@@ -928,7 +998,7 @@
         <div class="popup-container" id="popupContainerObjectifs">
             <div class="popup-header">
                 <h2>Nouveau Réservation</h2>
-                <button class="btn-enregistrer" id="btnSaveObjectifs">Envoyer la demande</button>
+                <button class="btn-enregistrer" id="btnSaveObjectifs">Enregistrer</button>
             </div>
             <form class="popup-form">
                 <div class="form-group">
@@ -978,7 +1048,7 @@
         <div class="popup-container">
             <div class="popup-header">
                 <h2>Modifier la Réservation</h2>
-                <button class="btn-enregistrer">Enregistrer les modifications</button>
+                <button class="btn-enregistrer">Enregistrer</button>
             </div>
             <form class="popup-form">
                 <div class="form-group">
@@ -1175,7 +1245,7 @@
         <div class="popup-container" id="popupContainerMaintenance">
             <div class="popup-header">
                 <h2>Demande de maintenance</h2>
-                <button class="btn-enregistrer">Envoyer la demande</button>
+                <button class="btn-enregistrer">Enregistrer</button>
             </div>
             <form class="popup-form">
                 <div class="form-group">
@@ -1539,9 +1609,16 @@
                 openModalDetailsAppareil();
             });
 
-            // Open history modal
+            // Open history modal from details modal
             $(document).on('click', '.openHistoryModal', function () {
+                $('#modalDetailsAppareil').hide();
                 openModalHistorique();
+            });
+
+            // Back arrow in history modal to return to details modal
+            $('#modalHistorique .fa-arrow-left').on('click', function () {
+                $('#modalHistorique').hide();
+                openModalDetailsAppareil();
             });
 
             // Generic modal close logic

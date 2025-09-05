@@ -32,12 +32,20 @@ function msg__is_participant($user_id, $thread_id) {
   return (bool) $wpdb->get_var($sql);
 }
 
+
+
 function msg__require_participant($user_id, $thread_id) {
   if (!msg__is_participant($user_id, $thread_id)) {
     return new WP_Error('forbidden', 'Accès refusé à ce fil', ['status'=>403]);
   }
   return true;
 }
+/*
+function msg__require_participant($user_id, $thread_id) {
+  if (!msg__is_participant($current_user_id, $thread_id) && !current_user_can('manage_options') && !current_user_can('pm_view_all_threads')) {
+    return new WP_Error('forbidden','Accès refusé', ['status'=>403]);
+  }
+}*/
 
 function msg__wpdb_ok_or_error($context='') {
   global $wpdb;
@@ -73,6 +81,18 @@ function msg__unread_count_for_thread($user_id, $thread_id) {
 /* =============================
  * THREADS
  * ============================= */
+
+/**
+ * Récupère le premier rôle (slug) d'un user WP.
+ */
+function msg__user_first_role($user_id) {
+  $u = get_userdata($user_id);
+  if (!$u || empty($u->roles)) return null;
+  return is_array($u->roles) ? reset($u->roles) : $u->roles;
+}
+/**
+ * Liste des fils avec dernier expéditeur + rôle + date formatée + non lus.
+ */
 function msg_get_threads($current_user_id, $filters) {
   global $wpdb;
   if (!$current_user_id) return new WP_Error('not_logged_in','Non connecté',['status'=>401]);
@@ -96,8 +116,11 @@ function msg_get_threads($current_user_id, $filters) {
     ) lastm ON lastm.thread_id = t.id
   ";
 
+  // jointure pour récupérer le display_name du dernier expéditeur
+  $users_table = $wpdb->users;
+  $lastUserJoin = "LEFT JOIN {$users_table} u ON u.ID = lastm.sender_id";
+
   $where = $wpdb->prepare("p.user_id=%d AND p.left_at IS NULL", $current_user_id);
-  $params = [];
 
   if ($query !== '') {
     $like = '%'.$wpdb->esc_like($query).'%';
@@ -106,27 +129,61 @@ function msg_get_threads($current_user_id, $filters) {
 
   $sql = "
     SELECT
-      t.id, t.subject, t.is_group, t.updated_at,
-      lastm.sender_id AS last_sender_id,
-      lastm.created_at AS last_message_at,
-      SUBSTRING(TRIM(REPLACE(REPLACE(REPLACE(COALESCE(lastm.body_plain,''), '\r',' '), '\n',' '), '\t',' ')),1,160) AS last_excerpt
+      t.id,
+      t.subject,
+      t.is_group,
+      t.updated_at,
+      lastm.sender_id           AS last_sender_id,
+      u.display_name            AS last_sender_name,
+      lastm.created_at          AS last_message_at,
+      SUBSTRING(
+        TRIM(REPLACE(REPLACE(REPLACE(COALESCE(lastm.body_plain,''), '\r',' '), '\n',' '), '\t',' ')),
+        1,160
+      )                         AS last_excerpt
     FROM msg_threads t
     JOIN msg_thread_participants p ON p.thread_id = t.id
     $lastMessageJoin
+    $lastUserJoin
     WHERE $where
     ORDER BY t.updated_at DESC
     LIMIT %d OFFSET %d
   ";
+
   $rows = $wpdb->get_results($wpdb->prepare($sql, $limit, $offset), ARRAY_A);
   $ok = msg__wpdb_ok_or_error('get_threads'); if (is_wp_error($ok)) return $ok;
 
-  // Calcul unread_count (optimisation possible via vue/materialized view si besoin)
+  // Enrichissements : unread_count, rôle libellé, date display
   foreach ($rows as &$r) {
-    $r['unread_count'] = msg__unread_count_for_thread($current_user_id, intval($r['id']));
+    $thread_id = intval($r['id']);
+    $sender_id = intval($r['last_sender_id']);
+
+    // Non lus pour l'utilisateur courant
+    $r['unread_count'] = msg__unread_count_for_thread($current_user_id, $thread_id);
+
+    // Date lisible
+    if (!empty($r['last_message_at'])) {
+      $ts = strtotime($r['last_message_at']);
+      $r['last_message_at_display'] = function_exists('wp_date')
+        ? wp_date('d/m/Y H:i:s', $ts)
+        : date('d/m/Y H:i:s', $ts);
+    } else {
+      $r['last_message_at_display'] = '';
+    }
+
+    // Libellé de rôle de l'expéditeur (si connu)
+    if ($sender_id > 0) {
+      $role_slug = msg__user_first_role($sender_id);
+      $r['last_sender_role_label'] = msg__role_label($role_slug);
+    } else {
+      $r['last_sender_role_label'] = '';
+    }
   }
+  unset($r);
+
   if ($only_unread) {
     $rows = array_values(array_filter($rows, fn($r)=> (int)$r['unread_count'] > 0));
   }
+
   return $rows;
 }
 
@@ -263,6 +320,8 @@ function msg_update_participants($current_user_id, $thread_id, $ops) {
 function msg_get_messages($current_user_id, $thread_id, $filters) {
   global $wpdb;
   if (!$current_user_id) return new WP_Error('not_logged_in','Non connecté',['status'=>401]);
+
+  // Vérifier que l’utilisateur peut voir ce fil (ou autorisation spéciale si tu en as une)
   $auth = msg__require_participant($current_user_id, $thread_id);
   if (is_wp_error($auth)) return $auth;
 
@@ -271,10 +330,10 @@ function msg_get_messages($current_user_id, $thread_id, $filters) {
   $after = $filters['after']  ?? null;
 
   $where = $wpdb->prepare("thread_id=%d AND deleted_at IS NULL", $thread_id);
-  $params = [];
-  if ($after)  { $where .= $wpdb->prepare(" AND created_at > %s",  $after); }
-  if ($before) { $where .= $wpdb->prepare(" AND created_at < %s",  $before); }
+  if ($after)  $where .= $wpdb->prepare(" AND created_at > %s",  $after);
+  if ($before) $where .= $wpdb->prepare(" AND created_at < %s",  $before);
 
+  // 1) Messages bruts (aucun JOIN qui duplique)
   $sql = "
     SELECT id, thread_id, sender_id, body, body_plain, reply_to_id,
            has_attachments, created_at, edited_at
@@ -286,16 +345,51 @@ function msg_get_messages($current_user_id, $thread_id, $filters) {
   $rows = $wpdb->get_results($wpdb->prepare($sql, $limit), ARRAY_A);
   $ok = msg__wpdb_ok_or_error('get_messages'); if (is_wp_error($ok)) return $ok;
 
-  if ($rows) {
-    $ids = implode(',', array_map('intval', wp_list_pluck($rows, 'id')));
-    $atts = $wpdb->get_results("SELECT * FROM msg_attachments WHERE message_id IN ($ids)", ARRAY_A);
-    $by = [];
-    foreach ($atts as $a) { $by[$a['message_id']][] = $a; }
-    foreach ($rows as &$r) { $r['attachments'] = $by[$r['id']] ?? []; }
+  if (!$rows) return [];
+
+  // 2) Pièces jointes à part, puis regroupement → évite toute duplication
+  $ids = implode(',', array_map('intval', wp_list_pluck($rows, 'id')));
+  $atts = $wpdb->get_results("SELECT * FROM msg_attachments WHERE message_id IN ($ids)", ARRAY_A);
+  $ok = msg__wpdb_ok_or_error('get_message_attachments'); if (is_wp_error($ok)) return $ok;
+
+  $attsByMsg = [];
+  foreach ($atts as $a) {
+    $attsByMsg[$a['message_id']][] = $a;
   }
 
-  return $rows;
+  // 3) Enrichir chaque message avec name/role/labels/dates formatées
+  $out = [];
+  foreach ($rows as $r) {
+    $uid   = intval($r['sender_id']);
+    $name  = get_the_author_meta('display_name', $uid);
+    $rslug = msg__user_role_slug($uid);
+    $rlab  = msg__role_label($rslug);
+
+    $created_iso = $r['created_at'];                   // ISO DB
+    $created_fmt = function_exists('wp_date')
+      ? wp_date('d/m/Y H:i:s', strtotime($created_iso))
+      : date('d/m/Y H:i:s', strtotime($created_iso));
+
+    $out[] = [
+      'id'                  => intval($r['id']),
+      'thread_id'           => intval($r['thread_id']),
+      'sender_id'           => $uid,
+      'sender_name'         => $name ?: '—',
+      'sender_role'         => $rslug,
+      'sender_role_label'   => $rlab,                 // ← "Enseignant", "Chercheur", ...
+      'created_at'          => $created_iso,
+      'created_at_display'  => $created_fmt,          // ← à afficher à droite de la carte
+      'body_html'           => $r['body'],            // ← contenu (HTML) à afficher
+      'body_text'           => $r['body_plain'],      // ← si tu veux un fallback texte
+      'reply_to_id'         => $r['reply_to_id'] ? intval($r['reply_to_id']) : null,
+      'attachments'         => $attsByMsg[$r['id']] ?? [],
+      // on ne renvoie pas "subject" ici → tu l’as déjà en haut via msg_get_thread()
+    ];
+  }
+
+  return $out;
 }
+
 
 function msg_post_message($current_user_id, $thread_id, $payload) {
   global $wpdb;
@@ -520,4 +614,29 @@ function msg__save_attachment_row($msg_id, $att) {
     ]);
   }
   return true;
+}
+
+
+/** Renvoie le premier rôle d’un user (slug), ex: 'um_chercheur' */
+function msg__user_role_slug($user_id) {
+  $u = get_userdata($user_id);
+  if (!$u || empty($u->roles)) return null;
+  // premier rôle déclaré
+  return is_array($u->roles) ? reset($u->roles) : $u->roles;
+}
+
+/** Label lisible pour un rôle (à adapter à tes rôles WP) */
+function msg__role_label($slug) {
+  if (!$slug) return '';
+  $map = [
+    'um_enseignant'             => 'Enseignant',
+    'um_chercheur'              => 'Chercheur',
+    'um_doctorant'              => 'Doctorant',
+    'um_directeur_laboratoire'  => 'Directeur de labo',
+    'um_service_master'         => 'Service Mastère',
+    'um_coordonnateur_master'   => 'Coordonnateur Mastère',
+    'administrator'             => 'Administrateur',
+    // fallback
+  ];
+  return $map[$slug] ?? ucfirst(str_replace('_', ' ', $slug));
 }

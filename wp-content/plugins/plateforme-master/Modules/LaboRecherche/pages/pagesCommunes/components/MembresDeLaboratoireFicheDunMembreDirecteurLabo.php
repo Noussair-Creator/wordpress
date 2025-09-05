@@ -4,9 +4,9 @@
         font-family: 'Poppins', sans-serif;
     }
 
-    .content-wrapper {
+    /* .content-wrapper {
         padding: 25px;
-    }
+    } */
 
     .card {
         background: #fff;
@@ -226,12 +226,10 @@
             </li>
             <li><strong>Grade / Statut :</strong> <span>Maitre assistant</span></li>
             <li><strong>Spécialité :</strong> <span>Intelligence Artificielle</span></li>
-            <li><strong>Affectation :</strong> <span>ISAMM – Département Informatique</span></li>
             <li><strong>Email :</strong> <span><a href="mailto:sarra.messaoudi@utm.tn">sarra.messaoudi@utm.tn</a></span>
             </li>
             <li><strong>Téléphone :</strong> <span>+216 71 123 456</span></li>
             <li><strong>Date d'entrée au labo :</strong> <span>15/01/2022</span></li>
-            <li><strong>Equipe de recherche :</strong> <span>Systèmes Intelligents Distribués</span></li>
             <li><strong>Projet associé :</strong> <span>BCI-Learn, ARUX</span></li>
             <li><strong>Encadrements :</strong> <span>2 thèses, 1 mastère</span></li>
             <li>
@@ -244,7 +242,8 @@
                         <img class="pdf-icon" width="20px"
                             src="/wp-content/plugins/plateforme-master/images/icons/pdf-svgrepo-com (2).png"
                             alt="pdf-svgrepo-com (2).png">
-                        CV_Sarra_Messaoudi.pdf</a>
+                        CV_Sarra_Messaoudi.pdf
+                    </a>
                 </span>
             </li>
             <li>

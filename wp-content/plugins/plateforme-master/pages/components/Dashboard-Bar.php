@@ -90,7 +90,7 @@ $parent_title= $parent_id ? get_the_title($parent_id) : '';
     <!-- Messages (avec badge) + popover -->
     <div class="icon-box has-badge" id="msgBtn" aria-haspopup="true" aria-expanded="false">
       <i class="fas fa-comment-dots"></i>
-      <span class="badge-dot">4</span>
+      <span class="badge-dot" id="msgBadge">0</span>
 
       <div class="msg-popover" id="msgPopover" role="dialog" aria-label="Messages">
         <div class="msg-head">
@@ -105,7 +105,7 @@ $parent_title= $parent_id ? get_the_title($parent_id) : '';
         </div>
         <div class="msg-list" id="msgList">
           <!-- Exemples (remplace par ta boucle PHP) -->
-          <div class="msg-item unread">
+          <!--<div class="msg-item unread">
             <div class="msg-top">
               <div class="from"><span class="role">Enseignant :</span> <span class="name">Mr. Mourad Bouzidi</span></div>
               <div class="date">18-05-2025</div>
@@ -135,16 +135,16 @@ $parent_title= $parent_id ? get_the_title($parent_id) : '';
               <div class="date">24-05-2025</div>
             </div>
             <div class="msg-snippet">"Une réunion de suivi des stages est programmée le 15 mai…"</div>
-          </div>
+          </div>-->
         </div>
       </div>
     </div>
 
     <!-- Notifications -->
-    <div class="icon-box has-badge"><i class="fas fa-bell"></i><span class="badge-dot">2</span></div>
+    <div class="icon-box has-badge"><i class="fas fa-bell"></i><span class="badge-dot">0</span></div>
 
     <!-- Profil -->
-    <a href="/profile" class="icon-box" title="Profil">
+    <a href="/profile2" class="icon-box" title="Profil">
       <i class="fas fa-cog"></i>
     </a>
 
@@ -155,7 +155,20 @@ $parent_title= $parent_id ? get_the_title($parent_id) : '';
   </div>
 </div>
 
+
+
 <script>
+  window.PMSettings = {
+    restUrl: "<?= esc_url( rest_url() ) ?>",
+    nonce: "<?= wp_create_nonce('wp_rest') ?>",
+    role: "<?= esc_js($role) ?>",
+    userId: <?= (int) $user_id ?>
+  };
+</script>
+<script>
+
+const ME1 = Number(window.PMSettings?.userId || 0);
+
 // ==== Recherche repliable dans la barre ====
 const searchIcon = document.getElementById('search-icon');
 const searchContainer = document.querySelector('.search-container');
@@ -197,3 +210,125 @@ msgList.addEventListener('click', (e)=>{
   toggleMsg(false);
 });
 </script>
+
+
+<script>
+(function(){
+  // --- Config REST depuis WP ---
+  const REST_BASE = (window.PMSettings?.restUrl || '/wp-json').replace(/\/$/,'');
+  const NS        = REST_BASE + '/plateforme-messagerie/v1';
+  const NONCE     = window.PMSettings?.nonce || (window.wpApiSettings?.nonce || '');
+
+  // --- DOM ---
+  const badgeEl = document.getElementById('msgBadge');
+  const listEl  = document.getElementById('msgList');
+  const search  = document.getElementById('msgSearch');
+  if (!badgeEl || !listEl) return;
+
+  // --- util REST ---
+  async function api(path, {method='GET', query=null, data=null, headers={}}={}) {
+    const url = new URL(path.startsWith('http') ? path : (NS + path), location.href);
+    if (query) Object.entries(query).forEach(([k,v])=>{
+      if (v!==undefined && v!==null && v!=='') url.searchParams.set(k,v);
+    });
+    const opts = {
+      method,
+      headers: { 'Content-Type':'application/json', ...headers },
+      credentials: 'same-origin'
+    };
+    if (NONCE) opts.headers['X-WP-Nonce'] = NONCE;
+    if (data)  opts.body = JSON.stringify(data);
+
+    const r = await fetch(url.toString(), opts);
+    const t = await r.text(); let j; try{ j = JSON.parse(t); } catch { j = { raw:t }; }
+    if (!r.ok) throw Object.assign(new Error(j?.message || ('HTTP '+r.status)), {status:r.status, detail:j});
+    return j;
+  }
+
+  // --- utils ---
+  const esc = s => String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+
+  function renderList(threads){
+    listEl.innerHTML = '';
+    if (!threads?.length) {
+      listEl.innerHTML = `<div class="msg-item"><div class="msg-snippet">Aucun message</div></div>`;
+      return;
+    }
+    const frag = document.createDocumentFragment();
+    threads.forEach(t=>{
+      const it = document.createElement('div');
+      it.className = 'msg-item' + ((t.unread_count>0)?' unread':'');
+      it.innerHTML = `
+        <div class="msg-top">
+          <div class="from">
+            <span class="role">${esc(t.last_sender_role_label || '')}</span>
+            &nbsp;<span class="name">${esc(t.last_sender_name || '')}</span>
+          </div>
+          <div class="date">${esc(t.last_message_at_display || (t.last_message_at ? new Date(t.last_message_at).toLocaleDateString('fr-FR') : ''))}</div>
+        </div>
+        <div class="msg-snippet">${esc(t.last_excerpt || '')}</div>
+      `;
+      it.addEventListener('click', ()=>{
+        // ferme le popover
+        const pop = document.getElementById('msgPopover'); if (pop) pop.style.display='none';
+        // si la page /messages expose openThread, ouvre le fil
+        if (typeof window.openThread === 'function') { try { window.openThread(t.id); } catch{} }
+        else { window.location.href = '/messages'; }
+      });
+      frag.appendChild(it);
+    });
+    listEl.appendChild(frag);
+
+    // filtre live (sur ce lot) — attaché une seule fois
+    if (search && !search._wired) {
+      search._wired = true;
+      search.addEventListener('input', ()=>{
+        const q = search.value.trim().toLowerCase();
+        [...listEl.querySelectorAll('.msg-item')].forEach(it=>{
+          it.style.display = it.textContent.toLowerCase().includes(q) ? '' : 'none';
+        });
+      });
+    }
+  }
+
+  async function updateNavbarMessages(){
+    try{
+      // 1) 5 derniers fils pour l’affichage
+      const latest = await api('/messages/threads', { method:'GET', query:{ limit:5, offset:0 }});
+      //renderList(latest);
+      // 1) Récupérer des fils récents
+
+        // ➜ garder seulement les reçus (dernier message non envoyé par moi)
+        const received = (latest || []).filter(t => Number(t.last_sender_id) !== ME1);
+
+        // limiter à 5 pour l’affichage
+        renderList(received.slice(0, 5));
+
+      // 2) total des non-lus = somme des unread_count (on peut limiter à 200 fils)
+      const unreadThreads = await api('/messages/threads', { method:'GET', query:{ only_unread:1, limit:200 }});
+      const totalUnread = (unreadThreads || []).reduce((acc,t)=> acc + (parseInt(t.unread_count||0,10)||0), 0);
+
+      if (totalUnread > 0) {
+        badgeEl.style.display = '';
+        badgeEl.textContent = String(totalUnread);
+      } else {
+        badgeEl.style.display = 'none';
+        badgeEl.textContent = '';
+      }
+    } catch(e){
+      console.error('[navbar messages]', e);
+      // fallback discret
+      badgeEl.style.display = 'none';
+      if (listEl.innerHTML.trim()==='') {
+        listEl.innerHTML = `<div class="msg-item"><div class="msg-snippet">Erreur de chargement</div></div>`;
+      }
+    }
+  }
+
+  // init + refresh toutes les 60s
+  document.addEventListener('DOMContentLoaded', updateNavbarMessages);
+  setInterval(updateNavbarMessages, 60000);
+})();
+</script>
+
+
