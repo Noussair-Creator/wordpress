@@ -450,7 +450,7 @@
     }
 
     .card.full-width {
-        /* margin-top: 20px; */
+        margin-bottom: 20px;
         border: 0px;
     }
 

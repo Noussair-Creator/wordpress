@@ -113,27 +113,35 @@
         text-decoration: underline;
     }
 
-    #candidaturesTable {
+    /* UPDATED: Applied styles to both tables */
+    #candidaturesTable,
+    #participationTable {
         border: none !important;
-        border-collapse: collapse;
         box-shadow: none !important;
+        border-collapse: separate;
+        border-spacing: 0;
+        overflow: visible;
     }
 
-    #candidaturesTable th {
+    #candidaturesTable th,
+    #participationTable th {
         border: 0px solid #EBE9D7;
     }
 
-    #candidaturesTable td {
+    #candidaturesTable td,
+    #participationTable td {
         border: 1px solid #EBE9D7;
     }
 
-    #candidaturesTable thead {
+    #candidaturesTable thead,
+    #participationTable thead {
         border: none !important;
         position: static;
         transform: translateY(-15px);
     }
 
-    #candidaturesTable tbody tr:first-child td {
+    #candidaturesTable tbody tr:first-child td,
+    #participationTable tbody tr:first-child td {
         border-top: 1px solid #EBE9D7 !important;
     }
 
@@ -141,7 +149,6 @@
     #participationTable {
         border-collapse: separate;
         border-spacing: 0;
-        overflow: hidden;
     }
 
     #candidaturesTable thead tr:first-child th:first-child,
@@ -174,11 +181,6 @@
     #candidaturesTable tbody tr:first-child td:last-child,
     #participationTable tbody tr:first-child td:last-child {
         border-top-right-radius: 12px;
-    }
-
-    #candidaturesTable,
-    #participationTable {
-        overflow: visible;
     }
 
     .status-bar-container {
@@ -642,7 +644,6 @@
     }
 </style>
 
-
 <div class="content-wrapper">
 
     <!-- Container 1: General Information and Description -->
@@ -1017,3 +1018,6 @@
         });
     });
 </script>
+</body>
+
+</html>
