@@ -66,75 +66,79 @@ if (isset($_GET['role']) && $_GET['role'] !== '') {
 $role = $detected_role;
 ?>
 
+
 <!DOCTYPE html>
 <html lang="fr">
-<head>
-  <meta charset="UTF-8">
-  <title>Messages</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
-  <link rel="stylesheet" href="assets/css/style.css">
-  <style>
+<head>
+    <meta charset="UTF-8">
+    <title>Contacts</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+    <style>
     :root {
-      --red: #b60303;
-      --gray: #f3f3f3;
-      --dark: #333;
+        --red: #b60303;
+        --gray: #f3f3f3;
+        --dark: #333;
     }
 
     body {
-      margin: 0;
-      font-family: 'Segoe UI', sans-serif;
-      background: var(--gray);
-      min-height: 100vh; 
+        margin: 0;
+        font-family: 'Segoe UI', sans-serif;
+        background: var(--gray);
+        min-height: 100vh;
     }
-
     </style>
 </head>
 
 
 <body>
-  <!-- Header -->
-        <?php include 'wp-content/plugins/plateforme-master/pages/components/header.php'; ?>
+    <!-- Header -->
+    <?php include 'wp-content/plugins/plateforme-master/pages/components/header.php'; ?>
 
-  <div class="container-fluid">
-    <div class="row">
-      <!-- Sidebar -->
-      <div class="col-md-3 col-lg-2 p-0 sidbarcol">
-        <?php include 'wp-content/plugins/plateforme-master/pages/components/sidebar.php'; ?>
-      </div>
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Sidebar -->
+            <div class="col-md-3 col-lg-2 p-0 sidbarcol">
 
-      <div class="col-md-9 col-lg-10 p-0">
-        <!-- Nav pages -->
-        <?php include 'wp-content/plugins/plateforme-master/pages/components/Nav-Pages.php'; ?>
+                <?php include 'wp-content/plugins/plateforme-master/pages/components/sidebar.php'; ?>
 
-        <!-- Dashboard Top Bar -->
-        <?php include 'wp-content/plugins/plateforme-master/pages/components/Dashboard-Bar.php'; ?>
+            </div>
 
-        <!-- Place ce wrapper à l'endroit où tu inclus tes deux fichiers -->
-        <div class="content p-4">
-          <!-- Top Boxes (disponibilités, calendriers, carrousel) -->
-         <?php require_once 'components/messages-list.php'; ?>
+            <div class="col-md-9 col-lg-10 p-0">
+                <!-- Nav pages -->
+                <?php include 'wp-content/plugins/plateforme-master/pages/components/Nav-Pages.php'; ?>
 
+                <!-- Dashboard Top Bar -->
+                <?php include 'wp-content/plugins/plateforme-master/pages/components/Dashboard-Bar.php'; ?>
+
+                <div class="content p-4">
+
+                    <?php include 'components/contacts-directeur-du-labo.php'; ?>
+
+                </div>
+            </div>
         </div>
-
-      </div>
     </div>
-  </div>
 
-  <!-- Scripts -->
+    <!-- Scripts -->
+    <?php include 'components/scripts.php'; ?>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
+
 </html>
 <script>
   window.PMSettings = {
     restUrl: "<?= esc_url( rest_url() ) ?>",
     nonce: "<?= wp_create_nonce('wp_rest') ?>",
     role: "<?= esc_js($role) ?>",
+    isStudent: <?= $is_student ? 'true' : 'false' ?>,
     userId: <?= (int) $user_id ?>
   };
 </script>

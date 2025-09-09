@@ -1,12 +1,8 @@
 <?php
 
-
 $current_user = wp_get_current_user();
 $roles = (array) $current_user->roles;
 $role = $roles[0] ?? null;
-global $wpdb;
-
-
 
 $base_data = [
     'user'  => trim(($current_user->first_name ?? '') . ' ' . ($current_user->last_name ?? '')) ?: $current_user->display_name,
@@ -24,32 +20,6 @@ $base_data = [
         return get_avatar_url($uid);
     })($current_user->ID),
 ];
-
-
-$profil_id = get_user_meta($current_user->ID, 'profil_id', true);
-$base_data['profil_id'] = $profil_id;
-
-
-$profil_nom = $wpdb->get_var($wpdb->prepare("SELECT nom FROM utm_profils WHERE id = %d", $profil_id));
-$base_data['profil_nom'] = $profil_nom ?: '';
-
-// 2. Récupérer les titres des rubriques associées à ce profil
-$titres_rubriques = [];
-
-if ($profil_id) {
-
-    $titres_rubriques = $wpdb->get_col($wpdb->prepare("
-        SELECT r.titre
-        FROM utm_profils_rubriques pr
-        JOIN utm_rubriques r ON r.id = pr.rubrique_id
-        WHERE pr.profil_id = %d and `type` = 'menu'
-    ", $profil_id));
-
-    $titres_rubriques = $titres_rubriques ?: [];
-}
-
-$base_data['rubriques'] = $titres_rubriques ?: [];
-
 
 
 // Configuration dynamique par rôle
@@ -413,6 +383,9 @@ $roleConfigs = [
 
 // Fusion finale du profil dynamique
 $data = array_merge($base_data, $roleConfigs[$role] ?? []);
+$data = array_merge($base_data, $roleConfigs[$role] ?? []);
+
+// Filtrage direct du menu selon les rubriques autorisées
 if ($role === 'um_chercheur' && !empty($data['menu']) && !empty($titres_rubriques)) {
     $authorized_titles = array_map('strtolower', $titres_rubriques);
 
@@ -422,4 +395,5 @@ if ($role === 'um_chercheur' && !empty($data['menu']) && !empty($titres_rubrique
 
     $data['menu'] = array_values($data['menu']); // Réindexation propre
 }
+
 ?>

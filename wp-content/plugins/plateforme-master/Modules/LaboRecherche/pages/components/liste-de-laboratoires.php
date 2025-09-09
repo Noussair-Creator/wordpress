@@ -825,7 +825,7 @@ border: none;
             </tr>
         </thead>
         <tbody>
-            <tr data-has-director="false">
+           <!-- <tr data-has-director="false">
                 <td><input type="checkbox"></td>
                 <td>Labo 1</td>
                 <td>Informatique</td>
@@ -909,7 +909,7 @@ border: none;
                         </div>
                     </div>
                 </td>
-            </tr>
+            </tr>-->
         </tbody>
     </table>
 </div>
@@ -1743,4 +1743,339 @@ document.addEventListener('DOMContentLoaded', async function () {
             });
         }
 });
+
+// --- petit utilitaire pour remplir un <select> ---
+function populateSelect(selectEl, items, placeholder = 'Etablissement', valueKey = 'id', labelKey = 'nom') {
+  if (!selectEl) return;
+  selectEl.innerHTML = '';
+  const opt0 = document.createElement('option');
+  opt0.value = '';
+  opt0.textContent = placeholder;
+  selectEl.appendChild(opt0);
+
+  items.forEach(it => {
+    const opt = document.createElement('option');
+    opt.value = it[valueKey];
+    opt.textContent = it[labelKey];
+    // garde quelques infos en data-* si besoin plus tard
+    if (it.code_institut) opt.dataset.code = it.code_institut;
+    if (it.universite_id) opt.dataset.universiteId = it.universite_id;
+    selectEl.appendChild(opt);
+  });
+}
+
+// --- charge les établissements dans #etablissementLabo ----------------
+async function loadEtablissementsIntoSelect(selectId = 'etablissementLabo', { q = '', universite_id = null, actif = 1 } = {}) {
+  const base = (window.PMSettings?.restUrl || '/wp-json').replace(/\/$/, '');
+  const params = new URLSearchParams();
+  if (q) params.set('q', q);
+  if (universite_id != null) params.set('universite_id', universite_id);
+  if (typeof actif !== 'undefined' && actif !== null) params.set('actif', String(actif));
+
+  const url = `${base}/plateforme-master/v1/etablissements` + (params.toString() ? `?${params}` : '');
+
+  const res = await fetch(url, {
+    headers: {
+      'Accept': 'application/json',
+      ...(window.PMSettings?.nonce ? { 'X-WP-Nonce': PMSettings.nonce } : {})
+    },
+    credentials: 'include'
+  });
+  if (!res.ok) throw new Error(`API établissements ${res.status}`);
+  const data = await res.json();
+
+  // supporte soit {items:[...]} soit [...]
+  const raw = Array.isArray(data) ? data : (data.items || []);
+
+  // normalise : {id, nom, code_institut, universite_id}
+  const items = raw.map(r => ({
+    id:            r.id ?? r.etablissement_id ?? r.ID,
+    nom:           r.nom ?? r.label ?? r.name ?? '—',
+    code_institut: r.code_institut ?? r.code ?? null,
+    universite_id: r.universite_id ?? null
+  }))
+  // tri alpha par nom
+  .sort((a,b)=> a.nom.localeCompare(b.nom, 'fr', {sensitivity:'base'}));
+
+  const sel = document.getElementById(selectId);
+  populateSelect(sel, items, 'Etablissement', 'id', 'nom');
+}
+
+// Auto-load au chargement de la page
+document.addEventListener('DOMContentLoaded', () => {
+  loadEtablissementsIntoSelect('etablissementLabo')
+    .catch(e => {
+      console.error('[loadEtablissementsIntoSelect]', e);
+      if (window.Swal) Swal.fire('Erreur', 'Chargement des établissements impossible.', 'error');
+    });
+});
+
+
+async function loadDirecteursIntoSelect(
+  selectId = 'directeurLabo',
+  { q = '', etablissement_id = null, all = 0 } = {}
+) {
+  const base = (window.PMSettings?.restUrl || '/wp-json').replace(/\/$/, '');
+  const params = new URLSearchParams();
+  if (q) params.set('q', q);
+  if (etablissement_id != null) params.set('etablissement_id', etablissement_id);
+  if (all) params.set('all', '1');
+
+  const url = `${base}/plateforme-recherche/v1/directeurs` + (params.toString() ? `?${params}` : '');
+  const res = await fetch(url, {
+    headers: {
+      'Accept': 'application/json',
+      ...(window.PMSettings?.nonce ? {'X-WP-Nonce': PMSettings.nonce} : {})
+    },
+    credentials: 'include'
+  });
+  if (!res.ok) throw new Error(`API directeurs ${res.status}`);
+  const data = await res.json();
+
+  const sel = document.getElementById(selectId);
+  if (!sel) return;
+
+  // reset
+  sel.innerHTML = '';
+  const opt0 = document.createElement('option');
+  opt0.value = '';
+  opt0.textContent = 'Sélectionnez...';
+  sel.appendChild(opt0);
+
+  (data.items || []).forEach(u => {
+    const o = document.createElement('option');
+    o.value = u.id;
+    o.textContent = u.label || u.display_name || ('#' + u.id);
+    o.dataset.email = u.email || '';
+    o.dataset.avatar = u.avatar_url || '';
+    o.dataset.etablissementId = u.etablissement_id || '';
+    sel.appendChild(o);
+  });
+}
+
+
+// --- optionnel : petit indicateur "chargement..."
+function setSelectLoading(sel, isLoading){
+  if (!sel) return;
+  sel.disabled = !!isLoading;
+  if (isLoading){
+    sel.dataset.prevText = sel.options[0]?.textContent || 'Sélectionnez...';
+    sel.innerHTML = '<option value="">Chargement...</option>';
+  } else {
+    if (!sel.options.length){
+      const o = document.createElement('option');
+      o.value = '';
+      o.textContent = 'Sélectionnez...';
+      sel.appendChild(o);
+    }
+  }
+}
+
+/**
+ * Lie le select d’établissement à celui des directeurs :
+ * - au change d’établissement => charge les directeurs de cet établissement
+ * - au chargement de la page => charge si une valeur est déjà sélectionnée
+ */
+function bindDirecteursToEtablissement({
+  etabSelectId = 'etablissementLabo',
+  dirSelectId  = 'directeurLabo'
+} = {}){
+  const etabSel = document.getElementById(etabSelectId);
+  const dirSel  = document.getElementById(dirSelectId);
+  if (!etabSel || !dirSel) return;
+
+  const refresh = async () => {
+    const etablissement_id = etabSel.value ? parseInt(etabSel.value, 10) : null;
+
+    // si rien de sélectionné, on vide & désactive
+    if (!etablissement_id){
+      dirSel.innerHTML = '<option value="">Sélectionnez...</option>';
+      dirSel.disabled = true;
+      return;
+    }
+
+    try {
+      setSelectLoading(dirSel, true);
+      // ← ta fonction existante (déjà modifiée pour etablissement_id)
+      await loadDirecteursIntoSelect(dirSelectId, { etablissement_id });
+      dirSel.disabled = false;
+    } catch (e){
+      console.error('[directeurs] load error', e);
+      dirSel.innerHTML = '<option value="">Erreur de chargement</option>';
+      dirSel.disabled = true;
+      if (window.toast) window.toast('Erreur lors du chargement des directeurs', true);
+    } finally {
+      setSelectLoading(dirSel, false);
+    }
+  };
+
+  // Au changement d’établissement
+  etabSel.addEventListener('change', refresh);
+
+  // Au premier chargement (si une valeur est déjà présente)
+  if (etabSel.value) refresh();
+  else {
+    dirSel.innerHTML = '<option value="">Sélectionnez...</option>';
+    dirSel.disabled = true;
+  }
+}
+
+// === Init au chargement de la page
+document.addEventListener('DOMContentLoaded', () => {
+  bindDirecteursToEtablissement({
+    etabSelectId: 'etablissementLabo',
+    dirSelectId : 'directeurLabo'
+  });
+});
+
+
+// === 1) POST create labo =================================================
+async function createLaboratoire({ etablissement_id, nom, domaine, directeur_user_id = null }){
+  const res = await fetch(LABO_API_URL, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+      ...(window.PMSettings?.nonce ? {'X-WP-Nonce': PMSettings.nonce} : {})
+    },
+    credentials: 'include',
+    body: JSON.stringify({
+      etablissement_id,
+      nom,
+      domaine,
+      directeur_user_id
+    })
+  });
+  if (!res.ok){
+    // Essaye de sortir le message d’erreur serveur
+    let msg = `Erreur API (${res.status})`;
+    try { const j = await res.json(); if (j?.message) msg = j.message; } catch{}
+    throw new Error(msg);
+  }
+  return await res.json(); // objet labo créé
+}
+
+// === 2) Rechargement du tableau (clear + fetch + draw) ===================
+async function reloadLaboratoires(){
+  // fetchLaboratoires() existe déjà plus haut chez toi
+  const labs = await (async function(){
+    const res = await fetch(LABO_API_URL, {
+      headers: {
+        'Accept': 'application/json',
+        ...(window.PMSettings?.nonce ? {'X-WP-Nonce': PMSettings.nonce} : {})
+      },
+      credentials: 'include'
+    });
+    if (!res.ok) throw new Error(`API ${res.status}`);
+    const payload = await res.json();
+    return Array.isArray(payload) ? payload : (payload.items || []);
+  })();
+
+  // table est déjà initialisée plus haut
+  const dt = $('#candidaturesTable').DataTable();
+  dt.clear();
+
+  labs.forEach(l=>{
+    const id         = l.id || l.lab_id;
+    const intitule   = l.intitule || l.denomination || l.nom || `Labo ${id||''}`;
+    const domaine    = l.domaine || '';
+    const etabNom    = l.etablissement_nom || l.etablissement || '';
+    const dateCrea   = (function(d){
+      try{
+        if(!d) return '';
+        const date = new Date(d);
+        return date.toLocaleDateString('fr-FR', {year:'numeric', month:'2-digit', day:'2-digit'});
+      }catch{return d||'';}
+    })(l.date_creation || l.created_at);
+
+    // réutilise tes helpers définis plus haut
+    const directorTd = (function(lab){
+      const name = lab.directeur_nom || lab?.directeur?.display_name || lab?.directeur;
+      const avatar = lab.directeur_avatar || lab?.directeur?.avatar_url;
+      if (name){
+        const initials = name.split(' ').filter(Boolean).map(s=>s[0]).join('').substring(0,2).toUpperCase();
+        const imgSrc = avatar || `https://placehold.co/40x40/c80000/ffffff?text=${encodeURIComponent(initials)}`;
+        return `
+          <div class="assign-director-container" title="${name}">
+            <img width="40" height="40" src="${imgSrc}" alt="Avatar" style="border-radius:50%;">
+          </div>`;
+      }
+      return `<div class="assign-director-container"><button class="assign-director-btn">+</button></div>`;
+    })(l);
+
+    const actionsTd = (function(lab){
+      const id = lab.id || lab.lab_id;
+      const href = `/fiche-de-details-de-laboratoire?id=${encodeURIComponent(id)}`;
+      return `
+        <div class="actions">
+          <button class="action-btn">...</button>
+          <div class="dropdown-menu">
+            <a href="${href}">Modifier</a>
+          </div>
+        </div>`;
+    })(l);
+
+    const rowNode = dt.row.add([
+      '<input type="checkbox">',
+      intitule,
+      domaine,
+      etabNom,
+      dateCrea,
+      directorTd,
+      actionsTd
+    ]).draw(false).node();
+
+    const hasDirector = /assign-director-btn/.test(directorTd) ? 'false' : 'true';
+    rowNode.setAttribute('data-has-director', hasDirector);
+    rowNode.setAttribute('data-lab-id', id ?? '');
+  });
+
+  // Tu peux re-générer les filtres ici si besoin (populateFilters(labs))
+}
+
+// === 3) Hook bouton “Enregistrer” du modal ==============================
+document.addEventListener('DOMContentLoaded', () => {
+  const btnSave = document.getElementById('btnSaveObjectifs');
+  const modal   = document.getElementById('modalObjectifs');
+
+  const closeModal = ()=>{ if (modal) modal.style.display = 'none'; };
+
+  if (btnSave){
+    btnSave.addEventListener('click', async (e)=>{
+      e.preventDefault();
+
+      const etablissement_id  = parseInt(document.getElementById('etablissementLabo')?.value || '', 10);
+      const nom               = (document.getElementById('nomLabo')?.value || '').trim();
+      const domaine           = (document.getElementById('Domaine')?.value || '').trim();
+      const dirSelect         = document.getElementById('directeurLabo');
+      const directeur_user_id = dirSelect && dirSelect.value ? parseInt(dirSelect.value,10) : null;
+
+      if (!etablissement_id || !nom){
+        if (window.Swal) Swal.fire('Erreur', 'Veuillez renseigner l’établissement et le nom du labo.', 'error');
+        return;
+      }
+
+      try{
+        // POST create
+        await createLaboratoire({ etablissement_id, nom, domaine, directeur_user_id });
+
+        // Fermer + reset formulaire
+        closeModal();
+        const form = modal?.querySelector('form.popup-form');
+        if (form) form.reset();
+
+        // Rafraîchir la liste
+        await reloadLaboratoires();
+
+        if (window.Swal) Swal.fire('Succès', 'Laboratoire ajouté avec succès.', 'success');
+      }catch(err){
+        console.error('[createLaboratoire]', err);
+        if (window.Swal) Swal.fire('Erreur', String(err.message || err), 'error');
+      }
+    });
+  }
+});
+
 </script>
+
+

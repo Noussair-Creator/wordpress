@@ -233,4 +233,14 @@ $roleConfigs = [
 // Fusion finale du profil dynamique
 $data = array_merge($base_data, $roleConfigs[$role] ?? []);
 
+// Filtrage direct du menu selon les rubriques autorisées
+if ($role === 'um_chercheur' && !empty($data['menu']) && !empty($titres_rubriques)) {
+    $authorized_titles = array_map('strtolower', $titres_rubriques);
+
+    $data['menu'] = array_filter($data['menu'], function ($item) use ($authorized_titles) {
+        return in_array(strtolower($item['label']), $authorized_titles);
+    });
+
+    $data['menu'] = array_values($data['menu']); // Réindexation propre
+}
 ?>

@@ -16,17 +16,17 @@
     background: #FAFAF8;
     border: 1px solid #e0e0e0;
     border-radius: 8px;
-    padding: 30px;
+    padding: 0 30px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, .05)
   }
 
   h2 {
     font-size: 1.25rem;
     font-weight: bold;
-    margin: 5px 20px;
-    padding: 6px 10px 5px;
+    margin: 0 20px;
+    padding: 20px 0px;
     color: #333;
-    border: hidden
+    border: hidden;
   }
 
   #h2top {
@@ -34,17 +34,23 @@
   }
 
   .bg {
-    padding: 0 30px 20px;
     background: #fff;
     box-shadow: 0 8px 12px -9px #3333;
-    margin: 0 -30px 30px
+    margin: 0 -30px 10px;
+  }
+
+  .bg:first-child {
+    border-top-right-radius: 8px;
+    border-top-left-radius: 8px;
   }
 
   .bg-reverse {
-    padding: 3px 30px 20px;
+    padding: 1px 30px 1px;
     background: #fff;
     box-shadow: 0 -10px 12px -9px #3333;
-    margin: 30px -30px 0
+    margin: 30px -30px 0;
+    border-bottom-right-radius: 8px;
+    border-bottom-left-radius: 8px;
   }
 
   .form-label {
@@ -316,7 +322,7 @@
         type: elType.value,
         resume: elResume.value,
         commentaire: elComm.value,
-        
+
       };
       if (fichierUrl) payload.fichier_url = fichierUrl;
 

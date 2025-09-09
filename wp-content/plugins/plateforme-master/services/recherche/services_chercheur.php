@@ -99,7 +99,7 @@ function svc_laboratoire_table(){ global $wpdb; return $wpdb->prefix.'recherche_
     return svc_labo_decode_out($row);
   }
 
-  function svc_laboratoire_create(WP_REST_Request $req){
+  function svc_laboratoire_createOLD(WP_REST_Request $req){
     global $wpdb; 
     $table = svc_laboratoire_table();
     $allowed = svc_laboratoire_allowed();
@@ -2597,16 +2597,16 @@ function svc_reseaux_stats(WP_REST_Request $req){
   if ($scope==='cards') {
     $nationaux = (int) $wpdb->get_var($wpdb->prepare("
       SELECT COUNT(*) FROM $table
-      WHERE laboratoire_id=%d AND pays IN ('Tunisie','Tunis','TN','Tunisia')
+      WHERE pays IN ('Tunisie','Tunis','TN','Tunisia')
         AND date_debut >= %s AND COALESCE(date_fin,'2999-12-31')<=%s
-    ", $labo_id, $d1, $d2));
+    ", $d1, $d2));
 
 
     $internationaux = (int) $wpdb->get_var($wpdb->prepare("
       SELECT COUNT(*) FROM $table
-      WHERE laboratoire_id=%d AND NOT (pays IN ('Tunisie','Tunis','TN','Tunisia'))
+      WHERE  1=1 AND NOT (pays IN ('Tunisie','Tunis','TN','Tunisia'))
         AND date_debut >= %s AND COALESCE(date_fin,'2999-12-31')<=%s
-    ", $labo_id, $d1, $d2));
+    ", $d1, $d2));
 
     return compact('nationaux','internationaux');
   }
@@ -2614,9 +2614,9 @@ function svc_reseaux_stats(WP_REST_Request $req){
   if ($scope==='pie') {
     return $wpdb->get_results($wpdb->prepare("
       SELECT pays, COUNT(*) AS n FROM $table
-      WHERE laboratoire_id=%d AND date_debut >= %s AND COALESCE(date_fin,'2999-12-31')<=%s
+      WHERE date_debut >= %s AND COALESCE(date_fin,'2999-12-31')<=%s
       GROUP BY pays ORDER BY n DESC
-    ", $labo_id, $d1, $d2), ARRAY_A);
+    ",  $d1, $d2), ARRAY_A);
   }
 
   return new WP_Error('bad_scope','Scope invalide', ['status'=>400]);
@@ -2657,65 +2657,63 @@ function svc_user_institut_id($user_id=null){
 function svc_reseaux_list_visible(WP_REST_Request $req){
   global $wpdb;
 
-  $table_r = svc_reseaux_table();               // wp_utm_recherche_reseaux
-  $table_l = svc_laboratoire_table();           // wp_utm_recherche_laboratoire
+  $table_r = svc_reseaux_table(); // wp_utm_recherche_reseaux
 
   $uid = get_current_user_id();
   if (!$uid) return new WP_Error('forbidden','Utilisateur non connecté', ['status'=>403]);
 
-  $institut_id = svc_user_institut_id($uid);
-
-  // === Base WHERE : visibilité
-  $where  = ["(r.created_by = %d)"];
-  $params = [$uid];
-
-  if ($institut_id) {
-    // Ajoute la condition de visibilité par institut (labs de l'institut)
-    $where[] = "OR (r.laboratoire_id IN (SELECT id FROM $table_l WHERE etablissement_id = %d))";
-    $params[] = $institut_id;
-  }
+  // === Base WHERE : vide (pas de filtre created_by ou institut)
+  $where  = ["1=1"];
+  $params = [];
 
   // === Filtres
   if ($q = trim((string)$req['q'])) {
     $like = '%'.$wpdb->esc_like($q).'%';
-    $where[] = "AND (r.institution LIKE %s OR r.contact_nom LIKE %s OR r.type_collab LIKE %s)";
+    $where[] = "(r.institution LIKE %s OR r.contact_nom LIKE %s OR r.type_collab LIKE %s)";
     array_push($params, $like, $like, $like);
   }
-  if ($pays = trim((string)$req['pays']))     { $where[] = "AND r.pays = %s"; $params[] = $pays; }
-  if ($statut = trim((string)$req['statut'])) { $where[] = "AND r.statut = %s"; $params[] = $statut; }
-  if ($hc = $req['has_convention'])           { $where[] = "AND r.convention_signee = %d"; $params[] = absint($hc); }
-  if ($df = $req['date_from'])                { $where[] = "AND r.date_debut >= %s"; $params[] = $df; }
-  if ($dt = $req['date_to'])                  { $where[] = "AND COALESCE(r.date_fin,'2999-12-31') <= %s"; $params[] = $dt; }
+  if ($pays = trim((string)$req['pays']))     { $where[] = "r.pays = %s"; $params[] = $pays; }
+  if ($statut = trim((string)$req['statut'])) { $where[] = "r.statut = %s"; $params[] = $statut; }
+  if ($hc = $req['has_convention'])           { $where[] = "r.convention_signee = %d"; $params[] = absint($hc); }
+  if ($df = $req['date_from'])                { $where[] = "r.date_debut >= %s"; $params[] = $df; }
+  if ($dt = $req['date_to'])                  { $where[] = "COALESCE(r.date_fin,'2999-12-31') <= %s"; $params[] = $dt; }
 
   $page = max(1, (int)$req['page']);
   $per  = min(100, max(5, (int)($req['per_page'] ?: 10)));
   $off  = ($page-1)*$per;
 
-  // On ordonne pour privilégier "mes créations" en premier, puis plus récents
-  $sqlW = "WHERE " . implode(' ', $where);
+  $sqlW = "WHERE " . implode(' AND ', $where);
   $sql  = "
     SELECT r.* 
     FROM $table_r r
     $sqlW
-    ORDER BY (r.created_by = %d) DESC, r.id DESC
+    ORDER BY r.id DESC
     LIMIT %d OFFSET %d
   ";
-  $items = $wpdb->get_results( $wpdb->prepare($sql, array_merge($params, [$uid, $per, $off]) ), ARRAY_A );
+  $items = $wpdb->get_results(
+    $wpdb->prepare($sql, array_merge($params, [$per, $off])),
+    ARRAY_A
+  );
 
   // total
-  $total = (int) $wpdb->get_var( $wpdb->prepare("
-    SELECT COUNT(*) FROM $table_r r $sqlW
-  ", $params) );
+  $total = (int) $wpdb->get_var(
+    $wpdb->prepare("SELECT COUNT(*) FROM $table_r r $sqlW", $params)
+  );
 
-  // Enrichissement: piece_jointe_url + duration_human
+  // Enrichissement
   foreach ($items as &$it) {
     $it['projets_associes']   = $it['projets_associes'] ? json_decode($it['projets_associes'], true) : [];
     $it['convention_signee']  = (int)$it['convention_signee'];
-    $it['piece_jointe_url']   = !empty($it['piece_jointe_id']) ? wp_get_attachment_url( (int)$it['piece_jointe_id'] ) : null;
+    $it['piece_jointe_url']   = !empty($it['piece_jointe_id']) ? wp_get_attachment_url((int)$it['piece_jointe_id']) : null;
     $it['duration_human']     = svc_duration_human($it['date_debut'], $it['date_fin']);
   }
 
-  return array('items'=>$items, 'total'=>$total, 'page'=>$page, 'per_page'=>$per);
+  return [
+    'items'    => $items,
+    'total'    => $total,
+    'page'     => $page,
+    'per_page' => $per
+  ];
 }
 
 /** Durée lisible entre deux dates (YYYY-MM-DD) */
@@ -2796,4 +2794,238 @@ function svc_pays_list( WP_REST_Request $req ){
       ];
     }, $rows)
   ], 200);
+}
+
+
+
+function svc_directeurs_list(WP_REST_Request $req){
+  global $wpdb;
+
+  if (!is_user_logged_in()){
+    return new WP_Error('forbidden','Utilisateur non connecté', ['status'=>403]);
+  }
+
+  $table_l = svc_laboratoire_table(); // ex: {$wpdb->prefix}utm_recherche_laboratoire
+  $q      = trim((string)$req['q']);
+  $etabId = $req->get_param('etablissement_id');
+  $all    = absint($req->get_param('all') ?: 0);
+
+  $page = max(1, (int)$req->get_param('page') ?: 1);
+  $per  = min(200, max(1, (int)$req->get_param('per_page') ?: 50));
+  $off  = ($page - 1) * $per;
+
+  // ---- Construction résultats
+  $items = array();
+  $total = 0;
+
+  // Helper pour recherche LIKE
+  $like_q = null;
+  if ($q !== '') {
+    $like_q = '%'.$wpdb->esc_like($q).'%';
+  }
+
+  // Si etablissement_id est fourni, on sort les directeurs reliés à cet établissement via la table laboratoire
+  if (!empty($etabId)) {
+    // Sous-requête pour compter/agréger les établissements d’un directeur
+    // (utile pour label + dédoublonnage)
+    $where = array("l.directeur_user_id IS NOT NULL", "l.etablissement_id = %d");
+    $params = array((int)$etabId);
+
+    $joinUsers = "JOIN {$wpdb->users} u ON u.ID = l.directeur_user_id";
+
+    // Recherche q sur nom affiché / email
+    if ($like_q) {
+      $where[] = "(u.display_name LIKE %s OR u.user_email LIKE %s)";
+      array_push($params, $like_q, $like_q);
+    }
+
+    $sqlWhere = "WHERE ".implode(" AND ", $where);
+
+    // Requête paginée (DISTINCT directeurs)
+    $sql = "
+      SELECT DISTINCT u.ID, u.display_name, u.user_email
+      FROM $table_l l
+      $joinUsers
+      $sqlWhere
+      ORDER BY u.display_name ASC
+      LIMIT %d OFFSET %d
+    ";
+    $params_page = array_merge($params, array($per, $off));
+
+    $rows = $wpdb->get_results($wpdb->prepare($sql, $params_page), ARRAY_A);
+
+    // Total
+    $sqlCount = "
+      SELECT COUNT(*) FROM (
+        SELECT DISTINCT u.ID
+        FROM $table_l l
+        $joinUsers
+        $sqlWhere
+      ) t
+    ";
+    $total = (int)$wpdb->get_var($wpdb->prepare($sqlCount, $params));
+
+    // Récupérer pour chaque user ses établissements (tous)
+    $userIds = wp_list_pluck($rows, 'ID');
+    $etabsByUser = array();
+    if (!empty($userIds)) {
+      $in = implode(',', array_map('absint', $userIds));
+      $sqlE = "
+        SELECT l.directeur_user_id AS uid, l.etablissement_id AS etab_id
+        FROM $table_l l
+        WHERE l.directeur_user_id IN ($in)
+        GROUP BY l.directeur_user_id, l.etablissement_id
+      ";
+      $map = $wpdb->get_results($sqlE, ARRAY_A);
+      foreach ($map as $m) {
+        $uid = (int)$m['uid'];
+        $etabsByUser[$uid] = $etabsByUser[$uid] ?? array();
+        $etabsByUser[$uid][] = (int)$m['etab_id'];
+      }
+    }
+
+    foreach ($rows as $r) {
+      $uId   = (int)$r['ID'];
+      $items[] = array(
+        'id'             => $uId,
+        'display_name'   => $r['display_name'],
+        'email'          => $r['user_email'],
+        'avatar_url'     => get_avatar_url($uId),
+        'etablissement_ids' => $etabsByUser[$uId] ?? array(),
+        'label'          => trim($r['display_name']) !== '' ? $r['display_name'] : ('#'.$uId),
+      );
+    }
+
+  } else {
+    // Sinon : lister par rôle "um_directeur_laboratoire" (optionnellement filtré par q)
+    // On passe par WP_User_Query pour éviter la sérialisation cap-where à la main
+    $args = array(
+      'role'    => 'um_directeur_laboratoire',
+      'orderby' => 'display_name',
+      'order'   => 'ASC',
+      'number'  => $per,
+      'offset'  => $off,
+      'fields'  => array('ID','display_name','user_email'),
+    );
+
+    // WP_User_Query ne fait pas de LIKE par défaut sur display_name.
+    // On fera donc un post-filtrage simple si q est fourni.
+    $uq = new WP_User_Query($args);
+    $users = $uq->get_results();
+    $found = (int)$uq->get_total();
+
+    // Post-filtre q (si q, on filtre sur display_name/email, et on doit réajuster total/pagination)
+    if ($like_q) {
+      $users = array_filter($users, function($u) use ($like_q){
+        $needle = trim('%',' ');
+        $dn = stripos($u->display_name, trim($like_q, '%')) !== false;
+        $em = stripos($u->user_email,   trim($like_q, '%')) !== false;
+        return $dn || $em;
+      });
+      // Réappliquer pagination manuellement après filtre
+      $found = count($users);
+      $users = array_slice(array_values($users), 0, $per);
+    }
+
+    // Récupérer mapping établissement(s) via laboratoires (pour enrichir)
+    $userIds = array_map(function($u){ return (int)$u->ID; }, $users);
+    $etabsByUser = array();
+    if (!empty($userIds)) {
+      $in = implode(',', array_map('absint', $userIds));
+      $sqlE = "
+        SELECT l.directeur_user_id AS uid, l.etablissement_id AS etab_id
+        FROM $table_l l
+        WHERE l.directeur_user_id IN ($in)
+        GROUP BY l.directeur_user_id, l.etablissement_id
+      ";
+      $map = $wpdb->get_results($sqlE, ARRAY_A);
+      foreach ($map as $m) {
+        $uid = (int)$m['uid'];
+        $etabsByUser[$uid] = $etabsByUser[$uid] ?? array();
+        $etabsByUser[$uid][] = (int)$m['etab_id'];
+      }
+    }
+
+    foreach ($users as $u) {
+      $uId = (int)$u->ID;
+      $items[] = array(
+        'id'               => $uId,
+        'display_name'     => $u->display_name,
+        'email'            => $u->user_email,
+        'avatar_url'       => get_avatar_url($uId),
+        'etablissement_ids'=> $etabsByUser[$uId] ?? array(),
+        'label'            => trim($u->display_name) !== '' ? $u->display_name : ('#'.$uId),
+      );
+    }
+
+    $total = $found;
+  }
+
+  return array(
+    'items'    => $items,
+    'total'    => $total,
+    'page'     => $page,
+    'per_page' => $per,
+  );
+}
+function svc_laboratoire_create($uid, $payload){
+  global $wpdb;
+  $table = svc_laboratoire_table();
+
+  $etablissement_id  = isset($payload['etablissement_id'])  ? absint($payload['etablissement_id']) : 0;
+  $nom               = isset($payload['nom'])               ? sanitize_text_field($payload['nom']) : '';
+  $domaine           = isset($payload['domaine'])           ? sanitize_text_field($payload['domaine']) : '';
+  $directeur_user_id = isset($payload['directeur_user_id']) ? absint($payload['directeur_user_id']) : null;
+
+  if (!$etablissement_id || $nom === ''){
+    return new WP_Error('invalid_params', 'Champs requis manquants.', ['status'=>400]);
+  }
+
+  $ins = [
+    'etablissement_id'  => $etablissement_id,
+    'denomination'      => $nom,
+    'domaine'           => $domaine,
+    'directeur_user_id' => $directeur_user_id,
+    'created_by'        => $uid,
+    'created_at'        => current_time('mysql'),
+    'updated_at'        => current_time('mysql'),
+  ];
+
+  $ok = $wpdb->insert($table, $ins, [
+    '%d','%s','%s','%d','%d','%s','%s'
+  ]);
+
+  if (!$ok){
+    return new WP_Error('db_error', 'Insertion échouée', ['status'=>500, 'mysql_error'=>$wpdb->last_error]);
+  }
+
+  $id = (int)$wpdb->insert_id;
+
+  // Retour de l’objet complet (enrichi)
+  $row = $wpdb->get_row($wpdb->prepare("SELECT * FROM $table WHERE id=%d", $id), ARRAY_A);
+  if (!empty($row['directeur_user_id'])) {
+    $u = get_userdata((int)$row['directeur_user_id']);
+    if ($u){
+      $row['directeur_nom']    = $u->display_name;
+      $row['directeur_email']  = $u->user_email;
+      $row['directeur_avatar'] = get_avatar_url($u->ID);
+    }
+  }
+  return $row;
+}
+function svc_laboratoire_create_endpoint(WP_REST_Request $req){
+  $uid = get_current_user_id();
+  if (!$uid) return new WP_Error('forbidden','Utilisateur non connecté', ['status'=>403]);
+
+  $payload = [
+    'etablissement_id'  => $req->get_param('etablissement_id'),
+    'nom'               => $req->get_param('nom'),
+    'domaine'           => $req->get_param('domaine'),
+    'directeur_user_id' => $req->get_param('directeur_user_id'),
+  ];
+
+  $created = svc_laboratoire_create($uid, $payload);
+  if (is_wp_error($created)) return $created;
+
+  return new WP_REST_Response($created, 201);
 }

@@ -1029,3 +1029,58 @@ add_action('rest_api_init', function () {
     ),
   ));
 });
+// --- ROUTE REST ------------------------------------------------------
+add_action('rest_api_init', function () {
+  register_rest_route('plateforme-recherche/v1', '/directeurs', array(
+    'methods'  => WP_REST_Server::READABLE,
+    'callback' => 'svc_directeurs_list',
+    'permission_callback' => function(){
+      return is_user_logged_in();
+    },
+    'args' => array(
+      'q' => array(
+        'description' => 'Recherche (nom, email)',
+        'type' => 'string',
+        'required' => false,
+      ),
+      'etablissement_id' => array(
+        'description' => 'Filtrer par établissement (id)',
+        'type' => 'integer',
+        'required' => false,
+      ),
+      'all' => array(
+        'description' => 'Si =1, ne restreint pas par contexte utilisateur',
+        'type' => 'integer',
+        'required' => false,
+        'default' => 0,
+      ),
+      'page' => array(
+        'type' => 'integer',
+        'required' => false,
+        'default' => 1,
+      ),
+      'per_page' => array(
+        'type' => 'integer',
+        'required' => false,
+        'default' => 50,
+      ),
+    )
+  ));
+});
+
+
+add_action('rest_api_init', function () {
+  register_rest_route('plateforme-recherche/v1', '/laboratoire', [
+    [
+      'methods'  => WP_REST_Server::CREATABLE, // POST /laboratoire
+      'callback' => 'svc_laboratoire_create_endpoint',
+      'permission_callback' => function(){ return is_user_logged_in(); },
+      'args' => [
+        'etablissement_id'  => ['type'=>'integer','required'=>true],
+        'nom'               => ['type'=>'string','required'=>true],
+        'domaine'           => ['type'=>'string','required'=>false],
+        'directeur_user_id' => ['type'=>'integer','required'=>false],
+      ]
+    ],
+  ]);
+});
