@@ -110,54 +110,54 @@ $roleConfigs = [
     ],
 
     "um_student_master" => [
-      "label" => "ÉTUDIANT(E) MASTER",
-       "menu" => [
-         ["label" => "Dashboard",              "lien" => "/espace_etudiant_master"],
-        ["label" => "Détails Master",         "lien" => "/details-master"],
-        ["label" => "Supports pédagogiques",  "lien" => "/support-pedagogiques"],
-        ["label" => "Statistiques",           "lien" => "#"],
-        ["label" => "Service Administratifs", "lien" => "/formulaires-administratifs"],
-        ["label" => "Direction des stages",   "lien" => "/stages"],
-        ["label" => "Soutenances",            "lien" => "/soutenance"],
-        ["label" => "Rapports",               "lien" => "/"],
-        ["label" => "Bibliothèque",           "lien" => "/bibliotheque"],
-        ["label" => "Contacts",               "lien" => "#"],
-        ["label" => "Réclamations",           "lien" => "/suivi-reclamation"],
-      ],
-      "calendriers" => [
-        "Examens",
-        "Rattrapage",
-        "Soutenances"
-      ],
-      "assiduite" => ["Présence", "Stages"],
-      "video_link" => "https://meet.example.com/etudiant"
+        "label" => "ÉTUDIANT(E) MASTER",
+        "menu" => [
+            ["label" => "Dashboard", "lien" => "/espace_etudiant_master"],
+            ["label" => "Détails Master", "lien" => "/details-master"],
+            ["label" => "Supports pédagogiques", "lien" => "/support-pedagogiques"],
+            ["label" => "Statistiques", "lien" => "#"],
+            ["label" => "Service Administratifs", "lien" => "/formulaires-administratifs"],
+            ["label" => "Direction des stages", "lien" => "/stages"],
+            ["label" => "Soutenances", "lien" => "/soutenance"],
+            ["label" => "Rapports", "lien" => "/"],
+            ["label" => "Bibliothèque", "lien" => "/bibliotheque"],
+            ["label" => "Contacts", "lien" => "#"],
+            ["label" => "Réclamations", "lien" => "/suivi-reclamation"],
+        ],
+        "calendriers" => [
+            "Examens",
+            "Rattrapage",
+            "Soutenances"
+        ],
+        "assiduite" => ["Présence", "Stages"],
+        "video_link" => "https://meet.example.com/etudiant"
     ],
-"um_coordonnateur-master" => [
-    "label" => "COORDINATEUR MASTER",
-    "menu" => [
-      ["label" => "Dashboard",                "lien" => "/espace-coordinateur"],
-      ["label" => "Candidatures",             "lien" => "/candidature"],
-      ["label" => "Entretiens",             "lien" => "/entretien"],
-      ["label" => "Encadrements",             "lien" => "/encadrement_coordonnateur"],
-      ["label" => "Statistiques",             "lien" => "#"],
-      ["label" => "Conventions & entreprises","lien" => "/conventions"],
-      ["label" => "Soutenances",              "lien" => "/soutenances_coord"],
-      ["label" => "Sujets des mémoires",      "lien" => "/sujetsmemoire"],
-      ["label" => "Rapports",                 "lien" => "#"],
-      ["label" => "Bibliothèque",             "lien" => "#"],
-      ["label" => "Contacts",                 "lien" => "#"],
-      ["label" => "Réclamations",             "lien" => "#"],
-      ["label" => "planifications des cours",             "lien" => "/cours-planification-coord"],
+    "um_coordonnateur-master" => [
+        "label" => "COORDINATEUR MASTER",
+        "menu" => [
+            ["label" => "Dashboard", "lien" => "/espace-coordinateur"],
+            ["label" => "Candidatures", "lien" => "/candidature"],
+            ["label" => "Entretiens", "lien" => "/entretien"],
+            ["label" => "Encadrements", "lien" => "/encadrement_coordonnateur"],
+            ["label" => "Statistiques", "lien" => "#"],
+            ["label" => "Conventions & entreprises", "lien" => "/conventions"],
+            ["label" => "Soutenances", "lien" => "/soutenances_coord"],
+            ["label" => "Sujets des mémoires", "lien" => "/sujetsmemoire"],
+            ["label" => "Rapports", "lien" => "#"],
+            ["label" => "Bibliothèque", "lien" => "#"],
+            ["label" => "Contacts", "lien" => "#"],
+            ["label" => "Réclamations", "lien" => "#"],
+            ["label" => "planifications des cours", "lien" => "/cours-planification-coord"],
+        ],
+        "calendriers" => [
+            "Candidature",
+            "Inscription",
+            "Examen",
+            "Dépôt de soutenance"
+        ],
+        "assiduite" => ["Présence", "Stages"],
+        "video_link" => "https://meet.example.com/coordinateur"
     ],
-    "calendriers" => [
-      "Candidature",
-      "Inscription",
-      "Examen",
-      "Dépôt de soutenance"
-    ],
-    "assiduite" => ["Présence", "Stages"],
-    "video_link" => "https://meet.example.com/coordinateur"
-  ],
     "um_chercheur" => [
         "label" => "CHERCHEUR",
         "menu" => [
@@ -265,6 +265,7 @@ $roleConfigs = [
                 "lien" => "#",
                 "submenu" => [
                     ["label" => "Dashboard", "lien" => "/espace-labo"],
+                    ["label" => "Laboratoires de recherche", "lien" => "/liste-de-laboratoires"],
                     ["label" => "Membres", "lien" => "#"],
                     ["label" => "Projets", "lien" => "#"],
                     ["label" => "Activités", "lien" => "#"],

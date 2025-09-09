@@ -272,7 +272,7 @@
     .dataTables_wrapper .dataTables_paginate .paginate_button.current {
         /* background: #c60000 !important; */
         /* Force background to red for current */
-        /* color: #fff !important; */
+        color: #fff !important;
         border-color: #c60000;
         border: none !important;
     }
@@ -310,6 +310,7 @@
     }
 
     #candidaturesTable thead {
+
         border: none !important;
         position: static;
         transform: translateY(-15px);
@@ -562,7 +563,7 @@
             </tr>
         </thead>
         <tbody>
-        <!--    
+            <!--    
             <tr>
                 <td><input type="checkbox"></td>
                 <td class="left">
@@ -654,107 +655,109 @@
 
 <!-- Add Member Modal -->
 <div class="modal-overlay" id="addMemberModal" data-laboratoire-id="__LAB_ID__">
-  <div class="popup-container">
-    <div class="popup-header">
-      <h2>Ajouter un membre du laboratoire</h2>
-      <div class="header-actions">
-        <button class="btn-enregistrer" id="saveMemberBtn" type="button">Enregistrer</button>
-      </div>
+    <div class="popup-container">
+        <div class="popup-header">
+            <h2>Ajouter un membre du laboratoire</h2>
+            <div class="header-actions">
+                <button class="btn-enregistrer" id="saveMemberBtn" type="button">Enregistrer</button>
+            </div>
+        </div>
+
+        <form class="popup-form" id="addMemberForm">
+            <div class="radio-group">
+                <div class="radio-option">
+                    <label class="radio-option-label">
+                        <input type="radio" name="addMemberType" value="existing" checked>
+                        <span>Sélection d'un membre existant</span>
+                    </label>
+                </div>
+
+                <!-- ====== Contenu : Sélection d’un membre existant ====== -->
+                <div id="existingMemberContent" class="form-content-wrapper">
+                    <div class="filters-row" style="display:flex; gap:12px; align-items:flex-end; flex-wrap:wrap;">
+                        <div class="form-group">
+                            <label for="filterEtablissement">Établissement</label>
+                            <select id="filterEtablissement" style="min-width:220px">
+                                <option value="">Tous les établissements</option>
+                                <!-- Rempli dynamiquement -->
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="filterRoles">Rôles</label>
+                            <select id="filterRoles" multiple style="min-width:220px">
+                                <option value="um_chercheur">Chercheur</option>
+                                <option value="um_doctorant">Doctorant</option>
+                                <option value="um_student_master">Étudiant Master</option>
+                            </select>
+                            <small>Ctrl/Cmd+clic pour multi‑sélection</small>
+                        </div>
+
+                        <div class="form-group" style="flex:1 1 260px;">
+                            <label for="filterSearch">Recherche</label>
+                            <input id="filterSearch" type="text" placeholder="Nom, email, spécialité…">
+                        </div>
+
+                        <div class="form-group">
+                            <button class="btn" type="button" id="btnFindMembers">Rechercher</button>
+                        </div>
+                    </div>
+
+                    <div class="results-box" style="margin-top:10px;">
+                        <table id="membersResults" class="table-members" style="width:100%;">
+                            <thead>
+                                <tr>
+                                    <th></th>
+                                    <th>Utilisateur</th>
+                                    <th>Établissement</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Rempli dynamiquement -->
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="form-row" style="display:flex; gap:12px; margin-top:14px;">
+                        <div class="form-group" style="flex:1;">
+                            <label for="newMemberGrade">Grade</label>
+                            <input id="newMemberGrade" type="text" placeholder="Ex.: Doctorant, Maître-Assistant…">
+                        </div>
+                        <div class="form-group" style="flex:1;">
+                            <label for="newMemberSpecialite">Spécialité</label>
+                            <input id="newMemberSpecialite" type="text" placeholder="Ex.: Neurosciences, IA…">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="radio-option" style="margin-top:18px;">
+                    <label class="radio-option-label">
+                        <input type="radio" name="addMemberType" value="invite">
+                        <span>Invitation par email (si membre externe)</span>
+                    </label>
+                </div>
+
+                <!-- ====== Contenu : Invitation par email ====== -->
+                <div id="inviteMemberContent" class="form-content-wrapper" style="display:none;">
+                    <div class="form-row" style="display:flex; gap:12px; flex-wrap:wrap;">
+                        <div class="form-group" style="flex:1;">
+                            <label for="inviteEmail">Email</label>
+                            <input id="inviteEmail" type="email" placeholder="prenom.nom@exemple.tld">
+                        </div>
+                        <div class="form-group" style="flex:1;">
+                            <label for="inviteGrade">Grade</label>
+                            <input id="inviteGrade" type="text" placeholder="Ex.: Chercheur associé">
+                        </div>
+                        <div class="form-group" style="flex:1;">
+                            <label for="inviteSpecialite">Spécialité</label>
+                            <input id="inviteSpecialite" type="text" placeholder="Ex.: Bio-informatique">
+                        </div>
+                    </div>
+                    <p class="help-text">Une invitation sera envoyée pour créer un compte et finaliser l’ajout.</p>
+                </div>
+            </div>
+        </form>
     </div>
-
-    <form class="popup-form" id="addMemberForm">
-      <div class="radio-group">
-        <div class="radio-option">
-          <label class="radio-option-label">
-            <input type="radio" name="addMemberType" value="existing" checked>
-            <span>Sélection d'un membre existant</span>
-          </label>
-        </div>
-
-        <!-- ====== Contenu : Sélection d’un membre existant ====== -->
-        <div id="existingMemberContent" class="form-content-wrapper">
-          <div class="filters-row" style="display:flex; gap:12px; align-items:flex-end; flex-wrap:wrap;">
-            <div class="form-group">
-              <label for="filterEtablissement">Établissement</label>
-              <select id="filterEtablissement" style="min-width:220px">
-                <option value="">Tous les établissements</option>
-                <!-- Rempli dynamiquement -->
-              </select>
-            </div>
-
-            <div class="form-group">
-              <label for="filterRoles">Rôles</label>
-              <select id="filterRoles" multiple style="min-width:220px">
-                <option value="um_chercheur">Chercheur</option>
-                <option value="um_doctorant">Doctorant</option>
-                <option value="um_student_master">Étudiant Master</option>
-              </select>
-              <small>Ctrl/Cmd+clic pour multi‑sélection</small>
-            </div>
-
-            <div class="form-group" style="flex:1 1 260px;">
-              <label for="filterSearch">Recherche</label>
-              <input id="filterSearch" type="text" placeholder="Nom, email, spécialité…">
-            </div>
-
-            <div class="form-group">
-              <button class="btn" type="button" id="btnFindMembers">Rechercher</button>
-            </div>
-          </div>
-
-          <div class="results-box" style="margin-top:10px;">
-            <table id="membersResults" class="table-members" style="width:100%;">
-              <thead>
-                <tr>
-                  <th></th>
-                  <th>Utilisateur</th>
-                  <th>Établissement</th>
-                </tr>
-              </thead>
-              <tbody><!-- Rempli dynamiquement --></tbody>
-            </table>
-          </div>
-
-          <div class="form-row" style="display:flex; gap:12px; margin-top:14px;">
-            <div class="form-group" style="flex:1;">
-              <label for="newMemberGrade">Grade</label>
-              <input id="newMemberGrade" type="text" placeholder="Ex.: Doctorant, Maître-Assistant…">
-            </div>
-            <div class="form-group" style="flex:1;">
-              <label for="newMemberSpecialite">Spécialité</label>
-              <input id="newMemberSpecialite" type="text" placeholder="Ex.: Neurosciences, IA…">
-            </div>
-          </div>
-        </div>
-
-        <div class="radio-option" style="margin-top:18px;">
-          <label class="radio-option-label">
-            <input type="radio" name="addMemberType" value="invite">
-            <span>Invitation par email (si membre externe)</span>
-          </label>
-        </div>
-
-        <!-- ====== Contenu : Invitation par email ====== -->
-        <div id="inviteMemberContent" class="form-content-wrapper" style="display:none;">
-          <div class="form-row" style="display:flex; gap:12px; flex-wrap:wrap;">
-            <div class="form-group" style="flex:1;">
-              <label for="inviteEmail">Email</label>
-              <input id="inviteEmail" type="email" placeholder="prenom.nom@exemple.tld">
-            </div>
-            <div class="form-group" style="flex:1;">
-              <label for="inviteGrade">Grade</label>
-              <input id="inviteGrade" type="text" placeholder="Ex.: Chercheur associé">
-            </div>
-            <div class="form-group" style="flex:1;">
-              <label for="inviteSpecialite">Spécialité</label>
-              <input id="inviteSpecialite" type="text" placeholder="Ex.: Bio-informatique">
-            </div>
-          </div>
-          <p class="help-text">Une invitation sera envoyée pour créer un compte et finaliser l’ajout.</p>
-        </div>
-      </div>
-    </form>
-  </div>
 </div>
 
 
@@ -891,9 +894,9 @@
         document.addEventListener('click', function () {
             $('.dropdown-menu').hide();
         });
-        
 
-        
+
+
         // --- Add Member Modal Logic ---
         const addMemberModal = document.getElementById('addMemberModal');
         const addMemberBtn = document.getElementById('addMemberBtn');
@@ -901,7 +904,7 @@
         const existingMemberContent = document.getElementById('existingMemberContent');
         const inviteMemberContent = document.getElementById('inviteMemberContent');
 
-       const existingMemberHTML = `
+        const existingMemberHTML = `
             <div class="filters-row" style="display:flex; gap:12px; align-items:flex-end; flex-wrap:wrap;">
                 <div class="form-group">
                 <label for="filterEtablissement">Établissement</label>
@@ -998,7 +1001,7 @@
 
         addMemberTypeRadios.forEach(radio => {
             radio.addEventListener('change', updateFormContent);
-        }); 
+        });
 
         // --- Edit Member Modal Logic ---
         const editMemberModal = document.getElementById('editMemberModal');
@@ -1022,138 +1025,165 @@
 <?php
 $current_user = wp_get_current_user();
 $roles = (array) $current_user->roles;
-$role  = $roles[0] ?? '';
+$role = $roles[0] ?? '';
 $user_id = get_current_user_id();
 ?>
 <script>
-  window.PMSettings = {
-    restUrl: "<?= esc_url( rest_url() ) ?>",          // ex: https://utmresearchplatform.clickerp.tn/wp-json/
-    nonce: "<?= wp_create_nonce('wp_rest') ?>",       // nonce pour X-WP-Nonce
-    role: "<?= esc_js( $role ) ?>",                   // rôle principal de l’utilisateur
-    userId: <?= (int) $user_id ?>                     // ID WP de l’utilisateur
-  };
+    window.PMSettings = {
+        restUrl: "<?= esc_url(rest_url()) ?>", // ex: https://utmresearchplatform.clickerp.tn/wp-json/
+        nonce: "<?= wp_create_nonce('wp_rest') ?>", // nonce pour X-WP-Nonce
+        role: "<?= esc_js($role) ?>", // rôle principal de l’utilisateur
+        userId: <?= (int) $user_id ?> // ID WP de l’utilisateur
+    };
 </script>
 
 
 <script>
-document.addEventListener('DOMContentLoaded', function(){
+    document.addEventListener('DOMContentLoaded', function () {
 
-  /* =======================
-   *   CONFIG REST
-   * ======================= */
-  const API_ROOT = (
-      (window.PMSettings && PMSettings.restUrl) ||
-      (window.wpApiSettings && window.wpApiSettings.root) ||
-      '/wp-json'
-    ).replace(/\/$/, '');
-  const API_NS   = 'plateforme-recherche/v1';
-  const API_BASE = `${API_ROOT}/${API_NS}`;
-  const NONCE    = (window.PMSettings && PMSettings.nonce) ||
-                   (window.wpApiSettings && window.wpApiSettings.nonce) || '';
+        /* =======================
+         *   CONFIG REST
+         * ======================= */
+        const API_ROOT = (
+            (window.PMSettings && PMSettings.restUrl) ||
+            (window.wpApiSettings && window.wpApiSettings.root) ||
+            '/wp-json'
+        ).replace(/\/$/, '');
+        const API_NS = 'plateforme-recherche/v1';
+        const API_BASE = `${API_ROOT}/${API_NS}`;
+        const NONCE = (window.PMSettings && PMSettings.nonce) ||
+            (window.wpApiSettings && window.wpApiSettings.nonce) || '';
 
-  const BASE_HEADERS = { 'X-WP-Nonce': NONCE, 'Accept': 'application/json' };
-  const FETCH_BASE   = { credentials: 'same-origin', headers: BASE_HEADERS };
+        const BASE_HEADERS = {
+            'X-WP-Nonce': NONCE,
+            'Accept': 'application/json'
+        };
+        const FETCH_BASE = {
+            credentials: 'same-origin',
+            headers: BASE_HEADERS
+        };
 
-  /* =======================
-   *   HELPERS
-   * ======================= */
-  const $  = sel => document.querySelector(sel);
+        /* =======================
+         *   HELPERS
+         * ======================= */
+        const $ = sel => document.querySelector(sel);
 
-  function debounce(fn, delay=350){ let t; return (...a)=>{ clearTimeout(t); t=setTimeout(()=>fn(...a), delay); }; }
-  function escapeHtml(s){
-    return (s ?? '').toString()
-      .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
-      .replace(/"/g,'&quot;').replace(/'/g,'&#039;');
-  }
-  function serializeQuery(params){
-    const q = [];
-    Object.entries(params || {}).forEach(([k,v])=>{
-      if (v === undefined || v === null || v === '') return;
-      if (Array.isArray(v)) v.forEach(val => q.push(encodeURIComponent(k) + '[]=' + encodeURIComponent(val)));
-      else q.push(encodeURIComponent(k) + '=' + encodeURIComponent(v));
-    });
-    return q.length ? '?' + q.join('&') : '';
-  }
-  async function parseError(res){
-    let json = null; try { json = await res.json(); } catch(e){}
-    const msg = json?.message || `${res.status} ${res.statusText}`;
-    const err = new Error(msg); err.status = res.status; err.details = json; return err;
-  }
-  async function apiGet(path, params={}){
-    const url = API_BASE + path + serializeQuery(params);
-    const res = await fetch(url, FETCH_BASE);
-    if (!res.ok) throw await parseError(res);
-    return res.json();
-  }
-  async function apiPost(path, body){
-    const res = await fetch(API_BASE + path, {
-      ...FETCH_BASE,
-      method: 'POST',
-      headers: { ...BASE_HEADERS, 'Content-Type': 'application/json' },
-      body: JSON.stringify(body)
-    });
-    if (!res.ok) throw await parseError(res);
-    return res.json();
-  }
+        function debounce(fn, delay = 350) {
+            let t;
+            return (...a) => {
+                clearTimeout(t);
+                t = setTimeout(() => fn(...a), delay);
+            };
+        }
 
+        function escapeHtml(s) {
+            return (s ?? '').toString()
+                .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;').replace(/'/g, '&#039;');
+        }
 
-  function extractLabId(resp){
-  // Accepte objet {id:...} ou {laboratoire_id:...} ou {labo_id:...} ou tableau
-  if (!resp) return 0;
-  const tryOne = (row) => {
-    if (!row || typeof row !== 'object') return 0;
-    const id = parseInt(row.id ?? row.laboratoire_id ?? row.labo_id ?? row.lab_id ?? 0, 10);
-    return Number.isFinite(id) && id > 0 ? id : 0;
-  };
-  if (Array.isArray(resp)) {
-    for (const r of resp) { const id = tryOne(r); if (id) return id; }
-    return 0;
-  }
-  return tryOne(resp);
-}
-
-async function ensureLabId(){
-  // 1) déjà connu ?
-  if (LAB_ID > 0) return LAB_ID;
-
-  // 2) essayer ton endpoint existant
-  try {
-    // on suppose qu'il est sous le même namespace REST
-    let resp = await apiGet('/laboratoire/mine');
-    let id = extractLabId(resp);
-    if (!id) {
-      // 3) fallback vers l'endpoint "mine" donné plus haut
-      resp = await apiGet('/laboratoire/mine');
-      id = extractLabId(resp);
-    }
-    if (id > 0) {
-      LAB_ID = id;
-      const modalEl = document.getElementById('addMemberModal');
-      if (modalEl) modalEl.dataset.laboratoireId = String(id);
-      console.log('[LAB_ID] Résolu via API =', id);
-      return LAB_ID;
-    }
-  } catch(err){
-    console.warn('[ensureLabId] échec résolution via API', err);
-  }
-  return 0;
-}
+        function serializeQuery(params) {
+            const q = [];
+            Object.entries(params || {}).forEach(([k, v]) => {
+                if (v === undefined || v === null || v === '') return;
+                if (Array.isArray(v)) v.forEach(val => q.push(encodeURIComponent(k) + '[]=' +
+                    encodeURIComponent(val)));
+                else q.push(encodeURIComponent(k) + '=' + encodeURIComponent(v));
+            });
+            return q.length ? '?' + q.join('&') : '';
+        }
+        async function parseError(res) {
+            let json = null;
+            try {
+                json = await res.json();
+            } catch (e) { }
+            const msg = json?.message || `${res.status} ${res.statusText}`;
+            const err = new Error(msg);
+            err.status = res.status;
+            err.details = json;
+            return err;
+        }
+        async function apiGet(path, params = {}) {
+            const url = API_BASE + path + serializeQuery(params);
+            const res = await fetch(url, FETCH_BASE);
+            if (!res.ok) throw await parseError(res);
+            return res.json();
+        }
+        async function apiPost(path, body) {
+            const res = await fetch(API_BASE + path, {
+                ...FETCH_BASE,
+                method: 'POST',
+                headers: {
+                    ...BASE_HEADERS,
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(body)
+            });
+            if (!res.ok) throw await parseError(res);
+            return res.json();
+        }
 
 
-  /* =======================
-   *   RÉF. MODAL
-   * ======================= */
-  const modalEl   = document.getElementById('addMemberModal');
-  if (!modalEl) return;
-    let LAB_ID = parseInt(modalEl.dataset.laboratoireId || '0', 10) || 0;
-  const btnOpen   = document.getElementById('addMemberBtn');  // bouton “Ajouter membre” de ta page (si présent)
-  const btnSave   = document.getElementById('saveMemberBtn');
+        function extractLabId(resp) {
+            // Accepte objet {id:...} ou {laboratoire_id:...} ou {labo_id:...} ou tableau
+            if (!resp) return 0;
+            const tryOne = (row) => {
+                if (!row || typeof row !== 'object') return 0;
+                const id = parseInt(row.id ?? row.laboratoire_id ?? row.labo_id ?? row.lab_id ?? 0, 10);
+                return Number.isFinite(id) && id > 0 ? id : 0;
+            };
+            if (Array.isArray(resp)) {
+                for (const r of resp) {
+                    const id = tryOne(r);
+                    if (id) return id;
+                }
+                return 0;
+            }
+            return tryOne(resp);
+        }
 
-  const existingWrapper = document.getElementById('existingMemberContent');
-  const inviteWrapper   = document.getElementById('inviteMemberContent');
+        async function ensureLabId() {
+            // 1) déjà connu ?
+            if (LAB_ID > 0) return LAB_ID;
 
-  // HTML injecté pour l’onglet “Membre existant”
-  const existingMemberHTML = `
+            // 2) essayer ton endpoint existant
+            try {
+                // on suppose qu'il est sous le même namespace REST
+                let resp = await apiGet('/laboratoire/mine');
+                let id = extractLabId(resp);
+                if (!id) {
+                    // 3) fallback vers l'endpoint "mine" donné plus haut
+                    resp = await apiGet('/laboratoire/mine');
+                    id = extractLabId(resp);
+                }
+                if (id > 0) {
+                    LAB_ID = id;
+                    const modalEl = document.getElementById('addMemberModal');
+                    if (modalEl) modalEl.dataset.laboratoireId = String(id);
+                    console.log('[LAB_ID] Résolu via API =', id);
+                    return LAB_ID;
+                }
+            } catch (err) {
+                console.warn('[ensureLabId] échec résolution via API', err);
+            }
+            return 0;
+        }
+
+
+        /* =======================
+         *   RÉF. MODAL
+         * ======================= */
+        const modalEl = document.getElementById('addMemberModal');
+        if (!modalEl) return;
+        let LAB_ID = parseInt(modalEl.dataset.laboratoireId || '0', 10) || 0;
+        const btnOpen = document.getElementById('addMemberBtn'); // bouton “Ajouter membre” de ta page (si présent)
+        const btnSave = document.getElementById('saveMemberBtn');
+
+        const existingWrapper = document.getElementById('existingMemberContent');
+        const inviteWrapper = document.getElementById('inviteMemberContent');
+
+        // HTML injecté pour l’onglet “Membre existant”
+        const existingMemberHTML = `
     <div class="form-group">
 
     <div class="filters-row" style="display:flex; gap:12px; align-items:flex-end; flex-wrap:wrap;">
@@ -1183,7 +1213,7 @@ async function ensureLabId(){
 
   `;
 
-  const inviteMemberHTML = `
+        const inviteMemberHTML = `
     <div class="form-row" style="display:flex; gap:12px; flex-wrap:wrap;">
       <div class="form-group" style="flex:1;">
         <label for="inviteEmail">Email</label>
@@ -1201,202 +1231,208 @@ async function ensureLabId(){
     <p class="help-text">Une invitation sera envoyée pour créer un compte et finaliser l’ajout.</p>
   `;
 
-  /* =======================
-   *   MONTAGE ONGLET EXISTANT
-   * ======================= */
-  function mountExistingTab(){
-    existingWrapper.innerHTML = existingMemberHTML;
+        /* =======================
+         *   MONTAGE ONGLET EXISTANT
+         * ======================= */
+        function mountExistingTab() {
+            existingWrapper.innerHTML = existingMemberHTML;
 
-    // Récupérer les refs **après** injection
-    const selMember = document.getElementById('memberSelect');
-    const selEtab   = document.getElementById('filterEtablissement');
-    const selRoles  = document.getElementById('filterRoles');
-    const inputQ    = document.getElementById('filterSearch');
-    const btnFind   = document.getElementById('btnFindMembers');
+            // Récupérer les refs **après** injection
+            const selMember = document.getElementById('memberSelect');
+            const selEtab = document.getElementById('filterEtablissement');
+            const selRoles = document.getElementById('filterRoles');
+            const inputQ = document.getElementById('filterSearch');
+            const btnFind = document.getElementById('btnFindMembers');
 
-    function getSelectedRoles(){
-      return Array.from(selRoles.selectedOptions || []).map(o => o.value);
-    }
+            function getSelectedRoles() {
+                return Array.from(selRoles.selectedOptions || []).map(o => o.value);
+            }
 
-    async function loadEtablissements(){
-      try {
-        const rows = await apiGet('/etablissements');
-        selEtab.innerHTML = '<option value="">Tous les établissements</option>' +
-          rows.map(r => `<option value="${r.id}">${escapeHtml(r.nom)}</option>`).join('');
-      } catch(e){
-        console.error('etablissements:', e);
-        selEtab.innerHTML = '<option value="">(Erreur de chargement)</option>';
-      }
-    }
+            async function loadEtablissements() {
+                try {
+                    const rows = await apiGet('/etablissements');
+                    selEtab.innerHTML = '<option value="">Tous les établissements</option>' +
+                        rows.map(r => `<option value="${r.id}">${escapeHtml(r.nom)}</option>`).join('');
+                } catch (e) {
+                    console.error('etablissements:', e);
+                    selEtab.innerHTML = '<option value="">(Erreur de chargement)</option>';
+                }
+            }
 
-    async function loadMembersIntoSelect(){
-    const selMember = document.getElementById('memberSelect');
-    const selEtab   = document.getElementById('filterEtablissement');
-    const selRoles  = document.getElementById('filterRoles');
-    const inputQ    = document.getElementById('filterSearch');
+            async function loadMembersIntoSelect() {
+                const selMember = document.getElementById('memberSelect');
+                const selEtab = document.getElementById('filterEtablissement');
+                const selRoles = document.getElementById('filterRoles');
+                const inputQ = document.getElementById('filterSearch');
 
-    if (!selMember) { console.warn('#memberSelect introuvable'); return; }
+                if (!selMember) {
+                    console.warn('#memberSelect introuvable');
+                    return;
+                }
 
-    selMember.disabled = true;
-    selMember.innerHTML = `<option value="">Chargement…</option>`;
+                selMember.disabled = true;
+                selMember.innerHTML = `<option value="">Chargement…</option>`;
 
-    try {
-        // S’assurer d’avoir le LAB_ID si possible (pour exclude)
-        await ensureLabId();
+                try {
+                    // S’assurer d’avoir le LAB_ID si possible (pour exclude)
+                    await ensureLabId();
 
-        const params = {
-        with_etablissement: 1,
-        orderby: 'display_name',
-        order: 'ASC',
-        per_page: 50,
-        search: (inputQ?.value || '').trim() || undefined,
-        etablissement_id: selEtab?.value || undefined
-        };
-        const roles = Array.from(selRoles?.selectedOptions || []).map(o => o.value);
-        if (roles.length) params.roles = roles;
+                    const params = {
+                        with_etablissement: 1,
+                        orderby: 'display_name',
+                        order: 'ASC',
+                        per_page: 50,
+                        search: (inputQ?.value || '').trim() || undefined,
+                        etablissement_id: selEtab?.value || undefined
+                    };
+                    const roles = Array.from(selRoles?.selectedOptions || []).map(o => o.value);
+                    if (roles.length) params.roles = roles;
 
-        if (LAB_ID > 0) params.exclude_lab = LAB_ID;
+                    if (LAB_ID > 0) params.exclude_lab = LAB_ID;
 
-        const rows = await apiGet('/users', params);
+                    const rows = await apiGet('/users', params);
 
-        const options = (Array.isArray(rows) ? rows : []).map(r => {
-        const labelParts = [
-            r.display_name || 'Utilisateur',
-            r.user_email ? `<${r.user_email}>` : null,
-            r.etablissement_nom || null
-        ].filter(Boolean);
-        return `<option value="${r.id}">${escapeHtml(labelParts.join(' — '))}</option>`;
+                    const options = (Array.isArray(rows) ? rows : []).map(r => {
+                        const labelParts = [
+                            r.display_name || 'Utilisateur',
+                            r.user_email ? `<${r.user_email}>` : null,
+                            r.etablissement_nom || null
+                        ].filter(Boolean);
+                        return `<option value="${r.id}">${escapeHtml(labelParts.join(' — '))}</option>`;
+                    });
+
+                    selMember.innerHTML =
+                        `<option value="">Sélectionner un membre...</option>` +
+                        (options.length ? options.join('') :
+                            `<option value="" disabled>(Aucun résultat)</option>`);
+
+                } catch (e) {
+                    console.error('[loadMembersIntoSelect] Erreur:', e);
+                    const msg = (e && e.message) ? e.message : 'Erreur de chargement';
+                    selMember.innerHTML = `<option value="" disabled>(${escapeHtml(msg)})</option>`;
+                } finally {
+                    selMember.disabled = false;
+                }
+            }
+
+
+            // Listeners filtres
+            const debounced = debounce(loadMembersIntoSelect, 350);
+            selEtab && selEtab.addEventListener('change', loadMembersIntoSelect);
+            selRoles && selRoles.addEventListener('change', loadMembersIntoSelect);
+            inputQ && inputQ.addEventListener('input', debounced);
+            btnFind && btnFind.addEventListener('click', loadMembersIntoSelect);
+
+            // Chargement initial
+            loadEtablissements().then(loadMembersIntoSelect);
+        }
+
+        function mountInviteTab() {
+            inviteWrapper.innerHTML = inviteMemberHTML;
+        }
+
+        /* =======================
+         *   OUVERTURE / TOGGLE MODAL
+         * ======================= */
+        async function openModal() {
+            modalEl.style.display = 'flex';
+
+            // S'assurer d'avoir le LAB_ID d'abord
+            const id = await ensureLabId();
+            if (!id) {
+                // on laisse quand même ouvrir pour sélectionner un membre,
+                // mais on n'exclura pas les membres existants et on bloquera le POST
+                console.warn('LAB_ID introuvable pour ce directeur (les membres ne seront pas exclus)');
+            }
+
+            // Par défaut: onglet "existant"
+            document.querySelector('input[name="addMemberType"][value="existing"]').checked = true;
+            existingWrapper.style.display = '';
+            inviteWrapper.style.display = 'none';
+
+            // Remonter l'onglet après résolution (pour que exclude_lab soit bien pris en compte)
+            mountExistingTab();
+            inviteWrapper.innerHTML = '';
+        }
+
+        btnOpen && btnOpen.addEventListener('click', openModal);
+
+        modalEl.addEventListener('click', (e) => {
+            if (e.target === modalEl) modalEl.style.display = 'none';
         });
 
-        selMember.innerHTML =
-        `<option value="">Sélectionner un membre...</option>` +
-        (options.length ? options.join('') : `<option value="" disabled>(Aucun résultat)</option>`);
+        document.querySelectorAll('input[name="addMemberType"]').forEach(r => {
+            r.addEventListener('change', () => {
+                if (!r.checked) return;
+                if (r.value === 'existing') {
+                    inviteWrapper.style.display = 'none';
+                    existingWrapper.style.display = '';
+                    mountExistingTab(); // re-monter pour s'assurer que les refs existent
+                } else {
+                    existingWrapper.style.display = 'none';
+                    inviteWrapper.style.display = '';
+                    mountInviteTab();
+                }
+            });
+        });
 
-    } catch(e){
-        console.error('[loadMembersIntoSelect] Erreur:', e);
-        const msg = (e && e.message) ? e.message : 'Erreur de chargement';
-        selMember.innerHTML = `<option value="" disabled>(${escapeHtml(msg)})</option>`;
-    } finally {
-        selMember.disabled = false;
-    }
-    }
+        /* =======================
+         *   SAUVEGARDE
+         * ======================= */
+        async function saveExistingMember() {
+            const selMember = document.getElementById('memberSelect');
+            const gradeEl = document.getElementById('newMemberGrade');
+            const specEl = document.getElementById('newMemberSpecialite');
 
+            const uid = parseInt(selMember?.value || '0', 10);
+            if (!uid) {
+                alert('Veuillez sélectionner un membre.');
+                return;
+            }
 
-    // Listeners filtres
-    const debounced = debounce(loadMembersIntoSelect, 350);
-    selEtab  && selEtab.addEventListener('change', loadMembersIntoSelect);
-    selRoles && selRoles.addEventListener('change', loadMembersIntoSelect);
-    inputQ   && inputQ.addEventListener('input', debounced);
-    btnFind  && btnFind.addEventListener('click', loadMembersIntoSelect);
+            const currentLabId = await ensureLabId();
+            if (!currentLabId) {
+                alert('Identifiant du laboratoire manquant.');
+                return;
+            }
 
-    // Chargement initial
-    loadEtablissements().then(loadMembersIntoSelect);
-  }
+            const payload = {
+                user_id: uid,
+                laboratoire_id: currentLabId,
+                grade: (gradeEl?.value || '').trim() || 'Membre',
+                specialite: (specEl?.value || '').trim() || ''
+            };
 
-  function mountInviteTab(){
-    inviteWrapper.innerHTML = inviteMemberHTML;
-  }
-
-  /* =======================
-   *   OUVERTURE / TOGGLE MODAL
-   * ======================= */
-async function openModal(){
-  modalEl.style.display = 'flex';
-
-  // S'assurer d'avoir le LAB_ID d'abord
-  const id = await ensureLabId();
-  if (!id) {
-    // on laisse quand même ouvrir pour sélectionner un membre,
-    // mais on n'exclura pas les membres existants et on bloquera le POST
-    console.warn('LAB_ID introuvable pour ce directeur (les membres ne seront pas exclus)');
-  }
-
-  // Par défaut: onglet "existant"
-  document.querySelector('input[name="addMemberType"][value="existing"]').checked = true;
-  existingWrapper.style.display = '';
-  inviteWrapper.style.display   = 'none';
-
-  // Remonter l'onglet après résolution (pour que exclude_lab soit bien pris en compte)
-  mountExistingTab();
-  inviteWrapper.innerHTML = '';
-}
-
-  btnOpen && btnOpen.addEventListener('click', openModal);
-
-  modalEl.addEventListener('click', (e) => {
-    if (e.target === modalEl) modalEl.style.display = 'none';
-  });
-
-  document.querySelectorAll('input[name="addMemberType"]').forEach(r => {
-    r.addEventListener('change', () => {
-      if (!r.checked) return;
-      if (r.value === 'existing') {
-        inviteWrapper.style.display   = 'none';
-        existingWrapper.style.display = '';
-        mountExistingTab(); // re-monter pour s'assurer que les refs existent
-      } else {
-        existingWrapper.style.display = 'none';
-        inviteWrapper.style.display   = '';
-        mountInviteTab();
-      }
-    });
-  });
-
-  /* =======================
-   *   SAUVEGARDE
-   * ======================= */
-async function saveExistingMember(){
-    const selMember = document.getElementById('memberSelect');
-    const gradeEl   = document.getElementById('newMemberGrade');
-    const specEl    = document.getElementById('newMemberSpecialite');
-
-    const uid = parseInt(selMember?.value || '0', 10);
-    if (!uid) { alert('Veuillez sélectionner un membre.'); return; }
-
-    const currentLabId = await ensureLabId();
-    if (!currentLabId) {
-        alert('Identifiant du laboratoire manquant.');
-        return;
-    }
-
-    const payload = {
-        user_id: uid,
-        laboratoire_id: currentLabId,
-        grade: (gradeEl?.value || '').trim() || 'Membre',
-        specialite: (specEl?.value || '').trim() || ''
-    };
-
-    try {
-        await apiPost('/membre', payload);
-        if (typeof window.refreshLaboratoryMembers === 'function') {
-        window.refreshLaboratoryMembers();
+            try {
+                await apiPost('/membre', payload);
+                if (typeof window.refreshLaboratoryMembers === 'function') {
+                    window.refreshLaboratoryMembers();
+                }
+                modalEl.style.display = 'none';
+            } catch (e) {
+                alert('Erreur: ' + (e?.message || 'échec de l’enregistrement'));
+                console.error(e);
+            }
         }
-        modalEl.style.display = 'none';
-    } catch(e){
-        alert('Erreur: ' + (e?.message || 'échec de l’enregistrement'));
-        console.error(e);
-    }
-}
 
-  async function saveInvite(){
-    const email = document.getElementById('inviteEmail')?.value?.trim();
-    const grade = document.getElementById('inviteGrade')?.value?.trim();
-    const spec  = document.getElementById('inviteSpecialite')?.value?.trim();
-    if (!email) { alert("Email requis pour l'invitation."); return; }
-    // À brancher avec ton plugin d'invitation:
-    alert('Invitation envoyée à ' + email + ' (implémentation à brancher).');
-    modalEl.style.display = 'none';
-  }
+        async function saveInvite() {
+            const email = document.getElementById('inviteEmail')?.value?.trim();
+            const grade = document.getElementById('inviteGrade')?.value?.trim();
+            const spec = document.getElementById('inviteSpecialite')?.value?.trim();
+            if (!email) {
+                alert("Email requis pour l'invitation.");
+                return;
+            }
+            // À brancher avec ton plugin d'invitation:
+            alert('Invitation envoyée à ' + email + ' (implémentation à brancher).');
+            modalEl.style.display = 'none';
+        }
 
-  btnSave && btnSave.addEventListener('click', ()=>{
-    const type = (document.querySelector('input[name="addMemberType"]:checked') || {}).value;
-    if (type === 'invite') return saveInvite();
-    return saveExistingMember();
-  });
+        btnSave && btnSave.addEventListener('click', () => {
+            const type = (document.querySelector('input[name="addMemberType"]:checked') || {}).value;
+            if (type === 'invite') return saveInvite();
+            return saveExistingMember();
+        });
 
-});
-
-
-
+    });
 </script>
-

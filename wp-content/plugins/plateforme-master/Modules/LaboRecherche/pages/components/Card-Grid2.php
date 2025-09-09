@@ -4,56 +4,70 @@
   <!-- Colonne 1 -->
   <div class="column" id="column1">
 
-   <!-- Bloc Statistiques -->
-  <div class="stat-graph-card">
-    <div class="stat-graph-header">
-      <a href="etat-davancement-des-projets"><strong>État d’avancement du projet</strong></a>
-      <span class="stat-pourcentage">63%</span>
-    </div>
-    <canvas id="etatProjetChart" height="180"></canvas>
-  </div>
-
-  <div class="card-flex">
-
-    <div class="master-feature-card">
-          <a href="/activites-scientifiques/"><div class="feature-text">Activités <br>scientifiques</div></a>
-          <a href="/activites-scientifiques/"><img class="card-image card-image2" src="/wp-content/plugins/plateforme-master/imagesED/science_12641486.png" alt=""></a>
+    <!-- Bloc Statistiques -->
+    <div class="stat-graph-card">
+      <div class="stat-graph-header">
+        <a href="etat-davancement-des-projets"><strong>État d’avancement du projet</strong></a>
+        <span class="stat-pourcentage">63%</span>
+      </div>
+      <canvas id="etatProjetChart" height="180"></canvas>
     </div>
 
-    <!-- Bloc Indicateurs -->
-    <div class="master-feature-card">
-      <a href="/membres-de-laboratoire/"><div class="feature-text">Membres du <br>laboratoire</div></a>
-      <a href="/membres-de-laboratoire/"><img class="card-image card-image3" src="/wp-content/plugins/plateforme-master/imagesED/image-removebg-preview (24).png" alt=""></a>
+    <div class="card-flex">
+
+      <div class="master-feature-card">
+        <a href="/activites-scientifiques/">
+          <div class="feature-text">Activités <br>scientifiques</div>
+        </a>
+        <a href="/activites-scientifiques/"><img class="card-image card-image2"
+            src="/wp-content/plugins/plateforme-master/imagesED/science_12641486.png" alt=""></a>
+      </div>
+
+      <!-- Bloc Indicateurs -->
+      <div class="master-feature-card">
+        <a href="/membres-de-laboratoire/">
+          <div class="feature-text">Membres du <br>laboratoire</div>
+        </a>
+        <a href="/membres-de-laboratoire/"><img class="card-image card-image3"
+            src="/wp-content/plugins/plateforme-master/imagesED/image-removebg-preview (24).png" alt=""></a>
+      </div>
+
     </div>
 
-   </div>
-    
     <div class="card with-image card1" draggable="true">
-      <a href="/programmes-projects-de-recherches"><div class="card-title">Programmes & projets de recherches</div></a>
+      <a href="/programmes-projects-de-recherches">
+        <div class="card-title">Programmes & projets de recherches</div>
+      </a>
       <a href="/programmes-projects-de-recherches"><span class="corner-icon">↗</span></a>
     </div>
 
-  
+
 
   </div>
 
   <!-- Colonne 2 -->
   <div class="column" id="column2">
-    
-  
-  <div class="card with-image card4 card7" draggable="true">
-      <a href="/reseaux-de-la-recherche"><div class="card-title2">Partenaires & coopérations</div></a>
-      <p class="card-des">Décrit les activités quotidiennes réalisées au laboratoire ainsi que l’état d’avancement des travaux de recherche.</p>
+
+
+    <div class="card with-image card4 card7" draggable="true">
+      <a href="/reseaux-de-la-recherche">
+        <div class="card-title2">Partenaires & coopérations</div>
+      </a>
+      <p class="card-des">Décrit les activités quotidiennes réalisées au laboratoire ainsi que l’état d’avancement
+        des travaux de recherche.</p>
       <a href="/reseaux-de-la-recherche"><span class="corner-icon">↗</span></a>
     </div>
 
-   <div class="card with-image card4 card6" draggable="true">
-      <a href="/activites-quotidiennes/"><div class="card-title2">Activités quotidiennes</div></a> 
-      <p class="card-des">Nous développons des synergies durables avec nos partenaires pour renforcer l'impact de nos actions.</p>
+    <div class="card with-image card4 card6" draggable="true">
+      <a href="/activites-quotidiennes/">
+        <div class="card-title2">Activités quotidiennes</div>
+      </a>
+      <p class="card-des">Nous développons des synergies durables avec nos partenaires pour renforcer l'impact de
+        nos actions.</p>
       <a href="/activites-quotidiennes/"><span class="corner-icon">↗</span></a>
     </div>
 
-     <div class="card ged-card card5" draggable="true">
+    <div class="card ged-card card5" draggable="true">
       <span class="corner-icon">↗</span>
     </div>
 
@@ -64,38 +78,43 @@
 
 <style>
   .card-grid {
-  display: grid;
-  grid-template-columns: 2fr 1fr;
-  gap: 16px;
-  padding: 0px 0px 10px;
-}
-.card-flex {
-  display: flex;
-  gap: 16px;
-  padding: 0px 0px;
-}
-.card {
-  position: relative;
-  background: #fff;
-  border-radius: 12px;
-  padding: 16px;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.05);
-  overflow: hidden;
-}
-.card-title {
-  border-left: 5px solid #bc0503;
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 16px;
+    padding: 0px 0px 10px;
+  }
+
+  .card-flex {
+    display: flex;
+    gap: 16px;
+    padding: 0px 0px;
+  }
+
+  .card {
+    position: relative;
+    background: #fff;
+    border-radius: 12px;
+    padding: 16px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+    overflow: hidden;
+  }
+
+  .card-title {
+    border-left: 5px solid #bc0503;
     width: 180px;
     font-size: 20px;
     font-weight: 700;
     padding: 12px;
-}
-.card-image {
-  width: 100%;
-  height: auto;
-  display: block;
-  border-radius: 0 0 12px 12px;
-}
-.corner-icon {
+  }
+
+  .card-image {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 0 0 12px 12px;
+  }
+
+  .corner-icon {
     position: absolute;
     top: 0px;
     right: -2px;
@@ -106,114 +125,128 @@
     border-radius: 0px 0px 0px 19px;
     position: absolute;
     font-weight: 700;
-}
-.card.with-image.card1 {
-      margin-top: 20px;
-  background-image: url('/wp-content/plugins/plateforme-master/imagesED/Groupe de masques 414.png');
-     background-size: 60%;
-    background-repeat: no-repeat;
-    padding-top: 12px;
-    padding-bottom: 12px;
-    margin-bottom: 20px;
-    background-position: right;
-}
-.card.with-image.card2 {
-  background-image: url('/wp-content/plugins/plateforme-master/imagesED/Groupe de masques 415.png');
+  }
+
+  .card.with-image.card1 {
+    margin-top: 20px;
+    background-image: url('/wp-content/plugins/plateforme-master/imagesED/Groupe de masques 414.png');
     background-size: 60%;
     background-repeat: no-repeat;
     padding-top: 12px;
     padding-bottom: 12px;
     margin-bottom: 20px;
     background-position: right;
-}
-.card.with-image.card3 {
-  background-image: url('/wp-content/plugins/plateforme-master/imagesED/a41dcd2f-2e04-4b73-8962-9f3b49ddeb96.jpg');
-  background-size: cover;
-  background-repeat: no-repeat;
-  padding-top: 12px;
-  padding-bottom: 12px;
-  margin-bottom: 20px;
-}
-.card.with-image.card4 {
-  background-image: url('/wp-content/plugins/plateforme-master/imagesED/d9eb867c-8b57-4ed9-9853-6f667e4ee124.png');
-  background-size: cover;
-  background-repeat: no-repeat;
-  padding-top: 27px;
-  padding-bottom: 24px;
-  background-position: center center;
-}
-.card.ged-card.card5 {
-  background-image: url("/imagesMaster/Groupe 2376.png");
-  background-size: cover;
-  background-repeat: no-repeat;
-  padding-top: 171px;
-  padding-bottom: 158px;
-  margin-bottom: 20px;
-  background-position: center center;
-}
+  }
 
-.master-feature-card {
-  flex: 1 1 50%;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background: linear-gradient(135deg, #ffffff 50%, #c3c0ac 50%);
-  border-radius: 12px;
-    padding: 46px 20px;  box-shadow: 0 4px 8px rgba(0,0,0,0.05);
-  font-family: 'Segoe UI', sans-serif;
-  font-weight: 600;
-  font-size: 16px;
-  min-height: 120px;
-  transition: transform 0.3s ease;
-}
-.master-feature-card:hover {
-  transform: translateY(-4px);
-}
-.feature-text {
+  .card.with-image.card2 {
+    background-image: url('/wp-content/plugins/plateforme-master/imagesED/Groupe de masques 415.png');
+    background-size: 60%;
+    background-repeat: no-repeat;
+    padding-top: 12px;
+    padding-bottom: 12px;
+    margin-bottom: 20px;
+    background-position: right;
+  }
+
+  .card.with-image.card3 {
+    background-image: url('/wp-content/plugins/plateforme-master/imagesED/a41dcd2f-2e04-4b73-8962-9f3b49ddeb96.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    padding-top: 12px;
+    padding-bottom: 12px;
+    margin-bottom: 20px;
+  }
+
+  .card.with-image.card4 {
+    background-image: url('/wp-content/plugins/plateforme-master/imagesED/d9eb867c-8b57-4ed9-9853-6f667e4ee124.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    padding-top: 27px;
+    padding-bottom: 24px;
+    background-position: center center;
+  }
+
+  .card.ged-card.card5 {
+    background-image: url("/imagesMaster/Groupe 2376.png");
+    background-size: cover;
+    background-repeat: no-repeat;
+    padding-top: 171px;
+    padding-bottom: 158px;
+    margin-bottom: 20px;
+    background-position: center center;
+  }
+
+  .master-feature-card {
+    flex: 1 1 50%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: linear-gradient(135deg, #ffffff 50%, #c3c0ac 50%);
+    border-radius: 12px;
+    padding: 46px 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+    font-family: 'Segoe UI', sans-serif;
+    font-weight: 600;
+    font-size: 16px;
+    min-height: 120px;
+    transition: transform 0.3s ease;
+  }
+
+  .master-feature-card:hover {
+    transform: translateY(-4px);
+  }
+
+  .feature-text {
     max-width: 65%;
     color: #000;
     font-size: 20px;
     font-weight: 700;
-}
-.feature-icon {
-  font-size: 40px;
-  color: #000;
-}
+  }
 
-.card-grid {
-  display: grid;
-  grid-template-columns: 2fr 1fr;
-  gap: 16px;
-  padding: 0px 0px;
-}
-.card {
-  position: relative;
-  background: #fff;
-  border-radius: 12px;
-  padding: 16px;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.05);
-  overflow: hidden;
-}
-.card-title {
-  border-left: 5px solid #bc0503;
+  .feature-icon {
+    font-size: 40px;
+    color: #000;
+  }
+
+  .card-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 16px;
+    padding: 0px 0px;
+  }
+
+  .card {
+    position: relative;
+    background: #fff;
+    border-radius: 12px;
+    padding: 16px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+    overflow: hidden;
+  }
+
+  .card-title {
+    border-left: 5px solid #bc0503;
     width: 180px;
     font-size: 20px;
     font-weight: 700;
     padding: 12px;
-}
-.card-title2 {
+  }
+
+  .card-title2 {
     width: 180px;
     font-size: 20px;
     font-weight: 700;
     padding: 12px;
-}
-.card-image {
-  width: 100%;
-  height: auto;
-  display: block;
-  border-radius: 0 0 12px 12px;
-}
-.corner-icon {
+  }
+
+  .card-image {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 0 0 12px 12px;
+  }
+
+  .corner-icon {
     position: absolute;
     top: 0px;
     right: -2px;
@@ -224,49 +257,54 @@
     border-radius: 0px 0px 0px 19px;
     position: absolute;
     font-weight: 700;
-}
+  }
 
-.card.with-image.card3 {
-  background-image: url('/wp-content/plugins/plateforme-master/imagesED/Groupe de masques 414.png');
-  background-size: 57%;
-  background-repeat: no-repeat;
-  padding-top: 25px;
-  padding-bottom: 24px;
-  margin-bottom: 20px;
-  background-position: right;
-}
-.card.with-image.card4 {
-  background-image: url('/wp-content/plugins/plateforme-master/imagesED/Groupe de masques 456.png');
-  background-size: cover;
-  background-repeat: no-repeat;
-  padding-top: 24px;
-  padding-bottom: 24px;
-  background-position: center center;
+  .card.with-image.card3 {
+    background-image: url('/wp-content/plugins/plateforme-master/imagesED/Groupe de masques 414.png');
+    background-size: 57%;
+    background-repeat: no-repeat;
+    padding-top: 25px;
+    padding-bottom: 24px;
+    margin-bottom: 20px;
+    background-position: right;
+  }
+
+  .card.with-image.card4 {
+    background-image: url('/wp-content/plugins/plateforme-master/imagesED/Groupe de masques 456.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    padding-top: 24px;
+    padding-bottom: 24px;
+    background-position: center center;
     margin-bottom: 20px;
 
-}
-.card.ged-card.card5 {
-      background-image: url(/imagesMaster/Groupe 2376.png);
-     background-size: 50%;
+  }
+
+  .card.ged-card.card5 {
+    background-image: url('/imagesMaster/Groupe 2376.png');
+    background-size: 50%;
     background-repeat: no-repeat;
     padding-top: 107px;
     padding-bottom: 111px;
     margin-bottom: 20px;
     background-position: center center;
-}
-.card {
-  /* autres styles */
-  user-select: none; /* optionnel : empêche sélection de texte au drag */
-}
+  }
 
-.card[draggable="true"] {
-  cursor: grab;
-}
+  .card {
+    /* autres styles */
+    user-select: none;
+    /* optionnel : empêche sélection de texte au drag */
+  }
 
-.card[draggable="true"]:active {
-  cursor: grabbing;
-}
-.card.with-image.card6 {
+  .card[draggable="true"] {
+    cursor: grab;
+  }
+
+  .card[draggable="true"]:active {
+    cursor: grabbing;
+  }
+
+  .card.with-image.card6 {
     background-image: url('/wp-content/plugins/plateforme-master/imagesED/Image 38.png');
     background-size: 36%;
     background-repeat: no-repeat;
@@ -274,14 +312,17 @@
     padding-top: 26px;
     padding-bottom: 28px;
     margin-bottom: 20px;
-}
-p.card-des {
+  }
+
+  p.card-des {
     text-align: justify;
     width: 240px;
     padding-left: 13px;
-}
-.card.with-image.card7 {
-  background-image: url('/wp-content/plugins/plateforme-master/imagesED/partenariat-1.png'); /* remplacez par le vrai nom */
+  }
+
+  .card.with-image.card7 {
+    background-image: url('/wp-content/plugins/plateforme-master/imagesED/partenariat-1.png');
+    /* remplacez par le vrai nom */
     background-size: 40%;
     background-repeat: no-repeat;
     background-position: 78%;
@@ -289,173 +330,187 @@ p.card-des {
     padding-bottom: 12px;
     margin-bottom: 20px;
     background-position: right;
-}
-.card.with-image{
+  }
+
+  .card.with-image {
     border-color: #fff;
-}
-.card.ged-card.card5 {
-      border: none;
-}
+  }
+
+  .card.ged-card.card5 {
+    border: none;
+  }
 
 
-.master-feature-card:hover {
-  transform: translateY(-4px);
-}
-.feature-text {
-  max-width: 65%;
-  color: #000;
-}
-.feature-icon {
-  font-size: 40px;
-  color: #000;
-}
-img.card-image.card-image2 {
+  .master-feature-card:hover {
+    transform: translateY(-4px);
+  }
+
+  .feature-text {
+    max-width: 65%;
+    color: #000;
+  }
+
+  .feature-icon {
+    font-size: 40px;
+    color: #000;
+  }
+
+  img.card-image.card-image2 {
     width: 100px;
     height: 100px;
-    border-radius:0px;
-}
-img.card-image.card-image3 {
+    border-radius: 0px;
+  }
+
+  img.card-image.card-image3 {
     width: 115px;
     height: 115px;
-    border-radius:0px;
-}
-.stat-graph-card {
-  background: #fff;
-  border-radius: 12px;
-  padding: 20px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
-  grid-column: 1 / 2;
-  margin-bottom: 20px;
-}
+    border-radius: 0px;
+  }
 
-.stat-graph-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  font-size: 16px;
-  font-weight: 700;
-  margin-bottom: 15px;
-}
+  .stat-graph-card {
+    background: #fff;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+    grid-column: 1 / 2;
+    margin-bottom: 20px;
+  }
 
-.stat-pourcentage {
-  color: #76704B;
-  font-weight: 700;
-  font-size: 18px;
-}
+  .stat-graph-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 16px;
+    font-weight: 700;
+    margin-bottom: 15px;
+  }
 
-.stat-card {
-  background: #fff;
-  border-radius: 12px;
-  padding: 20px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
-  position: relative;
-}
+  .stat-pourcentage {
+    color: #76704B;
+    font-weight: 700;
+    font-size: 18px;
+  }
 
-.stat-card.with-arrow {
-  min-height: 180px;
-}
+  .stat-card {
+    background: #fff;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+    position: relative;
+  }
 
-.stat-card-title {
-  font-weight: 700;
-  font-size: 17px;
-  margin-bottom: 10px;
-}
+  .stat-card.with-arrow {
+    min-height: 180px;
+  }
 
-.stat-card-desc {
-  font-size: 14px;
-  text-align: justify;
-  color: #444;
-}
+  .stat-card-title {
+    font-weight: 700;
+    font-size: 17px;
+    margin-bottom: 10px;
+  }
 
-.stat-card-image {
-  width: 60px;
-  height: auto;
-  margin-top: 10px;
-  float: right;
-}
-canvas#etatProjetChart {
+  .stat-card-desc {
+    font-size: 14px;
+    text-align: justify;
+    color: #444;
+  }
+
+  .stat-card-image {
+    width: 60px;
+    height: auto;
+    margin-top: 10px;
+    float: right;
+  }
+
+  canvas#etatProjetChart {
     height: 277px !important;
     width: 100% !important;
-}
-.media-section {
+  }
+
+  .media-section {
 
     margin-top: 7px !important;
-}
-.stat-graph-card strong {
+  }
+
+  .stat-graph-card strong {
     font-size: 20px;
     font-weight: 700;
     padding: 12px;
-}
-.labo-info-logo
-{
+  }
+
+  .labo-info-logo {
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100%;
-}
+  }
 </style>
 <script>
-function initDragAndDrop(columnSelector) {
-  let draggedItem = null;
+  function initDragAndDrop(columnSelector) {
+    let draggedItem = null;
 
-  const cards = document.querySelectorAll(`${columnSelector} .card`);
-  const column = document.querySelector(columnSelector);
+    const cards = document.querySelectorAll(`${columnSelector} .card`);
+    const column = document.querySelector(columnSelector);
 
-  cards.forEach(card => {
-    card.addEventListener('dragstart', e => {
-      draggedItem = card;
-      setTimeout(() => card.style.display = 'none', 0);
+    cards.forEach(card => {
+      card.addEventListener('dragstart', e => {
+        draggedItem = card;
+        setTimeout(() => card.style.display = 'none', 0);
+      });
+
+      card.addEventListener('dragend', () => {
+        draggedItem.style.display = 'block';
+        draggedItem = null;
+      });
     });
 
-    card.addEventListener('dragend', () => {
-      draggedItem.style.display = 'block';
-      draggedItem = null;
+    column.addEventListener('dragover', e => {
+      e.preventDefault(); // autorise le drop dans la colonne
     });
-  });
 
-  column.addEventListener('dragover', e => {
-    e.preventDefault(); // autorise le drop dans la colonne
-  });
+    column.addEventListener('drop', e => {
+      if (draggedItem && column.contains(draggedItem) === false) return; // interdit drop externe
+      column.appendChild(draggedItem);
+    });
+  }
 
-  column.addEventListener('drop', e => {
-    if (draggedItem && column.contains(draggedItem) === false) return; // interdit drop externe
-    column.appendChild(draggedItem);
-  });
-}
-
-// Initialisation des deux groupes séparément
-initDragAndDrop('#column1');
-initDragAndDrop('#column2');
+  // Initialisation des deux groupes séparément
+  initDragAndDrop('#column1');
+  initDragAndDrop('#column2');
 </script>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
-const ctx = document.getElementById('etatProjetChart').getContext('2d');
-new Chart(ctx, {
-  type: 'line',
-  data: {
-    labels: ['Phase 1', 'Phase 2', 'Phase 3', 'Phase 4', 'Phase 5'],
-    datasets: [{
-      data: [0, 95, 80, 97, 52],
-      fill: true,
-      backgroundColor: 'rgba(176, 0, 0, 0.15)',
-      borderColor: '#B00000',
-      tension: 0.4,
-      pointRadius: 0
-    }]
-  },
-  options: {
-    responsive: true,
-    plugins: {
-      legend: { display: false }
+  const ctx = document.getElementById('etatProjetChart').getContext('2d');
+  new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels: ['Phase 1', 'Phase 2', 'Phase 3', 'Phase 4', 'Phase 5'],
+      datasets: [{
+        data: [0, 95, 80, 97, 52],
+        fill: true,
+        backgroundColor: 'rgba(176, 0, 0, 0.15)',
+        borderColor: '#B00000',
+        tension: 0.4,
+        pointRadius: 0
+      }]
     },
-    scales: {
-      y: {
-        min: 0,
-        max: 100,
-        ticks: { stepSize: 25 }
+    options: {
+      responsive: true,
+      plugins: {
+        legend: {
+          display: false
+        }
+      },
+      scales: {
+        y: {
+          min: 0,
+          max: 100,
+          ticks: {
+            stepSize: 25
+          }
+        }
       }
     }
-  }
-});
+  });
 </script>

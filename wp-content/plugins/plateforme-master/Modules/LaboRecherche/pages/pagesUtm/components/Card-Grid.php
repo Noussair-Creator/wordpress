@@ -269,7 +269,7 @@
     }
 
     .card.ged-card.card5 {
-        background-image: url('/imagesMaster/Groupe 2376.png');
+        background-image: url(/imagesMaster/Groupe 2376.png);
         background-size: 50%;
         background-repeat: no-repeat;
         padding-top: 114px;
@@ -293,7 +293,7 @@
     }
 
     .card.with-image.card6 {
-        background-image: url('/wp-content/plugins/plateforme-master/imagesED/Image 38.png');
+        background-image: url(/wp-content/plugins/plateforme-master/imagesED/Image 38.png);
         background-size: 36%;
         background-repeat: no-repeat;
         background-position: 102%;

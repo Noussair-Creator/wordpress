@@ -1015,6 +1015,8 @@ function plateforme_content($content)
         'ged_',
         'bibliotheques',
         'fiche-details-du-labo_',
+        // add page Assiduité des chercheurs
+        'assiduite-des-chercheurs',
     ];
 
     foreach ($Pages_communes as $page_slug) {
@@ -1063,6 +1065,9 @@ function plateforme_content($content)
         'contacts-ecole-doctorale',
         'inscription-reinscription-ecole-doctorale',
         'dossier-inscription-ecole-doctorale',
+        // add liste laboratoire de recherche 
+        'liste-de-laboratoires',
+        'fiche-de-details-de-laboratoire'
 
     ];
 
@@ -1331,9 +1336,6 @@ function plateforme_content($content)
         'details-plateforme',
         'gestion-requetes',
         'presentation-ceip',
-
-
-
     ];
 
     foreach ($pages_PMO as $page_slug) {
@@ -1344,6 +1346,29 @@ function plateforme_content($content)
                 if (array_intersect($allowed_roles, $current_user->roles)) {
                     ob_start();
                     include plugin_dir_path(__FILE__) . 'Modules/PMO' . $page_slug . '.php';
+                    echo ob_get_clean();
+                    exit;
+                } else {
+                    plateforme_redirect_home();
+                }
+            } else {
+                plateforme_redirect_home();
+            }
+        }
+    }
+    $pages_UTM = [
+        'liste-de-laboratoires',
+        'fiche-de-details-de-laboratoire'
+    ];
+
+    foreach ($pages_UTM as $page_slug) {
+        if (is_page($page_slug)) {
+            if (is_user_logged_in()) {
+                $current_user = wp_get_current_user();
+                $allowed_roles = ['um_service-etablissement', 'um_service-utm'];
+                if (array_intersect($allowed_roles, $current_user->roles)) {
+                    ob_start();
+                    include plugin_dir_path(__FILE__) . 'Modules/pagesUtm' . $page_slug . '.php';
                     echo ob_get_clean();
                     exit;
                 } else {
@@ -2115,6 +2140,9 @@ function pm_template_override()
         'contacts-ecole-doctorale',
         'inscription-reinscription-ecole-doctorale',
         'dossier-inscription-ecole-doctorale',
+        // add liste laboratoire de recherche 
+        'liste-de-laboratoires',
+        'fiche-de-details-de-laboratoire'
     ];
     /*
             foreach ($pages_ed as $page_slug) {
@@ -2400,6 +2428,7 @@ function pm_template_override()
         'ged_',
         'bibliotheques',
         'fiche-details-du-labo_',
+        'assiduite-des-chercheurs',
     ];
 
     foreach ($Pages_communes as $page_slug) {
@@ -2524,6 +2553,30 @@ function pm_template_override()
                 if (array_intersect($allowed_roles, $current_user->roles)) {
                     ob_start();
                     include plugin_dir_path(__FILE__) . '/Modules/PMO/' . $page_slug . '.php';
+                    echo ob_get_clean();
+                    exit;
+                } else {
+                    plateforme_redirect_home();
+                }
+            } else {
+                plateforme_redirect_home();
+            }
+        }
+    }
+    //    test
+    $pages_UTM = [
+        'liste-de-laboratoires',
+        'fiche-de-details-de-laboratoire'
+    ];
+
+    foreach ($pages_UTM as $page_slug) {
+        if (is_page($page_slug)) {
+            if (is_user_logged_in()) {
+                $current_user = wp_get_current_user();
+                $allowed_roles = ['um_service-etablissement', 'um_service-utm'];
+                if (array_intersect($allowed_roles, $current_user->roles)) {
+                    ob_start();
+                    include plugin_dir_path(__FILE__) . '/Modules/pagesUtm/' . $page_slug . '.php';
                     echo ob_get_clean();
                     exit;
                 } else {
