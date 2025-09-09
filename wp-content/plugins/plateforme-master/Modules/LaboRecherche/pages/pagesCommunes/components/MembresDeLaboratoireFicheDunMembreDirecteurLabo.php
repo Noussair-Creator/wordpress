@@ -272,7 +272,7 @@
                 <label>Rôle</label>
                 <select>
                     <option>Post-Doc</option>
-                    <option selected>Maître-Assistant</option>
+                    <option selected></option>
                 </select>
             </div>
             <div class="form-group">
@@ -296,6 +296,8 @@
 
 <!-- Bootstrap JS Bundle -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+
 
 <!-- Custom JS for Modal -->
 <script>
@@ -334,4 +336,88 @@
             }
         });
     });
+</script>
+
+
+<?php
+$current_user = wp_get_current_user();
+$roles = (array) $current_user->roles;
+$role  = $roles[0] ?? '';
+$user_id = get_current_user_id();
+?>
+<script>
+  window.PMSettings = {
+    restUrl: "<?= esc_url( rest_url() ) ?>",          // ex: https://utmresearchplatform.clickerp.tn/wp-json/
+    nonce: "<?= wp_create_nonce('wp_rest') ?>",       // nonce pour X-WP-Nonce
+    role: "<?= esc_js( $role ) ?>",                   // rôle principal de l’utilisateur
+    userId: <?= (int) $user_id ?>                     // ID WP de l’utilisateur
+  };
+</script>
+<script>
+
+document.addEventListener("DOMContentLoaded", async function(){
+  const params = new URLSearchParams(window.location.search);
+  const membreId = params.get("id");
+  if (!membreId) return;
+
+  try {
+    const res = await fetch(
+      `${window.PMSettings.restUrl}plateforme-recherche/v1/membre/${membreId}?with_user=true`,
+      { headers: { "X-WP-Nonce": window.PMSettings.nonce } }
+    );
+    if (!res.ok) throw new Error("Erreur API membre");
+    const m = await res.json();
+
+    const ul = document.querySelector(".styled-list");
+    if (!ul) return;
+
+    // choisir la photo → meta profile_photo ou fallback
+    const photoUrl =
+      m.profile_photo && m.profile_photo.trim() !== ""
+        ? m.profile_photo
+        : "/wp-content/plugins/plateforme-master/images/icons/Groupe de masques 435.png";
+
+    ul.innerHTML = `
+      <li>
+        <strong>Nom complet :</strong>
+        <span>
+          <img src="${photoUrl}"
+            onerror="this.onerror=null;this.src='https://placehold.co/30x30/EFEFEF/AAAAAA?text=User';"
+            class="profile-pic" alt="Profile Picture">
+          ${m.user_display_name || "—"}
+        </span>
+      </li>
+      <li><strong>Grade / Statut :</strong> <span>${m.grade || "—"}</span></li>
+      <li><strong>Spécialité :</strong> <span>${m.specialite || "—"}</span></li>
+      <li><strong>Email :</strong> <span><a href="mailto:${m.user_email}">${m.user_email || "—"}</a></span></li>
+      <li><strong>Téléphone :</strong> <span>${m.tel|| "—"}</span></li>
+      <li><strong>Date d'entrée au labo :</strong> <span>${m.date_entree || "—"}</span></li>
+      <li><strong>Projet associé :</strong> <span>${m.projets_lies || "—"}</span></li>
+      <li><strong>Encadrements :</strong> <span>${m.encadrements || "—"}</span></li>
+      <li>
+        <strong>CV / Dossier :</strong>
+        <span>
+          ${m.cv_url ? `<a href="${m.cv_url}" target="_blank">
+            <img class="pdf-icon" width="20px"
+              src="/wp-content/plugins/plateforme-master/images/icons/pdf-svgrepo-com (2).png" alt="CV">
+            ${m.cv_url.split('/').pop()}
+          </a>` : "—"}
+        </span>
+      </li>
+      <li>
+        <strong>Etat :</strong>
+        <span>
+          ${
+            m.account_status === "approved"
+              ? `<i class="fas fa-circle status-active-icon"></i> Actif`
+              : `<i class="fas fa-circle status-inactive-icon"></i> Inactif`
+          }
+        </span>
+      </li>
+    `;
+  } catch (e) {
+    console.error("Erreur chargement membre :", e);
+  }
+});
+
 </script>

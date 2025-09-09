@@ -224,8 +224,8 @@
             display: block;
         }
 
-        /* DataTables Pagination Styling */
-        .dataTables_paginate {
+        /* DataTables Pagination Styling -- UPDATED */
+        .dataTables_wrapper .dataTables_paginate {
             display: flex;
             justify-content: flex-end;
             align-items: center;
@@ -233,25 +233,42 @@
             margin-top: 20px;
         }
 
-        .dataTables_paginate .paginate_button {
-            border: 1px solid #ddd;
+        .dataTables_wrapper .dataTables_paginate .paginate_button {
+            border: 1px solid #c62828;
             background: #fff;
-            padding: 5px 12px;
+            padding: 6px 13px;
             cursor: pointer;
             border-radius: 4px;
             user-select: none;
+            color: #c62828 !important;
+            margin: 0 2px;
+            transition: all 0.2s ease-in-out;
         }
 
-        .dataTables_paginate .paginate_button.disabled {
+        .dataTables_wrapper .dataTables_paginate .paginate_button:hover {
+            background-color: #fff !important;
+            background: #fff !important;
+            color: #c62828 !important;
+        }
+
+        .dataTables_wrapper .dataTables_paginate .paginate_button.disabled,
+        .dataTables_wrapper .dataTables_paginate .paginate_button.disabled:hover {
             cursor: not-allowed;
             opacity: 0.5;
+            border-color: #ddd;
+            color: #999 !important;
+            background-color: #fff;
         }
 
-        .dataTables_paginate .paginate_button.current {
-            background-color: #A6A485;
-            color: white;
-            border-color: #A6A485;
+        .dataTables_wrapper .dataTables_paginate .paginate_button.current,
+        .dataTables_wrapper .dataTables_paginate .paginate_button.current:hover {
+            background-color: #c62828 !important;
+            color: white !important;
+            border-color: #c62828;
         }
+
+        /* End of Pagination Styling Update */
+
 
         /* History Section */
         .history-section {
@@ -518,11 +535,15 @@
         #table1 th,
         #table2 th {
             border: 0px solid #EBE9D7;
+            font-size: 14px;
+            font-weight: 500;
         }
 
         #table1 td,
         #table2 td {
             border: 1px solid #EBE9D7;
+            font-size: 14px;
+            font-weight: 500;
         }
 
         #table1 thead,
@@ -530,6 +551,7 @@
             border: none !important;
             position: static;
             transform: translateY(-15px);
+
         }
 
         #table1 tbody tr:first-child td,
@@ -950,12 +972,17 @@
                 searching: true,
                 ordering: false,
                 info: false,
-                pageLength: 5,
+                pageLength: 2,
                 dom: 'rtp',
+                // ADDED pagingType for full controls
+                // pagingType: "full_numbers",
                 language: {
+                    // UPDATED paginate language options
                     paginate: {
-                        previous: "<i class='fa fa-chevron-left' style='color:#C60000;'></i>",
-                        next: "<i class='fa fa-chevron-right' style='color:#C60000;'></i>"
+                        // first: "<i class='fa-solid fa-angles-left'></i>",
+                        // last: "<i class='fa-solid fa-angles-right'></i>",
+                        previous: "<i class='fa-solid fa-angle-left'></i>",
+                        next: "<i class='fa-solid fa-angle-right'></i>"
                     },
                     emptyTable: "Aucune donnée disponible dans le tableau",
                     zeroRecords: "Aucun enregistrement correspondant trouvé"

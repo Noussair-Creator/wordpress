@@ -113,24 +113,31 @@
         text-decoration: underline;
     }
 
-    /* UPDATED: Applied styles to both tables */
     #candidaturesTable,
     #participationTable {
         border: none !important;
+        border-collapse: collapse;
         box-shadow: none !important;
-        border-collapse: separate;
-        border-spacing: 0;
-        overflow: visible;
     }
 
     #candidaturesTable th,
     #participationTable th {
         border: 0px solid #EBE9D7;
+        font-size: 14px;
+    }
+
+    #candidaturesTable th:nth-child(2) {
+        text-align: left;
+    }
+
+    #candidaturesTable td:nth-child(2) {
+        text-align: left;
     }
 
     #candidaturesTable td,
     #participationTable td {
         border: 1px solid #EBE9D7;
+        font-size: 14px;
     }
 
     #candidaturesTable thead,
@@ -149,6 +156,7 @@
     #participationTable {
         border-collapse: separate;
         border-spacing: 0;
+        overflow: hidden;
     }
 
     #candidaturesTable thead tr:first-child th:first-child,
@@ -181,6 +189,11 @@
     #candidaturesTable tbody tr:first-child td:last-child,
     #participationTable tbody tr:first-child td:last-child {
         border-top-right-radius: 12px;
+    }
+
+    #candidaturesTable,
+    #participationTable {
+        overflow: visible;
     }
 
     .status-bar-container {
@@ -345,7 +358,7 @@
     }
 
     .search-bar input {
-        padding: 8px 30px 8px 10px;
+        padding: 8px 10px 8px 10px;
         border-radius: 5px;
         border: 1px solid #EBE9D7;
     }
@@ -535,6 +548,7 @@
         display: block;
         font-weight: 600;
         font-size: 14px;
+        border-radius: 0px 7px 7px 0;
     }
 
     .popup-form .form-group input,
@@ -543,7 +557,7 @@
         width: 100%;
         padding: 10px 12px;
         border: 1px solid #b5af8e !important;
-        border-radius: 7px;
+        /* border-radius: 7px; */
         font-size: 14px;
         box-sizing: border-box;
     }
@@ -592,6 +606,7 @@
         padding: 10px 12px;
         background-color: transparent;
         color: #888;
+        border-radius: 7px 0 0 7px;
     }
 
     .popup-form .input-file-text:focus {
@@ -643,6 +658,7 @@
         font-weight: normal;
     }
 </style>
+
 
 <div class="content-wrapper">
 
@@ -1018,6 +1034,3 @@
         });
     });
 </script>
-</body>
-
-</html>

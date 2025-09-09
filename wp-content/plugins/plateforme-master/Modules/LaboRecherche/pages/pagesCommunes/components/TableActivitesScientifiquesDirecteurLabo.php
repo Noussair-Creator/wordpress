@@ -1411,7 +1411,7 @@
                 <div class="input-with-icon">
                     <select class="filter-select type-filter">
                         <option value="" selected>Type</option>
-                        <option>Article</option>
+                        <option>Colloque</option>
                         <option>Communication</option>
                         <option>Encadrement Thèse</option>
                         <option>Brevet</option>
@@ -1457,9 +1457,9 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
+               <!-- <tr>
                     <td><input type="checkbox"></td>
-                    <td>Article</td>
+                    <td>Colloque</td>
                     <td>"Deep Learning For EEG Analysis"</td>
                     <td>Dr. Sarra Messaoudi</td>
                     <td>2024</td>
@@ -1529,7 +1529,7 @@
                             </div>
                         </div>
                     </td>
-                </tr>
+                </tr>-->
             </tbody>
         </table>
     </div>
@@ -1547,7 +1547,7 @@
                     <div class="input-with-icon">
                         <select id="typeActivite">
                             <option>Sélection..</option>
-                            <option value="Article">Article</option>
+                            <option value="Colloque">Colloque</option>
                             <option value="Communication">Communication</option>
                             <option value="Encadrement Thèse">Encadrement Thèse</option>
                             <option value="Brevet">Brevet</option>
@@ -1606,7 +1606,7 @@
                     <div class="input-with-icon">
                         <select id="typeActiviteModifier">
                             <option>Sélection..</option>
-                            <option value="Article">Article</option>
+                            <option value="Colloque">Colloque</option>
                             <option value="Communication">Communication</option>
                             <option value="Encadrement Thèse">Encadrement Thèse</option>
                             <option value="Brevet">Brevet</option>
@@ -1659,6 +1659,24 @@
     <script src="https://cdn.datatables.net/buttons/2.3.6/js/buttons.colVis.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://cdn.quilljs.com/1.3.6/quill.min.js"></script>
+
+
+
+        <?php
+    $current_user = wp_get_current_user();
+    $roles = (array) $current_user->roles;
+    $role  = $roles[0] ?? '';
+    $user_id = get_current_user_id();
+
+    ?>
+    <script>
+    window.PMSettings = {
+        restUrl: "<?= esc_url( rest_url() ) ?>",
+        nonce: "<?= wp_create_nonce('wp_rest') ?>",
+        role: "<?= esc_js( $role ) ?>",
+        userId: <?= (int) $user_id ?>
+    };
+    </script>
 
     <!-- Updated Scripts with Filter, Check-All, and Modal Functionality -->
     <script>
@@ -1802,7 +1820,85 @@
             $('#modalModifier').css('display', 'flex');
         });
     });
+
+
+
+
+    /****************************** charger APi*/
+    /** Petit utilitaire fetch avec nonce WP */
+    async function wpFetch(url, options = {}) {
+    const headers = Object.assign({
+        'Accept': 'application/json'
+    }, options.headers || {});
+
+    // ajoute le nonce si présent
+    if (window.PMSettings?.nonce) headers['X-WP-Nonce'] = PMSettings.nonce;
+
+    const res = await fetch(url, Object.assign({ credentials: 'include', headers }, options));
+    if (!res.ok) {
+        let msg = `Erreur API (${res.status})`;
+        try { const j = await res.json(); if (j?.message) msg = j.message; } catch(e){}
+        throw new Error(msg);
+    }
+    return res.json();
+    }
+
+    /** Remplir un <select> à partir d'une liste d'items {id, libelle} */
+    function populateSelect(selectEl, items, placeholder = 'Sélectionner...') {
+    if (!selectEl) return;
+    const current = selectEl.value; // on tente de conserver la valeur
+    selectEl.innerHTML = '';
+
+    const opt0 = document.createElement('option');
+    opt0.value = '';
+    opt0.textContent = placeholder;
+    selectEl.appendChild(opt0);
+
+    items.forEach(it => {
+        const opt = document.createElement('option');
+        opt.value = String(it.id);
+        opt.textContent = it.libelle || it.code;
+        selectEl.appendChild(opt);
+    });
+
+    // restaure si possible
+    if (current) selectEl.value = current;
+    }
+
+    /** Charge les types d’activités et peuple #typeActivite & #typeActiviteModifier */
+    async function loadTypesActivites({ lang = 'fr', q = '', actif = 1 } = {}) {
+    const base = (PMSettings?.restUrl || '/wp-json').replace(/\/$/, '');
+    const url  = `${base}/plateforme-directeurderecherche/v1/types-activites?lang=${encodeURIComponent(lang)}&actif=${actif}` + (q ? `&q=${encodeURIComponent(q)}` : '');
+
+    try {
+        const data = await wpFetch(url);
+        const items = Array.isArray(data?.items) ? data.items : [];
+
+        const sel1 = document.getElementById('typeActivite');
+        const sel2 = document.getElementById('typeActiviteModifier');
+
+        populateSelect(sel1, items, 'Type d’activité…');
+        populateSelect(sel2, items, 'Type d’activité…');
+
+    } catch (e) {
+        console.error('[loadTypesActivites]', e);
+        if (window.toast) window.toast('Erreur de chargement des types : ' + e.message, true);
+    }
+    }
+
+    // === Init ===
+    document.addEventListener('DOMContentLoaded', () => {
+    // première charge
+    loadTypesActivites();
+
+
+    });
+
     </script>
+
+
+
+
 
 </body>
 

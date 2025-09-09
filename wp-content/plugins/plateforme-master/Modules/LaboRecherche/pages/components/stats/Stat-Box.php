@@ -67,7 +67,7 @@
 
 <div class="stats-grid">
   <!-- Financements -->
-  <div class="card-stats">
+  <div class="card-stats" style="margin-right: 11px;">
     <div class="header">Financements</div>
     <div class="chart-row">
       <div class="chart-pie large">
@@ -84,7 +84,7 @@
   </div>
 
   <!-- Avancement -->
-  <div class="card-stats">
+  <div class="card-stats" style=" margin-left: -11px;">
     <div class="header">État d’avancement des projets <span style="float:right; color:#333; font-weight:700;">63%</span></div>
     <div class="chart-bar">
       <canvas id="etatProjetsChart"></canvas>

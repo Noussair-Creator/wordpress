@@ -1518,7 +1518,7 @@ $user_id = get_current_user_id();
             // --- LOGIC FOR SAVING LABORATORY INFO ---
             const btnSaveInfo = document.getElementById('btnSaveInfo');
             if (btnSaveInfo) {
-                btnSaveInfo.addEventListener('click', handleSaveLaboInfo);
+              //  btnSaveInfo.addEventListener('click', handleSaveLaboInfo);
             }
         });
 
@@ -1683,8 +1683,8 @@ document.addEventListener('DOMContentLoaded', async () => {
       });
     }
 
-    // Tu peux ensuite remplir la partie Projets associés et Effectif scientifique
-    // avec des données si elles sont exposées par ton service.
+    await loadProjets(labo.id);
+    await loadEffectifs(labo.id);
 
   } catch (e) {
     console.error('[Labo] Erreur chargement', e);
@@ -1836,6 +1836,43 @@ document.addEventListener('DOMContentLoaded', () => {
     if (fromBlob) img.onload = () => URL.revokeObjectURL(url);
   }
 });
+
+
+async function loadProjets(laboId) {
+  const res = await fetch(`${PMSettings.restUrl}plateforme-recherche/v1/laboratoire/${laboId}/projets`, {
+    headers: { 'X-WP-Nonce': PMSettings.nonce },
+    credentials: 'include'
+  });
+  const projets = await res.json();
+
+  const tbody = document.querySelector('.parcours-table tbody');
+  tbody.innerHTML = '';
+  projets.forEach(p => {
+    const row = `
+      <tr>
+        <td>${p.titre}</td>
+        <td>${p.statut}</td>
+        <td>${p.type_financement || ''} (${p.budget || 0} TND)</td>
+      </tr>`;
+    tbody.insertAdjacentHTML('beforeend', row);
+  });
+}
+async function loadEffectifs(laboId) {
+  const res = await fetch(`${PMSettings.restUrl}plateforme-recherche/v1/laboratoire/${laboId}/effectifs`, {
+    headers: { 'X-WP-Nonce': PMSettings.nonce },
+    credentials: 'include'
+  });
+  const eff = await res.json();
+
+  const tbody = document.querySelector('.card.full-width:nth-of-type(4) tbody');
+  tbody.innerHTML = `
+    <tr><td>Enseignants</td><td class="text-center">${eff.Enseignants}</td></tr>
+    <tr><td>Doctorants</td><td class="text-center">${eff.Doctorants}</td></tr>
+    <tr><td>Ingénieurs</td><td class="text-center">${eff['Ingénieurs']}</td></tr>
+    <tr><td>Autres</td><td class="text-center">${eff.Autres}</td></tr>
+  `;
+}
+
 </script>
 
 

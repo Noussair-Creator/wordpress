@@ -1,4 +1,3 @@
-xede
 <?php
 $role = $role ?? "service";
 require_once plugin_dir_path(__FILE__) . '../config/roles.php';
@@ -12,7 +11,7 @@ require_once plugin_dir_path(__FILE__) . '../requireApi.php';
 
 <head>
     <meta charset="UTF-8">
-    <title>Activites Quotidiennes Détails</title>
+    <title>Programmes Et Projets De Recherches Details Projet</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
@@ -66,7 +65,7 @@ require_once plugin_dir_path(__FILE__) . '../requireApi.php';
 
                 <div class="content p-4">
 
-                    <?php include 'components/activites-quotidiennes-details.php'; ?>
+                    <?php include 'components/ProgrammesEtProjetsDeRecherchesDetailsProjet.php'; ?>
 
                 </div>
             </div>

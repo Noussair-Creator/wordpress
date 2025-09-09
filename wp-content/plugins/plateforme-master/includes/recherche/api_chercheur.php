@@ -9,6 +9,22 @@ $__svc_candidates = array(
 foreach ($__svc_candidates as $__p) { if (file_exists($__p)) { require_once $__p; break; } }
 unset($__p, $__svc_candidates);
 
+// Déclaration de la route
+add_action('rest_api_init', function () {
+  register_rest_route('plateforme/v1', '/pays', [
+    'methods'  => 'GET',
+    'callback' => 'svc_pays_list',
+    'permission_callback' => function(){ return is_user_logged_in(); }, // adapte si public
+    'args' => [
+      'lang'  => ['validate_callback'=>function($v){ return in_array(strtolower($v),['fr','ar','en'],true); }],
+      'q'     => [],
+      'actif' => ['validate_callback'=>function($v){ return in_array((string)$v,['0','1',''],true); }],
+      'limit' => ['validate_callback'=>function($v){ return is_numeric($v); }]
+    ]
+  ]);
+});
+
+
 add_action('rest_api_init', function () {
   $ns = 'plateforme-recherche/v1';
   register_rest_route($ns, '/test', array(
@@ -26,6 +42,32 @@ add_action('rest_api_init', function(){
   ));
 });
 
+
+add_action('rest_api_init', function () {
+  $ns = 'plateforme-recherche/v1';
+
+  // Route GET pour source de financement
+  register_rest_route($ns, '/source-financement', array(
+    array(
+      'methods' => 'GET',
+      'callback' => 'svc_source_financement_list',
+      'permission_callback' => function(){ return is_user_logged_in(); }
+    )
+  ));
+});
+
+add_action('rest_api_init', function () {
+  $ns = 'plateforme-recherche/v1';
+
+  // Route GET pour type de projet
+  register_rest_route($ns, '/type-projet', array(
+    array(
+      'methods' => 'GET',
+      'callback' => 'svc_type_projet_list',
+      'permission_callback' => function(){ return is_user_logged_in(); }
+    )
+  ));
+});
 
 
 /* ===============================
@@ -297,14 +339,41 @@ add_action('rest_api_init', function () {
 });
 
 // Paramètres/validation pour document
-function svc_document_args_create(){ return array(
-    'fichier_path' => array('required' => true, 'validate_callback' => function($param){ return is_scalar($param) || is_array($param); }, 'sanitize_callback' => 'sanitize_text_field'),
-    'titre' => array('required' => true, 'validate_callback' => function($param){ return is_scalar($param) || is_array($param); }, 'sanitize_callback' => 'sanitize_text_field'),
-    'chercheur_id' => array('required' => false, 'validate_callback' => function($param){ return is_numeric($param); }, 'sanitize_callback' => 'absint'),
-    'date_upload' => array('required' => false, 'validate_callback' => function($param){ return is_string($param) && preg_match('/^\d{4}-\d{2}-\d{2}$/',$param); }, 'sanitize_callback' => 'sanitize_text_field'),
-    'type' => array('required' => false, 'validate_callback' => function($param){ return is_scalar($param) || is_array($param); }, 'sanitize_callback' => 'sanitize_text_field'),
-    'visibility' => array('required' => false, 'validate_callback' => function($param){ return is_scalar($param) || is_array($param); }, 'sanitize_callback' => 'sanitize_text_field')
-); }
+function svc_document_args_create(){ 
+  return array(
+    'fichier_path' => array(
+        'required' => false,   // <- changer ici
+        'validate_callback' => function($param){ return is_scalar($param) || is_array($param); }, 
+        'sanitize_callback' => 'sanitize_text_field'
+    ),
+    'titre' => array(
+        'required' => true, 
+        'validate_callback' => function($param){ return is_scalar($param) || is_array($param); }, 
+        'sanitize_callback' => 'sanitize_text_field'
+    ),
+    'chercheur_id' => array(
+        'required' => false, 
+        'validate_callback' => function($param){ return is_numeric($param); }, 
+        'sanitize_callback' => 'absint'
+    ),
+    'date_upload' => array(
+        'required' => false, 
+        'validate_callback' => function($param){ return is_string($param) && preg_match('/^\d{4}-\d{2}-\d{2}$/',$param); }, 
+        'sanitize_callback' => 'sanitize_text_field'
+    ),
+    'type' => array(
+        'required' => false, 
+        'validate_callback' => function($param){ return is_scalar($param) || is_array($param); }, 
+        'sanitize_callback' => 'sanitize_text_field'
+    ),
+    'visibility' => array(
+        'required' => false, 
+        'validate_callback' => function($param){ return is_scalar($param) || is_array($param); }, 
+        'sanitize_callback' => 'sanitize_text_field'
+    )
+  ); 
+}
+
 function svc_document_args_update(){ return array(
     'fichier_path' => array('required' => false, 'validate_callback' => function($param){ return is_scalar($param) || is_array($param); }, 'sanitize_callback' => 'sanitize_text_field'),
     'titre' => array('required' => false, 'validate_callback' => function($param){ return is_scalar($param) || is_array($param); }, 'sanitize_callback' => 'sanitize_text_field'),
@@ -592,6 +661,27 @@ add_action('rest_api_init', function () {
   ));
 });
 
+add_action('rest_api_init', function () {
+  $ns = 'plateforme-recherche/v1';
+
+  // Projets d’un laboratoire
+  register_rest_route($ns, '/laboratoire/(?P<id>\d+)/projets', array(
+    'methods'  => 'GET',
+    'callback' => 'svc_labo_projets',
+    'permission_callback' => function(){ return is_user_logged_in(); }
+  ));
+
+  // Effectifs d’un laboratoire
+   register_rest_route($ns, '/laboratoire/(?P<id>\d+)/effectifs', array(
+    'methods'  => 'GET',
+    'callback' => 'svc_labo_effectifs',
+    'permission_callback' => function(){ return is_user_logged_in(); }
+  ));
+});
+
+
+
+
 
 // Paramètres/validation pour manifestation
 function svc_manifestation_args_create(){ return array(
@@ -652,16 +742,47 @@ add_action('rest_api_init', function () {
 });
 
 // Paramètres/validation pour projet
-function svc_projet_args_create(){ return array(
-    'date_debut' => array('required' => true, 'validate_callback' => function($param){ return is_string($param) && preg_match('/^\d{4}-\d{2}-\d{2}$/',$param); }, 'sanitize_callback' => 'sanitize_text_field'),
-    'titre' => array('required' => true, 'validate_callback' => function($param){ return is_scalar($param) || is_array($param); }, 'sanitize_callback' => 'sanitize_text_field'),
-    'budget' => array('required' => false, 'validate_callback' => function($param){ return is_numeric($param); }, 'sanitize_callback' => 'floatval'),
-    'chercheur_id' => array('required' => false, 'validate_callback' => function($param){ return is_numeric($param); }, 'sanitize_callback' => 'absint'),
-    'date_fin' => array('required' => false, 'validate_callback' => function($param){ return is_string($param) && preg_match('/^\d{4}-\d{2}-\d{2}$/',$param); }, 'sanitize_callback' => 'sanitize_text_field'),
-    'resume' => array('required' => false, 'validate_callback' => function($param){ return is_scalar($param) || is_array($param); }, 'sanitize_callback' => 'sanitize_text_field'),
-    'statut' => array('required' => false, 'validate_callback' => function($param){ return is_scalar($param) || is_array($param); }, 'sanitize_callback' => 'sanitize_text_field'),
-    'type_financement' => array('required' => false, 'validate_callback' => function($param){ return is_scalar($param) || is_array($param); }, 'sanitize_callback' => 'sanitize_text_field')
-); }
+function svc_projet_args_create() {
+    return array(
+        'date_debut' => array(
+            'required' => false,
+            'validate_callback' => function($param){
+                return is_string($param) && preg_match('/^\d{4}-\d{2}-\d{2}$/',$param);
+            },
+            'sanitize_callback' => function($param){ return sanitize_text_field($param); }
+        ),
+        'titre' => array(
+            'required' => true,
+            'validate_callback' => function($param){
+                return is_scalar($param) || is_array($param);
+            },
+            'sanitize_callback' => function($param){ return sanitize_text_field($param); }
+        ),
+        'budget' => array(
+            'required' => false,
+            'validate_callback' => function($param){ return is_numeric($param); },
+            'sanitize_callback' => function($param){ return floatval($param); }
+        ),
+        'chercheur_id' => array(
+            'required' => false,
+            'validate_callback' => function($param){ return is_numeric($param); },
+            'sanitize_callback' => function($param){ return absint($param); }
+        ),
+        'date_fin' => array(
+            'required' => false,
+            'validate_callback' => function($param){
+                return is_string($param) && preg_match('/^\d{4}-\d{2}-\d{2}$/',$param);
+            },
+            'sanitize_callback' => function($param){ return sanitize_text_field($param); }
+        ),
+        'email' => array(
+            'required' => false,
+            'validate_callback' => function($param){ return is_email($param); },
+            'sanitize_callback' => function($param){ return sanitize_email($param); }
+        ),
+    );
+}
+
 function svc_projet_args_update(){ return array(
     'date_debut' => array('required' => false, 'validate_callback' => function($param){ return is_string($param) && preg_match('/^\d{4}-\d{2}-\d{2}$/',$param); }, 'sanitize_callback' => 'sanitize_text_field'),
     'titre' => array('required' => false, 'validate_callback' => function($param){ return is_scalar($param) || is_array($param); }, 'sanitize_callback' => 'sanitize_text_field'),
@@ -685,6 +806,13 @@ add_action('rest_api_init', function () {
     array('methods'=>'PUT','callback'=>'svc_projet_update','permission_callback'=>function(){ return is_user_logged_in(); }, 'args'=>array_merge(array('id'=>array('required'=>true,'validate_callback'=>function($p){return is_numeric($p);})), svc_projet_args_update())),
     array('methods'=>'DELETE','callback'=>'svc_projet_delete','permission_callback'=>function(){ return is_user_logged_in(); })
   ));
+  register_rest_route($ns, '/projet/stats', array(
+    array(
+      'methods' => 'GET',
+      'callback' => 'svc_projet_stats',
+      'permission_callback' => function(){ return is_user_logged_in(); }
+    )
+));
 });
 
 // Paramètres/validation pour projet_membre
@@ -711,7 +839,9 @@ add_action('rest_api_init', function () {
     array('methods'=>'PUT','callback'=>'svc_projet_membre_update','permission_callback'=>function(){ return is_user_logged_in(); }, 'args'=>array_merge(array('id'=>array('required'=>true,'validate_callback'=>function($p){return is_numeric($p);})), svc_projet_membre_args_update())),
     array('methods'=>'DELETE','callback'=>'svc_projet_membre_delete','permission_callback'=>function(){ return is_user_logged_in(); })
   ));
+  
 });
+
 
 // Paramètres/validation pour publication
 function svc_publication_args_create(){ return array(
@@ -819,3 +949,83 @@ add_action('rest_api_init', function () {
   ));
 });
 
+// Reseaux de recherche 
+
+add_action('rest_api_init', function () {
+  $ns = 'plateforme-recherche/v1';
+
+  // Liste & création
+  register_rest_route($ns, '/reseaux', array(
+    array(
+      'methods'  => 'GET',
+      'callback' => 'svc_reseaux_list',
+      'permission_callback' => function(){ return is_user_logged_in(); }
+    ),
+    array(
+      'methods'  => 'POST',
+      'callback' => 'svc_reseaux_create',
+      'permission_callback' => function(){ return is_user_logged_in(); },
+      'args' => svc_reseaux_args_create()
+    ),
+  ));
+
+  // Détails / update / delete
+  register_rest_route($ns, '/reseaux/(?P<id>\d+)', array(
+    array(
+      'methods'  => 'GET',
+      'callback' => 'svc_reseaux_get',
+      'permission_callback' => function(){ return is_user_logged_in(); }
+    ),
+    array(
+      'methods'  => 'PUT',
+      'callback' => 'svc_reseaux_update',
+      'permission_callback' => function(){ return is_user_logged_in(); },
+      'args' => svc_reseaux_args_update()
+    ),
+    array(
+      'methods'  => 'PATCH',
+      'callback' => 'svc_reseaux_update',
+      'permission_callback' => function(){ return is_user_logged_in(); }
+    ),
+    array(
+      'methods'  => 'DELETE',
+      'callback' => 'svc_reseaux_delete',
+      'permission_callback' => function(){ return is_user_logged_in(); }
+    ),
+  ));
+
+  // Stats / Meta / Projets
+  register_rest_route($ns, '/reseaux/stats', array(
+    array(
+      'methods'  => 'GET',
+      'callback' => 'svc_reseaux_stats',
+      'permission_callback' => function(){ return is_user_logged_in(); }
+    ),
+  ));
+  register_rest_route($ns, '/reseaux/meta', array(
+    array(
+      'methods'  => 'GET',
+      'callback' => 'svc_reseaux_meta',
+      'permission_callback' => function(){ return is_user_logged_in(); }
+    ),
+  ));
+  register_rest_route($ns, '/reseaux/projets', array(
+    array(
+      'methods'  => 'GET',
+      'callback' => 'svc_reseaux_projets',
+      'permission_callback' => function(){ return is_user_logged_in(); }
+    ),
+  ));
+});
+
+// === Route REST ===
+add_action('rest_api_init', function () {
+  $ns = 'plateforme-recherche/v1';
+  register_rest_route($ns, '/reseaux/visible', array(
+    array(
+      'methods'  => 'GET',
+      'callback' => 'svc_reseaux_list_visible',
+      'permission_callback' => function(){ return is_user_logged_in(); }
+    ),
+  ));
+});

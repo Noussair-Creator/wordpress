@@ -12,16 +12,12 @@
                             src="/wp-content/plugins/plateforme-master/imagesED/science_12641486.png" alt="">
                     </a>
                 </a>
-
-
-
             </div>
-
 
             <!-- Bloc Indicateurs -->
             <div class="master-feature-card"><a href="/reseaux-de-la-recherches">
                     <div class="feature-text">Réseaux de la <br>recherche</div>
-                    <a href="/reseaux-de-la-recherches"> <img class="card-image card-image2"
+                    <a href="/reseaux-de-la-recherches"><img class="card-image card-image2"
                             src="/wp-content/plugins/plateforme-master/imagesED/2561975.png" alt=""></a>
                 </a>
             </div>
@@ -70,6 +66,7 @@
         grid-template-columns: 2fr 1fr;
         gap: 16px;
         padding: 0px 0px 10px;
+        margin-bottom: 10px;
     }
 
     .card-flex {
@@ -87,13 +84,13 @@
         overflow: hidden;
     }
 
-    .card-title {
+    /* .card-title {
         border-left: 5px solid #bc0503;
         width: 180px;
         font-size: 20px;
         font-weight: 700;
         padding: 12px;
-    }
+    } */
 
     .card-image {
         width: 100%;
@@ -116,7 +113,7 @@
     }
 
     .card.with-image.card1 {
-        margin-top: 20px;
+        margin-top: 30px;
         background-image: url('/wp-content/plugins/plateforme-master/imagesED/Groupe de masques 414.png');
         background-size: 60%;
         background-repeat: no-repeat;
@@ -145,15 +142,15 @@
         margin-bottom: 20px;
     }
 
-    .card.with-image.card4 {
-        background-image: url('/wp-content/plugins/plateforme-master/imagesED/d9eb867c-8b57-4ed9-9853-6f667e4ee124.png');
-        background-size: cover;
-        background-repeat: no-repeat;
-        padding-top: 27px;
-        padding-bottom: 24px;
-        background-position: center center;
-    }
-
+    /* .card.with-image.card4 {
+  background-image: url('/wp-content/plugins/plateforme-master/imagesED/d9eb867c-8b57-4ed9-9853-6f667e4ee124.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    padding-top: 27px;
+    padding-bottom: 24px;
+    background-position: center center; 
+}
+*/
     .card.ged-card.card5 {
         background-image: url("/imagesMaster/Groupe 2376.png");
         background-size: cover;
@@ -218,13 +215,19 @@
         font-size: 20px;
         font-weight: 700;
         padding: 12px;
+        margin: 0 0 0px -16px;
     }
 
     .card-title2 {
         width: 180px;
         font-size: 20px;
         font-weight: 700;
-        padding: 12px;
+        padding: 5 12px;
+    }
+
+    p {
+        margin-top: 0;
+        margin-bottom: 0rem;
     }
 
     .card-image {
@@ -261,21 +264,21 @@
         background-image: url('/wp-content/plugins/plateforme-master/imagesED/Groupe de masques 456.png');
         background-size: cover;
         background-repeat: no-repeat;
-        padding-top: 24px;
-        padding-bottom: 24px;
+        padding-top: 0px;
+        /* padding-bottom: 24px; */
         background-position: center center;
-        margin-bottom: 20px;
 
     }
 
     .card.ged-card.card5 {
-        background-image: url('/imagesMaster/Groupe 2376.png');
+        background-image: url(/imagesMaster/Groupe 2376.png);
         background-size: 50%;
         background-repeat: no-repeat;
         padding-top: 114px;
-        padding-bottom: 111px;
+        padding-bottom: 185px;
         margin-bottom: 20px;
         background-position: center center;
+        margin-top: 28px;
     }
 
     .card {
@@ -292,15 +295,15 @@
         cursor: grabbing;
     }
 
-    .card.with-image.card6 {
-        background-image: url('/wp-content/plugins/plateforme-master/imagesED/Image 38.png');
+    /*.card.with-image.card6 {
+ background-image: url(/wp-content/plugins/plateforme-master/imagesED/Image 38.png);
         background-size: 36%;
         background-repeat: no-repeat;
         background-position: 102%;
         padding-top: 26px;
-        padding-bottom: 28px;
-        margin-bottom: 20px;
-    }
+        padding-bottom: 0px;
+        margin-bottom: 20px; 
+}*/
 
     p.card-des {
         text-align: justify;

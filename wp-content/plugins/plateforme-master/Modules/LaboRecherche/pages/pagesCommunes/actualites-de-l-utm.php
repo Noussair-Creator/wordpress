@@ -27,36 +27,36 @@ require_once plugin_dir_path(__FILE__) . '../requireApi.php';
 
 
     <style>
-    :root {
-        --red: #b60303;
-        --gray: #f3f3f3;
-        --dark: #333;
-    }
+        :root {
+            --red: #b60303;
+            --gray: #f3f3f3;
+            --dark: #333;
+        }
 
-    body {
-        margin: 0;
-        font-family: 'Segoe UI', sans-serif;
-        background: var(--gray);
-        min-height: 100vh;
-    }
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', sans-serif;
+            background: var(--gray);
+            min-height: 100vh;
+        }
     </style>
 </head>
 
 
 <body>
     <!-- Header -->
-    <?php include 'components/header.php'; ?>
+    <?php include plugin_dir_path(__FILE__) . '/../components/header.php'; ?>
 
     <div class="container-fluid">
         <div class="row">
             <!-- Sidebar -->
             <div class="col-md-3 col-lg-2 p-0 sidbarcol">
-                <?php include 'components/sidebar.php'; ?>
+                <?php include plugin_dir_path(__FILE__) . '/../components/sidebar.php'; ?>
             </div>
 
             <div class="col-md-9 col-lg-10 p-0">
                 <!-- Nav pages -->
-                <?php include 'components/Nav-Pages.php'; ?>
+                <?php include plugin_dir_path(__FILE__) . '/../components/Nav-Pages.php'; ?>
 
                 <!-- Dashboard Top Bar -->
                 <?php include 'wp-content/plugins/plateforme-master/pages/components/Dashboard-Bar.php'; ?>

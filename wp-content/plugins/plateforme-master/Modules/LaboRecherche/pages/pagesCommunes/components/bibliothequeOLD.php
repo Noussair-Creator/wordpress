@@ -1471,15 +1471,15 @@ button.dt-button.buttons-collection.buttons-colvis.custom-colvis-btn {
                 <button class="btn-close-x" id="closeModalBtn">×</button>
             </div>
         </div>
-       <form id="docForm" class="popup-form" enctype="multipart/form-data">
+        <form id="docForm" class="popup-form" enctype="multipart/form-data">
             <div class="form-group">
                 <label for="fileType">Type Du Fichier</label>
                 <select id="fileType" name="type">
-                <option value="">Choisir le type</option>
-                <option value="reglements">Reglements</option>
-                <option value="rapports">Modèles De Rapport</option>
-                <option value="supports">Supports Administratifs</option>
-                <option value="guides">Guides Étudiants</option>
+                    <option value="">Choisir le type</option>
+                    <option value="reglements">Reglements</option>
+                    <option value="rapports">Modèles De Rapport</option>
+                    <option value="supports">Supports Administratifs</option>
+                    <option value="guides">Guides Étudiants</option>
                 </select>
             </div>
             <div class="form-group">
@@ -1578,49 +1578,49 @@ button.dt-button.buttons-collection.buttons-colvis.custom-colvis-btn {
 document.addEventListener('DOMContentLoaded', function() {
     // Initialize DataTable
     /*
-    const table = $('#candidaturesTable').DataTable({
-        paging: true,
-        searching: false,
-        ordering: false,
-        info: false,
-        pageLength: 5,
-        dom: 'Bfrtip',
-        buttons: [],
-        language: {
-            "emptyTable": "Aucune donnée disponible dans le tableau",
-            "info": "Affichage de l'élément _START_ à _END_ sur _TOTAL_ éléments",
-            "infoEmpty": "Affichage de l'élément 0 à 0 sur 0 élément",
-            "infoFiltered": "(filtré à partir de _MAX_ éléments au total)",
-            "lengthMenu": "Afficher _MENU_ éléments",
-            "loadingRecords": "Chargement...",
-            "processing": "Traitement...",
-            "search": "Rechercher :",
-            "zeroRecords": "Aucun élément correspondant trouvé",
-            "paginate": {
-                "first": "Premier",
-                "last": "Dernier",
-                "previous": "<i class='fa fa-chevron-left'></i>",
-                "next": "<i class='fa fa-chevron-right'></i>"
-            },
-            "aria": {
-                "sortAscending": ": activer pour trier la colonne par ordre croissant",
-                "sortDescending": ": activer pour trier la colonne par ordre décroissant"
-            }
-        },
-        columnDefs: [{
-            targets: [0, 5], // Target checkbox and actions columns
-            orderable: false
-        }],
-        initComplete: function() {
-            $('.dataTables_filter').hide();
-        }
-    });
+                const table = $('#candidaturesTable').DataTable({
+                    paging: true,
+                    searching: false,
+                    ordering: false,
+                    info: false,
+                    pageLength: 5,
+                    dom: 'Bfrtip',
+                    buttons: [],
+                    language: {
+                        "emptyTable": "Aucune donnée disponible dans le tableau",
+                        "info": "Affichage de l'élément _START_ à _END_ sur _TOTAL_ éléments",
+                        "infoEmpty": "Affichage de l'élément 0 à 0 sur 0 élément",
+                        "infoFiltered": "(filtré à partir de _MAX_ éléments au total)",
+                        "lengthMenu": "Afficher _MENU_ éléments",
+                        "loadingRecords": "Chargement...",
+                        "processing": "Traitement...",
+                        "search": "Rechercher :",
+                        "zeroRecords": "Aucun élément correspondant trouvé",
+                        "paginate": {
+                            "first": "Premier",
+                            "last": "Dernier",
+                            "previous": "<i class='fa fa-chevron-left'></i>",
+                            "next": "<i class='fa fa-chevron-right'></i>"
+                        },
+                        "aria": {
+                            "sortAscending": ": activer pour trier la colonne par ordre croissant",
+                            "sortDescending": ": activer pour trier la colonne par ordre décroissant"
+                        }
+                    },
+                    columnDefs: [{
+                        targets: [0, 5], // Target checkbox and actions columns
+                        orderable: false
+                    }],
+                    initComplete: function () {
+                        $('.dataTables_filter').hide();
+                    }
+                });
+    
+                // Custom search input functionality
+                $('#customSearchInput').on('keyup', function () {
+                    table.search(this.value).draw();
+                });*/
 
-    // Custom search input functionality
-    $('#customSearchInput').on('keyup', function() {
-        table.search(this.value).draw();
-    });
-    */
     // --- Generic Dropdown Logic ---
     function setupDropdowns() {
         document.addEventListener('click', function() {
@@ -1637,7 +1637,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     setupDropdowns();
-   // table.on('draw', setupDropdowns);
+    // table.on('draw', setupDropdowns);
 
 
     // --- Check All Functionality ---
@@ -1658,18 +1658,18 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         }
     });
-/*
-    table.on('draw', function() {
-        const totalCheckboxes = $('#candidaturesTable tbody input[type="checkbox"]').length;
-        const checkedCheckboxes = $('#candidaturesTable tbody input[type="checkbox"]:checked')
-            .length;
-        if (totalCheckboxes > 0 && totalCheckboxes === checkedCheckboxes) {
-            $('#checkAll').prop('checked', true);
-        } else {
-            $('#checkAll').prop('checked', false);
-        }
-    });
-*/
+    /*
+        table.on('draw', function() {
+            const totalCheckboxes = $('#candidaturesTable tbody input[type="checkbox"]').length;
+            const checkedCheckboxes = $('#candidaturesTable tbody input[type="checkbox"]:checked')
+                .length;
+            if (totalCheckboxes > 0 && totalCheckboxes === checkedCheckboxes) {
+                $('#checkAll').prop('checked', true);
+            } else {
+                $('#checkAll').prop('checked', false);
+            }
+        });
+    */
     // --- Add Modal Functionality ---
     const openBtn = document.getElementById('openModalBtn');
     const addModal = document.getElementById('addMeetingModal');
@@ -1821,28 +1821,28 @@ document.addEventListener('DOMContentLoaded', function() {
 <script type="module">
 const API_BASE = (window.PMSettings?.restUrl || '/wp-json/') + 'plateforme-recherche/v1';
 
-async function wpFetch(path, opts={}) {
-  const res = await fetch(API_BASE + path, {
-    method: opts.method || 'GET',
-    credentials: 'include',
-    headers: {
-      'X-WP-Nonce': window.PMSettings?.nonce || '',
-      'Content-Type': 'application/json'
-    },
-    body: opts.body ? JSON.stringify(opts.body) : undefined
-  });
-  if(!res.ok) throw new Error('HTTP ' + res.status);
-  return res.json();
+async function wpFetch(path, opts = {}) {
+    const res = await fetch(API_BASE + path, {
+        method: opts.method || 'GET',
+        credentials: 'include',
+        headers: {
+            'X-WP-Nonce': window.PMSettings?.nonce || '',
+            'Content-Type': 'application/json'
+        },
+        body: opts.body ? JSON.stringify(opts.body) : undefined
+    });
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+    return res.json();
 }
 
 // Construire une ligne <tr> pour le tableau
 function buildRow(doc) {
-  return `
+    return `
     <tr data-id="${doc.id}">
       <td><input type="checkbox"></td>
       <td>${doc.titre || doc.fichier_path}</td>
       <td>${doc.type || '—'}</td>
-      <td>${doc.date_upload ? doc.date_upload.substring(0,10) : '—'}</td>
+      <td>${doc.date_upload ? doc.date_upload.substring(0, 10) : '—'}</td>
       <td>${doc.chercheur_nom || (doc.first_name ? doc.first_name + ' ' + (doc.last_name || '') : '—')}</td>
       <td class="text-center">
         <a href="${doc.fichier_path}" target="_blank"><i class="fa fa-download"></i></a>
@@ -1852,80 +1852,122 @@ function buildRow(doc) {
 }
 
 // Charger et afficher les documents
+// async function loadDocuments() {
+//     try {
+//         const docs = await wpFetch('/document?page=1&per_page=50');
+//         const tbody = document.querySelector('#candidaturesTable tbody');
+//         tbody.innerHTML = '';
+//         docs.forEach(doc => {
+//             tbody.insertAdjacentHTML('beforeend', buildRow(doc));
+//         });
+//     } catch (e) {
+//         console.error('Erreur chargement documents', e);
+//     }
+// }
+// ---- Charger et injecter ----
 async function loadDocuments() {
-  try {
-    const docs = await wpFetch('/document?page=1&per_page=50');
-    const tbody = document.querySelector('#candidaturesTable tbody');
-    tbody.innerHTML = '';
-    docs.forEach(doc => {
-      tbody.insertAdjacentHTML('beforeend', buildRow(doc));
-    });
-  } catch(e) {
-    console.error('Erreur chargement documents', e);
-  }
-}
+    try {
+        // 1. Fetch data from the API
+        const docs = await wpFetch('/document?page=1&per_page=50');
+        const tbody = document.querySelector('#candidaturesTable tbody');
 
+        // 2. Clear the table body and add the new rows
+        tbody.innerHTML = '';
+        docs.forEach(doc => {
+            tbody.insertAdjacentHTML('beforeend', buildRow(doc));
+        });
+
+        // 3. Clean up any old DataTable instance (important for reloads)
+        if ($.fn.DataTable.isDataTable('#candidaturesTable')) {
+            $('#candidaturesTable').DataTable().destroy();
+        }
+
+        // 4. Initialize the DataTable on the newly populated table
+        const table = $('#candidaturesTable').DataTable({
+            paging: true,
+            searching: false, // Use our custom search input
+            ordering: false,
+            info: false,
+            pageLength: 5,
+            language: {
+                emptyTable: "Aucun document disponible",
+                zeroRecords: "Aucun résultat trouvé",
+                paginate: {
+                    previous: "<i class='fa fa-chevron-left'></i>",
+                    next: "<i class='fa fa-chevron-right'></i>"
+                }
+            }
+        });
+
+        // 5. Connect the custom search bar to this new table instance
+        $('#customSearchInput').on('input', function() {
+            table.search(this.value).draw();
+        });
+
+    } catch (e) {
+        console.error('Erreur chargement documents', e);
+    }
+}
 // Ajouter un nouveau document
 async function addDocument() {
-  const form = document.getElementById('docForm');
-  const formData = new FormData(form);
+    const form = document.getElementById('docForm');
+    const formData = new FormData(form);
 
-  try {
-    const res = await fetch(API_BASE + '/document', {
-      method: 'POST',
-      credentials: 'include',
-      headers: { 'X-WP-Nonce': window.PMSettings?.nonce || '' },
-      body: formData
-    });
-    if (!res.ok) throw new Error('HTTP ' + res.status);
-    const json = await res.json();
-    console.log("Document ajouté:", json);
+    try {
+        const res = await fetch(API_BASE + '/document', {
+            method: 'POST',
+            credentials: 'include',
+            headers: {
+                'X-WP-Nonce': window.PMSettings?.nonce || ''
+            },
+            body: formData
+        });
+        if (!res.ok) throw new Error('HTTP ' + res.status);
+        const json = await res.json();
+        console.log("Document ajouté:", json);
 
-    await loadDocuments();
-    document.getElementById('addMeetingModal').style.display = 'none';
-    form.reset();
-  } catch (e) {
-    alert('Erreur: ' + e.message);
-  }
+        await loadDocuments();
+        document.getElementById('addMeetingModal').style.display = 'none';
+        form.reset();
+    } catch (e) {
+        alert('Erreur: ' + e.message);
+    }
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-  loadDocuments();
-  document.getElementById('saveMeetingBtn').addEventListener('click', (e) => {
-    e.preventDefault();
-    addDocument();
-  });
+    loadDocuments();
+    document.getElementById('saveMeetingBtn').addEventListener('click', (e) => {
+        e.preventDefault();
+        addDocument();
+    });
 });
-
-
-
 </script>
 <script type="module">
 const API_BASE = (window.PMSettings?.restUrl || '/wp-json/') + 'plateforme-recherche/v1';
 
 // ---- Helper fetch ----
 async function wpFetch(path, opts = {}) {
-  const res = await fetch(API_BASE + path, {
-    method: opts.method || 'GET',
-    credentials: 'include',
-    headers: {
-      'X-WP-Nonce': window.PMSettings?.nonce || '',
-      'Content-Type': 'application/json'
-    },
-    body: opts.body ? JSON.stringify(opts.body) : undefined
-  });
-  if (!res.ok) throw new Error('HTTP ' + res.status);
-  return res.json();
+    const res = await fetch(API_BASE + path, {
+        method: opts.method || 'GET',
+        credentials: 'include',
+        headers: {
+            'X-WP-Nonce': window.PMSettings?.nonce || '',
+            'Content-Type': 'application/json'
+        },
+        body: opts.body ? JSON.stringify(opts.body) : undefined
+    });
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+    return res.json();
 }
 
 // ---- Construction <tr> ----
 function buildRow(doc) {
-  return `
+    return `
     <tr data-id="${doc.id}">
       <td><input type="checkbox"></td>
       <td>${doc.titre || doc.fichier_path}</td>
       <td>${doc.type || '—'}</td>
-      <td>${doc.date_upload ? doc.date_upload.substring(0,10) : '—'}</td>
+      <td>${doc.date_upload ? doc.date_upload.substring(0, 10) : '—'}</td>
       <td>${doc.chercheur_nom || (doc.first_name ? doc.first_name + ' ' + (doc.last_name || '') : '—')}</td>
       <td class="text-center">
         ${doc.fichier_path ? `<a href="${doc.fichier_path}" target="_blank">
@@ -1934,43 +1976,4 @@ function buildRow(doc) {
     </tr>
   `;
 }
-
-// ---- Charger et injecter ----
-async function loadDocuments() {
-  try {
-    const docs = await wpFetch('/document?page=1&per_page=50');
-    const tbody = document.querySelector('#candidaturesTable tbody');
-    tbody.innerHTML = '';
-    docs.forEach(doc => {
-      tbody.insertAdjacentHTML('beforeend', buildRow(doc));
-    });
-
-    // Redessiner DataTable après injection
-    if ($.fn.DataTable.isDataTable('#candidaturesTable')) {
-      $('#candidaturesTable').DataTable().clear().destroy();
-    }
-    $('#candidaturesTable').DataTable({
-      paging: true,
-      searching: false,
-      ordering: false,
-      info: false,
-      pageLength: 5,
-      language: {
-        emptyTable: "Aucun document disponible",
-        zeroRecords: "Aucun résultat trouvé",
-        paginate: {
-          previous: "<i class='fa fa-chevron-left'></i>",
-          next: "<i class='fa fa-chevron-right'></i>"
-        }
-      }
-    });
-
-  } catch (e) {
-    console.error('Erreur chargement documents', e);
-  }
-}
-
-
-
-
 </script>

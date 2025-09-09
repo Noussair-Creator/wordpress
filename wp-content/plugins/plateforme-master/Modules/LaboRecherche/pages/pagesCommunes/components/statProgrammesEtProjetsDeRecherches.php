@@ -15,11 +15,11 @@
         <div class="left-stats">
             <div class="stat-box">
                 <span class="label">Nombre total <br> de projects </span>
-                <span class="value">15</span>
+                <span class="value">0</span>
             </div>
             <div class="stat-box">
                 <span class="label">Financement <br> total</span>
-                <span class="value">520000 TND</span>
+                <span class="value">0 TND</span>
             </div>
         </div>
 
@@ -28,7 +28,7 @@
             <div class="graph-header">
                 <h4>État des projets</h4>
                 <select class="graph-select">
-                    <option>2024 - 2025</option>
+                    <option>2025 - 2026</option>
                 </select>
             </div>
             <div class="blocChart">
@@ -427,46 +427,77 @@ span.label {
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
 
-<script>
-const labels = ['Projets en cours', 'Projets En éval', 'Projets terminés'];
-const dataValues = [72, 14, 17];
-const colors = ['#808066', '#b1342f', '#dabebe'];
+<script type="module">
+(async () => {
+  const PM = window.PMSettings || {};
+  const API_BASE = (PM.restUrl || '/wp-json/') + 'plateforme-recherche/v1';
 
-const ctx = document.getElementById('pieChart').getContext('2d');
-const myChart = new Chart(ctx, {
-    type: 'pie',
-    data: {
-        labels: labels,
+  // Fetch helper
+  const wpFetch = async (path) => {
+    const res = await fetch(API_BASE + path, {
+      method: 'GET',
+      credentials: 'include',
+      headers: { 'X-WP-Nonce': PM.nonce || '' }
+    });
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    return res.json();
+  };
+
+  try {
+    const stats = await wpFetch('/projet/stats');
+
+    // === Mettre à jour les blocs de stats ===
+    document.querySelector('.left-stats .stat-box:nth-child(1) .value').textContent = stats.total;
+    document.querySelector('.left-stats .stat-box:nth-child(2) .value').textContent =
+        (stats.financement || 0).toLocaleString('fr-TN') + ' TND';
+
+    // === Construire les données du pie chart ===
+    const labels = ['En cours', 'En éval', 'Terminé'];
+    const colors = ['#808066', '#b1342f', '#dabebe'];
+    const dataValues = labels.map(lbl => {
+      const item = stats.repartition.find(r => (r.statut || '').toLowerCase() === lbl.toLowerCase());
+      return item ? item.nb : 0;
+    });
+
+    // Détruire le chart précédent si existe
+    if (window.myChart) window.myChart.destroy();
+
+    const ctx = document.getElementById('pieChart').getContext('2d');
+    window.myChart = new Chart(ctx, {
+      type: 'pie',
+      data: {
+        labels,
         datasets: [{
-            data: dataValues,
-            backgroundColor: colors
+          data: dataValues,
+          backgroundColor: colors
         }]
-    },
-    options: {
+      },
+      options: {
         responsive: true,
         plugins: {
-            legend: {
-                display: false
-            },
-            datalabels: {
-                color: '#fff',
-                font: {
-                    weight: 'bold',
-                    size: 13
-                },
-                formatter: (value) => value + '%'
-            }
+          legend: { display: false },
+          datalabels: {
+            color: '#fff',
+            font: { weight: 'bold', size: 13 },
+            formatter: (value) => value
+          }
         }
-    },
-    plugins: [ChartDataLabels]
-});
+      },
+      plugins: [ChartDataLabels]
+    });
 
-// Légende dynamique
-const legendContainer = document.getElementById('chartLegend');
-labels.forEach((label, i) => {
-    const item = document.createElement('div');
-    item.className = 'legend-item';
-    item.innerHTML = `<span class="legend-dot" style="background-color:${colors[i]}"></span>${label}`;
-    legendContainer.appendChild(item);
-});
+    // === Légende dynamique ===
+    const legendContainer = document.getElementById('chartLegend');
+    legendContainer.innerHTML = ''; // reset
+    labels.forEach((label, i) => {
+      const item = document.createElement('div');
+      item.className = 'legend-item';
+      item.innerHTML = `<span class="legend-dot" style="background-color:${colors[i]}"></span>${label} (${dataValues[i]})`;
+      legendContainer.appendChild(item);
+    });
+
+  } catch (e) {
+    console.error('Erreur chargement stats:', e);
+  }
+})();
 </script>

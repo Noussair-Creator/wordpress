@@ -78,7 +78,7 @@ $role = $detected_role;
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
-  <title>Messages</title>
+  <title>Profile</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
   <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
@@ -108,21 +108,31 @@ $role = $detected_role;
 
 <body>
   <!-- Header -->
-  <?php include '/Modules/Master/components/header.php'; ?>
+        <?php include 'wp-content/plugins/plateforme-master/pages/components/header.php'; ?>
 
   <div class="container-fluid">
     <div class="row">
       <!-- Sidebar -->
-      <div class="col-md-3 col-lg-2 p-0 sidbarcol">
-        <?php require_once dirname(__DIR__, 2) . '/Modules/LaboRecherche/pages/components/sidebar.php'; ?>
+     <div class="col-md-3 col-lg-2 p-0 sidbarcol">
+
+        <?php
+            if ($role == 'um_service-etablissement' || $role == 'um_service-utm') {
+                include 'components/sidebarUTM.php'; 
+            }
+            else {
+              include 'wp-content/plugins/plateforme-master/pages/components/sidebar.php'; 
+            }
+       ?>
+
+
       </div>
 
       <div class="col-md-9 col-lg-10 p-0">
         <!-- Nav pages -->
-        <?php require_once dirname(__DIR__, 2) . '/Modules/LaboRecherche/pages/components/Nav-Pages.php'; ?>
+        <?php include 'wp-content/plugins/plateforme-master/pages/components/Nav-Pages.php'; ?>
 
         <!-- Dashboard Top Bar -->
-        <?php require_once dirname(__DIR__, 2) . '/Modules/LaboRecherche/pages/components/Dashboard-Bar.php'; ?>
+        <?php include 'wp-content/plugins/plateforme-master/pages/components/Dashboard-Bar.php'; ?>
 
         <!-- Place ce wrapper à l'endroit où tu inclus tes deux fichiers -->
         <div class="content p-4">

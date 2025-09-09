@@ -1405,7 +1405,7 @@
             </tr>
         </thead>
         <tbody>
-            <tr>
+            <!--<tr>
                 <td><input type="checkbox"></td>
                 <td>12/01/2025</td>
                 <td>Encadrement</td>
@@ -1482,7 +1482,7 @@
                         </div>
                     </div>
                 </td>
-            </tr>
+            </tr>-->
         </tbody>
     </table>
 </div>
@@ -1497,37 +1497,59 @@
                 <button class="btn-close-x" id="closeModalBtn">×</button>
             </div>
         </div>
-        <form class="popup-form">
+
+        <form class="popup-form" method="POST" enctype="multipart/form-data">
             <div class="form-group">
                 <label for="meetingSubject">Sujet</label>
-                <input type="text" id="meetingSubject" placeholder="Sujet">
+                <input type="text" id="meetingSubject" name="meetingSubject" placeholder="Sujet">
             </div>
+
             <div class="form-group">
                 <label for="meetingDate">Date</label>
                 <div class="input-with-icon">
-                    <input type="text" id="meetingDate" placeholder="Date" onfocus="(this.type='date')">
+                    <input type="date" id="meetingDate" name="meetingDate" placeholder="Date">
                     <i class="fas fa-calendar-alt icon right-icon"></i>
                 </div>
             </div>
+
+            <div class="form-group">
+                <label for="duration">Durée</label>
+                <div class="input-with-icon">
+                    <input type="number" id="duration" name="duration" placeholder="Durée en minutes">
+                    <i class="fas fa-clock icon right-icon"></i>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="meetingFile">Pièce jointe</label>
+                <div class="input-with-icon">
+                    <input type="file" id="meetingFile" name="meetingFile" accept=".pdf,.doc,.docx,.jpg,.png,.ppt,.pptx">
+                    <i class="fas fa-paperclip icon right-icon"></i>
+                </div>
+            </div>
+
             <div class="form-group">
                 <label for="participantEmail">Ajouter un participant</label>
                 <div class="input-with-icon">
-                    <input type="email" id="participantEmail" placeholder="Email Participant">
-                    <i class="fas fa-level-down-alt icon right-icon"                        
-                        style="transform: translateY(-50%) rotate(90deg); cursor: pointer;" id="addParticipantBtn"></i>
+                    <input type="email" id="participantEmail" name="participantEmail" placeholder="Email Participant">
+                    <i class="fas fa-level-down-alt icon right-icon" 
+                    style="transform: translateY(-50%) rotate(90deg); cursor: pointer;" 
+                    id="addParticipantBtn"></i>
                 </div>
             </div>
 
             <div class="form-group">
                 <label>Liste Des Participants</label>
                 <ul id="participantList" class="participant-list">
-                    <li>ahmed1@gmail.com<button class="delete-participant"><i class="fas fa-trash-alt"></i></button>
-                    </li>
-                    <li>nader.juini16@gmail.com<button class="delete-participant"><i                
-                                class="fas fa-trash-alt"></i></button></li>
+                 
                 </ul>
             </div>
+
+           
         </form>
+
+
+
     </div>
 </div>
 
@@ -1608,7 +1630,7 @@
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         // Initialize DataTable
-        const table = $('#candidaturesTable').DataTable({
+    /*    const table = $('#candidaturesTable').DataTable({
             paging: true,
             searching: true,
             ordering: false,
@@ -1698,25 +1720,49 @@
             } else {
                 $('#checkAll').prop('checked', false);
             }
-        });
+        });*/
 
         // --- Generic Participant Adder ---
+        // --- Participant Adder avec contrôle email ---
         const addParticipant = (emailInput, listElement) => {
             const email = emailInput.value.trim();
-            if (email) {
-                const listItem = document.createElement('li');
-                listItem.textContent = email;
-                const deleteButton = document.createElement('button');
-                deleteButton.innerHTML = '<i class="fas fa-trash-alt"></i>';
-                deleteButton.className = 'delete-participant';
-                deleteButton.onclick = () => {
-                    listItem.remove();
-                };
-                listItem.appendChild(deleteButton);
-                listElement.appendChild(listItem);
-                emailInput.value = '';
+            if (!email) return;
+
+            // Vérification format email
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(email)) {
+                Swal.fire('Erreur', 'Adresse email invalide', 'error');
+                return;
             }
+
+            // Vérifier si déjà dans la liste
+            const exists = Array.from(listElement.querySelectorAll('li span'))
+                .some(span => span.textContent === email);
+            if (exists) {
+                Swal.fire('Info', 'Cet email est déjà ajouté', 'info');
+                return;
+            }
+
+            // Créer l’élément li avec <span> et bouton delete
+            const listItem = document.createElement('li');
+
+            const span = document.createElement('span');
+            span.textContent = email;
+
+            const deleteButton = document.createElement('button');
+            deleteButton.innerHTML = '<i class="fas fa-trash-alt"></i>';
+            deleteButton.className = 'delete-participant';
+            deleteButton.onclick = () => {
+                listItem.remove();
+            };
+
+            listItem.appendChild(span);
+            listItem.appendChild(deleteButton);
+            listElement.appendChild(listItem);
+
+            emailInput.value = '';
         };
+
 
         // --- Add Modal Functionality ---
         const openBtn = document.getElementById('openModalBtn');
@@ -1736,6 +1782,8 @@
 
         const openAddModal = () => {
             addModal.style.display = 'flex';
+             loadPays({ lang: 'fr', actif: 1 }); // fr|ar|en
+              loadProjects();
         };
         const closeAddModal = () => {
             addModal.style.display = 'none';
@@ -1746,7 +1794,7 @@
             openAddModal();
         });
         closeBtn.addEventListener('click', closeAddModal);
-        addParticipantBtn.addEventListener('click', () => addParticipant(participantEmailInput,
+       addParticipantBtn.addEventListener('click', () => addParticipant(participantEmailInput,
             participantList));
         participantEmailInput.addEventListener('keypress', (e) => {
             if (e.key === 'Enter') {
@@ -1763,8 +1811,22 @@
             }
         });
 
+      /*  const editParticipantEmailInput = document.getElementById('editParticipantEmail');
+
+
+         addEditParticipantBtn.addEventListener('click', () => addParticipant(editParticipantEmailInput, document
+            .getElementById('editParticipantList')));
+        editParticipantEmailInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                addParticipant(editParticipantEmailInput, document.getElementById(
+                    'editParticipantList'));
+            }
+        });*/
+
+
         // --- Edit Modal Functionality ---
-        const editModal = document.getElementById('editMeetingModal');
+       /* const editModal = document.getElementById('editMeetingModal');
         const closeEditBtn = document.getElementById('closeEditModalBtn');
         const updateBtn = document.getElementById('updateMeetingBtn');
         const editPopupContainer = editModal.querySelector('.popup-container');
@@ -1788,7 +1850,7 @@
 
             $('#editMeetingDate').val(formattedDate);
             $('#editMeetingSubject').val(subject);
-            $('#editMeetingId').val(table.row(row).index());
+          //  $('#editMeetingId').val(table.row(row).index());
             $('#editParticipantList').empty();
             openEditModal();
         });
@@ -1819,7 +1881,7 @@
             if (!editPopupContainer.contains(e.target)) {
                 closeEditModal();
             }
-        });
+        });*/
 
         // --- Details Modal Functionality ---
         const detailsModal = document.getElementById('detailsMeetingModal');
@@ -1839,21 +1901,13 @@
             const date = row.find('td:eq(1)').text();
             const subject = row.find('td:eq(2)').text();
             const duration = row.find('td:eq(3)').text();
-
+            const mockParticipants =[];
             // Mock participant data (in a real app, this would come from an API)
-            const mockParticipants = [{
+          /*  const mockParticipants = [{
                 name: 'Ahmed Ali',
                 avatar: '/wp-content/plugins/plateforme-master/images/newimages/person3.jpg'
-            },
-            {
-                name: 'Nader Juini',
-                avatar: '/wp-content/plugins/plateforme-master/images/newimages/person3.jpg'
-            },
-            {
-                name: 'Sara Ben Salah',
-                avatar: '/wp-content/plugins/plateforme-master/images/newimages/person4.jpg'
             }
-            ];
+            ];*/
 
             $('#detailsSubject').text(subject);
             $('#detailsDate').text(date);
@@ -1879,3 +1933,19 @@
         });
     });
 </script>
+<?php
+$current_user = wp_get_current_user();
+$roles = (array) $current_user->roles;
+$role  = $roles[0] ?? '';
+$user_id = get_current_user_id();
+
+?>
+<script>
+  window.PMSettings = {
+    restUrl: "<?= esc_url( rest_url() ) ?>",
+    nonce: "<?= wp_create_nonce('wp_rest') ?>",
+    role: "<?= esc_js( $role ) ?>",
+    userId: <?= (int) $user_id ?>
+  };
+</script>
+<script src="/wp-content/plugins/plateforme-master/assets/js/reunion.js"></script>

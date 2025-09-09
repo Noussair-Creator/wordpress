@@ -1,3 +1,49 @@
+<?php
+if (!defined('ABSPATH'))
+  exit;
+
+function pm_get_institut_logo_url_for_current_user()
+{
+  global $wpdb;
+
+  $uid = get_current_user_id();
+  if (!$uid)
+    return null;
+
+  // institut_id stocké dans les métadonnées utilisateur (cf. ton contexte)
+  $institut_id = (int) get_user_meta($uid, 'institut_id', true);
+  if (!$institut_id)
+    return null;
+
+  // ⚠️ Utilise le nom EXACT de ta table
+  $table = $wpdb->prefix . 'master_instituts';
+
+  // Récupération du champ 'logo' (peut être relatif ou absolu)
+  $row = $wpdb->get_row(
+    $wpdb->prepare("SELECT nom, logo FROM {$table} WHERE id = %d LIMIT 1", $institut_id),
+    ARRAY_A
+  );
+  if (!$row)
+    return null;
+
+  $logo = trim((string) ($row['logo'] ?? ''));
+  if ($logo === '')
+    return null;
+
+  // Normaliser l’URL si on a un chemin relatif
+  if (stripos($logo, 'http://') === 0 || stripos($logo, 'https://') === 0) {
+    $logo_url = $logo;
+  } else {
+    // Exemple: /wp-content/uploads/instituts/fst.png  →  https://site/...
+    $logo_url = home_url('/' . ltrim($logo, '/'));
+  }
+
+  // Optionnel : valider que c’est bien une URL
+  $logo_url = esc_url_raw($logo_url);
+  return $logo_url ?: null;
+}
+?>
+
 <!-- HEADER -->
 <style>
   .logo-section {
@@ -20,7 +66,7 @@
 
   .logo-section img {
     height: 45px;
-    margin-right: 10px;
+    margin: 0 10px;
   }
 
   /* img#drapeau_tunisie {
@@ -41,12 +87,12 @@
 
   img#logo_utm {
     /* width: 7%; */
-    width: 10%;
+    width: 8%;
     height: 8%;
     position: relative;
     /* top: -5px; */
     top: 0px;
-    padding-left: 10px;
+    padding-left: 0px;
   }
 
   img#logo_fst {
@@ -144,13 +190,25 @@
     <span id="text_tunis">
       République Tunisienne<br />
       Ministère de l’Enseignement Supérieur<br />
-      et de la Recherche Scientifique
+      et de la Recherche Scientifique test
     </span>
     <span class="hr-div"></span>
     <img src="/wp-content/plugins/plateforme-master/images/newimages/logo-removebg-preview.png" id="logo_utm"
       alt="Logo UTM" />
     <span class="hr-div"></span>
-    <img src="/wp-content/plugins/plateforme-master/images/newimages/Image 76.png" id="logo_fst" alt="Logo FST" />
+
+
+    <?php
+    $logo_url = pm_get_institut_logo_url_for_current_user();
+
+    if ($logo_url) {
+      // Si tu veux mettre le nom de l’institut dans l’alt, récupère-le aussi si besoin.
+      echo '<img src="' . esc_url($logo_url) . '" id="logo_institut" alt="Logo institut" />';
+    }
+    // Sinon: n'affiche rien du tout.
+    ?>
+
+
   </div>
 
   <div class="header-actions">

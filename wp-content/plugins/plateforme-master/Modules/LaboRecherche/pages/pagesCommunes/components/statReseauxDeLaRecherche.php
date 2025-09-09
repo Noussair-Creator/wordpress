@@ -15,11 +15,11 @@
         <div class="left-stats">
             <div class="stat-box">
                 <span class="label">Partenaires nationaux</span>
-                <span class="value">5</span>
+                <span class="value"></span>
             </div>
             <div class="stat-box">
                 <span class="label">Partenaires internationaux</span>
-                <span class="value">4</span>
+                <span class="value"></span>
             </div>
         </div>
 
@@ -28,7 +28,7 @@
             <div class="graph-header">
                 <h4>% de collaborations par continent ou pay</h4>
                 <select class="graph-select">
-                    <option>2024 - 2025</option>
+                    <option>2025 - 2026</option>
                 </select>
             </div>
             <div class="blocChart">
@@ -428,6 +428,7 @@ span.label {
 <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
 
 <script>
+    /*
 const labels = ['France', 'Maroc', 'Canada'];
 const dataValues = [72, 14, 17];
 const colors = ['#808066', '#b1342f', '#dabebe'];
@@ -468,5 +469,5 @@ labels.forEach((label, i) => {
     item.className = 'legend-item';
     item.innerHTML = `<span class="legend-dot" style="background-color:${colors[i]}"></span>${label}`;
     legendContainer.appendChild(item);
-});
+});*/
 </script>

@@ -20,7 +20,9 @@ require_once plugin_dir_path(__FILE__) . 'includes/reclamations-api.php';
 require_once plugin_dir_path(__FILE__) . 'includes//doctorants/api_doctorants.php';
 require_once plugin_dir_path(__FILE__) . 'includes//recherche/api_chercheur.php';
 require_once plugin_dir_path(__FILE__) . 'includes/recherche/api_directeurderecherche.php';
+require_once plugin_dir_path(__FILE__) . 'includes/class-publication-controller.php';
 
+require_once plugin_dir_path(__FILE__) . 'includes/api-contact.php';
 
 // CORRECT PATH
 // require_once plugin_dir_path(__FILE__) . 'includes/directeur_de_labo/api_directeurderecherche.php';
@@ -29,6 +31,9 @@ require_once plugin_dir_path(__FILE__) . 'includes/pmo/api_pmo.php';
 require_once plugin_dir_path(__FILE__) . 'includes/api-messages.php';
 
 require_once plugin_dir_path(__FILE__) . 'includes/api-profile.php';
+
+require_once plugin_dir_path(__FILE__) . 'includes/api_reunion.php';
+
 
 
 
@@ -628,7 +633,16 @@ function plateforme_content($content)
             plateforme_redirect_home();
         }
     }
+    if (is_page('contacts')) {
+        if (is_user_logged_in()) {
+            $current_user = wp_get_current_user();
 
+            include plugin_dir_path(__FILE__) . 'Modules/contact/contact.php';
+
+        } else {
+            plateforme_redirect_home();
+        }
+    }
     if (is_page('details-master')) {
         if (is_user_logged_in()) {
             $current_user = wp_get_current_user();
@@ -827,15 +841,15 @@ function plateforme_content($content)
 
 
     // create page UTM
-    if (is_page('UTM')) {
-        if (is_user_logged_in()) {
+    // if (is_page('UTM')) {
+    //     if (is_user_logged_in()) {
 
-            include plugin_dir_path(__FILE__) . 'Modules/SiteRecherche/utm.php';
+    //         include plugin_dir_path(__FILE__) . 'Modules/SiteRecherche/utm.php';
 
-        } else {
-            plateforme_redirect_home();
-        }
-    }
+    //     } else {
+    //         plateforme_redirect_home();
+    //     }
+    // }
     // create page presentation-utm
     if (is_page('presentation-utm')) {
         if (is_user_logged_in()) {
@@ -916,6 +930,16 @@ function plateforme_content($content)
             plateforme_redirect_home();
         }
     }
+    // create page etablissements UTM
+    if (is_page('etablissements-utm')) {
+        if (is_user_logged_in()) {
+
+            include plugin_dir_path(__FILE__) . 'Modules/SiteRecherche/etablissements-utm.php';
+
+        } else {
+            plateforme_redirect_home();
+        }
+    }
 
 
     // create page Structures de recherche UTM
@@ -988,7 +1012,7 @@ function plateforme_content($content)
     $Pages_communes = [
         'reservation-des-equipements-et-salles',
         'programmes-et-projets-de-recherches',
-        'programmes-et-projets-de-recherches-details-projet',
+        'programmes-et-projets-de-recherches-details-projet_',
         'reseaux-de-la-recherches',
         'reseaux-de-la-recherche-details',
         'activites-quotidiennes_',
@@ -1005,7 +1029,6 @@ function plateforme_content($content)
         'ajouter-une-publication',
         'modifier-une-publication',
         'details-publication',
-        'contacts',
         'etat-d-avancement-des-projets',
         'etat-d-avancement-des-projets-fiche-projet',
         'rapports',
@@ -1065,9 +1088,6 @@ function plateforme_content($content)
         'contacts-ecole-doctorale',
         'inscription-reinscription-ecole-doctorale',
         'dossier-inscription-ecole-doctorale',
-        // add liste laboratoire de recherche 
-        'liste-de-laboratoires',
-        'fiche-de-details-de-laboratoire'
 
     ];
 
@@ -1168,24 +1188,24 @@ function plateforme_content($content)
     }
     // Chargement automatique des pages LaboRecherche pour le rôle um_chercheur
     $chercheur_pages = [
-        'programmes-projects-de-recherches' => 'ProgrammesProjectsDeRecherches.php',
-        'activites-scientifiques' => 'ActivitesScientifiques.php',
-        'reseaux-de-la-recherche' => 'ReseauxDeLaRecherche.php',
-        'activites-quotidiennes' => 'ActivitesQuotidiennes.php',
-        'etat-davancement-des-projets' => 'EtatDavancementDesProjets.php',
-        'financement' => 'Financement.php',
-        'actualites-de-lutm' => 'ActualitesDeLutm.php',
-        'membres-de-laboratoire' => 'MembresDeLaboratoire.php',
+        // 'programmes-projects-de-recherches' => 'ProgrammesProjectsDeRecherches.php',
+        // 'activites-scientifiques' => 'ActivitesScientifiques.php',
+        // 'reseaux-de-la-recherche' => 'ReseauxDeLaRecherche.php',
+        // 'activites-quotidiennes' => 'ActivitesQuotidiennes.php',
+        // 'etat-davancement-des-projets' => 'EtatDavancementDesProjets.php',
+        // 'financement' => 'Financement.php',
+        // 'actualites-de-lutm' => 'ActualitesDeLutm.php',
+        // 'membres-de-laboratoire' => 'MembresDeLaboratoire.php',
         'comment-proteger-ma-recherche' => 'CommentProtegerMaRecherche.php',
-        'details-programmes-projets-de-recherches' => 'DetailsProgrammesProjetsDeRecherches.php',
-        'reseaux-de-la-recherche-fiche-partenaire' => 'ReseauxDeLaRechercheFichePartenaire.php',
-        'financement-fiche-de-financement' => 'FinancementFicheDeFinancement.php',
-        'membres-de-laboratoire-fiche-dun-membre' => 'MembresDeLaboratoireFicheDunMembre.php',
-        'fiche-details-du-laboratoire-lsama' => 'FicheDetailsDuLaboratoireLsama.php',
-        'etat-davancement-des-projets-fiche-projet' => 'EtatDavancementDesProjetsFicheProjet.php',
+        // 'details-programmes-projets-de-recherches' => 'DetailsProgrammesProjetsDeRecherches.php',
+        // 'reseaux-de-la-recherche-fiche-partenaire' => 'ReseauxDeLaRechercheFichePartenaire.php',
+        // 'financement-fiche-de-financement' => 'FinancementFicheDeFinancement.php',
+        // 'membres-de-laboratoire-fiche-dun-membre' => 'MembresDeLaboratoireFicheDunMembre.php',
+        // 'fiche-details-du-laboratoire-lsama' => 'FicheDetailsDuLaboratoireLsama.php',
+        // 'etat-davancement-des-projets-fiche-projet' => 'EtatDavancementDesProjetsFicheProjet.php',
         // Ajoutez 2 pages publications & ajouter-une-publication
-        'publications-chercheur' => 'Publications.php',
-        'ajouter-une-publication-chercheur' => 'AjouterUnePublication.php',
+        // 'publications-chercheur' => 'Publications.php',
+        // 'ajouter-une-publication-chercheur' => 'AjouterUnePublication.php',
     ];
 
     foreach ($chercheur_pages as $page_slug => $php_file) {
@@ -1336,6 +1356,9 @@ function plateforme_content($content)
         'details-plateforme',
         'gestion-requetes',
         'presentation-ceip',
+
+
+
     ];
 
     foreach ($pages_PMO as $page_slug) {
@@ -1356,10 +1379,30 @@ function plateforme_content($content)
             }
         }
     }
+
     $pages_UTM = [
         'liste-de-laboratoires',
         'fiche-de-details-de-laboratoire'
     ];
+
+    /* foreach ($pages_UTM as $page_slug) {
+         if (is_page($page_slug)) {
+             if (is_user_logged_in()) {
+                 $current_user = wp_get_current_user();
+                 $allowed_roles = ['um_service-etablissement', 'um_service-utm'];
+                 if (array_intersect($allowed_roles, $current_user->roles)) {
+                     ob_start();
+                     include plugin_dir_path(__FILE__) . 'Modules/LaboRecherche/pages' . $page_slug . '.php';
+                     echo ob_get_clean();
+                     exit;
+                 } else {
+                     plateforme_redirect_home();
+                 }
+             } else {
+                 plateforme_redirect_home();
+             }
+         }
+     }*/
 
     foreach ($pages_UTM as $page_slug) {
         if (is_page($page_slug)) {
@@ -1368,7 +1411,7 @@ function plateforme_content($content)
                 $allowed_roles = ['um_service-etablissement', 'um_service-utm'];
                 if (array_intersect($allowed_roles, $current_user->roles)) {
                     ob_start();
-                    include plugin_dir_path(__FILE__) . 'Modules/pagesUtm' . $page_slug . '.php';
+                    include plugin_dir_path(__FILE__) . 'Modules/LaboRecherche/pages/' . $page_slug . '.php';
                     echo ob_get_clean();
                     exit;
                 } else {
@@ -1379,6 +1422,7 @@ function plateforme_content($content)
             }
         }
     }
+
 
     if (is_page('unite-genomique')) {
         if (is_user_logged_in()) {
@@ -1775,6 +1819,16 @@ function pm_template_override()
 
         wp_redirect(home_url());
         exit;
+    } elseif (is_page('contacts')) {
+        if (is_user_logged_in()) {
+            $user = wp_get_current_user();
+            include plugin_dir_path(__FILE__) . 'Modules/contact/contact.php';
+            exit;
+
+        }
+
+        wp_redirect(home_url());
+        exit;
     } elseif (is_page('details-master')) {
         if (is_user_logged_in()) {
             $user = wp_get_current_user();
@@ -2009,15 +2063,15 @@ function pm_template_override()
 
 
     // UTM
-    if (is_page('UTM')) {
-        if (is_user_logged_in()) {
-            include plugin_dir_path(__FILE__) . 'Modules/SiteRecherche/utm.php';
-            exit;
-        }
+    // if (is_page('UTM')) {
+    //     if (is_user_logged_in()) {
+    //         include plugin_dir_path(__FILE__) . 'Modules/SiteRecherche/utm.php';
+    //         exit;
+    //     }
 
-        wp_redirect(home_url());
-        exit;
-    }
+    //     wp_redirect(home_url());
+    //     exit;
+    // }
     // presentation-utm
     if (is_page('presentation-utm')) {
         if (is_user_logged_in()) {
@@ -2100,6 +2154,16 @@ function pm_template_override()
         wp_redirect(home_url());
         exit;
     }
+    //etablissements-utm
+    if (is_page('etablissements-utm')) {
+        if (is_user_logged_in()) {
+            include plugin_dir_path(__FILE__) . 'Modules/SiteRecherche/etablissements-utm.php';
+            exit;
+        }
+
+        wp_redirect(home_url());
+        exit;
+    }
     //ouverture-sur-lenvironnement-utm
     if (is_page('structures-de-recherche-utm')) {
         if (is_user_logged_in()) {
@@ -2140,9 +2204,6 @@ function pm_template_override()
         'contacts-ecole-doctorale',
         'inscription-reinscription-ecole-doctorale',
         'dossier-inscription-ecole-doctorale',
-        // add liste laboratoire de recherche 
-        'liste-de-laboratoires',
-        'fiche-de-details-de-laboratoire'
     ];
     /*
             foreach ($pages_ed as $page_slug) {
@@ -2401,7 +2462,7 @@ function pm_template_override()
     $Pages_communes = [
         'reservation-des-equipements-et-salles',
         'programmes-et-projets-de-recherches',
-        'programmes-et-projets-de-recherches-details-projet',
+        'programmes-et-projets-de-recherches-details-projet_',
         'reseaux-de-la-recherches',
         'reseaux-de-la-recherche-details',
         'activites-quotidiennes_',
@@ -2418,7 +2479,6 @@ function pm_template_override()
         'ajouter-une-publication',
         'modifier-une-publication',
         'details-publication',
-        'contacts',
         'etat-d-avancement-des-projets',
         'etat-d-avancement-des-projets-fiche-projet',
         'rapports',
@@ -2428,6 +2488,7 @@ function pm_template_override()
         'ged_',
         'bibliotheques',
         'fiche-details-du-labo_',
+        // add page Assiduité des chercheurs
         'assiduite-des-chercheurs',
     ];
 
@@ -2563,11 +2624,30 @@ function pm_template_override()
             }
         }
     }
-    //    test
+
     $pages_UTM = [
         'liste-de-laboratoires',
         'fiche-de-details-de-laboratoire'
     ];
+    /*
+        foreach ($pages_UTM as $page_slug) {
+            if (is_page($page_slug)) {
+                if (is_user_logged_in()) {
+                    $current_user = wp_get_current_user();
+                    $allowed_roles = ['um_service-etablissement', 'um_service-utm'];
+                    if (array_intersect($allowed_roles, $current_user->roles)) {
+                        ob_start();
+                        include plugin_dir_path(__FILE__) . '/Modules/LaboRecherche/pages' . $page_slug . '.php';
+                        echo ob_get_clean();
+                        exit;
+                    } else {
+                        plateforme_redirect_home();
+                    }
+                } else {
+                    plateforme_redirect_home();
+                }
+            }
+        }*/
 
     foreach ($pages_UTM as $page_slug) {
         if (is_page($page_slug)) {
@@ -2576,7 +2656,7 @@ function pm_template_override()
                 $allowed_roles = ['um_service-etablissement', 'um_service-utm'];
                 if (array_intersect($allowed_roles, $current_user->roles)) {
                     ob_start();
-                    include plugin_dir_path(__FILE__) . '/Modules/pagesUtm/' . $page_slug . '.php';
+                    include plugin_dir_path(__FILE__) . 'Modules/LaboRecherche/pages/' . $page_slug . '.php';
                     echo ob_get_clean();
                     exit;
                 } else {
@@ -2587,6 +2667,8 @@ function pm_template_override()
             }
         }
     }
+
+
 }
 
 

@@ -20,7 +20,7 @@
         <div class="left-stats">
             <div class="left-stats-left">
                 <div class="stat-box">
-                    <span class="label">Articles publiés</span>
+                    <span class="label">Colloques</span>
                     <span class="value">32</span>
                 </div>
                 <div class="stat-box">
@@ -30,7 +30,7 @@
             </div>
             <div class="right-stats-right">
                 <div class="stat-box">
-                    <span class="label">Communications / colloques</span>
+                    <span class="label">Communications </span>
                     <span class="value">12</span>
                 </div>
                 <div class="stat-box">

@@ -16,10 +16,10 @@
     <div class="card-flex">
 
       <div class="master-feature-card">
-        <a href="/activites-scientifiques/">
+        <a href="/activites-scientifiques_">
           <div class="feature-text">Activités <br>scientifiques</div>
         </a>
-        <a href="/activites-scientifiques/"><img class="card-image card-image2"
+        <a href="/activites-scientifiques_"><img class="card-image card-image2"
             src="/wp-content/plugins/plateforme-master/imagesED/science_12641486.png" alt=""></a>
       </div>
 
@@ -59,12 +59,12 @@
     </div>
 
     <div class="card with-image card4 card6" draggable="true">
-      <a href="/activites-quotidiennes/">
+      <a href="/activites-quotidiennes_/">
         <div class="card-title2">Activités quotidiennes</div>
       </a>
       <p class="card-des">Nous développons des synergies durables avec nos partenaires pour renforcer l'impact de
         nos actions.</p>
-      <a href="/activites-quotidiennes/"><span class="corner-icon">↗</span></a>
+      <a href="/activites-quotidiennes_/"><span class="corner-icon">↗</span></a>
     </div>
 
     <div class="card ged-card card5" draggable="true">
@@ -281,11 +281,11 @@
   }
 
   .card.ged-card.card5 {
-    background-image: url('/imagesMaster/Groupe 2376.png');
+    background-image: url(/imagesMaster/Groupe 2376.png);
     background-size: 50%;
     background-repeat: no-repeat;
     padding-top: 107px;
-    padding-bottom: 111px;
+    padding-bottom: 129px;
     margin-bottom: 20px;
     background-position: center center;
   }
