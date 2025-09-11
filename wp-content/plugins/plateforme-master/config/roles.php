@@ -297,7 +297,7 @@ $roleConfigs = [
             ["label" => "Rapports", "lien" => "/rapports"],
             ["label" => "Réunions", "lien" => "/reunions"],
             ["label" => "Contacts", "lien" => "/contacts"],
-            ["label" => "Réclamations", "lien" => "/reclamations_"]
+            ["label" => "Réclamations", "lien" => "/suivi-reclamation"]
         ],
         "calendriers" => [
             "Colloques",

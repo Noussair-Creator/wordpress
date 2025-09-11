@@ -738,6 +738,17 @@ function plateforme_content($content)
         }
     }
 
+    if (is_page('suivi-reclamation')) {
+        if (is_user_logged_in()) {
+            $current_user = wp_get_current_user();
+
+            include plugin_dir_path(__FILE__) . 'Modules/reclamation/SuiviReclamations.php';
+
+        } else {
+            plateforme_redirect_home();
+        }
+    }
+
     if (is_page('reclamations')) {
         if (is_user_logged_in()) {
             $current_user = wp_get_current_user();
@@ -1032,7 +1043,7 @@ function plateforme_content($content)
         'etat-d-avancement-des-projets',
         'etat-d-avancement-des-projets-fiche-projet',
         'rapports',
-        'reclamations_',
+        'suivi-reclamation',
         'reunions',
         'profile_',
         'ged_',
@@ -2177,7 +2188,17 @@ function pm_template_override()
         exit;
     }
 
+    if (is_page('suivi-reclamation')) {
+        if (is_user_logged_in()) {
+            $user = wp_get_current_user();
+            include plugin_dir_path(__FILE__) . 'Modules/reclamation/SuiviReclamations.php';
+            exit;
 
+        }
+
+        wp_redirect(home_url());
+        exit;
+    }
 
 
     // 🔁 Chargement automatique des pages ED dynamiques
@@ -2484,7 +2505,7 @@ function pm_template_override()
         'etat-d-avancement-des-projets',
         'etat-d-avancement-des-projets-fiche-projet',
         'rapports',
-        'reclamations_',
+        'suivi-reclamation',
         'reunions',
         'profile_',
         'ged_',
