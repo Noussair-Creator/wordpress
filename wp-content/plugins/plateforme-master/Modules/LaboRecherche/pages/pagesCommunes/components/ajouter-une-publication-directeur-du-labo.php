@@ -225,7 +225,7 @@
 </script>
 <script>
   /* ====== Settings (via pmsettings, avec fallback) ====== */
-  const API_BASE = (window.pmsettings && pmsettings('api_base')) || '/wp-json/plateforme-recherche/v1';
+const API_BASE = (window.pmsettings && pmsettings.api_base) || '/wp-json/plateforme-recherche/v1';
   const REST_NONCE = (window.pmsettings && pmsettings('rest_nonce')) || (
     <?php echo wp_json_encode(wp_create_nonce('wp_rest')); ?>);
 
@@ -343,17 +343,15 @@
       const created = await resp.json();
 
       // 4) OK
+            // 4) OK
       hint.textContent = 'Publication créée (ID: ' + created.id + ').';
       hint.className = 'mt-2 small text-success';
 
-      // reset rapide
-      elType.value = '';
-      elDate.value = '';
-      elTitre.value = '';
-      elResume.value = '';
-      elComm.value = '';
-      fileList.innerHTML = '';
-      fileImportText.value = '';
+      // Redirection automatique vers la page des publications
+      setTimeout(() => {
+        window.location.href = '/publication';  // adapte le slug/URL si besoin
+      }, ); // petit délai pour voir le message avant la redirection
+
     } catch (e) {
       console.error(e);
       hint.textContent = e.message || 'Une erreur est survenue.';

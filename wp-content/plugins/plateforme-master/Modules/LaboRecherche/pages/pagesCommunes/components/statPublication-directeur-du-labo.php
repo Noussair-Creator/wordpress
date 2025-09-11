@@ -29,8 +29,8 @@
     <div class="right-graph">
       <div class="graph-header">
         <h4>Répartition par statut des publications</h4>
-        <select class="graph-select" id="anneeSelect">
-          <option>2024 - 2025</option>
+        <select class="graph-select" id="anneeSelect"></select>
+
         </select>
       </div>
       <div class="blocChart">
@@ -208,168 +208,161 @@
   }
 </style>
 
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
-
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
+<?php if (is_user_logged_in()): ?>
+  <script>
+    // REST settings exposées au JS
+    window.pmsettings = {
+      rest_root: <?php echo json_encode(esc_url_raw(rest_url())); ?>,
+      nonce: <?php echo json_encode(wp_create_nonce('wp_rest')); ?>
+    };
+    // Rôles utilisateur courant
+    window.pmuser = {
+      roles: <?php echo json_encode($roles); ?>
+    };
+  </script>
+<?php endif; ?>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0"></script>
 <script>
-  (function () {
-    const API_BASE = (window.pmsettings && pmsettings('api_base')) || '/wp-json/plateforme-recherche/v1';
-    const REST_NONCE = (window.pmsettings && pmsettings('rest_nonce')) ||
-      <?php echo wp_json_encode(wp_create_nonce('wp_rest')); ?>;
+(function () {
+  // REST config
+  const REST_ROOT =
+    (window.pmsettings && pmsettings.rest_root) ||
+    (window.wpApiSettings && wpApiSettings.root) ||
+    '/wp-json/';
+  const NONCE =
+    (window.pmsettings && pmsettings.nonce) ||
+    (window.wpApiSettings && wpApiSettings.nonce) ||
+    '';
+  const API = REST_ROOT.replace(/\/$/, '') + '/plateforme-recherche/v1';
 
-    const elPubPubliees = document.getElementById('stat-publiees');
-    const elTotal = document.getElementById('stat-total');
-    const elLegend = document.getElementById('chartLegend');
-    const ctx = document.getElementById('pieChart').getContext('2d');
+  // DOM
+  const elPubPubliees = document.getElementById('stat-publiees');
+  const elTotal       = document.getElementById('stat-total');
+  const elYear        = document.getElementById('anneeSelect');
+  const elLegend      = document.getElementById('chartLegend');
+  const ctx           = document.getElementById('pieChart').getContext('2d');
+// ===== Années universitaires dynamiques (01/09 -> 31/08) =====
+function academicYearLabelFor(date){ // retourne "YYYY - YYYY+1"
+  const d = date instanceof Date ? date : new Date();
+  const y = d.getFullYear();
+  const m = d.getMonth() + 1; // 1..12
+  const y1 = (m >= 9) ? y : (y - 1);
+  return `${y1} - ${y1 + 1}`;
+}
+function fillYearsSelect(selectEl, count=5){
+  if(!selectEl) return;
+  selectEl.innerHTML = '';
+  const currentLabel = academicYearLabelFor(new Date());
+  // génère N années, la plus récente en premier
+  const startY1 = parseInt(currentLabel.slice(0,4),10);
+  for(let i=0;i<count;i++){
+    const y1 = startY1 - i;
+    const opt = document.createElement('option');
+    opt.value = `${y1} - ${y1+1}`;
+    opt.textContent = opt.value;
+    if(i===0) opt.selected = true;
+    selectEl.appendChild(opt);
+  }
+}
 
-    const labels = ['En attente', 'Publiée', 'Rejetée'];
-    const colors = ['#808066', '#b1342f', '#dabebe'];
+  // Chart setup
+  const labels = ['En attente', 'Publiée', 'Rejetée'];
+  const colors = ['#808066', '#b1342f', '#dabebe'];
+  let chart = null;
 
-    let chart;
+  function getSelectedYearLabel() {
+    // ex: "2024 - 2025" (value or text)
+    const v = (elYear && elYear.value) ? elYear.value.trim() : '';
+    return v || (elYear && elYear.options[elYear.selectedIndex]?.text.trim()) || '';
+  }
 
-    function getDateRangeFromSelect() {
-      const sel = document.querySelector('.graph-select');
-      const txt = (sel?.value || '').trim();
-      const m = txt.match(/^(\d{4})\s*-\s*(\d{4})$/);
-      if (!m) return {
-        start: null,
-        end: null
-      };
-      const y1 = parseInt(m[1], 10);
-      const y2 = parseInt(m[2], 10);
-      // année universitaire 01/09 → 31/08
-      return {
-        start: `${y1}-09-01`,
-        end: `${y2}-08-31`
-      };
+  async function fetchStats() {
+    const url = new URL(API + '/publication/stats', window.location.origin);
+    const yearLabel = getSelectedYearLabel(); // "2024 - 2025"
+    if (yearLabel) url.searchParams.set('year', yearLabel);
+
+    const resp = await fetch(url.toString(), {
+      headers: { 'X-WP-Nonce': NONCE, 'Accept': 'application/json' },
+      credentials: 'same-origin'
+    });
+    if (!resp.ok) {
+      const t = await resp.text();
+      throw new Error('Stats API ' + resp.status + ': ' + t);
     }
+    return resp.json(); // {total, publiees, en_attente, rejetees, from, to}
+  }
 
-    async function callStats(scope, start, end) {
-      const url = new URL(API_BASE + '/publication/stats', window.location.origin);
-      url.searchParams.set('scope', scope);
-      if (start) url.searchParams.set('start', start);
-      if (end) url.searchParams.set('end', end);
-      const resp = await fetch(url.toString(), {
-        headers: {
-          'X-WP-Nonce': REST_NONCE
-        }
-      });
-      if (!resp.ok) throw new Error(`Stats API ${resp.status}: ${await resp.text()}`);
-      return resp.json();
-    }
+  function updateBoxes(stats) {
+    elPubPubliees.textContent = stats.publiees ?? 0;
+    elTotal.textContent       = stats.total ?? 0;
+  }
 
-    async function fetchStatsSmart() {
-      const {
-        start,
-        end
-      } = getDateRangeFromSelect();
+  function renderLegend() {
+    elLegend.innerHTML = '';
+    labels.forEach((label, i) => {
+      const item = document.createElement('div');
+      item.className = 'legend-item';
+      item.innerHTML = `<span class="legend-dot" style="background-color:${colors[i]}"></span>${label}`;
+      elLegend.appendChild(item);
+    });
+  }
 
-      // 1) Essayer labs (si tu es directeur) → sinon me
-      try {
-        const d = await callStats('labs', start, end);
-        if (d.counts.total === 0) {
-          // 2) si rien, réessaie sans période (au cas où dates NULL)
-          const d2 = await callStats('labs', null, null);
-          return d2.counts.total ? d2 : d;
-        }
-        return d;
-      } catch (e) {
-        // labs refuse (403) → essayer me
-        try {
-          const d = await callStats('me', start, end);
-          if (d.counts.total === 0) {
-            const d2 = await callStats('me', null, null);
-            return d2.counts.total ? d2 : d;
-          }
-          return d;
-        } catch (e2) {
-          // dernier essai auto
-          return callStats('auto', start, end);
-        }
-      }
-    }
+  function updateChart(stats) {
+    const dataValues = [
+      Number(stats.en_attente || 0),
+      Number(stats.publiees   || 0),
+      Number(stats.rejetees   || 0)
+    ];
 
-    function updateBoxes(counts) {
-      elPubPubliees.textContent = counts.publiees;
-      elTotal.textContent = counts.total;
-    }
-
-    function updateChart(counts) {
-      const dataValues = [counts.en_attente, counts.publiees, counts.rejetees];
-
-      if (!chart) {
-        chart = new Chart(ctx, {
-          type: 'pie',
-          data: {
-            labels,
-            datasets: [{
-              data: dataValues,
-              backgroundColor: colors
-            }]
-          },
-          options: {
-            responsive: true,
-            plugins: {
-              legend: {
-                display: false
-              },
-              datalabels: {
-                color: '#fff',
-                font: {
-                  weight: 'bold',
-                  size: 13
-                },
-                formatter: (value, ctx) => {
-                  const total = ctx.chart.data.datasets[0].data.reduce((a, b) => a + b,
-                    0) || 1;
-                  const pct = Math.round(100 * value / total);
-                  return pct ? pct + '%' : '';
-                }
+    if (!chart) {
+      chart = new Chart(ctx, {
+        type: 'pie',
+        data: {
+          labels,
+          datasets: [{ data: dataValues, backgroundColor: colors }]
+        },
+        options: {
+          responsive: true,
+          plugins: {
+            legend: { display: false },
+            datalabels: {
+              color: '#fff',
+              font: { weight: 'bold', size: 13 },
+              formatter: (value, ctx) => {
+                const total = (ctx.chart.data.datasets[0].data || []).reduce((a,b)=>a+b,0) || 1;
+                const pct = Math.round(100 * value / total);
+                return pct ? pct + '%' : '';
               }
             }
-          },
-          plugins: [ChartDataLabels]
-        });
-      } else {
-        chart.data.datasets[0].data = dataValues;
-        chart.update();
-      }
-
-      elLegend.innerHTML = '';
-      labels.forEach((label, i) => {
-        const item = document.createElement('div');
-        item.className = 'legend-item';
-        item.innerHTML =
-          `<span class="legend-dot" style="background-color:${colors[i]}"></span>${label}`;
-        elLegend.appendChild(item);
+          }
+        },
+        plugins: [ChartDataLabels]
       });
+    } else {
+      chart.data.datasets[0].data = dataValues;
+      chart.update();
     }
+  }
+fillYearsSelect(elYear, 7); // par ex. 7 années
+refresh();
 
-    async function refresh() {
-      try {
-        const data = await fetchStatsSmart();
-        updateBoxes(data.counts);
-        updateChart(data.counts);
-        // console.log('STATS', data); // <-- décommente pour voir la réponse
-      } catch (e) {
-        console.error(e);
-        updateBoxes({
-          publiees: 0,
-          total: 0
-        });
-        updateChart({
-          en_attente: 0,
-          publiees: 0,
-          rejetees: 0
-        });
-      }
+  async function refresh() {
+    try {
+      const stats = await fetchStats();
+      updateBoxes(stats);
+      updateChart(stats);
+      renderLegend();
+    } catch (e) {
+      console.error(e);
+      const zero = { total:0, publiees:0, en_attente:0, rejetees:0 };
+      updateBoxes(zero);
+      updateChart(zero);
+      renderLegend();
     }
+  }
 
-    document.querySelector('.graph-select')?.addEventListener('change', refresh);
-    refresh();
-  })();
+  if (elYear) elYear.addEventListener('change', refresh);
+  refresh();
+})();
 </script>

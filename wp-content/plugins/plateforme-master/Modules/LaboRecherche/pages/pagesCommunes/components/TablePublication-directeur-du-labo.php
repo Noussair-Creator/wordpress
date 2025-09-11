@@ -37,7 +37,6 @@ $roles = is_user_logged_in() ? (array) $current_user->roles : array();
     border-radius: 12px;
     box-shadow: 0 0 8px rgba(0, 0, 0, .05);
     /* border: 1px solid #ddd; */
-    overflow: hidden
   }
 
   .accordion-tabs {
@@ -574,6 +573,14 @@ $roles = is_user_logged_in() ? (array) $current_user->roles : array();
     const IS_DIRECTEUR = USER_ROLES.map(String).map(r => r.toLowerCase())
       .some(r => r === 'um_directeur_laboratoire' || r === 'directeur_laboratoire' || r ===
         'directeur-laboratoire');
+    const IS_SERVICE_UTM = USER_ROLES.map(String).map(r=>r.toLowerCase())
+      .some(r => r==='um_service-utm' || r==='service_utm' || r==='service-utm');
+
+    // Masquer le bouton "Ajouter une publication" dans l’onglet 2
+    if (IS_SERVICE_UTM) {
+      const addBtn = document.querySelector('#tab2 .add-project-btn');
+      if (addBtn) addBtn.style.display = 'none';
+    }
 
     // ====== Helpers ======
     const esc = (s) => ('' + (s ?? '')).replace(/[&<>"']/g, m => ({
@@ -637,8 +644,10 @@ $roles = is_user_logged_in() ? (array) $current_user->roles : array();
       rows.forEach(p => {
         const st = normStatut(p.statut);
         // Moderator si directeur OU si l'API renvoie can_moderate
-        const canModerate = IS_DIRECTEUR || !!p.can_moderate;
-
+        const IS_SERVICE_UTM = (window.pmuser && pmuser.roles || []).map(x=>String(x).toLowerCase())
+          .some(r => r==='um_service-utm' || r==='service_utm' || r==='service-utm');
+        const canModerate = IS_SERVICE_UTM || IS_DIRECTEUR || !!p.can_moderate;
+                
         const actionsHtml = canModerate ?
           `
           <a href="/details-publication?id=${esc(p.id)}"><i class="fa-regular fa-eye"></i>Voir</a>

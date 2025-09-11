@@ -1220,14 +1220,18 @@
                     </h3>
 
             <ul class="styled-list">
-                <li><strong>Logo et Dénomination :</strong><span><img
-                            src="/wp-content/plugins/plateforme-master/images/icons/logo2.png" alt="photo"> <strong
-                            style="color: #2A2916;"> LSAMA – Laboratoire de Systèmes
-                            Autonomes et Multi-Agents</strong> </span></li>
-                <li><strong>Code LR :</strong> 97GH02</li>
-                <li><strong>Établissement :</strong>FST – Faculté des Sciences de Tunis</li>
-                <li><strong>Date de création :</strong>15/11/ 2018</li>
-                <li><strong>Directeur du laboratoire :</strong> Mr. Ahmed Ben Ahmed</li>
+                <li><strong>Logo et Dénomination :</strong><span>
+                   <img id="laboLogo" 
+                    src="/wp-content/plugins/plateforme-master/images/icons/default-logo.png" 
+                    alt="Logo labo"
+                    style="width:30px;height:30px;border-radius:50%;margin-right:8px;vertical-align:middle;display:none;">
+                            
+                            <strong
+                            style="color: #2A2916;"></strong> </span></li>
+                <li><strong>Code LR :</strong> </li>
+                <li><strong>Établissement :</strong></li>
+                <li><strong>Date de création :</strong></li>
+                <li><strong>Directeur du laboratoire :</strong> </li>
                 <li><strong>Statut du financement :</strong><span><i
                             class="fas fa-circle status-active-icon"></i>Actif</span></li>
             </ul>
@@ -1237,15 +1241,10 @@
         <div class="card full-width">
             <h3>Objectifs et thématiques</h3>
             <ul class="styled-list">
-                <li><strong>Objectif général :</strong>Développer des approches intelligentes et distribuées dans les
-                    systèmes autonomes, multi-agents et embarqués.</li>
-                <li><strong>Axes de recherche :</strong>
-                    <ul>
-                        <li>Systèmes multi-agents intelligents</li>
-                        <li>Planification autonome et robotique mobile</li>
-                        <li>IA distribuée et systèmes auto-adaptatifs</li>
-                        <li>Coopération homme-machine</li>
-                    </ul>
+                <li><strong>Objectif général :</strong></li>
+                <li>
+                    <strong>Axes de recherche :</strong>
+                    <ul id="axesList"></ul>
                 </li>
 
             </ul>
@@ -1253,7 +1252,7 @@
 
         <!-- Projets associés  block -->
         <div class="card full-width">
-            <h3>Projets associés<a href="#" id="modifyObjectivesBtn" class="btn-add-project">Ajouter un projet</a></h3>
+            <h3>Projets associés <!--   <a href="#" id="modifyObjectivesBtn" class="btn-add-project">Ajouter un projet</a> --> </h3>
             <table class="parcours-table">
                 <thead>
                     <tr>
@@ -1263,21 +1262,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>Système coopératif autonome pour le trafic</td>
-                        <td>En cours</td>
-                        <td>MESRES</td>
-                    </tr>
-                    <tr>
-                        <td>Agents intelligents pour l’énergie distribuée</td>
-                        <td>Terminé</td>
-                        <td>Coop. France–Tunisie</td>
-                    </tr>
-                    <tr>
-                        <td>LSAMA-SAT : satellite autonome éducatif</td>
-                        <td>En cours</td>
-                        <td>H2020 (EU)</td>
-                    </tr>
+                  
                 </tbody>
             </table>
         </div>
@@ -1293,18 +1278,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>Enseignants</td>
-                        <td class="text-center">8</td>
-                    </tr>
-                    <tr>
-                        <td>Doctorants</td>
-                        <td class="text-center">10</td>
-                    </tr>
-                    <tr>
-                        <td>Ingénieurs</td>
-                        <td class="text-center">2</td>
-                    </tr>
+                  
                 </tbody>
             </table>
         </div>
@@ -1338,22 +1312,22 @@
 
                         if ($role === 'um_service-utm'):
                             ?>
-                            <div class="form-group">
+                           <!-- <div class="form-group">
                                 <label for="laboEtablissement">Etablissement</label>
                                 <input type="text" id="laboEtablissement" disabled>
-                            </div>
+                            </div> -->
                         <?php endif; ?>
 
                     </div>
                 </div>
                 <?php if ($role === 'um_service-utm'): ?>
-                    <div class="form-group">
+                 <!--    <div class="form-group">
                         <label for="laboDirecteur">Directeur Du Laboratoire</label>
                         <select id="laboDirecteur">
                             <option>Sélection..</option>
                             <option value="1">Mr. Ahmed Ben Ahmed</option>
                         </select>
-                    </div>
+                    </div> -->
                 <?php endif; ?>
                 <div class="form-group">
                     <label for="laboDateCreation">Date De Création</label>
@@ -1627,7 +1601,9 @@ document.addEventListener('DOMContentLoaded', ()=>{
 <script>
 document.addEventListener('DOMContentLoaded', async () => {
   try {
-    const url = `${PMSettings.restUrl}plateforme-recherche/v1/laboratoire/mine`;
+    const pageId = new URLSearchParams(location.search).get('id');
+    let url = `${PMSettings.restUrl}plateforme-recherche/v1/laboratoire/mine`;
+    if (pageId) url += `?id=${encodeURIComponent(pageId)}`;
 
     const res = await fetch(url, {
       headers: { 'X-WP-Nonce': PMSettings.nonce, 'Accept':'application/json' },
@@ -1639,9 +1615,20 @@ document.addEventListener('DOMContentLoaded', async () => {
     if (!labo || !labo.id) return;
 
     // --- Logo + dénomination ---
-    const logoImg = document.querySelector('.styled-list img');
     const nomStrong = document.querySelector('.styled-list strong[style*="color: #2A2916"]');
-    if (logoImg && labo.logo_url) logoImg.src = labo.logo_url;
+
+
+    if (nomStrong) nomStrong.textContent = labo.denomination || '';
+
+    const logoImg = document.getElementById('laboLogo');
+
+    if (labo.logo_url) {
+    logoImg.src = labo.logo_url;
+    logoImg.style.display = 'inline-block';
+    } else {
+    logoImg.style.display = 'none'; // pas de logo → cacher l’image
+    }
+
     if (nomStrong) nomStrong.textContent = labo.denomination || '';
 
     // --- Code LR ---
@@ -1673,15 +1660,16 @@ document.addEventListener('DOMContentLoaded', async () => {
     if (objRow) objRow.innerHTML = `<strong>Objectif général :</strong> ${labo.objectif_general || ''}`;
 
     // --- Axes de recherche ---
-    const axesRow = document.querySelector('.card.full-width:nth-of-type(2) li:nth-child(2) ul');
+    const axesRow = document.getElementById('axesList');
     if (axesRow && Array.isArray(labo.axes_recherche)) {
-      axesRow.innerHTML = '';
-      labo.axes_recherche.forEach(ax => {
+    axesRow.innerHTML = '';
+    labo.axes_recherche.forEach(ax => {
         const li = document.createElement('li');
         li.textContent = ax;
         axesRow.appendChild(li);
-      });
+    });
     }
+
 
     await loadProjets(labo.id);
     await loadEffectifs(labo.id);
@@ -1699,11 +1687,14 @@ document.addEventListener('DOMContentLoaded', () => {
   const apiBase = new URL('plateforme-recherche/v1/laboratoire', PMSettings.restUrl).href;
 
   // ---- 1) Précharger les données du labo du directeur connecté ----
-  (async function preload() {
+ (async function preload() {
     try {
-      const url = new URL('plateforme-recherche/v1/laboratoire/mine', PMSettings.restUrl).href;
+      const pageId = new URLSearchParams(location.search).get('id');
+      let url = new URL('plateforme-recherche/v1/laboratoire/mine', PMSettings.restUrl).href;
+      if (pageId) url += `?id=${encodeURIComponent(pageId)}`;
+
       const r = await fetch(url, { headers: {'X-WP-Nonce': PMSettings.nonce, 'Accept':'application/json'}, credentials: 'include' });
-      if (!r.ok) return; // pas de labo encore
+      if (!r.ok) return;
       const labo = await r.json();
       if (!labo || !labo.id) return;
 
@@ -1865,12 +1856,17 @@ async function loadEffectifs(laboId) {
   const eff = await res.json();
 
   const tbody = document.querySelector('.card.full-width:nth-of-type(4) tbody');
-  tbody.innerHTML = `
-    <tr><td>Enseignants</td><td class="text-center">${eff.Enseignants}</td></tr>
-    <tr><td>Doctorants</td><td class="text-center">${eff.Doctorants}</td></tr>
-    <tr><td>Ingénieurs</td><td class="text-center">${eff['Ingénieurs']}</td></tr>
-    <tr><td>Autres</td><td class="text-center">${eff.Autres}</td></tr>
-  `;
+  tbody.innerHTML = '';
+
+  // eff est maintenant du type { "Professeur": 5, "Maître de Conférences": 3, "Doctorant": 12, ... }
+  Object.entries(eff).forEach(([grade, total]) => {
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td>${grade}</td>
+      <td class="text-center">${total}</td>
+    `;
+    tbody.appendChild(tr);
+  });
 }
 
 </script>

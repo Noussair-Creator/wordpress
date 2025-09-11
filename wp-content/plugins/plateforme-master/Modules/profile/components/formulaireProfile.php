@@ -670,15 +670,8 @@ if (p.cv) {
 // =========== Enregistrement (PATCH JSON) ===========
 form.addEventListener('submit', async (e) => {
   e.preventDefault();
-document.querySelector('.btn.cancel')?.addEventListener('click', async () => {
-  pendingAvatarFile = null;
-  try {
-    const p = await wpGet('/profile'); // recharge les données réelles
-    if (p.avatar) avatarPreview.style.backgroundImage = `url('${p.avatar}${p.avatar_version ? ('?v='+p.avatar_version) : ''}')`;
-  } catch (_) {}
-});
 
-  // 1) Si un avatar est en attente, on l’upload maintenant
+  // 1) If an avatar is pending, upload it first
   if (pendingAvatarFile) {
     try {
       const dataUrl = await fileToDataUrl(pendingAvatarFile);
@@ -687,7 +680,7 @@ document.querySelector('.btn.cancel')?.addEventListener('click', async () => {
         mime_type: pendingAvatarFile.type || 'image/jpeg',
         content: dataUrl
       });
-      // (optionnel) rafraîchir le sidebar en live
+      // Update sidebar avatar if present
       const sidebarImg = document.getElementById('sidebarAvatar');
       if (sidebarImg && res?.url) {
         sidebarImg.src = res.url + '?v=' + (res.version || Date.now());
@@ -695,23 +688,54 @@ document.querySelector('.btn.cancel')?.addEventListener('click', async () => {
     } catch (err) {
       console.error(err);
       alert("Échec de l'upload avatar.");
-      return; // on stoppe l’enregistrement si l’avatar échoue (à toi de voir)
+      return; // Stop if avatar upload fails
     }
   }
 
-  // 2) Ensuite, on envoie le PATCH du profil (comme avant)
-  const payload = { /* ... ton payload existant ... */ };
-  // ...
+  // 2) Construct the payload with all form fields
+  const payload = {
+    nom: nomInput.value.trim(),
+    prenom: prenomInput.value.trim(),
+    nationalite: natHidden.value.trim(),
+    cin: cinInput.value.trim(),
+    email1: email1Input.value.trim(),
+    email2: email2Input.value.trim(),
+    tel_country: telFlagImg.alt.toLowerCase(), // Use the selected country code
+    tel: telInput.value.trim()
+  };
+
+  // Add student-specific fields
+  if (IS_STUDENT) {
+    payload.adr_etud = adrEtudInput?.value.trim() || '';
+    payload.gov_etud = govEtudSelect?.value.trim() || '';
+    payload.cp_etud = cpEtudInput?.value.trim() || '';
+    payload.adr_parents = adrParInput?.value.trim() || '';
+    payload.gov_parents = govParSelect?.value.trim() || '';
+    payload.cp_parents = cpParInput?.value.trim() || '';
+    payload.tel_parents = telParInput?.value.trim() || '';
+  } else {
+    // Add academic fields for non-students
+    payload.grade_id = gradeSel?.value || '';
+    payload.specialite_id = specSel?.value || '';
+    payload.academic_info = {
+      email_acad: document.getElementById('acad_email')?.value.trim() || '',
+      tel_pro: document.getElementById('pro_tel')?.value.trim() || '',
+      adresse_pro: document.getElementById('acad_address')?.value.trim() || '',
+      fonctions: document.getElementById('acad_functions')?.value.trim() || ''
+    };
+  }
+
+  // 3) Send the PATCH request
   try {
     await wpPatch('/profile', payload);
     alert('Profil enregistré avec succès ✅');
-    pendingAvatarFile = null; // on purge l’état local après succès
-  } catch (e2) {
-    console.error(e2);
+    pendingAvatarFile = null; // Clear pending avatar
+    await loadProfile(); // Reload profile to reflect changes
+  } catch (e) {
+    console.error(e);
     alert('Échec de l’enregistrement. Vérifiez vos droits ou reconnectez-vous.');
   }
 });
-
 // =========== Upload Avatar ===========
 // === Avatar: mode "différé" (preview uniquement) ===
 let pendingAvatarFile = null;

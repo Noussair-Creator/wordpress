@@ -200,7 +200,7 @@
 <div class="content-wrapper">
     <div class="card full-width">
         <!-- Dropdown Menu -->
-        <div class="dropdown">
+       <!-- <div class="dropdown">
             <button class="btn kebab-button" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                 <i class="fas fa-ellipsis-v"></i>
             </button>
@@ -208,7 +208,7 @@
                 <li><a class="dropdown-item" href="#" id="editBtn">Modifier</a></li>
                 <li><a class="dropdown-item" href="#">Envoyer email</a></li>
             </ul>
-        </div>
+        </div>-->
 
         <!-- Card Header -->
         <h3>Informations générales</h3>
@@ -391,7 +391,7 @@ document.addEventListener("DOMContentLoaded", async function(){
       <li><strong>Spécialité :</strong> <span>${m.specialite || "—"}</span></li>
       <li><strong>Email :</strong> <span><a href="mailto:${m.user_email}">${m.user_email || "—"}</a></span></li>
       <li><strong>Téléphone :</strong> <span>${m.tel|| "—"}</span></li>
-      <li><strong>Date d'entrée au labo :</strong> <span>${m.date_entree || "—"}</span></li>
+      <li><strong>Date d'entrée au labo :</strong> <span>${formatDate(m.created_at) || "—"}</span></li>
       <li><strong>Projet associé :</strong> <span>${m.projets_lies || "—"}</span></li>
       <li><strong>Encadrements :</strong> <span>${m.encadrements || "—"}</span></li>
       <li>
@@ -419,5 +419,18 @@ document.addEventListener("DOMContentLoaded", async function(){
     console.error("Erreur chargement membre :", e);
   }
 });
+function formatDate(sqlDate) {
+  if (!sqlDate) return '';
+
+  // Extraire uniquement la partie date (avant l'heure)
+  const [datePart] = sqlDate.split(' '); // "2025-09-10"
+  const [year, month, day] = datePart.split('-'); // ["2025","09","10"]
+
+  return `${day}/${month}/${year}`; // "10/09/2025"
+}
+
+// Exemple d'utilisation
+const rawDate = "2025-09-10 10:47:05";
+console.log(formatDate(rawDate)); // 👉 "10/09/2025"
 
 </script>

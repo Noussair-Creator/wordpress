@@ -21,21 +21,21 @@
             <div class="left-stats-left">
                 <div class="stat-box">
                     <span class="label">Colloques</span>
-                    <span class="value">32</span>
+                    <span class="value" id="statColloque">0</span>
                 </div>
                 <div class="stat-box">
                     <span class="label">Encadrements en cours</span>
-                    <span class="value">8</span>
+                    <span class="value" id="statEncadrement">0</span>
                 </div>
             </div>
             <div class="right-stats-right">
                 <div class="stat-box">
                     <span class="label">Communications </span>
-                    <span class="value">12</span>
+                    <span class="value" id="statCommunication">0</span>
                 </div>
                 <div class="stat-box">
                     <span class="label">Brevets déposés</span>
-                    <span class="value">2</span>
+                    <span class="value" id="statBrevet">0</span>
                 </div>
             </div>
         </div>
@@ -44,8 +44,8 @@
         <div class="right-graph">
             <div class="graph-header">
                 <h4>Répartition par type d’activité</h4>
-                <select class="graph-select">
-                    <option>2024 - 2025</option>
+                <select class="graph-select" id="yearFilter">
+                    <option>2025 - 2026</option>
                 </select>
             </div>
             <div class="blocChart">
@@ -445,6 +445,7 @@ span.label {
 <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
 
 <script>
+    /*
 const labels = ['Article', 'Brevet', 'Encadrement'];
 const dataValues = [72, 14, 17];
 const colors = ['#808066', '#b1342f', '#dabebe'];
@@ -485,5 +486,5 @@ labels.forEach((label, i) => {
     item.className = 'legend-item';
     item.innerHTML = `<span class="legend-dot" style="background-color:${colors[i]}"></span>${label}`;
     legendContainer.appendChild(item);
-});
+});*/
 </script>

@@ -731,12 +731,12 @@
           </div>
         </div>
 
-        <div class="radio-option" style="margin-top:18px;">
+       <!-- <div class="radio-option" style="margin-top:18px;">
           <label class="radio-option-label">
             <input type="radio" name="addMemberType" value="invite">
             <span>Invitation par email (si membre externe)</span>
           </label>
-        </div>
+        </div>-->
 
         <!-- ====== Contenu : Invitation par email ====== -->
         <div id="inviteMemberContent" class="form-content-wrapper" style="display:none;">
@@ -1550,7 +1550,7 @@ $user_id = get_current_user_id();
      * ======================= */
     async function loadMembersTable(labId) {
       const tbody = document.querySelector('#candidaturesTable tbody');
-      tbody.innerHTML = `<tr><td colspan="7">Chargement…</td></tr>`;
+      tbody.innerHTML = `<tr><td colspan="6">Chargement…</td></tr>`;
 
       if (!labId) labId = await window.ensureLabId();
       if (!labId) {
@@ -1578,14 +1578,15 @@ $user_id = get_current_user_id();
 
         // Insérer lignes
         const tbodyHtml = rows.map(m => {
-          const avatar =
-            '/wp-content/plugins/ultimate-member/assets/img/default_avatar.jpg';
+         const avatar = m.avatar_url && m.avatar_url.trim() !== ''
+        ? m.avatar_url
+        : '/wp-content/plugins/ultimate-member/assets/img/default_avatar.jpg';
 
           let actionsHtml =
             `<a href="/membre-de-labo-fiche-membres/?id=${m.id}">Détail</a>`;
           if (role !== 'um_chercheur') {
             actionsHtml = `
-        <a href="#" class="edit-btn" data-membre-id="${m.id}">Modifier</a>
+        <!--<a href="#" class="edit-btn" data-membre-id="${m.id}">Modifier</a>-->
         <a href="#" class="delete-btn" data-membre-id="${m.id}">Retirer</a>
         <a href="/membre-de-labo-fiche-membres/?id=${m.id}">Détail</a>`;
           }
@@ -1609,12 +1610,12 @@ $user_id = get_current_user_id();
         </td>
       </tr>`;
         }).join('');
+  
         if (tbodyHtml && tbodyHtml.trim() !== '') {
           tbody.innerHTML = tbodyHtml;
         } else {
-          tbody.innerHTML = '<tr><td colspan="7">Aucun membre</td></tr>';
+          tbody.innerHTML = ''; // Laisse DataTables gérer le message vide
         }
-
 
         // Vérif après injection
         $('#candidaturesTable tbody tr').each(function () {
@@ -1638,7 +1639,7 @@ $user_id = get_current_user_id();
               previous: "<i class='fa fa-chevron-left' style='color:#C60000;'></i>",
               next: "<i class='fa fa-chevron-right'style='color:#C60000;'></i>"
             },
-            emptyTable: "Aucune donnée disponible",
+            emptyTable: "Aucun membre",
             zeroRecords: "Aucun enregistrement trouvé"
           },
           initComplete: function () {

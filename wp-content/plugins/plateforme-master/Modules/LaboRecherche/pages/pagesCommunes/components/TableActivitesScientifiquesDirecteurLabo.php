@@ -1559,13 +1559,12 @@
                     <label for="titreReference">Titre / Référence</label>
                     <input type="text" id="titreReference">
                 </div>
-                <div class="form-group">
-                    <label for="auteurs">Auteurs</label>
-                    <input type="text" id="auteurs">
-                </div>
+                
                 <div class="form-group">
                     <label for="anneePublication">Année de publication</label>
-                    <input type="text" id="anneePublication">
+                    <select id="anneePublication" class="filter-select">
+                    <!-- Options injectées en JS -->
+                    </select>
                 </div>
                 <div class="form-group">
                     <label for="sourceRevue">Source / Revue / Événement</label>
@@ -1618,13 +1617,10 @@
                     <label for="titreReferenceModifier">Titre / Référence</label>
                     <input type="text" id="titreReferenceModifier">
                 </div>
-                <div class="form-group">
-                    <label for="auteursModifier">Auteurs</label>
-                    <input type="text" id="auteursModifier">
-                </div>
+             
                 <div class="form-group">
                     <label for="anneePublicationModifier">Année de publication</label>
-                    <input type="text" id="anneePublicationModifier">
+                     <select id="anneePublicationModifier" class="filter-select"></select>
                 </div>
                 <div class="form-group">
                     <label for="sourceRevueModifier">Source / Revue / Événement</label>
@@ -1662,7 +1658,7 @@
 
 
 
-        <?php
+<?php
     $current_user = wp_get_current_user();
     $roles = (array) $current_user->roles;
     $role  = $roles[0] ?? '';
@@ -1803,7 +1799,7 @@
         setupFileInput('fileUploadModifier', 'fileTextModifier');
 
         // --- Specific Logic for Edit Modal Opening ---
-        $('#candidaturesTable tbody').on('click', '.edit-link', function(e) {
+      /*  $('#candidaturesTable tbody').on('click', '.edit-link', function(e) {
             e.preventDefault();
 
             const row = $(this).closest('tr');
@@ -1818,7 +1814,7 @@
 
             // Open the modal
             $('#modalModifier').css('display', 'flex');
-        });
+        });*/
     });
 
 
@@ -1880,6 +1876,14 @@
         populateSelect(sel1, items, 'Type d’activité…');
         populateSelect(sel2, items, 'Type d’activité…');
 
+          if (sel1.options.length > 0) {
+            sel1.options[0].disabled = true;
+        }
+        if (sel2.options.length > 0) {
+            sel2.options[0].disabled = true;
+        }
+
+
     } catch (e) {
         console.error('[loadTypesActivites]', e);
         if (window.toast) window.toast('Erreur de chargement des types : ' + e.message, true);
@@ -1894,8 +1898,366 @@
 
     });
 
+
+
+
+
+    /****************************** ACTIVITES SCIENTIFIQUES CRUD ******************************/
+
+// Charger la liste des activités
+async function loadActivites() {
+  const base = (PMSettings?.restUrl || '/wp-json').replace(/\/$/, '');
+  const url  = `${base}/plateforme-directeurderecherche/v1/activite_scientifique`;
+
+  try {
+    const data = await wpFetch(url);
+    const tbody = document.querySelector('#candidaturesTable tbody');
+    tbody.innerHTML = '';
+
+    (data || []).forEach(row => {
+      const auteur = row.first_name || row.last_name 
+        ? `${row.first_name || ''} ${row.last_name || ''}`.trim()
+        : row.display_name || `User #${row.user_id}`;
+
+      // lien pièce jointe si présent
+      let pj = '';
+    /*  if (row.piece_jointe_path) {
+        const urlFile = row.piece_jointe_path.startsWith('http')
+          ? row.piece_jointe_path
+          : `${window.location.origin}/wp-content/recherche/activites/${row.piece_jointe_path}`;
+        pj = `<a href="${urlFile}" target="_blank"><i class="fa fa-file-pdf pdf-icon"></i></a>`;
+      }*/
+
+      const tr = document.createElement('tr');
+      tr.innerHTML = `
+        <td><input type="checkbox" value="${row.id}"></td>
+        <td>${row.type_libelle || ''}</td>
+        <td>${row.titre_reference || ''}</td>
+        <td>${auteur}</td>
+        <td>${row.annee || ''}</td>
+        <td>${row.Source || ''} ${pj}</td>
+        <td>
+          <div class="actions">
+            <button class="action-btn">...</button>
+            <div class="dropdown-menu">
+                <a href="/activites-scientifiques-details?id=${row.id}" target="_blank">Voir</a>
+              <a href="#" class="edit-link" data-id="${row.id}">Modifier</a>
+              <a href="#" class="delete-link" data-id="${row.id}">Supprimer</a>
+            </div>
+          </div>
+        </td>`;
+      tbody.appendChild(tr);
+    });
+  } catch (e) {
+    console.error('[loadActivites]', e);
+  }
+}
+
+
+// Créer une activité
+async function createActivite() {
+  const base = (PMSettings?.restUrl || '/wp-json').replace(/\/$/, '');
+  const url  = `${base}/plateforme-directeurderecherche/v1/activite_scientifique`;
+
+  const formData = new FormData();
+  formData.append('annee', document.getElementById('anneePublication').value);
+  formData.append('titre_reference', document.getElementById('titreReference').value);
+  formData.append('user_id', PMSettings.userId);
+  formData.append('type_id', document.getElementById('typeActivite').value);
+  formData.append('Source', document.getElementById('sourceRevue').value);
+
+  // fichier (si sélectionné)
+  const fileInput = document.getElementById('fileUpload');
+  if (fileInput.files.length > 0) {
+    formData.append('piece_jointe', fileInput.files[0]);
+  }
+
+  await fetch(url, {
+    method: 'POST',
+    credentials: 'include',
+    headers: { 'X-WP-Nonce': PMSettings.nonce },
+    body: formData
+  }).then(res => {
+    if (!res.ok) throw new Error("Erreur API " + res.status);
+    return res.json();
+  });
+
+  document.getElementById('modalObjectifs').style.display = 'none';
+  loadActivites();
+  loadStatsAndChart(); 
+}
+
+
+// Mettre à jour une activité
+async function updateActivite(id) {
+  const base = (PMSettings?.restUrl || '/wp-json').replace(/\/$/, '');
+  const url  = `${base}/plateforme-directeurderecherche/v1/activite_scientifique/${id}`;
+
+  const formData = new FormData();
+  formData.append('_method', 'PATCH'); // ⚠️ WP comprendra que c'est un update
+  formData.append('annee', document.getElementById('anneePublicationModifier').value);
+  formData.append('titre_reference', document.getElementById('titreReferenceModifier').value);
+  formData.append('user_id', PMSettings.userId);
+  formData.append('type_id', document.getElementById('typeActiviteModifier').value);
+  formData.append('Source', document.getElementById('sourceRevueModifier').value);
+
+/*
+  const fileInput = document.getElementById('fileUploadModifier');
+  if (fileInput && fileInput.files.length > 0) {
+    formData.append('piece_jointe', fileInput.files[0]);
+  } else {
+    formData.append('piece_jointe_path', document.getElementById('fileTextModifier').value || '');
+  }
+    */
+
+     const fileInput = document.getElementById('fileUploadModifier');
+    if (fileInput && fileInput.files.length > 0) {
+    formData.append('piece_jointe', fileInput.files[0]);
+    } else {
+    let filePath = document.getElementById('fileTextModifier').value || '';
+    
+    // 🔹 Extraire uniquement le nom du fichier
+    let fileName = filePath ? filePath.split('/').pop() : '';
+    
+    formData.append('piece_jointe_path', fileName);
+    }
+
+
+  await fetch(url, {
+    method: 'POST', // ⚠️ pas PATCH, car FormData
+    credentials: 'include',
+    headers: { 'X-WP-Nonce': PMSettings.nonce },
+    body: formData
+  }).then(res => {
+    if (!res.ok) throw new Error("Erreur API " + res.status);
+    return res.json();
+  });
+
+  document.getElementById('modalModifier').style.display = 'none';
+  loadActivites();
+  loadStatsAndChart(); 
+}
+
+
+
+// Supprimer une activité
+
+async function deleteActivite(id) {
+  const base = (PMSettings?.restUrl || '/wp-json').replace(/\/$/, '');
+  const url  = `${base}/plateforme-directeurderecherche/v1/activite_scientifique/${id}`;
+
+  const res = await fetch(url, {
+    method: 'DELETE',
+    credentials: 'include',
+    headers: { 'X-WP-Nonce': PMSettings.nonce }
+  });
+
+  if (res.status === 204) {
+    alert("Activité supprimée avec succès ✅");
+    loadActivites(); // recharge la liste
+    loadStatsAndChart(); 
+  } else {
+    const err = await res.json();
+    alert("Erreur de suppression ❌ : " + (err.message || res.status));
+  }
+}
+
+// === Brancher les boutons ===
+document.addEventListener('DOMContentLoaded', () => {
+  // Charger la liste au démarrage
+  loadActivites();
+
+  // Ajouter
+  document.getElementById('btnSaveObjectifs').addEventListener('click', e => {
+    e.preventDefault();
+    createActivite();
+  });
+
+  // Modifier
+  document.getElementById('btnSaveModifier').addEventListener('click', e => {
+    e.preventDefault();
+    const id = document.querySelector('#modalModifier').dataset.editId;
+    if (id) updateActivite(id);
+  });
+
+  // Ouvrir modal edit avec valeurs
+ $('#candidaturesTable tbody').on('click', '.edit-link', async function(e) {
+  e.preventDefault();
+  const id = $(this).data('id');
+
+  try {
+    const base = (PMSettings?.restUrl || '/wp-json').replace(/\/$/, '');
+    const url  = `${base}/plateforme-directeurderecherche/v1/activite_scientifique/${id}`;
+    const row  = await wpFetch(url);
+
+    // Remplir le formulaire du modal avec les données récupérées
+    $('#typeActiviteModifier').val(row.type_id);
+    $('#titreReferenceModifier').val(row.titre_reference);
+    $('#anneePublicationModifier').val(row.annee);
+    $('#sourceRevueModifier').val(row.Source);
+   // $('#fileTextModifier').val(row.piece_jointe_path || '');
+    $('#fileTextModifier').val(row.piece_jointe_path ? row.piece_jointe_path.split('/').pop() : '');
+
+
+    // garder l'ID pour updateActivite()
+    $('#modalModifier').attr('data-edit-id', id);
+
+    // ouvrir le modal
+    $('#modalModifier').css('display', 'flex');
+  } catch (err) {
+    console.error('[edit-link] Erreur chargement activité', err);
+    alert("Impossible de charger l’activité.");
+  }
+});
+
+
+  // Supprimer
+  $('#candidaturesTable tbody').on('click', '.delete-link', function(e) {
+    e.preventDefault();
+    const id = $(this).data('id');
+    if (confirm("Supprimer cette activité ?")) {
+      deleteActivite(id);
+    }
+  });
+});
+
+// Remplit un <select> avec une liste d'années (ex: de l'année courante à -30 ans)
+function populateYearSelect(selectId, startYearOffset = 0, pastYears = 30) {
+  const select = document.getElementById(selectId);
+  if (!select) return;
+
+  const currentYear = new Date().getFullYear();
+  select.innerHTML = '<option value="">Sélectionner une année</option>';
+
+  for (let y = currentYear - startYearOffset; y >= currentYear - pastYears; y--) {
+    const opt = document.createElement('option');
+    opt.value = y;
+    opt.textContent = y;
+    select.appendChild(opt);
+  }
+}
+
+// Exemple d’utilisation pour ton champ année
+document.addEventListener("DOMContentLoaded", () => {
+  populateYearSelect("anneePublication", 0, 30);           // Pour le champ ajout
+  populateYearSelect("anneePublicationModifier", 0, 30);   // Pour le champ modification
+});
+
+
     </script>
 
+
+<script>
+let pieChart; // conserver le graphique pour le mettre à jour
+
+// Récupération des activités depuis l’API
+async function loadStatsAndChart(year = '') {
+  const base = (PMSettings?.restUrl || '/wp-json').replace(/\/$/, '');
+  const url  = `${base}/plateforme-directeurderecherche/v1/activite_scientifique`;
+
+  try {
+    const data = await wpFetch(url);
+
+    // Filtrer par année si besoin
+    const filtered = year ? data.filter(a => a.annee === year) : data;
+
+    // Compteurs par type
+    const stats = {
+      Colloque: 0,
+      Communication: 0,
+      "Encadrement Thèse": 0,
+      Brevet: 0
+    };
+
+    filtered.forEach(row => {
+      switch(row.type_libelle) {
+        case "Colloque": stats.Colloque++; break;
+        case "Communication": stats.Communication++; break;
+        case "Encadrement Thèse": stats["Encadrement Thèse"]++; break;
+        case "Brevet": stats.Brevet++; break;
+      }
+    });
+
+    // Mise à jour DOM
+    document.getElementById("statColloque").textContent = stats.Colloque;
+    document.getElementById("statCommunication").textContent = stats.Communication;
+    document.getElementById("statEncadrement").textContent = stats["Encadrement Thèse"];
+    document.getElementById("statBrevet").textContent = stats.Brevet;
+
+    // Préparer graph
+    const labels = Object.keys(stats);
+    const values = Object.values(stats);
+    const colors = ['#808066', '#b1342f', '#dabebe', '#4CAF50'];
+
+    // Détruire le graph précédent si existe
+    if (pieChart) pieChart.destroy();
+
+    const ctx = document.getElementById('pieChart').getContext('2d');
+    pieChart = new Chart(ctx, {
+      type: 'pie',
+      data: {
+        labels: labels,
+        datasets: [{
+          data: values,
+          backgroundColor: colors
+        }]
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          legend: { display: false },
+          datalabels: {
+            color: '#fff',
+            font: { weight: 'bold', size: 13 },
+            formatter: (value) => value
+          }
+        }
+      },
+      plugins: [ChartDataLabels]
+    });
+
+    // Légende dynamique
+    const legendContainer = document.getElementById('chartLegend');
+    legendContainer.innerHTML = '';
+    labels.forEach((label, i) => {
+      const item = document.createElement('div');
+      item.className = 'legend-item';
+      item.innerHTML = `<span class="legend-dot" style="background-color:${colors[i]}"></span>${label} (${values[i]})`;
+      legendContainer.appendChild(item);
+    });
+
+    // Mise à jour liste années pour filtre
+    const years = [...new Set(data.map(a => a.annee))].sort((a, b) => b - a);
+    const yearSel = document.getElementById("yearFilter");
+    yearSel.innerHTML = `<option value="">Toutes années</option>`;
+    years.forEach(y => {
+      const opt = document.createElement("option");
+      opt.value = y;
+      opt.textContent = y;
+      if (y === year) opt.selected = true;
+      yearSel.appendChild(opt);
+    });
+
+  } catch (e) {
+    console.error('[loadStatsAndChart]', e);
+  }
+}
+
+// Initialisation
+document.addEventListener("DOMContentLoaded", () => {
+  loadStatsAndChart();
+
+  // Filtre année
+  document.getElementById("yearFilter").addEventListener("change", e => {
+    loadStatsAndChart(e.target.value);
+  });
+
+  // Bouton rapport
+  document.querySelector(".btn-report").addEventListener("click", () => {
+    window.print(); // ou appel API export PDF/Excel
+  });
+});
+</script>
 
 
 

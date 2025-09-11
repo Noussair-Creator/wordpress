@@ -433,7 +433,7 @@
     }
 
     .popup-form .form-group label {
-        display: block;
+        display: flex;
         font-weight: 600;
         color: #333;
         /* margin-bottom: 5px; */
@@ -1300,13 +1300,19 @@ $user_id = get_current_user_id();
     userId: <?= (int) $user_id ?>
   };
 </script>
-<script>
-document.addEventListener('DOMContentLoaded', async function () {
-  // === Utils =========================================================
-  const API_BASE = (window.PMSettings?.restUrl || '/wp-json').replace(/\/$/, '');
-  const API_URL  = `${API_BASE}/plateforme-recherche/v1/laboratoire`;
 
-  // Renvoie une valeur depuis différents schémas possibles (robuste)
+<script>
+(() => {
+  // ================== CONFIG ==================
+  const API_BASE = (window.PMSettings?.restUrl || '/wp-json').replace(/\/$/, '');
+  const LABO_API_URL = `${API_BASE}/plateforme-recherche/v1/laboratoire`;
+  const DIRECTEURS_API_URL = `${API_BASE}/plateforme-recherche/v1/directeurs`;
+  const ETABS_API_URL = `${API_BASE}/plateforme-master/v1/etablissements`;
+
+  // Rends le directeur obligatoire (true) ou optionnel (false)
+  const DIRECTEUR_REQUIRED = true;
+
+  // ================== HELPERS ==================
   const get = (obj, paths, def='')=>{
     for (const p of (Array.isArray(paths)?paths:[paths])) {
       const v = p.split('.').reduce((o,k)=> (o && o[k]!=null)?o[k]:undefined, obj);
@@ -1315,13 +1321,47 @@ document.addEventListener('DOMContentLoaded', async function () {
     return def;
   };
 
-  // Affiche le directeur (avatar + initiales), ou le bouton "+"
+  function formatDate(d) {
+    try {
+      if (!d) return '';
+      const date = isNaN(d) ? new Date(d) : new Date(Number(d));
+      return date.toLocaleDateString('fr-FR', {year:'numeric', month:'2-digit', day:'2-digit'});
+    } catch { return d || ''; }
+  }
+
+  function populateSelect(selectEl, items, placeholder = 'Sélectionnez...', valueKey = 'id', labelKey = 'nom') {
+    if (!selectEl) return;
+    selectEl.innerHTML = '';
+    const opt0 = document.createElement('option');
+    opt0.value = '';
+    opt0.textContent = placeholder;
+    selectEl.appendChild(opt0);
+    items.forEach(it => {
+      const opt = document.createElement('option');
+      opt.value = it[valueKey];
+      opt.textContent = it[labelKey];
+      selectEl.appendChild(opt);
+    });
+  }
+
+  function setSelectLoading(sel, isLoading){
+    if (!sel) return;
+    sel.disabled = !!isLoading;
+    if (isLoading){
+      sel.innerHTML = '<option value="">Chargement...</option>';
+    } else if (!sel.options.length){
+      const o = document.createElement('option');
+      o.value = '';
+      o.textContent = 'Sélectionnez...';
+      sel.appendChild(o);
+    }
+  }
+
   function renderDirectorCell(lab) {
     const dirName   = get(lab, ['directeur_nom','directeur.name','directeur.display_name','directeur']);
     const dirAvatar = get(lab, ['directeur_avatar','directeur.avatar_url','directeur.photo','avatar_url']);
     if (dirName) {
-      const initials = dirName.split(' ')
-        .filter(Boolean).map(s=>s[0]).join('').substring(0,2).toUpperCase();
+      const initials = dirName.split(' ').filter(Boolean).map(s=>s[0]).join('').substring(0,2).toUpperCase();
       const imgSrc   = dirAvatar || `https://placehold.co/40x40/c80000/ffffff?text=${encodeURIComponent(initials)}`;
       return `
         <div class="assign-director-container" title="${dirName}">
@@ -1331,10 +1371,8 @@ document.addEventListener('DOMContentLoaded', async function () {
     return `<div class="assign-director-container"><button class="assign-director-btn">+</button></div>`;
   }
 
-  // Action menu
   function renderActionsCell(lab) {
     const id   = get(lab, ['id','lab_id']);
-    const slug = get(lab, ['slug'], 'fiche-de-details-de-laboratoire');
     const href = get(lab, ['detail_url'], `/fiche-de-details-de-laboratoire?id=${encodeURIComponent(id)}`);
     return `
       <div class="actions">
@@ -1345,620 +1383,151 @@ document.addEventListener('DOMContentLoaded', async function () {
       </div>`;
   }
 
-  // Formate la date (accepte date SQL, ISO, timestamp)
-  function formatDate(d) {
-    try {
-      if (!d) return '';
-      const date = isNaN(d) ? new Date(d) : new Date(Number(d));
-      return date.toLocaleDateString('fr-FR', {year:'numeric', month:'2-digit', day:'2-digit'});
-    } catch { return d || ''; }
-  }
 
-  // === DataTable init (comme avant) ==================================
-  const table = $('#candidaturesTable').DataTable({
-    paging: true,
-    searching: true,
-    ordering: false,
-    info: false,
-    pageLength: 5,
-    dom: 'Bfrtip',
-    buttons: [],
-    language: {
-      paginate: { previous: "<i class='fa fa-chevron-left'></i>", next: "<i class='fa fa-chevron-right'></i>" },
-      emptyTable: "Aucune donnée disponible",
-      zeroRecords: "Aucun enregistrement correspondant trouvé"
-    }
-  });
-
-  // Nettoie le tbody qui contenait les données mock
-  table.clear().draw();
-
-
-  // === Charge depuis l’API et peuple le tableau + filtres ============
-  async function fetchLaboratoires() {
-    const res = await fetch(API_URL, {
-      headers: {
-        'Accept': 'application/json',
-        ...(window.PMSettings?.nonce ? {'X-WP-Nonce': PMSettings.nonce} : {})
-      },
-      credentials: 'include'
-    });
-    if (!res.ok) throw new Error(`API ${res.status}`);
-    const payload = await res.json();
-    // Supporte soit {items:[...]} soit [...]
-    return Array.isArray(payload) ? payload : (payload.items || []);
-  }
-
-  function populateFilters(labs) {
-    // Uniques
-    const setDir  = new Set();
-    const setDom  = new Set();
-    const setEtab = new Set();
-
-    labs.forEach(l=>{
-      const d = get(l, ['domaine','domain','discipline']);
-      const e = get(l, ['etablissement_nom','etablissement','institute','institution']);
-      const n = get(l, ['directeur_nom','directeur.name','directeur.display_name','directeur']);
-      if (d) setDom.add(d);
-      if (e) setEtab.add(e);
-      if (n) setDir.add(n);
-    });
-
-    const directeurSel   = document.getElementById('directeurFilter');
-    const domaineSel     = document.getElementById('domaineFilter');
-    const etablissementSel = document.getElementById('etablissementFilter');
-
-    // Reset (garde l’option vide en tête)
-    const resetSelect = (sel, placeholder)=>{
-      sel.innerHTML = '';
-      const opt = document.createElement('option');
-      opt.value = ''; opt.textContent = placeholder;
-      opt.selected = true;
-      sel.appendChild(opt);
-    };
-
-    resetSelect(directeurSel, 'Directeur');
-    resetSelect(domaineSel, 'Domaine');
-    resetSelect(etablissementSel, 'Etablissement');
-
-    [...setDir].sort().forEach(v=>{
-      const o = document.createElement('option'); o.value=v; o.textContent=v; directeurSel.appendChild(o);
-    });
-    [...setDom].sort().forEach(v=>{
-      const o = document.createElement('option'); o.value=v; o.textContent=v; domaineSel.appendChild(o);
-    });
-    [...setEtab].sort().forEach(v=>{
-      const o = document.createElement('option'); o.value=v; o.textContent=v; etablissementSel.appendChild(o);
-    });
-  }
-
-  function addRows(labs) {
-    labs.forEach(l=>{
-      const id         = get(l, ['id','lab_id']);
-      const intitule   = get(l, ['intitule','denomination','nom','title'], `Labo ${id||''}`);
-      const domaine    = get(l, ['domaine','domain','discipline'], '');
-      const etablissement = get(l, ['etablissement_nom','etablissement','institute','institution'], '');
-      const dateCrea   = formatDate(get(l, ['date_creation','created_at','createdOn','date_crea'], ''));
-      const directorTd = renderDirectorCell(l);
-      const actionsTd  = renderActionsCell(l);
-
-      const rowNode = table.row.add([
-        '<input type="checkbox">',
-        intitule,
-        domaine,
-        etablissement,
-        dateCrea,
-        directorTd,
-        actionsTd
-      ]).draw(false).node();
-
-      const hasDirector = /assign-director-btn/.test(directorTd) ? 'false' : 'true';
-      rowNode.setAttribute('data-has-director', hasDirector);
-      rowNode.setAttribute('data-lab-id', id ?? '');
-      // Conserve l’objet labo pour d’autres actions si besoin
-      $(rowNode).data('lab', l);
-    });
-  }
-
-  try {
-    const labs = await fetchLaboratoires();
-    addRows(labs);
-    populateFilters(labs);
-  } catch (e) {
-    console.error('[laboratoires.load]', e);
-    // Message visuel soft (SweetAlert dispo)
-    if (window.Swal) Swal.fire('Erreur', 'Impossible de charger les laboratoires.', 'error');
-  }
-
-  // === Les handlers que tu avais déjà ================================
-  // (on les laisse tels quels ; ils continuent à fonctionner)
-
-  // --- Action Buttons (Dropdown Menu) ---
-  $('#candidaturesTable tbody').on('click', '.action-btn', function (e) {
-    e.stopPropagation();
-    $('.dropdown-menu').not($(this).next('.dropdown-menu')).hide();
-    $(this).next('.dropdown-menu').toggle();
-  });
-
-  $('#candidaturesTable tbody').on('click', '.dropdown-menu a', function (e) {
-    e.stopPropagation();
-    $(this).closest('.dropdown-menu').hide();
-  });
-
-  // Ouvrir modals affecter / modifier suivant l’état
-  $('#candidaturesTable tbody').on('click', '.assign-director-btn', function (e) {
-    e.stopPropagation();
-    const row = $(this).closest('tr');
-    openAffecterModal(row);
-  });
-  $('#candidaturesTable tbody').on('click', '.assign-director-container', function (e) {
-    if ($(e.target).closest('.assign-director-btn').length) return; // déjà géré ci-dessus
-    e.stopPropagation();
-    const row = $(this).closest('tr');
-    // Si pas de directeur -> ouvrir affecter, sinon -> modifier
-    (row.attr('data-has-director') === 'true') ? openModifierModal(row) : openAffecterModal(row);
-  });
-
-  document.addEventListener('click', function () { $('.dropdown-menu').hide(); });
-
-  // === Filtres (réutilise ta logique existante) ======================
-  const directeurFilterSelect   = document.getElementById('directeurFilter');
-  const domaineFilterSelect     = document.getElementById('domaineFilter');
-  const etablissementFilterSelect = document.getElementById('etablissementFilter');
-  const searchInput             = document.getElementById('searchInput');
-
-  function applyFilters() {
-    const directeurValue   = directeurFilterSelect.value.trim();
-    const domaineValue     = domaineFilterSelect.value.trim();
-    const etablissementVal = etablissementFilterSelect.value.trim();
-    const searchTerm       = searchInput.value.trim().toLowerCase();
-
-    $.fn.dataTable.ext.search.push(function (settings, data) {
-      const intitule     = (data[1] || '');
-      const domaine      = (data[2] || '');
-      const etablissement= (data[3] || '');
-      const directeurTd  = (data[5] || '');
-      const directeurTxt = $('<div>').html(directeurTd).text().trim();
-
-      const m1 = !searchTerm || intitule.toLowerCase().includes(searchTerm);
-      const m2 = !directeurValue || directeurTxt.includes(directeurValue);
-      const m3 = !domaineValue || domaine.trim() === domaineValue;
-      const m4 = !etablissementVal || etablissement.trim() === etablissementVal;
-      return m1 && m2 && m3 && m4;
-    });
-    table.draw();
-    $.fn.dataTable.ext.search.pop();
-  }
-
-  directeurFilterSelect.addEventListener('change', applyFilters);
-  domaineFilterSelect.addEventListener('change', applyFilters);
-  etablissementFilterSelect.addEventListener('change', applyFilters);
-  searchInput.addEventListener('keyup', applyFilters);
-
-  // === Check-all =====================================================
-  $('#checkAll').on('change', function () {
-    const isChecked = this.checked;
-    $('#candidaturesTable tbody input[type="checkbox"]').prop('checked', isChecked);
-  });
-  $('#candidaturesTable tbody').on('change', 'input[type="checkbox"]', function () {
-    if (!this.checked) $('#checkAll').prop('checked', false);
-  });
-
-  // === Modals : tes fonctions existantes (open*/close*) =================
-  // -> on suppose qu’elles sont déjà définies plus bas dans ta page.
-
-
-
-    // Event listeners for the filter elements
-        directeurFilterSelect.addEventListener('change', applyFilters);
-        domaineFilterSelect.addEventListener('change', applyFilters);
-        etablissementFilterSelect.addEventListener('change', applyFilters); // Added this line
-        searchInput.addEventListener('keyup', applyFilters);
-
-
-        // --- Check All Checkbox Functionality ---
-        $('#checkAll').on('change', function () {
-            const isChecked = this.checked;
-            $('#candidaturesTable tbody input[type="checkbox"]').prop('checked', isChecked);
-        });
-
-        // Uncheck "Check All" if any individual checkbox is unchecked
-        $('#candidaturesTable tbody').on('change', 'input[type="checkbox"]', function () {
-            if (!this.checked) {
-                $('#checkAll').prop('checked', false);
-            }
-        });
-
-        // --- ADD MODAL Logic ---
-        const modalObjectifs = document.getElementById("modalObjectifs");
-        const popupObjectifs = document.getElementById("popupContainerObjectifs");
-
-        function openmodalObjectifs() {
-            if (modalObjectifs) modalObjectifs.style.display = "flex";
-        }
-
-        function closeModalObjectifs() {
-            if (modalObjectifs) modalObjectifs.style.display = "none";
-        }
-
-        $('.add-project-btn').on('click', openmodalObjectifs);
-
-        $('#btnSaveObjectifs').on('click', function (event) {
-            event.preventDefault();
-            // Simple validation
-            if (!$('#etablissementLabo').val() || !$('#nomLabo').val() || !$('#directeurLabo').val()) {
-                Swal.fire('Erreur', 'Veuillez remplir tous les champs obligatoires.', 'error');
-                return;
-            }
-
-            const newRowData = [
-                '<input type="checkbox">',
-                $('#nomLabo').val(),
-                'Informatique',
-                (new Date()).toLocaleDateString('fr-FR', {
-                    year: 'numeric',
-                    month: '2-digit',
-                    day: '2-digit'
-                }).split('/').join('/'),
-                `<div class="assign-director-container">
-                 <img src="https://placehold.co/40x40/c80000/ffffff?text=AV" alt="Avatar" style="border-radius: 50%;">
-             </div>`,
-                `<div class="actions">
-                <button class="action-btn">...</button>
-                <div class="dropdown-menu">
-                    <a href="/fiche-de-details-de-laboratoire">Modifier</a>
-                </div>
-            </div>`
-            ];
-
-            const newRow = table.row.add(newRowData).draw().node();
-            $(newRow).attr('data-has-director', 'true');
-
-            closeModalObjectifs();
-            $('form.popup-form')[0].reset(); // Reset the form
-        });
-
-        // Close modal if clicking outside the popup
-        if (modalObjectifs && popupObjectifs) {
-            modalObjectifs.addEventListener("click", function (e) {
-                if (!popupObjectifs.contains(e.target)) {
-                    closeModalObjectifs();
-                }
-            });
-        }
-
-        // --- AFFECTER MODAL Logic ---
-        const modalAffecter = document.getElementById("modalAffecter");
-        const popupAffecter = document.getElementById("popupContainerAffecter");
-        let currentRowAffecter = null;
-
-        function openAffecterModal(row) {
-            currentRowAffecter = row;
-            $('input[name="directorAffect"]').prop('checked', false);
-            modalAffecter.style.display = "flex";
-        }
-
-        function closeModalAffecter() {
-            modalAffecter.style.display = "none";
-            currentRowAffecter = null;
-        }
-
-        $('#btnSaveAffecter').on('click', function (event) {
-            event.preventDefault();
-            if (currentRowAffecter) {
-                const selectedDirector = $('input[name="directorAffect"]:checked').val();
-                let newDirectorHtml = `<button class="assign-director-btn">+</button>`;
-                let hasDirector = false;
-
-                if (selectedDirector) {
-                    const directorInitials = $(`div.director-option[data-name="${selectedDirector}"]`).data(
-                        'initials');
-                    newDirectorHtml = `
-                    <div class="assign-director-container">
-                        <img src="https://placehold.co/40x40/c80000/ffffff?text=${directorInitials}" alt="Avatar" style="border-radius: 50%;">
-                    </div>`;
-                    hasDirector = true;
-                }
-
-                const updatedData = [
-                    table.cell(currentRowAffecter, 0).data(),
-                    table.cell(currentRowAffecter, 1).data(),
-                    table.cell(currentRowAffecter, 2).data(),
-                    table.cell(currentRowAffecter, 3).data(),
-                    table.cell(currentRowAffecter, 4)
-                        .data(), // Correctly get the 'Date de création' data
-                    newDirectorHtml,
-                    table.cell(currentRowAffecter, 6).data() // Correctly get the 'Actions' data
-                ];
-
-                const updatedRow = table.row(currentRowAffecter).data(updatedData).draw().node();
-                $(updatedRow).attr('data-has-director', hasDirector);
-            }
-            closeModalAffecter();
-        });
-
-        if (modalAffecter && popupAffecter) {
-            modalAffecter.addEventListener("click", function (e) {
-                if (!popupAffecter.contains(e.target)) {
-                    closeModalAffecter();
-                }
-            });
-        }
-
-        // --- MODIFIER MODAL Logic ---
-        const modalModifier = document.getElementById("modalModifier");
-        const popupModifier = document.getElementById("popupContainerModifier");
-        let currentRowModifier = null;
-
-        function openModifierModal(row) {
-            currentRowModifier = row;
-            $('input[name="directorModifier"]').prop('checked', false);
-            modalModifier.style.display = "flex";
-        }
-
-        function closeModalModifier() {
-            modalModifier.style.display = "none";
-            currentRowModifier = null;
-        }
-
-        $('#btnSaveModifier').on('click', function (event) {
-            event.preventDefault();
-            if (currentRowModifier) {
-                const selectedDirector = $('input[name="directorModifier"]:checked').val();
-                let newDirectorHtml = `<button class="assign-director-btn">+</button>`;
-                let hasDirector = false;
-
-                if (selectedDirector) {
-                    const directorInitials = $(`div.director-option[data-name="${selectedDirector}"]`).data(
-                        'initials');
-                    newDirectorHtml = `
-                    <div class="assign-director-container">
-                        <img src="https://placehold.co/40x40/c80000/ffffff?text=${directorInitials}" alt="Avatar" style="border-radius: 50%;">
-                    </div>`;
-                    hasDirector = true;
-                }
-
-                const updatedData = [
-                    table.cell(currentRowModifier, 0).data(),
-                    table.cell(currentRowModifier, 1).data(),
-                    table.cell(currentRowModifier, 2).data(),
-                    table.cell(currentRowModifier, 3).data(),
-                    table.cell(currentRowModifier, 4)
-                        .data(), // Correctly get the 'Date de création' data
-                    newDirectorHtml,
-                    table.cell(currentRowModifier, 6).data() // Correctly get the 'Actions' data
-                ];
-
-                const updatedRow = table.row(currentRowModifier).data(updatedData).draw().node();
-                $(updatedRow).attr('data-has-director', hasDirector);
-            }
-            closeModalModifier();
-        });
-
-        if (modalModifier && popupModifier) {
-            modalModifier.addEventListener("click", function (e) {
-                if (!popupModifier.contains(e.target)) {
-                    closeModalModifier();
-                }
-            });
-        }
-});
-
-// --- petit utilitaire pour remplir un <select> ---
-function populateSelect(selectEl, items, placeholder = 'Etablissement', valueKey = 'id', labelKey = 'nom') {
-  if (!selectEl) return;
-  selectEl.innerHTML = '';
-  const opt0 = document.createElement('option');
-  opt0.value = '';
-  opt0.textContent = placeholder;
-  selectEl.appendChild(opt0);
-
-  items.forEach(it => {
-    const opt = document.createElement('option');
-    opt.value = it[valueKey];
-    opt.textContent = it[labelKey];
-    // garde quelques infos en data-* si besoin plus tard
-    if (it.code_institut) opt.dataset.code = it.code_institut;
-    if (it.universite_id) opt.dataset.universiteId = it.universite_id;
-    selectEl.appendChild(opt);
-  });
+  // ===== Helpers pour les modals "Affecter/Modifier le directeur" =====
+function initialsFromName(name=''){
+  return name.split(' ').filter(Boolean).map(s=>s[0]).join('').substring(0,2).toUpperCase();
 }
-
-// --- charge les établissements dans #etablissementLabo ----------------
-async function loadEtablissementsIntoSelect(selectId = 'etablissementLabo', { q = '', universite_id = null, actif = 1 } = {}) {
-  const base = (window.PMSettings?.restUrl || '/wp-json').replace(/\/$/, '');
-  const params = new URLSearchParams();
-  if (q) params.set('q', q);
-  if (universite_id != null) params.set('universite_id', universite_id);
-  if (typeof actif !== 'undefined' && actif !== null) params.set('actif', String(actif));
-
-  const url = `${base}/plateforme-master/v1/etablissements` + (params.toString() ? `?${params}` : '');
-
+function directorOptionHTML(u, selectedId, groupName){
+  const id     = u.id;
+  const name   = u.label || u.display_name || ('#'+id);
+  const mail   = u.email || '';
+  const avatar = u.avatar_url || `https://placehold.co/50x50/c80000/ffffff?text=${encodeURIComponent(initialsFromName(name))}`;
+  const checked= String(selectedId) === String(id) ? 'checked' : '';
+  const inputId= `${groupName}_${id}`;
+  return `
+  <label class="director-option" for="${inputId}">
+    <input type="radio" name="${groupName}" id="${inputId}" value="${id}" ${checked} />
+    <img src="${avatar}" alt="${name}" width="50" height="50" style="border-radius:50%;">
+    <div class="director-info">
+      <span class="name">${name}</span>
+      ${mail ? `<span class="title" style="color:#666;font-size:.9em;">${mail}</span>` : ``}
+    </div>
+  </label>`;
+}
+async function fetchDirecteursByEtablissement(etablissement_id){
+  const url = `${DIRECTEURS_API_URL}?etablissement_id=${encodeURIComponent(etablissement_id)}`;
   const res = await fetch(url, {
-    headers: {
-      'Accept': 'application/json',
-      ...(window.PMSettings?.nonce ? { 'X-WP-Nonce': PMSettings.nonce } : {})
-    },
+    headers: { 'Accept':'application/json', ...(window.PMSettings?.nonce ? {'X-WP-Nonce': PMSettings.nonce} : {}) },
     credentials: 'include'
   });
-  if (!res.ok) throw new Error(`API établissements ${res.status}`);
+  if (!res.ok) throw new Error(`API Directeurs ${res.status}`);
   const data = await res.json();
-
-  // supporte soit {items:[...]} soit [...]
-  const raw = Array.isArray(data) ? data : (data.items || []);
-
-  // normalise : {id, nom, code_institut, universite_id}
-  const items = raw.map(r => ({
-    id:            r.id ?? r.etablissement_id ?? r.ID,
-    nom:           r.nom ?? r.label ?? r.name ?? '—',
-    code_institut: r.code_institut ?? r.code ?? null,
-    universite_id: r.universite_id ?? null
-  }))
-  // tri alpha par nom
-  .sort((a,b)=> a.nom.localeCompare(b.nom, 'fr', {sensitivity:'base'}));
-
-  const sel = document.getElementById(selectId);
-  populateSelect(sel, items, 'Etablissement', 'id', 'nom');
+  return data.items || [];
 }
+async function updateLaboratoireDirector(labId, directeur_user_id){
+  const API_BASE = (window.PMSettings?.restUrl || '/wp-json').replace(/\/$/, '');
+  const url = `${API_BASE}/plateforme-recherche/v1/laboratoire/${encodeURIComponent(labId)}/directeur`;
 
-// Auto-load au chargement de la page
-document.addEventListener('DOMContentLoaded', () => {
-  loadEtablissementsIntoSelect('etablissementLabo')
-    .catch(e => {
-      console.error('[loadEtablissementsIntoSelect]', e);
-      if (window.Swal) Swal.fire('Erreur', 'Chargement des établissements impossible.', 'error');
-    });
-});
-
-
-async function loadDirecteursIntoSelect(
-  selectId = 'directeurLabo',
-  { q = '', etablissement_id = null, all = 0 } = {}
-) {
-  const base = (window.PMSettings?.restUrl || '/wp-json').replace(/\/$/, '');
-  const params = new URLSearchParams();
-  if (q) params.set('q', q);
-  if (etablissement_id != null) params.set('etablissement_id', etablissement_id);
-  if (all) params.set('all', '1');
-
-  const url = `${base}/plateforme-recherche/v1/directeurs` + (params.toString() ? `?${params}` : '');
   const res = await fetch(url, {
-    headers: {
-      'Accept': 'application/json',
-      ...(window.PMSettings?.nonce ? {'X-WP-Nonce': PMSettings.nonce} : {})
-    },
-    credentials: 'include'
-  });
-  if (!res.ok) throw new Error(`API directeurs ${res.status}`);
-  const data = await res.json();
-
-  const sel = document.getElementById(selectId);
-  if (!sel) return;
-
-  // reset
-  sel.innerHTML = '';
-  const opt0 = document.createElement('option');
-  opt0.value = '';
-  opt0.textContent = 'Sélectionnez...';
-  sel.appendChild(opt0);
-
-  (data.items || []).forEach(u => {
-    const o = document.createElement('option');
-    o.value = u.id;
-    o.textContent = u.label || u.display_name || ('#' + u.id);
-    o.dataset.email = u.email || '';
-    o.dataset.avatar = u.avatar_url || '';
-    o.dataset.etablissementId = u.etablissement_id || '';
-    sel.appendChild(o);
-  });
-}
-
-
-// --- optionnel : petit indicateur "chargement..."
-function setSelectLoading(sel, isLoading){
-  if (!sel) return;
-  sel.disabled = !!isLoading;
-  if (isLoading){
-    sel.dataset.prevText = sel.options[0]?.textContent || 'Sélectionnez...';
-    sel.innerHTML = '<option value="">Chargement...</option>';
-  } else {
-    if (!sel.options.length){
-      const o = document.createElement('option');
-      o.value = '';
-      o.textContent = 'Sélectionnez...';
-      sel.appendChild(o);
-    }
-  }
-}
-
-/**
- * Lie le select d’établissement à celui des directeurs :
- * - au change d’établissement => charge les directeurs de cet établissement
- * - au chargement de la page => charge si une valeur est déjà sélectionnée
- */
-function bindDirecteursToEtablissement({
-  etabSelectId = 'etablissementLabo',
-  dirSelectId  = 'directeurLabo'
-} = {}){
-  const etabSel = document.getElementById(etabSelectId);
-  const dirSel  = document.getElementById(dirSelectId);
-  if (!etabSel || !dirSel) return;
-
-  const refresh = async () => {
-    const etablissement_id = etabSel.value ? parseInt(etabSel.value, 10) : null;
-
-    // si rien de sélectionné, on vide & désactive
-    if (!etablissement_id){
-      dirSel.innerHTML = '<option value="">Sélectionnez...</option>';
-      dirSel.disabled = true;
-      return;
-    }
-
-    try {
-      setSelectLoading(dirSel, true);
-      // ← ta fonction existante (déjà modifiée pour etablissement_id)
-      await loadDirecteursIntoSelect(dirSelectId, { etablissement_id });
-      dirSel.disabled = false;
-    } catch (e){
-      console.error('[directeurs] load error', e);
-      dirSel.innerHTML = '<option value="">Erreur de chargement</option>';
-      dirSel.disabled = true;
-      if (window.toast) window.toast('Erreur lors du chargement des directeurs', true);
-    } finally {
-      setSelectLoading(dirSel, false);
-    }
-  };
-
-  // Au changement d’établissement
-  etabSel.addEventListener('change', refresh);
-
-  // Au premier chargement (si une valeur est déjà présente)
-  if (etabSel.value) refresh();
-  else {
-    dirSel.innerHTML = '<option value="">Sélectionnez...</option>';
-    dirSel.disabled = true;
-  }
-}
-
-// === Init au chargement de la page
-document.addEventListener('DOMContentLoaded', () => {
-  bindDirecteursToEtablissement({
-    etabSelectId: 'etablissementLabo',
-    dirSelectId : 'directeurLabo'
-  });
-});
-
-
-// === 1) POST create labo =================================================
-async function createLaboratoire({ etablissement_id, nom, domaine, directeur_user_id = null }){
-  const res = await fetch(LABO_API_URL, {
-    method: 'POST',
+    method: 'PUT', // ou 'PATCH'
     headers: {
       'Content-Type': 'application/json',
       'Accept': 'application/json',
       ...(window.PMSettings?.nonce ? {'X-WP-Nonce': PMSettings.nonce} : {})
     },
     credentials: 'include',
-    body: JSON.stringify({
-      etablissement_id,
-      nom,
-      domaine,
-      directeur_user_id
-    })
+    body: JSON.stringify({ directeur_user_id })
   });
+
   if (!res.ok){
-    // Essaye de sortir le message d’erreur serveur
     let msg = `Erreur API (${res.status})`;
-    try { const j = await res.json(); if (j?.message) msg = j.message; } catch{}
+    try { const j = await res.json(); if (j?.message) msg = j.message; } catch {}
     throw new Error(msg);
   }
-  return await res.json(); // objet labo créé
+  return await res.json();
 }
 
-// === 2) Rechargement du tableau (clear + fetch + draw) ===================
-async function reloadLaboratoires(){
-  // fetchLaboratoires() existe déjà plus haut chez toi
-  const labs = await (async function(){
+// ===== Ouvre un picker (affecter/modifier) et peuple la liste =====
+async function openDirectorPicker(row, {mode='modifier'}={}){
+  const isModifier = mode === 'modifier';
+  const modalId    = isModifier ? 'modalModifier' : 'modalAffecter';
+  const groupName  = isModifier ? 'directorModifier' : 'directorAffect';
+
+  const modal   = document.getElementById(modalId);
+  const wrapper = document.querySelector(`#${modalId} .popup-form .form-group`);
+  if (!modal || !wrapper) return;
+
+  const lab = $(row).data('lab') || {};
+  const labId  = lab.id || lab.lab_id;
+  const etabId = lab.etablissement_id || lab.etablissementId || lab.etablissementID;
+  const currentDirectorId =
+    (isModifier ? (lab.directeur_user_id ?? (lab.directeur && lab.directeur.id)) : null);
+
+  if (!etabId){
+    console.error('[openDirectorPicker] etablissement_id manquant sur le labo', lab);
+    if (window.Swal) Swal.fire('Erreur', "Impossible d'identifier l'établissement du laboratoire.", 'error');
+    return;
+  }
+
+  wrapper.innerHTML = `<div style="padding:8px;color:#666;">Chargement des directeurs...</div>`;
+  modal.dataset.labId = labId || '';
+
+  try {
+    const users = await fetchDirecteursByEtablissement(etabId);
+    if (!users.length){
+      wrapper.innerHTML = `<div style="padding:8px;color:#666;">Aucun directeur trouvé pour cet établissement.</div>`;
+    } else {
+      wrapper.innerHTML = users.map(u => directorOptionHTML(u, currentDirectorId, groupName)).join('');
+    }
+    modal.style.display = 'flex';
+  } catch (e){
+    console.error('[fetchDirecteursByEtablissement]', e);
+    wrapper.innerHTML = `<div style="padding:8px;color:#c00;">Erreur de chargement.</div>`;
+    modal.style.display = 'flex';
+  }
+}
+function openAffecterModal(row){ return openDirectorPicker(row, {mode:'affecter'}); }
+function openModifierModal(row){ return openDirectorPicker(row, {mode:'modifier'}); }
+
+// ===== Boutons Enregistrer des deux modals =====
+(function bindSaveForPickers(){
+  const bind = (btnId, modalId, groupName) => {
+    const btn = document.getElementById(btnId);
+    if (!btn) return;
+    $(`#${btnId}`).off('click').on('click', async (e)=>{
+      e.preventDefault();
+      const modal = document.getElementById(modalId);
+      const labId = modal?.dataset?.labId;
+      const chosen = document.querySelector(`input[name="${groupName}"]:checked`);
+      const directeur_user_id = chosen ? parseInt(chosen.value,10) : null;
+
+      if (!labId || !directeur_user_id){
+        return Swal.fire('Erreur', 'Veuillez sélectionner un directeur.', 'error');
+      }
+      const old = btn.textContent; btn.disabled = true; btn.textContent = 'Enregistrement...';
+      try{
+        await updateLaboratoireDirector(labId, directeur_user_id);
+        modal.style.display = 'none';
+        const dt = $('#candidaturesTable').DataTable();
+        await reloadLaboratoires(dt);
+        Swal.fire('Succès', 'Directeur mis à jour.', 'success');
+      }catch(err){
+        console.error('[updateLaboratoireDirector]', err);
+        Swal.fire('Erreur', String(err.message || err), 'error');
+      }finally{
+        btn.disabled = false; btn.textContent = old;
+      }
+    });
+  };
+  bind('btnSaveAffecter', 'modalAffecter', 'directorAffect');
+  bind('btnSaveModifier', 'modalModifier', 'directorModifier');
+})();
+
+// ===== Fermer les modals en cliquant en dehors =====
+(function bindCloseBackdrop(){
+  const link = (modalId, boxId) => {
+    const modal = document.getElementById(modalId);
+    const box   = document.getElementById(boxId);
+    if (!modal || !box) return;
+    modal.addEventListener('click', (e)=>{ if (!box.contains(e.target)) modal.style.display='none'; });
+  };
+  link('modalAffecter','popupContainerAffecter');
+  link('modalModifier','popupContainerModifier');
+})();
+
+  // ================== API CALLS ==================
+  async function fetchLaboratoires() {
     const res = await fetch(LABO_API_URL, {
       headers: {
         'Accept': 'application/json',
@@ -1966,54 +1535,104 @@ async function reloadLaboratoires(){
       },
       credentials: 'include'
     });
-    if (!res.ok) throw new Error(`API ${res.status}`);
+    if (!res.ok) throw new Error(`API Laboratoires ${res.status}`);
     const payload = await res.json();
     return Array.isArray(payload) ? payload : (payload.items || []);
-  })();
+  }
 
-  // table est déjà initialisée plus haut
-  const dt = $('#candidaturesTable').DataTable();
+  async function loadEtablissementsIntoSelect(selectId = 'etablissementLabo', { q = '', universite_id = null, actif = 1 } = {}) {
+    const params = new URLSearchParams();
+    if (q) params.set('q', q);
+    if (universite_id != null) params.set('universite_id', universite_id);
+    if (typeof actif !== 'undefined' && actif !== null) params.set('actif', String(actif));
+
+    const url = ETABS_API_URL + (params.toString() ? `?${params}` : '');
+    const res = await fetch(url, {
+      headers: {
+        'Accept': 'application/json',
+        ...(window.PMSettings?.nonce ? { 'X-WP-Nonce': PMSettings.nonce } : {})
+      },
+      credentials: 'include'
+    });
+    if (!res.ok) throw new Error(`API Etablissements ${res.status}`);
+    const data = await res.json();
+    const raw = Array.isArray(data) ? data : (data.items || []);
+    const items = raw.map(r => ({
+      id:  r.id ?? r.etablissement_id ?? r.ID,
+      nom: r.nom ?? r.label ?? r.name ?? '—'
+    })).sort((a,b)=> a.nom.localeCompare(b.nom, 'fr', {sensitivity:'base'}));
+
+    const sel = document.getElementById(selectId);
+    populateSelect(sel, items, 'Etablissement', 'id', 'nom');
+  }
+
+  async function loadDirecteursIntoSelect(
+    selectId = 'directeurLabo',
+    { q = '', etablissement_id = null, all = 0 } = {}
+  ) {
+    const params = new URLSearchParams();
+    if (q) params.set('q', q);
+    if (etablissement_id != null) params.set('etablissement_id', etablissement_id);
+    if (all) params.set('all', '1');
+
+    const url = DIRECTEURS_API_URL + (params.toString() ? `?${params}` : '');
+    const res = await fetch(url, {
+      headers: {
+        'Accept': 'application/json',
+        ...(window.PMSettings?.nonce ? {'X-WP-Nonce': PMSettings.nonce} : {})
+      },
+      credentials: 'include'
+    });
+    if (!res.ok) throw new Error(`API Directeurs ${res.status}`);
+    const data = await res.json();
+
+    const sel = document.getElementById(selectId);
+    if (!sel) return;
+    populateSelect(sel, (data.items || []).map(u => ({
+      id: u.id,
+      nom: u.label || u.display_name || ('#'+u.id)
+    })), 'Sélectionnez...', 'id', 'nom');
+  }
+
+  async function createLaboratoire({ etablissement_id, nom, domaine, directeur_user_id = null }){
+    const body = {
+        etablissement_id,
+        denomination: nom,        // <-- IMPORTANT
+        domaine,
+        directeur_user_id
+    };
+    console.log('POST /laboratoire', body); // debug
+    const res = await fetch(LABO_API_URL, {
+        method: 'POST',
+        headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        ...(window.PMSettings?.nonce ? {'X-WP-Nonce': PMSettings.nonce} : {})
+        },
+        credentials: 'include',
+        body: JSON.stringify(body)
+    });
+    if (!res.ok){
+        let msg = `Erreur API (${res.status})`;
+        try { const j = await res.json(); if (j?.message) msg = j.message; } catch{}
+        throw new Error(msg);
+    }
+    return await res.json();
+}
+
+
+
+  async function reloadLaboratoires(dt){
+  const labs = await fetchLaboratoires();
   dt.clear();
-
   labs.forEach(l=>{
     const id         = l.id || l.lab_id;
     const intitule   = l.intitule || l.denomination || l.nom || `Labo ${id||''}`;
     const domaine    = l.domaine || '';
     const etabNom    = l.etablissement_nom || l.etablissement || '';
-    const dateCrea   = (function(d){
-      try{
-        if(!d) return '';
-        const date = new Date(d);
-        return date.toLocaleDateString('fr-FR', {year:'numeric', month:'2-digit', day:'2-digit'});
-      }catch{return d||'';}
-    })(l.date_creation || l.created_at);
-
-    // réutilise tes helpers définis plus haut
-    const directorTd = (function(lab){
-      const name = lab.directeur_nom || lab?.directeur?.display_name || lab?.directeur;
-      const avatar = lab.directeur_avatar || lab?.directeur?.avatar_url;
-      if (name){
-        const initials = name.split(' ').filter(Boolean).map(s=>s[0]).join('').substring(0,2).toUpperCase();
-        const imgSrc = avatar || `https://placehold.co/40x40/c80000/ffffff?text=${encodeURIComponent(initials)}`;
-        return `
-          <div class="assign-director-container" title="${name}">
-            <img width="40" height="40" src="${imgSrc}" alt="Avatar" style="border-radius:50%;">
-          </div>`;
-      }
-      return `<div class="assign-director-container"><button class="assign-director-btn">+</button></div>`;
-    })(l);
-
-    const actionsTd = (function(lab){
-      const id = lab.id || lab.lab_id;
-      const href = `/fiche-de-details-de-laboratoire?id=${encodeURIComponent(id)}`;
-      return `
-        <div class="actions">
-          <button class="action-btn">...</button>
-          <div class="dropdown-menu">
-            <a href="${href}">Modifier</a>
-          </div>
-        </div>`;
-    })(l);
+    const dateCrea   = formatDate(l.date_creation || l.created_at);
+    const directorTd = renderDirectorCell(l);
+    const actionsTd  = renderActionsCell(l);
 
     const rowNode = dt.row.add([
       '<input type="checkbox">',
@@ -2025,57 +1644,224 @@ async function reloadLaboratoires(){
       actionsTd
     ]).draw(false).node();
 
-    const hasDirector = /assign-director-btn/.test(directorTd) ? 'false' : 'true';
-    rowNode.setAttribute('data-has-director', hasDirector);
+    rowNode.setAttribute('data-has-director', /assign-director-btn/.test(directorTd) ? 'false' : 'true');
     rowNode.setAttribute('data-lab-id', id ?? '');
+    // >>> IMPORTANT : on mémorise l’objet labo sur la ligne (utilisé par le modal)
+    $(rowNode).data('lab', l);
   });
-
-  // Tu peux re-générer les filtres ici si besoin (populateFilters(labs))
 }
 
-// === 3) Hook bouton “Enregistrer” du modal ==============================
-document.addEventListener('DOMContentLoaded', () => {
-  const btnSave = document.getElementById('btnSaveObjectifs');
-  const modal   = document.getElementById('modalObjectifs');
 
-  const closeModal = ()=>{ if (modal) modal.style.display = 'none'; };
+  function bindDirecteursToEtablissement({
+    etabSelectId = 'etablissementLabo',
+    dirSelectId  = 'directeurLabo'
+  } = {}){
+    const etabSel = document.getElementById(etabSelectId);
+    const dirSel  = document.getElementById(dirSelectId);
+    if (!etabSel || !dirSel) return;
 
-  if (btnSave){
-    btnSave.addEventListener('click', async (e)=>{
-      e.preventDefault();
-
-      const etablissement_id  = parseInt(document.getElementById('etablissementLabo')?.value || '', 10);
-      const nom               = (document.getElementById('nomLabo')?.value || '').trim();
-      const domaine           = (document.getElementById('Domaine')?.value || '').trim();
-      const dirSelect         = document.getElementById('directeurLabo');
-      const directeur_user_id = dirSelect && dirSelect.value ? parseInt(dirSelect.value,10) : null;
-
-      if (!etablissement_id || !nom){
-        if (window.Swal) Swal.fire('Erreur', 'Veuillez renseigner l’établissement et le nom du labo.', 'error');
+    const refresh = async () => {
+      const etablissement_id = etabSel.value ? parseInt(etabSel.value, 10) : null;
+      if (!etablissement_id){
+        populateSelect(dirSel, [], 'Sélectionnez...');
+        dirSel.disabled = true;
         return;
       }
+      try {
+        setSelectLoading(dirSel, true);
+        await loadDirecteursIntoSelect(dirSelectId, { etablissement_id });
+        dirSel.disabled = false;
+      } catch (e){
+        console.error('[directeurs] load error', e);
+        populateSelect(dirSel, [], 'Erreur de chargement');
+        dirSel.disabled = true;
+        if (window.toast) window.toast('Erreur lors du chargement des directeurs', true);
+      } finally {
+        setSelectLoading(dirSel, false);
+      }
+    };
 
-      try{
-        // POST create
-        await createLaboratoire({ etablissement_id, nom, domaine, directeur_user_id });
+    etabSel.addEventListener('change', refresh);
+    if (etabSel.value) refresh(); else { dirSel.disabled = true; }
+  }
 
-        // Fermer + reset formulaire
-        closeModal();
-        const form = modal?.querySelector('form.popup-form');
-        if (form) form.reset();
-
-        // Rafraîchir la liste
-        await reloadLaboratoires();
-
-        if (window.Swal) Swal.fire('Succès', 'Laboratoire ajouté avec succès.', 'success');
-      }catch(err){
-        console.error('[createLaboratoire]', err);
-        if (window.Swal) Swal.fire('Erreur', String(err.message || err), 'error');
+  // ================== APP ==================
+  document.addEventListener('DOMContentLoaded', async () => {
+    // DataTable
+    const table = $('#candidaturesTable').DataTable({
+      paging: true,
+      searching: true,
+      ordering: false,
+      info: false,
+      pageLength: 5,
+      dom: 'Bfrtip',
+      buttons: [],
+      language: {
+        paginate: { previous: "<i class='fa fa-chevron-left'></i>", next: "<i class='fa fa-chevron-right'></i>" },
+        emptyTable: "Aucune donnée disponible",
+        zeroRecords: "Aucun enregistrement correspondant trouvé"
       }
     });
-  }
-});
+    table.clear().draw();
+
+    // Charger Etablissements + brancher Directeurs
+    try {
+      await loadEtablissementsIntoSelect('etablissementLabo');
+    } catch(e){
+      console.error('[loadEtablissementsIntoSelect]', e);
+      if (window.Swal) Swal.fire('Erreur', 'Chargement des établissements impossible.', 'error');
+    }
+    bindDirecteursToEtablissement({ etabSelectId: 'etablissementLabo', dirSelectId: 'directeurLabo' });
+
+    // Charger la liste des labos
+    try {
+      await reloadLaboratoires(table);
+      // Après chargement, construire les filtres (directeur/domaine/étab) depuis les données visibles
+      // (option simple : laisse tes options statiques ; sinon on peut analyser les lignes pour auto-peupler)
+    } catch (e) {
+      console.error('[laboratoires.load]', e);
+      if (window.Swal) Swal.fire('Erreur', 'Impossible de charger les laboratoires.', 'error');
+    }
+
+    // Dropdown des actions (délégation)
+    $('#candidaturesTable tbody').on('click', '.action-btn', function (e) {
+      e.stopPropagation();
+      $('.dropdown-menu').not($(this).next('.dropdown-menu')).hide();
+      $(this).next('.dropdown-menu').toggle();
+    });
+    $('#candidaturesTable tbody').on('click', '.dropdown-menu a', function (e) {
+      e.stopPropagation();
+      $(this).closest('.dropdown-menu').hide();
+    });
+    document.addEventListener('click', function () { $('.dropdown-menu').hide(); });
+
+    // Ouvrir/Affecter/Modifier directeur
+    const modalAffecter = document.getElementById("modalAffecter");
+    const modalModifier = document.getElementById("modalModifier");
+    //function openAffecterModal(row){ if (modalAffecter) { $('input[name="directorAffect"]').prop('checked', false); modalAffecter.style.display="flex"; modalAffecter.dataset.rowIndex = table.row(row).index(); } }
+
+    $('#candidaturesTable tbody').on('click', '.assign-director-btn', function (e) {
+      e.stopPropagation();
+      const row = $(this).closest('tr');
+      openAffecterModal(row);
+    });
+    $('#candidaturesTable tbody').on('click', '.assign-director-container', function (e) {
+      if ($(e.target).closest('.assign-director-btn').length) return;
+      e.stopPropagation();
+      const row = $(this).closest('tr');
+      (row.attr('data-has-director') === 'true') ? openModifierModal(row) : openAffecterModal(row);
+    });
+
+    // Filtres
+    const directeurFilterSelect    = document.getElementById('directeurFilter');
+    const domaineFilterSelect      = document.getElementById('domaineFilter');
+    const etablissementFilterSelect= document.getElementById('etablissementFilter');
+    const searchInput              = document.getElementById('searchInput');
+
+    function applyFilters() {
+      const directeurValue   = directeurFilterSelect?.value.trim() ?? '';
+      const domaineValue     = domaineFilterSelect?.value.trim() ?? '';
+      const etablissementVal = etablissementFilterSelect?.value.trim() ?? '';
+      const searchTerm       = searchInput?.value.trim().toLowerCase() ?? '';
+
+      $.fn.dataTable.ext.search.push(function (settings, data) {
+        const intitule     = (data[1] || '');
+        const domaine      = (data[2] || '');
+        const etablissement= (data[3] || '');
+        const directeurTd  = (data[5] || '');
+        const directeurTxt = $('<div>').html(directeurTd).text().trim();
+
+        const m1 = !searchTerm || intitule.toLowerCase().includes(searchTerm);
+        const m2 = !directeurValue || directeurTxt.includes(directeurValue);
+        const m3 = !domaineValue || domaine.trim() === domaineValue;
+        const m4 = !etablissementVal || etablissement.trim() === etablissementVal;
+        return m1 && m2 && m3 && m4;
+      });
+      table.draw();
+      $.fn.dataTable.ext.search.pop();
+    }
+
+    directeurFilterSelect?.addEventListener('change', applyFilters);
+    domaineFilterSelect?.addEventListener('change', applyFilters);
+    etablissementFilterSelect?.addEventListener('change', applyFilters);
+    searchInput?.addEventListener('keyup', applyFilters);
+
+    // Check-all
+    $('#checkAll').on('change', function () {
+      const isChecked = this.checked;
+      $('#candidaturesTable tbody input[type="checkbox"]').prop('checked', isChecked);
+    });
+    $('#candidaturesTable tbody').on('change', 'input[type="checkbox"]', function () {
+      if (!this.checked) $('#checkAll').prop('checked', false);
+    });
+
+    // Modal "Ajouter un laboratoire"
+    const modalObjectifs = document.getElementById("modalObjectifs");
+    const openmodalObjectifs = () => { if (modalObjectifs) modalObjectifs.style.display = "flex"; };
+    const closeModalObjectifs = () => { if (modalObjectifs) modalObjectifs.style.display = "none"; };
+    $('.add-project-btn').off('click').on('click', openmodalObjectifs);
+
+    // Bouton Enregistrer (UN SEUL handler)
+    const btnSave = document.getElementById('btnSaveObjectifs');
+    if (btnSave){
+      $(btnSave).off('click').on('click', async (e)=>{
+        e.preventDefault();
+
+        const etablissement_id  = parseInt(document.getElementById('etablissementLabo')?.value || '', 10);
+        const nom               = (document.getElementById('nomLabo')?.value || '').trim();
+        const domaine           = (document.getElementById('Domaine')?.value || '').trim();
+        const dirSelect         = document.getElementById('directeurLabo');
+        const directeur_user_id = dirSelect && dirSelect.value ? parseInt(dirSelect.value,10) : null;
+
+        if (!etablissement_id || !nom || (DIRECTEUR_REQUIRED && !directeur_user_id)){
+          Swal.fire('Erreur', 'Veuillez remplir tous les champs obligatoires.', 'error');
+          return;
+        }
+
+        const oldLabel = btnSave.textContent;
+        btnSave.disabled = true; btnSave.textContent = 'Enregistrement...';
+
+        try{
+          await createLaboratoire({ etablissement_id, nom, domaine, directeur_user_id });
+          closeModalObjectifs();
+          const form = modalObjectifs?.querySelector('form.popup-form');
+          if (form) form.reset();
+          await reloadLaboratoires(table);
+          Swal.fire('Succès', 'Laboratoire ajouté avec succès.', 'success');
+        }catch(err){
+          console.error('[createLaboratoire]', err);
+          Swal.fire('Erreur', String(err.message || err), 'error');
+        }finally{
+          btnSave.disabled = false; btnSave.textContent = oldLabel;
+        }
+      });
+    }
+
+    // Fermer modals en cliquant hors du contenu
+    const popupObjectifs = document.getElementById("popupContainerObjectifs");
+    const popupAffecter  = document.getElementById("popupContainerAffecter");
+    const popupModifier  = document.getElementById("popupContainerModifier");
+
+    if (modalObjectifs && popupObjectifs) {
+      modalObjectifs.addEventListener("click", (e) => {
+        if (!popupObjectifs.contains(e.target)) closeModalObjectifs();
+      });
+    }
+    if (document.getElementById("modalAffecter") && popupAffecter) {
+      document.getElementById("modalAffecter").addEventListener("click", (e) => {
+        if (!popupAffecter.contains(e.target)) document.getElementById("modalAffecter").style.display="none";
+      });
+    }
+    if (document.getElementById("modalModifier") && popupModifier) {
+      document.getElementById("modalModifier").addEventListener("click", (e) => {
+        if (!popupModifier.contains(e.target)) document.getElementById("modalModifier").style.display="none";
+      });
+    }
+  });
+})();
+
+
+
 
 </script>
-
 

@@ -99,6 +99,9 @@ add_action('init', function () {
             elseif (in_array('um_service-etablissement', $user->roles)) {
                 wp_redirect(home_url('/espace-ecoledoctorale/'));
             }
+            elseif (in_array('um_pmo', $user->roles)) {
+                wp_redirect(home_url('/dashboardPMO/'));
+            }
             exit;
         } else {
             $_SESSION['sl_code_error'] = 'Code incorrect.';

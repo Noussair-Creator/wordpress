@@ -1040,6 +1040,8 @@ function plateforme_content($content)
         'fiche-details-du-labo_',
         // add page Assiduité des chercheurs
         'assiduite-des-chercheurs',
+        'calendrier_',
+        'calendrier-detais',
     ];
 
     foreach ($Pages_communes as $page_slug) {
@@ -2490,6 +2492,8 @@ function pm_template_override()
         'fiche-details-du-labo_',
         // add page Assiduité des chercheurs
         'assiduite-des-chercheurs',
+        'calendrier_',
+        'calendrier-detais',
     ];
 
     foreach ($Pages_communes as $page_slug) {
