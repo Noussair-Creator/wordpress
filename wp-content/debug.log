@@ -773,3 +773,113 @@ Stack trace:
 #5 [internal function]: shutdown_action_hook()
 #6 {main}
   thrown in C:\laragon\www\wordpress\wp-content\plugins\ultimate-member\includes\lib\action-scheduler\classes\data-stores\ActionScheduler_DBStore.php on line 1128
+[11-Sep-2025 12:30:47 UTC] PHP Warning:  Constant GE_MODULE already defined in C:\laragon\www\wordpress\wp-content\plugins\GestionMasters\GestionMasters.php on line 11
+[11-Sep-2025 13:30:47 Africa/Tunis] PHP Warning:  Undefined variable $email in C:\laragon\www\wordpress\wp-content\plugins\secure-login\includes\login-handler.php on line 4
+[11-Sep-2025 12:30:47 UTC] PHP Warning:  Constant GE_MODULE already defined in C:\laragon\www\wordpress\wp-content\plugins\GestionMasters\GestionMasters.php on line 11
+[11-Sep-2025 13:30:47 Africa/Tunis] PHP Warning:  Undefined variable $email in C:\laragon\www\wordpress\wp-content\plugins\secure-login\includes\login-handler.php on line 4
+[11-Sep-2025 13:30:48 Africa/Tunis] PHP Warning:  require_once(C:\laragon\www\wordpress\wp-content\plugins\plateforme-master\Modules\LaboRecherche\pages/../../../../config/roles.php): Failed to open stream: No such file or directory in C:\laragon\www\wordpress\wp-content\plugins\plateforme-master\Modules\LaboRecherche\pages\DashboardLABO.php on line 4
+[11-Sep-2025 13:30:48 Africa/Tunis] PHP Fatal error:  Uncaught Error: Failed opening required 'C:\laragon\www\wordpress\wp-content\plugins\plateforme-master\Modules\LaboRecherche\pages/../../../../config/roles.php' (include_path='.;C:/laragon/etc/php/pear') in C:\laragon\www\wordpress\wp-content\plugins\plateforme-master\Modules\LaboRecherche\pages\DashboardLABO.php:4
+Stack trace:
+#0 C:\laragon\www\wordpress\wp-content\plugins\plateforme-master\plateforme-master.php(2020): include()
+#1 C:\laragon\www\wordpress\wp-includes\class-wp-hook.php(324): pm_template_override('')
+#2 C:\laragon\www\wordpress\wp-includes\class-wp-hook.php(348): WP_Hook->apply_filters(NULL, Array)
+#3 C:\laragon\www\wordpress\wp-includes\plugin.php(517): WP_Hook->do_action(Array)
+#4 C:\laragon\www\wordpress\wp-includes\template-loader.php(13): do_action('template_redire...')
+#5 C:\laragon\www\wordpress\wp-blog-header.php(19): require_once('C:\\laragon\\www\\...')
+#6 C:\laragon\www\wordpress\index.php(17): require('C:\\laragon\\www\\...')
+#7 {main}
+  thrown in C:\laragon\www\wordpress\wp-content\plugins\plateforme-master\Modules\LaboRecherche\pages\DashboardLABO.php on line 4
+[11-Sep-2025 12:30:49 UTC] PHP Warning:  Constant GE_MODULE already defined in C:\laragon\www\wordpress\wp-content\plugins\GestionMasters\GestionMasters.php on line 11
+[11-Sep-2025 13:30:49 Africa/Tunis] PHP Warning:  Undefined variable $email in C:\laragon\www\wordpress\wp-content\plugins\secure-login\includes\login-handler.php on line 4
+[11-Sep-2025 13:30:50 Africa/Tunis] PHP Fatal error:  Uncaught RuntimeException: Unable to release actions from claim id 0. in C:\laragon\www\wordpress\wp-content\plugins\ultimate-member\includes\lib\action-scheduler\classes\data-stores\ActionScheduler_DBStore.php:1128
+Stack trace:
+#0 C:\laragon\www\wordpress\wp-content\plugins\ultimate-member\includes\lib\action-scheduler\classes\ActionScheduler_QueueRunner.php(195): ActionScheduler_DBStore->release_claim(Object(ActionScheduler_ActionClaim))
+#1 C:\laragon\www\wordpress\wp-content\plugins\ultimate-member\includes\lib\action-scheduler\classes\ActionScheduler_QueueRunner.php(158): ActionScheduler_QueueRunner->do_batch(25, 'WP Cron')
+#2 C:\laragon\www\wordpress\wp-includes\class-wp-hook.php(324): ActionScheduler_QueueRunner->run('WP Cron')
+#3 C:\laragon\www\wordpress\wp-includes\class-wp-hook.php(348): WP_Hook->apply_filters('', Array)
+#4 C:\laragon\www\wordpress\wp-includes\plugin.php(565): WP_Hook->do_action(Array)
+#5 C:\laragon\www\wordpress\wp-cron.php(191): do_action_ref_array('action_schedule...', Array)
+#6 {main}
+  thrown in C:\laragon\www\wordpress\wp-content\plugins\ultimate-member\includes\lib\action-scheduler\classes\data-stores\ActionScheduler_DBStore.php on line 1128
+[11-Sep-2025 13:30:50 Africa/Tunis] PHP Fatal error:  Uncaught RuntimeException: Unable to release actions from claim id 0. in C:\laragon\www\wordpress\wp-content\plugins\ultimate-member\includes\lib\action-scheduler\classes\data-stores\ActionScheduler_DBStore.php:1128
+Stack trace:
+#0 C:\laragon\www\wordpress\wp-content\plugins\ultimate-member\includes\lib\action-scheduler\classes\ActionScheduler_FatalErrorMonitor.php(95): ActionScheduler_DBStore->release_claim(Object(ActionScheduler_ActionClaim))
+#1 C:\laragon\www\wordpress\wp-includes\class-wp-hook.php(324): ActionScheduler_FatalErrorMonitor->handle_unexpected_shutdown('')
+#2 C:\laragon\www\wordpress\wp-includes\class-wp-hook.php(348): WP_Hook->apply_filters(NULL, Array)
+#3 C:\laragon\www\wordpress\wp-includes\plugin.php(517): WP_Hook->do_action(Array)
+#4 C:\laragon\www\wordpress\wp-includes\load.php(1304): do_action('shutdown')
+#5 [internal function]: shutdown_action_hook()
+#6 {main}
+  thrown in C:\laragon\www\wordpress\wp-content\plugins\ultimate-member\includes\lib\action-scheduler\classes\data-stores\ActionScheduler_DBStore.php on line 1128
+[11-Sep-2025 12:32:51 UTC] PHP Warning:  Constant GE_MODULE already defined in C:\laragon\www\wordpress\wp-content\plugins\GestionMasters\GestionMasters.php on line 11
+[11-Sep-2025 13:32:51 Africa/Tunis] PHP Warning:  Undefined variable $email in C:\laragon\www\wordpress\wp-content\plugins\secure-login\includes\login-handler.php on line 4
+[11-Sep-2025 12:32:52 UTC] PHP Warning:  Constant GE_MODULE already defined in C:\laragon\www\wordpress\wp-content\plugins\GestionMasters\GestionMasters.php on line 11
+[11-Sep-2025 13:32:52 Africa/Tunis] PHP Warning:  Undefined variable $email in C:\laragon\www\wordpress\wp-content\plugins\secure-login\includes\login-handler.php on line 4
+[11-Sep-2025 13:32:53 Africa/Tunis] PHP Warning:  Undefined variable $labo_logo_url in C:\laragon\www\wordpress\wp-content\plugins\plateforme-master\Modules\LaboRecherche\pages\components\Top-Boxes.php on line 221
+[11-Sep-2025 13:32:53 Africa/Tunis] PHP Deprecated:  ltrim(): Passing null to parameter #1 ($string) of type string is deprecated in C:\laragon\www\wordpress\wp-includes\formatting.php on line 4486
+[11-Sep-2025 13:32:53 Africa/Tunis] PHP Warning:  include(components/scripts.php): Failed to open stream: No such file or directory in C:\laragon\www\wordpress\wp-content\plugins\plateforme-master\Modules\LaboRecherche\pages\DashboardLABO.php on line 96
+[11-Sep-2025 13:32:53 Africa/Tunis] PHP Warning:  include(): Failed opening 'components/scripts.php' for inclusion (include_path='.;C:/laragon/etc/php/pear') in C:\laragon\www\wordpress\wp-content\plugins\plateforme-master\Modules\LaboRecherche\pages\DashboardLABO.php on line 96
+[11-Sep-2025 12:32:53 UTC] PHP Warning:  Constant GE_MODULE already defined in C:\laragon\www\wordpress\wp-content\plugins\GestionMasters\GestionMasters.php on line 11
+[11-Sep-2025 13:32:53 Africa/Tunis] PHP Warning:  Undefined variable $email in C:\laragon\www\wordpress\wp-content\plugins\secure-login\includes\login-handler.php on line 4
+[11-Sep-2025 12:32:54 UTC] PHP Warning:  Constant GE_MODULE already defined in C:\laragon\www\wordpress\wp-content\plugins\GestionMasters\GestionMasters.php on line 11
+[11-Sep-2025 13:32:54 Africa/Tunis] PHP Warning:  Undefined variable $email in C:\laragon\www\wordpress\wp-content\plugins\secure-login\includes\login-handler.php on line 4
+[11-Sep-2025 12:32:55 UTC] PHP Warning:  Constant GE_MODULE already defined in C:\laragon\www\wordpress\wp-content\plugins\GestionMasters\GestionMasters.php on line 11
+[11-Sep-2025 12:32:55 UTC] PHP Warning:  Constant GE_MODULE already defined in C:\laragon\www\wordpress\wp-content\plugins\GestionMasters\GestionMasters.php on line 11
+[11-Sep-2025 12:32:55 UTC] PHP Warning:  Constant GE_MODULE already defined in C:\laragon\www\wordpress\wp-content\plugins\GestionMasters\GestionMasters.php on line 11
+[11-Sep-2025 13:32:55 Africa/Tunis] PHP Fatal error:  Uncaught RuntimeException: Unable to release actions from claim id 0. in C:\laragon\www\wordpress\wp-content\plugins\ultimate-member\includes\lib\action-scheduler\classes\data-stores\ActionScheduler_DBStore.php:1128
+Stack trace:
+#0 C:\laragon\www\wordpress\wp-content\plugins\ultimate-member\includes\lib\action-scheduler\classes\ActionScheduler_QueueRunner.php(195): ActionScheduler_DBStore->release_claim(Object(ActionScheduler_ActionClaim))
+#1 C:\laragon\www\wordpress\wp-content\plugins\ultimate-member\includes\lib\action-scheduler\classes\ActionScheduler_QueueRunner.php(158): ActionScheduler_QueueRunner->do_batch(25, 'WP Cron')
+#2 C:\laragon\www\wordpress\wp-includes\class-wp-hook.php(324): ActionScheduler_QueueRunner->run('WP Cron')
+#3 C:\laragon\www\wordpress\wp-includes\class-wp-hook.php(348): WP_Hook->apply_filters('', Array)
+#4 C:\laragon\www\wordpress\wp-includes\plugin.php(565): WP_Hook->do_action(Array)
+#5 C:\laragon\www\wordpress\wp-cron.php(191): do_action_ref_array('action_schedule...', Array)
+#6 {main}
+  thrown in C:\laragon\www\wordpress\wp-content\plugins\ultimate-member\includes\lib\action-scheduler\classes\data-stores\ActionScheduler_DBStore.php on line 1128
+[11-Sep-2025 13:32:55 Africa/Tunis] PHP Fatal error:  Uncaught RuntimeException: Unable to release actions from claim id 0. in C:\laragon\www\wordpress\wp-content\plugins\ultimate-member\includes\lib\action-scheduler\classes\data-stores\ActionScheduler_DBStore.php:1128
+Stack trace:
+#0 C:\laragon\www\wordpress\wp-content\plugins\ultimate-member\includes\lib\action-scheduler\classes\ActionScheduler_FatalErrorMonitor.php(95): ActionScheduler_DBStore->release_claim(Object(ActionScheduler_ActionClaim))
+#1 C:\laragon\www\wordpress\wp-includes\class-wp-hook.php(324): ActionScheduler_FatalErrorMonitor->handle_unexpected_shutdown('')
+#2 C:\laragon\www\wordpress\wp-includes\class-wp-hook.php(348): WP_Hook->apply_filters(NULL, Array)
+#3 C:\laragon\www\wordpress\wp-includes\plugin.php(517): WP_Hook->do_action(Array)
+#4 C:\laragon\www\wordpress\wp-includes\load.php(1304): do_action('shutdown')
+#5 [internal function]: shutdown_action_hook()
+#6 {main}
+  thrown in C:\laragon\www\wordpress\wp-content\plugins\ultimate-member\includes\lib\action-scheduler\classes\data-stores\ActionScheduler_DBStore.php on line 1128
+[11-Sep-2025 13:32:55 Africa/Tunis] PHP Warning:  Undefined variable $email in C:\laragon\www\wordpress\wp-content\plugins\secure-login\includes\login-handler.php on line 4
+[11-Sep-2025 13:32:55 Africa/Tunis] PHP Warning:  Undefined variable $email in C:\laragon\www\wordpress\wp-content\plugins\secure-login\includes\login-handler.php on line 4
+[11-Sep-2025 13:32:56 Africa/Tunis] PHP Warning:  Undefined variable $email in C:\laragon\www\wordpress\wp-content\plugins\secure-login\includes\login-handler.php on line 4
+[11-Sep-2025 12:32:56 UTC] PHP Warning:  Constant GE_MODULE already defined in C:\laragon\www\wordpress\wp-content\plugins\GestionMasters\GestionMasters.php on line 11
+[11-Sep-2025 12:32:56 UTC] PHP Warning:  Constant GE_MODULE already defined in C:\laragon\www\wordpress\wp-content\plugins\GestionMasters\GestionMasters.php on line 11
+[11-Sep-2025 12:32:56 UTC] PHP Warning:  Constant GE_MODULE already defined in C:\laragon\www\wordpress\wp-content\plugins\GestionMasters\GestionMasters.php on line 11
+[11-Sep-2025 13:32:56 Africa/Tunis] PHP Warning:  Undefined variable $email in C:\laragon\www\wordpress\wp-content\plugins\secure-login\includes\login-handler.php on line 4
+[11-Sep-2025 13:32:56 Africa/Tunis] PHP Warning:  Undefined variable $email in C:\laragon\www\wordpress\wp-content\plugins\secure-login\includes\login-handler.php on line 4
+[11-Sep-2025 13:32:56 Africa/Tunis] PHP Warning:  Undefined variable $email in C:\laragon\www\wordpress\wp-content\plugins\secure-login\includes\login-handler.php on line 4
+[11-Sep-2025 12:32:56 UTC] PHP Warning:  Constant GE_MODULE already defined in C:\laragon\www\wordpress\wp-content\plugins\GestionMasters\GestionMasters.php on line 11
+[11-Sep-2025 13:32:56 Africa/Tunis] PHP Warning:  Undefined variable $email in C:\laragon\www\wordpress\wp-content\plugins\secure-login\includes\login-handler.php on line 4
+[11-Sep-2025 12:33:03 UTC] PHP Warning:  Constant GE_MODULE already defined in C:\laragon\www\wordpress\wp-content\plugins\GestionMasters\GestionMasters.php on line 11
+[11-Sep-2025 13:33:03 Africa/Tunis] PHP Warning:  Undefined variable $email in C:\laragon\www\wordpress\wp-content\plugins\secure-login\includes\login-handler.php on line 4
+[11-Sep-2025 12:33:03 UTC] PHP Warning:  Constant GE_MODULE already defined in C:\laragon\www\wordpress\wp-content\plugins\GestionMasters\GestionMasters.php on line 11
+[11-Sep-2025 13:33:03 Africa/Tunis] PHP Warning:  Undefined variable $email in C:\laragon\www\wordpress\wp-content\plugins\secure-login\includes\login-handler.php on line 4
+[11-Sep-2025 12:33:04 UTC] PHP Warning:  Constant GE_MODULE already defined in C:\laragon\www\wordpress\wp-content\plugins\GestionMasters\GestionMasters.php on line 11
+[11-Sep-2025 13:33:04 Africa/Tunis] PHP Warning:  Undefined variable $email in C:\laragon\www\wordpress\wp-content\plugins\secure-login\includes\login-handler.php on line 4
+[11-Sep-2025 13:33:04 Africa/Tunis] PHP Warning:  Undefined variable $labo_logo_url in C:\laragon\www\wordpress\wp-content\plugins\plateforme-master\Modules\LaboRecherche\pages\components\Top-Boxes.php on line 221
+[11-Sep-2025 13:33:04 Africa/Tunis] PHP Deprecated:  ltrim(): Passing null to parameter #1 ($string) of type string is deprecated in C:\laragon\www\wordpress\wp-includes\formatting.php on line 4486
+[11-Sep-2025 13:33:04 Africa/Tunis] PHP Warning:  include(components/scripts.php): Failed to open stream: No such file or directory in C:\laragon\www\wordpress\wp-content\plugins\plateforme-master\Modules\LaboRecherche\pages\DashboardLABO.php on line 96
+[11-Sep-2025 13:33:04 Africa/Tunis] PHP Warning:  include(): Failed opening 'components/scripts.php' for inclusion (include_path='.;C:/laragon/etc/php/pear') in C:\laragon\www\wordpress\wp-content\plugins\plateforme-master\Modules\LaboRecherche\pages\DashboardLABO.php on line 96
+[11-Sep-2025 12:33:04 UTC] PHP Warning:  Constant GE_MODULE already defined in C:\laragon\www\wordpress\wp-content\plugins\GestionMasters\GestionMasters.php on line 11
+[11-Sep-2025 13:33:04 Africa/Tunis] PHP Warning:  Undefined variable $email in C:\laragon\www\wordpress\wp-content\plugins\secure-login\includes\login-handler.php on line 4
+[11-Sep-2025 12:33:04 UTC] PHP Warning:  Constant GE_MODULE already defined in C:\laragon\www\wordpress\wp-content\plugins\GestionMasters\GestionMasters.php on line 11
+[11-Sep-2025 13:33:05 Africa/Tunis] PHP Warning:  Undefined variable $email in C:\laragon\www\wordpress\wp-content\plugins\secure-login\includes\login-handler.php on line 4
+[11-Sep-2025 12:33:06 UTC] PHP Warning:  Constant GE_MODULE already defined in C:\laragon\www\wordpress\wp-content\plugins\GestionMasters\GestionMasters.php on line 11
+[11-Sep-2025 12:33:06 UTC] PHP Warning:  Constant GE_MODULE already defined in C:\laragon\www\wordpress\wp-content\plugins\GestionMasters\GestionMasters.php on line 11
+[11-Sep-2025 12:33:06 UTC] PHP Warning:  Constant GE_MODULE already defined in C:\laragon\www\wordpress\wp-content\plugins\GestionMasters\GestionMasters.php on line 11
+[11-Sep-2025 13:33:06 Africa/Tunis] PHP Warning:  Undefined variable $email in C:\laragon\www\wordpress\wp-content\plugins\secure-login\includes\login-handler.php on line 4
+[11-Sep-2025 13:33:06 Africa/Tunis] PHP Warning:  Undefined variable $email in C:\laragon\www\wordpress\wp-content\plugins\secure-login\includes\login-handler.php on line 4
+[11-Sep-2025 13:33:06 Africa/Tunis] PHP Warning:  Undefined variable $email in C:\laragon\www\wordpress\wp-content\plugins\secure-login\includes\login-handler.php on line 4
+[11-Sep-2025 12:33:06 UTC] PHP Warning:  Constant GE_MODULE already defined in C:\laragon\www\wordpress\wp-content\plugins\GestionMasters\GestionMasters.php on line 11
+[11-Sep-2025 13:33:07 Africa/Tunis] PHP Warning:  Undefined variable $email in C:\laragon\www\wordpress\wp-content\plugins\secure-login\includes\login-handler.php on line 4
+[11-Sep-2025 12:33:07 UTC] PHP Warning:  Constant GE_MODULE already defined in C:\laragon\www\wordpress\wp-content\plugins\GestionMasters\GestionMasters.php on line 11
+[11-Sep-2025 13:33:07 Africa/Tunis] PHP Warning:  Undefined variable $email in C:\laragon\www\wordpress\wp-content\plugins\secure-login\includes\login-handler.php on line 4
+[11-Sep-2025 12:33:07 UTC] PHP Warning:  Constant GE_MODULE already defined in C:\laragon\www\wordpress\wp-content\plugins\GestionMasters\GestionMasters.php on line 11
+[11-Sep-2025 13:33:07 Africa/Tunis] PHP Warning:  Undefined variable $email in C:\laragon\www\wordpress\wp-content\plugins\secure-login\includes\login-handler.php on line 4

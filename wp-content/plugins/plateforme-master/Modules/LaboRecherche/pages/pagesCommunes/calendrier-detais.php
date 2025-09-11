@@ -1,6 +1,6 @@
 <?php
 $role = $role ?? "service";
-require_once plugin_dir_path(__FILE__) . '../config/roles.php';
+require_once plugin_dir_path(__FILE__) . '../../../../config/roles.php';
 
 require_once plugin_dir_path(__FILE__) . '../requireApi.php';
 
@@ -25,18 +25,18 @@ require_once plugin_dir_path(__FILE__) . '../requireApi.php';
     <link rel="stylesheet" href="https://cdn.datatables.net/2.0.8/css/dataTables.dataTables.css" />
 
     <style>
-        :root {
-            --red: #b60303;
-            --gray: #f3f3f3;
-            --dark: #333;
-        }
+    :root {
+        --red: #b60303;
+        --gray: #f3f3f3;
+        --dark: #333;
+    }
 
-        body {
-            margin: 0;
-            font-family: 'Segoe UI', sans-serif;
-            background: var(--gray);
-            min-height: 100vh;
-        }
+    body {
+        margin: 0;
+        font-family: 'Segoe UI', sans-serif;
+        background: var(--gray);
+        min-height: 100vh;
+    }
     </style>
 </head>
 

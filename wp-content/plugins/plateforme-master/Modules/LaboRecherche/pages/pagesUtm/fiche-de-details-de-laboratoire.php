@@ -4,7 +4,7 @@ $role = $role ?? "service";
 
 /*require_once '../requireApi.php';*/
 
-require_once plugin_dir_path(__FILE__) . '../config/roles.php';
+require_once plugin_dir_path(__FILE__) . '../../../../config/roles.php';
 
 
 ?>
@@ -25,116 +25,116 @@ require_once plugin_dir_path(__FILE__) . '../config/roles.php';
 
     <link rel="stylesheet" href="assets/css/style.css">
     <style>
-        :root {
-            --red: #b60303;
-            --gray: #f3f3f3;
-            --dark: #333;
-        }
+    :root {
+        --red: #b60303;
+        --gray: #f3f3f3;
+        --dark: #333;
+    }
 
-        body {
-            margin: 0;
-            font-family: 'Segoe UI', sans-serif;
-            background: var(--gray);
-            min-height: 100vh;
-        }
+    body {
+        margin: 0;
+        font-family: 'Segoe UI', sans-serif;
+        background: var(--gray);
+        min-height: 100vh;
+    }
     </style>
 
     <style>
-        .master-list-container {
-            background: #fff;
-            padding: 20px;
-            border-radius: 10px;
-        }
+    .master-list-container {
+        background: #fff;
+        padding: 20px;
+        border-radius: 10px;
+    }
 
-        .list-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
+    .list-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
 
-        .btn-add-master {
-            background-color: #c60000;
-            color: white;
-            padding: 8px 12px;
-            border: none;
-            border-radius: 5px;
-            font-weight: bold;
-        }
+    .btn-add-master {
+        background-color: #c60000;
+        color: white;
+        padding: 8px 12px;
+        border: none;
+        border-radius: 5px;
+        font-weight: bold;
+    }
 
-        .filters-row {
-            display: flex;
-            gap: 10px;
-            margin: 15px 0;
-        }
+    .filters-row {
+        display: flex;
+        gap: 10px;
+        margin: 15px 0;
+    }
 
-        .filter-input,
-        select {
-            padding: 6px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-        }
+    .filter-input,
+    select {
+        padding: 6px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+    }
 
-        .master-table {
-            width: 100%;
-            border-collapse: collapse;
-        }
+    .master-table {
+        width: 100%;
+        border-collapse: collapse;
+    }
 
-        .master-table th,
-        .master-table td {
-            padding: 12px;
-            border-bottom: 1px solid #ddd;
-            text-align: left;
-        }
+    .master-table th,
+    .master-table td {
+        padding: 12px;
+        border-bottom: 1px solid #ddd;
+        text-align: left;
+    }
 
-        .pdf-icon {
-            color: red;
-            font-size: 18px;
-        }
+    .pdf-icon {
+        color: red;
+        font-size: 18px;
+    }
 
-        .avatar {
-            width: 30px;
-            height: 30px;
-            border-radius: 50%;
-        }
+    .avatar {
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+    }
 
-        .dots-btn {
-            background: none;
-            border: none;
-            font-size: 20px;
-            cursor: pointer;
-        }
+    .dots-btn {
+        background: none;
+        border: none;
+        font-size: 20px;
+        cursor: pointer;
+    }
 
-        .dropdown {
-            position: relative;
-            display: inline-block;
-        }
+    .dropdown {
+        position: relative;
+        display: inline-block;
+    }
 
-        .dropdown-content {
-            display: none;
-            position: absolute;
-            background-color: #fff;
-            box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.2);
-            z-index: 1;
-            border-radius: 4px;
-        }
+    .dropdown-content {
+        display: none;
+        position: absolute;
+        background-color: #fff;
+        box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.2);
+        z-index: 1;
+        border-radius: 4px;
+    }
 
-        .dropdown:hover .dropdown-content {
-            display: block;
-        }
+    .dropdown:hover .dropdown-content {
+        display: block;
+    }
 
-        .dropdown-content a {
-            padding: 8px 12px;
-            display: block;
-            color: #000;
-            text-decoration: none;
-        }
+    .dropdown-content a {
+        padding: 8px 12px;
+        display: block;
+        color: #000;
+        text-decoration: none;
+    }
 
-        .pagination {
-            display: flex;
-            justify-content: flex-end;
-            gap: 5px;
-            padding-top: 15px;
-        }
+    .pagination {
+        display: flex;
+        justify-content: flex-end;
+        gap: 5px;
+        padding-top: 15px;
+    }
     </style>
 </head>
 

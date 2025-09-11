@@ -1,6 +1,6 @@
 <?php
 $role = $role ?? "service";
-require_once plugin_dir_path(__FILE__) . '../config/roles.php';
+require_once plugin_dir_path(__FILE__) . '../../../../config/roles.php';
 require_once plugin_dir_path(__FILE__) . '../requireApi.php';
 ?>
 <!DOCTYPE html>
@@ -25,18 +25,18 @@ require_once plugin_dir_path(__FILE__) . '../requireApi.php';
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
 
     <style>
-        :root {
-            --red: #b60303;
-            --gray: #f3f3f3;
-            --dark: #333;
-        }
+    :root {
+        --red: #b60303;
+        --gray: #f3f3f3;
+        --dark: #333;
+    }
 
-        body {
-            margin: 0;
-            font-family: 'Segoe UI', sans-serif;
-            background: var(--gray);
-            min-height: 100vh;
-        }
+    body {
+        margin: 0;
+        font-family: 'Segoe UI', sans-serif;
+        background: var(--gray);
+        min-height: 100vh;
+    }
     </style>
 </head>
 
@@ -75,7 +75,7 @@ require_once plugin_dir_path(__FILE__) . '../requireApi.php';
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
         xintegrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous">
-        </script>
+    </script>
 
     <?php include 'components/scripts.php'; ?>
 </body>
