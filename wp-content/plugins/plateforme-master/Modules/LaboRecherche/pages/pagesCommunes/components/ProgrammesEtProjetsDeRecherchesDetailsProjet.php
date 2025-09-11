@@ -1123,33 +1123,19 @@
         <div class="card full-width">
             <h3>Informations générales</h3>
             <ul class="styled-list">
-                <li><strong>Intitulé complet :</strong> Interface cerveau-machine et apprentissage</li>
-                <li><strong>Acronyme :</strong> BCI-Learn</li>
-                <li><strong>Porteur :</strong> Pr. R. Nasri</li>
-                <li><strong>Période :</strong> 01/03/2024 – 28/02/2026</li>
-                <li><strong>Financement :</strong> 90 000 TND (MESRS + coopération allemande)</li>
+                <li><strong>Intitulé complet :</strong> </li>
+                <li><strong>Responsable :</strong> </li>
+                <li><strong>Période :</strong> </li>
+                <li><strong>Financement :</strong> </li>
             </ul>
 
             <h3 style="margin-top: 30px;">Objectifs du projet</h3>
             <ol class="custom-ordered-list">
-                <li> Développer une interface neuronale portable basée sur des casques EEG à faible
-                    coût, interfacée
-                    avec
-                    une application mobile.</li>
-                <li>Intégrer un module d’intelligence artificielle permettant la reconnaissance de
-                    signaux moteurs
-                    intentionnels à partir de données brutes EEG.</li>
-                <li>Tester cliniquement le dispositif sur un échantillon de patients atteints de
-                    troubles moteurs (10
-                    cas
-                    suivis).</li>
-                <li>Optimiser les performances du dispositif en conditions réelles et publier les
-                    résultats.</li>
-                <li>Former deux doctorants dans le cadre du projet (signal + clinique).</li>
+              
             </ol>
         </div>
 
-        <div class="card full-width">
+       <!-- <div class="card full-width">
             <h3>Équipe du projet BCI-Learn (Interface cerveau-machine et apprentissage)</h3>
             <table class="parcours-table">
                 <thead>
@@ -1358,6 +1344,30 @@
             </table>
         </div>
 
+    -->
+
+      <div class="card full-width">
+            <div class="card-header-with-button">
+                <h3>Dépense</h3>
+                <button class="modifier-button" onclick="openModalDepense()">Ajouter</button>
+            </div>
+            <table class="parcours-table">
+                <thead>
+                    <tr>
+                        <th>Ref</th>
+                        <th>Désignation</th>
+                        <th>Montant</th>
+                        <th>Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td colspan="4">Aucune dépense </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
     </div>
 
     <div class="modal-overlay" id="modalLivrables" style="display: none;">
@@ -1428,7 +1438,7 @@
                 </div>
                 <div class="form-group">
                     <label for="date-depense">Date</label>
-                    <input type="text" id="date-depense" name="date-depense" placeholder="jj-mm-yyyy / jj-mm-yyyy">
+                    <input type="date"  id="date-depense" name="date-depense" placeholder="jj-mm-yyyy">
                 </div>
             </form>
         </div>
@@ -1536,7 +1546,7 @@
         const datePickerInput = document.getElementById("date-depense");
 
         // Initialize flatpickr on the input element for expenses, adding a custom class
-        flatpickr("#date-depense", {
+       /* flatpickr("#date-depense", {
             mode: "range",
             dateFormat: "d/m/Y",
             locale: "fr",
@@ -1550,7 +1560,7 @@
                 // Add your custom class to the calendar container
                 instance.calendarContainer.classList.add('my-custom-calendar-depense');
             }
-        });
+        });*/
 
         // Initialize flatpickr for "Livrables attendus" date input, adding a custom class
         flatpickr("#date-prevu", {
@@ -1564,6 +1574,251 @@
             }
         });
     </script>
+
+
+
+
+
+<script type="module">
+
+        const API_BASE = (window.PMSettings?.restUrl || "/wp-json/") + "plateforme-recherche/v1";
+  async function wpFetch(path, opts = {}) {
+        const res = await fetch(API_BASE + path, {
+            credentials: 'include',
+            headers: { 'X-WP-Nonce': window.PMSettings?.nonce || '', ...(opts.headers||{}) },
+            method: opts.method || 'GET',
+            body: opts.body || undefined
+        });
+        if (!res.ok) {
+            const t = await res.text().catch(()=> '');
+            throw new Error(`HTTP ${res.status} ${t}`);
+        }
+        const ct = res.headers.get('content-type') || '';
+        return ct.includes('application/json') ? res.json() : res.text();
+    }
+document.addEventListener("DOMContentLoaded", async () => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const projetId = urlParams.get("id");
+    if (!projetId) return;
+
+
+  
+
+    try {
+        const data = await wpFetch(`/projet/${projetId}/full`);
+
+        // --- Infos générales ---
+        const infoList = document.querySelector(".styled-list");
+        if (infoList) {
+            infoList.innerHTML = `
+                <li><strong>Intitulé complet :</strong> ${data.titre || ''}</li>
+                <li><strong>Responsable :</strong> ${data.chercheur_nom || ''}</li>
+                <li><strong>Période :</strong> ${data.date_debut || ''} – ${data.date_fin || ''}</li>
+                <li><strong>Financement :</strong> ${data.budget || 0} TND (${data.type_financement || '-'})</li>
+            `;
+        }
+
+        // --- Objectifs ---
+        const objList = document.querySelector(".custom-ordered-list");
+        if (objList) {
+            objList.innerHTML = "";
+
+            // 🔹 Affiche le champ "objectifs" global (si existe)
+            if (data.objectifs) {
+                const li = document.createElement("li");
+                li.textContent = data.objectifs;
+                li.style.fontWeight = "bold"; // ou autre style pour distinguer
+                objList.appendChild(li);
+            }
+
+            // 🔹 Affiche la liste détaillée
+            (data.objectifs_list || []).forEach(o => {
+                const li = document.createElement("li");
+                li.textContent = o.objectif;
+                if (o.type === "general") {
+                    li.style.color = "#2A2916";
+                } else if (o.type === "specifique") {
+                    li.style.color = "#c60000"; // pour différencier visuellement
+                }
+                objList.appendChild(li);
+            });
+        }
+
+
+        // --- Équipe ---
+        const tbodyEquipe = document.querySelector("table.parcours-table:nth-of-type(1) tbody");
+        if (tbodyEquipe) {
+            tbodyEquipe.innerHTML = "";
+            (data.membres || []).forEach(m => {
+                const tr = document.createElement("tr");
+                tr.innerHTML = `
+                    <td>${m.display_name || '—'}</td>
+                    <td>${m.role_dans_projet || '—'}</td>
+                    <td>${m.grade || '—'}</td>
+                    <td><a href="mailto:${m.email || m.user_email || ''}">${m.email || m.user_email || ''}</a></td>
+                `;
+                tbodyEquipe.appendChild(tr);
+            });
+        }
+
+        // --- Livrables ---
+        const tbodyLivrables = document.querySelector("div.card:nth-of-type(3) tbody");
+        if (tbodyLivrables) {
+            tbodyLivrables.innerHTML = "";
+            (data.livrables || []).forEach(l => {
+                const tr = document.createElement("tr");
+                tr.innerHTML = `
+                    <td>${l.ref || ''}</td>
+                    <td>${l.type_livrable || ''}</td>
+                    <td>${l.description || ''}</td>
+                    <td>${l.date_prevue || ''}</td>
+                    <td>${l.fichier_url ? `<a href="${l.fichier_url}" target="_blank">📎</a>` : '-'}</td>
+                `;
+                tbodyLivrables.appendChild(tr);
+            });
+        }
+
+        // --- Pièces jointes ---
+        const tbodyPieces = document.querySelector("div.card:nth-of-type(4) tbody");
+        if (tbodyPieces) {
+            tbodyPieces.innerHTML = "";
+            (data.pieces || []).forEach(p => {
+                const tr = document.createElement("tr");
+                tr.innerHTML = `
+                    <td>${p.ref_doc || ''}</td>
+                    <td>${p.type_doc || ''}</td>
+                    <td><a href="${p.fichier_url}" target="_blank">${p.fichier_url?.split('/').pop()}</a></td>
+                    <td>${p.version || ''}</td>
+                    <td>${p.date_doc || ''}</td>
+                `;
+                tbodyPieces.appendChild(tr);
+            });
+        }
+
+        // --- Dépenses ---
+        const tbodyDepenses = document.querySelector("table.parcours-table tbody");
+        if (tbodyDepenses) {
+            tbodyDepenses.innerHTML = "";
+            (data.depenses || []).forEach(d => {
+                const tr = document.createElement("tr");
+                tr.innerHTML = `
+                    <td>${d.id || ''}</td>
+                    <td>${d.designation || ''}</td>
+                    <td>${d.montant || 0} TND</td>
+                    <td>${d.date_depense || ''}</td>
+                `;
+                tbodyDepenses.appendChild(tr);
+            });
+        }
+
+    } catch (e) {
+        console.error("Erreur chargement projet:", e);
+    }
+});
+
+
+function notify(msg, type = 'success') {
+    Swal.fire({
+        toast: true,
+        position: 'bottom-end',
+        showConfirmButton: false,
+        timer: 3000,
+        timerProgressBar: true,
+        icon: type, // 'success', 'error', 'warning', 'info'
+        title: msg
+    });
+}
+
+
+
+async function saveDepense(projetId) {
+  try {
+    const refEl = document.getElementById('refDepense'); // optionnel
+    const desig = document.getElementById('designation');
+    const montant = document.getElementById('montant');
+    const dateEl = document.getElementById('date-depense');
+
+    if (!desig || !montant || !dateEl) throw new Error("Champs du formulaire introuvables.");
+    if (!desig.value.trim()) return alert("La désignation est obligatoire.");
+    if (!dateEl.value) return alert("La date est obligatoire.");
+
+    const cleanMontant = (montant.value || "").replace(/\s+/g, '').replace(',', '.');
+
+    const fd = new FormData();
+    if (refEl) fd.append('ref', refEl.value || '');
+    fd.append('designation', desig.value.trim());
+    fd.append('montant', cleanMontant);
+    fd.append('date_depense', dateEl.value);
+
+    const res = await fetch(`${API_BASE}/projet/${projetId}/depense`, {
+      method: 'POST',
+      credentials: 'include',
+      headers: { 'X-WP-Nonce': window.PMSettings?.nonce || '' },
+      body: fd
+    });
+
+    const data = await res.json().catch(() => null);
+
+    if (!res.ok) {
+      // 🔹 Affiche le message d’erreur renvoyé par l’API
+      if (data && data.message) {
+        alert(`${data.code || "Erreur"} : ${data.message}`);
+      } else {
+        alert(`Erreur HTTP ${res.status}`);
+      }
+      return;
+    }
+
+    alert('Dépense ajoutée avec succès.');
+    closeModal('modalDepense');
+    await loadDepenses(projetId);
+
+  } catch (e) {
+    alert('Erreur enregistrement dépense : ' + e.message);
+    console.error(e);
+  }
+}
+
+
+
+async function loadDepenses(projetId) {
+    try {
+        const data = await wpFetch(`/projet/${projetId}/full`);
+        const tbodyDepenses = document.querySelector("table.parcours-table tbody");
+        if (tbodyDepenses) {
+            tbodyDepenses.innerHTML = "";
+            (data.depenses || []).forEach(d => {
+                const tr = document.createElement("tr");
+                tr.innerHTML = `
+                    <td>${d.id || ''}</td>
+                    <td>${d.designation || ''}</td>
+                    <td>${d.montant || 0} TND</td>
+                    <td>${d.date_depense || ''}</td>
+                `;
+                tbodyDepenses.appendChild(tr);
+            });
+        }
+    } catch (e) {
+        console.error("Erreur chargement dépenses :", e);
+    }
+}
+document.addEventListener("DOMContentLoaded", () => {
+    const btnSaveDepense = document.getElementById('btnSaveDepense');
+    if (btnSaveDepense) {
+        btnSaveDepense.addEventListener('click', () => {
+            const projetId = new URLSearchParams(window.location.search).get("id");
+            if (projetId) {
+                saveDepense(projetId);
+            } else {
+                notify("ID projet introuvable.", "error");
+            }
+        });
+    }
+});
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 </body>
 
 </html>

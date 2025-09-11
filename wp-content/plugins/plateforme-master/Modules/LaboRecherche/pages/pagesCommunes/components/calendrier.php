@@ -657,10 +657,8 @@ border-color: #D3CEB4; */
             </div>
             <button type="button" class="btn add-activity-btn" id="openActivityModalBtn">
 
-                <img width="20px" class="text-calendar-red"
-                    src="/wp-content/plugins/plateforme-master/images/icons/27) Icon-calendar-white.png"
-                    alt="Icon-calendar-white.png">
-                <!-- <i class="fa-solid fa-plus text-white"></i> -->
+                <i class="fa-regular fa-calendar text-white " style="color: #ffffffff;"></i>
+                <!-- <i class="fa-solid fa-plus "></i> -->
                 <span class="text-white">Ajouter une activité</span>
             </button>
         </div>

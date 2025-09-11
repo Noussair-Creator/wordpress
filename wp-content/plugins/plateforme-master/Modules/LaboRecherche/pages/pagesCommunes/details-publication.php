@@ -1,5 +1,6 @@
 <?php
 $role = $role ?? "service";
+// require_once plugin_dir_path(__FILE__) . '../config/roles.php';
 require_once plugin_dir_path(__FILE__) . '../../../../config/roles.php';
 require_once plugin_dir_path(__FILE__) . '../requireApi.php';
 ?>

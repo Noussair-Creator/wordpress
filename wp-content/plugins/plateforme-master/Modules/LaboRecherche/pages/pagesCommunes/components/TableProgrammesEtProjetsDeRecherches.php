@@ -623,7 +623,7 @@
         <th><input type="checkbox" id="checkAll"></th>
         <th>Intitulé du projet</th>
         <th>État</th>
-        <th>Porteur</th>
+        <th>Responsable</th>
         <th>Date début</th>
         <th>Date fin</th>
         <th>Financement</th>
@@ -647,6 +647,7 @@
     <form class="popup-form" enctype="multipart/form-data">
       <input type="hidden" id="projectRowIndex">
       <div class="form-group">
+
         <label for="titreProjet">Titre du projet</label>
         <input type="text" id="titreProjet">
         </div>
@@ -769,6 +770,8 @@
       openModal();
     });
 
+ /*
+
     $('#candidaturesTable tbody').on('click', '.btn-modifier', function (e) {
       e.preventDefault();
       modalTitle.textContent = "Modifier le projet";
@@ -778,6 +781,7 @@
       openModal();
     });
 
+*/
     modal.addEventListener("click", function (e) {
       if (e.target === modal) {
         closeModal();
@@ -962,7 +966,7 @@
     const paginationControls = $('.pagination-controls');
 
 
-    const inputs = {
+    /*const inputs = {
       titre: $('#titreProjet'),
       acronyme: $('#acronyme'),
       type_projet: $('#typeProjet'),
@@ -973,6 +977,18 @@
       objectifs: $('#objectifs'),
       budgetFile: $('#budgetUpload'),
       conventionFile: $('#conventionUpload')
+    };*/
+
+    const inputs = {
+      titre: $('#titreProjet'),
+      type_projet: $('#typeProjet'),
+      budget: $('#financement'),
+      source_fin: $('#sourceFinancement'),
+      objectifs: $('#objectifs'),
+      budgetFile: $('#budgetUpload'),
+      conventionFile: $('#conventionUpload'),
+      date_debut: $('#dateDebut'),
+      date_fin: $('#dateFin')
     };
 
     const filters = {
@@ -986,41 +1002,57 @@
 
     // ---------- Rendering ----------
     const buildRow = (p) => {
-      const r = parseResume(p.resume);
-      const porteurNom = r.porteur_nom || '—';
-      const typeProj = r.type_projet || '—';
-      const financement = (p.budget != null) ? fmtMoney(p.budget) : (r.financement_text || '—');
-      const statut = p.statut || r.statut || 'En cours';
-      const tr = document.createElement('tr');
-      tr.dataset.id = p.id;
-      tr.innerHTML = `
-<td><input type="checkbox" class="row-check"></td>
-<td>
-<div class="title-cell">
-<div class="project-title">${escapeHtml(p.titre || '')}</div>
-${r.acronyme ? `<div class="project-acronym">${escapeHtml(r.acronyme)}</div>` : ''}
-${typeProj !== '—' ? `<div class="project-type small text-muted">${escapeHtml(typeProj)}</div>` : ''}
-</div>
-</td>
-<td><span class="${badgeClass(statut)}">${escapeHtml(statut)}</span></td>
-<td>${escapeHtml(porteurNom)}</td>
-<td>${p.date_debut ? escapeHtml(toFR(p.date_debut)) : '—'}</td>
-<td>${p.date_fin ? escapeHtml(toFR(p.date_fin)) : '—'}</td>
-<td>${financement}</td>
-<td>
-<div class="actions">
-<button class="action-btn" aria-haspopup="true" aria-expanded="false">⋯</button>
-<div class="dropdown-menu">
-<a href="#" class="btn-modifier">Modifier</a>
-<a href="#" class="btn-statut">${(statut || '').toLowerCase().startsWith('termin') ? 'Marquer en cours' : 'Marquer terminé'}</a>
-<a class="btn-voir" href="/programmes-et-projets-de-recherches-details-projet_?id=${encodeURIComponent(p.id)}">Voir</a>
-<a href="#" class="btn-supprimer">Supprimer</a>
-</div>
-</div>
-</td>
-`;
-      return tr;
-    };
+        const r = parseResume(p.resume);
+        const porteurNom = p.chercheur_nom || '—';
+        const typeProj = r.type_projet || '—';
+        const financement = (p.budget != null) ? fmtMoney(p.budget) : (r.financement_text || '—');
+        const statut = p.statut || r.statut || 'En cours';
+        const tr = document.createElement('tr');
+        tr.dataset.id = p.id;
+
+        // 🔹 Vérifie si c'est le projet du user connecté
+        const isOwner = String(p.chercheur_id) === String(PM.userId);
+
+        let actionsHtml = `
+          <a class="btn-voir" href="/programmes-et-projets-de-recherches-details-projet_?id=${encodeURIComponent(p.id)}">Voir</a>
+        `;
+
+        if (isOwner) {
+          actionsHtml = `
+            <a href="#" class="btn-modifier">Modifier</a>
+            <a href="#" class="btn-statut">${(statut || '').toLowerCase().startsWith('termin') ? 'Marquer en cours' : 'Marquer terminé'}</a>
+            <a class="btn-voir" href="/programmes-et-projets-de-recherches-details-projet_?id=${encodeURIComponent(p.id)}">Voir</a>
+            <a href="#" class="btn-supprimer">Supprimer</a>
+          `;
+        }
+
+        tr.innerHTML = `
+          <td><input type="checkbox" class="row-check"></td>
+          <td>
+            <div class="title-cell">
+              <div class="project-title">${escapeHtml(p.titre || '')}</div>
+              ${r.acronyme ? `<div class="project-acronym">${escapeHtml(r.acronyme)}</div>` : ''}
+              ${typeProj !== '—' ? `<div class="project-type small text-muted">${escapeHtml(typeProj)}</div>` : ''}
+            </div>
+          </td>
+          <td><span class="${badgeClass(statut)}">${escapeHtml(statut)}</span></td>
+          <td>${escapeHtml(porteurNom)}</td>
+          <td>${p.date_debut ? escapeHtml(toFR(p.date_debut)) : '—'}</td>
+          <td>${p.date_fin ? escapeHtml(toFR(p.date_fin)) : '—'}</td>
+          <td>${financement}</td>
+          <td>
+            <div class="actions">
+              <button class="action-btn" aria-haspopup="true" aria-expanded="false">⋯</button>
+              <div class="dropdown-menu">
+                ${actionsHtml}
+              </div>
+            </div>
+          </td>
+        `;
+
+        return tr;
+      };
+
 
     const render = () => {
       tbody.innerHTML = '';
@@ -1094,7 +1126,7 @@ ${typeProj !== '—' ? `<div class="project-type small text-muted">${escapeHtml(
     };
 
     // ---------- Modal ----------
-    const openModal = (edit = false, project = null) => {
+    /*const openModal = (edit = false, project = null) => {
       modal.style.display = "flex";
       document.body.style.overflow = 'hidden';
       modalTitle.textContent = edit ? 'Modifier le projet' : 'Ajouter un projet';
@@ -1120,7 +1152,64 @@ ${typeProj !== '—' ? `<div class="project-type small text-muted">${escapeHtml(
             .trim();
         inputs.objectifs.value = r.objectifs || r.texte || '';
       }
+    };*/
+
+    
+    const openModal = (edit = false, project = null) => {
+      modal.style.display = "flex";
+      document.body.style.overflow = 'hidden';
+      modalTitle.textContent = edit ? 'Modifier le projet' : 'Ajouter un projet';
+      editingId = edit && project ? project.id : null;
+
+      // Reset
+      Object.values(inputs).forEach(el => {
+        if (!el) return;
+        if (el instanceof HTMLInputElement || el instanceof HTMLTextAreaElement) el.value = '';
+        if (el instanceof HTMLSelectElement) el.selectedIndex = 0;
+      });
+
+      if (project) {
+        const r = parseResume(project.resume);
+
+        inputs.titre.value = project.titre || '';
+        inputs.budget.value = project.budget != null ? String(project.budget) : (r.financement_text || '');
+        inputs.objectifs.value = r.objectifs || r.texte || '';
+
+        // Dates
+        if (project.date_debut) inputs.date_debut.value = toFR(project.date_debut);
+        if (project.date_fin) inputs.date_fin.value = toFR(project.date_fin);
+
+        // Sélects (attention: attendre que les options soient chargées)
+        setSelectValue(inputs.type_projet, project.type_projet_id || r.type_projet || '');
+        setSelectValue(inputs.source_fin, project.type_financement || r.source_financement || '');
+
+        // Fichiers
+        let budgetUrl = null;
+        let conventionUrl = null;
+
+        // Cas 1 : champs directs en base
+        if (project.budget_piece) budgetUrl = project.budget_piece;
+        if (project.convention_piece) conventionUrl = project.convention_piece;
+
+        // Cas 2 : dans le JSON résumé
+        if (r.pieces?.budget_piece?.url) budgetUrl = r.pieces.budget_piece.url;
+        if (r.pieces?.convention_piece?.url) conventionUrl = r.pieces.convention_piece.url;
+
+        // Affichage juste du nom dans le champ texte
+        if (budgetUrl) {
+          document.querySelector("label[for='budgetUpload']").previousElementSibling.value =
+            budgetUrl.split('/').pop();
+        }
+        if (conventionUrl) {
+          document.querySelector("label[for='conventionUpload']").previousElementSibling.value =
+            conventionUrl.split('/').pop();
+        }
+
+
+      }
     };
+
+
 
     const closeModal = () => {
       modal.style.display = "none";
@@ -1170,55 +1259,48 @@ ${typeProj !== '—' ? `<div class="project-type small text-muted">${escapeHtml(
 
     const saveProject = async () => {
       try {
-        const body = collectPayload();
-        if (!body.titre) return notify('Le titre est obligatoire.', 'warn');
 
-        const pieces = {};
-        if (inputs.budgetFile?.files?.[0]) {
-          const m1 = await uploadMedia(inputs.budgetFile.files[0]);
-          if (m1) pieces.budget_piece = {
-            id: m1.id,
-            url: m1.source_url
-          };
+
+        const fd = new FormData();
+        const cleanBudget = (inputs.budget.value || "")
+        .replace(/\s+/g, "")   // supprime les espaces
+        .replace(",", ".");    // remplace virgule par point
+        fd.append('titre', inputs.titre.value.trim());
+        fd.append('type_projet_id', inputs.type_projet.value);
+        fd.append('type_financement', inputs.source_fin.value);
+        fd.append('budget', cleanBudget);
+        fd.append('objectifs', inputs.objectifs.value);
+        fd.append('date_debut', toISO(inputs.date_debut.value));
+        fd.append('date_fin', toISO(inputs.date_fin.value));
+
+        if (inputs.budgetFile.files[0]) {
+          fd.append('budget_piece', inputs.budgetFile.files[0]);
         }
-        if (inputs.conventionFile?.files?.[0]) {
-          const m2 = await uploadMedia(inputs.conventionFile.files[0]);
-          if (m2) pieces.convention_piece = {
-            id: m2.id,
-            url: m2.source_url
-          };
-        }
-        if (Object.keys(pieces).length) {
-          const r = JSON.parse(body.resume);
-          r.pieces = pieces;
-          body.resume = JSON.stringify(r);
+        if (inputs.conventionFile.files[0]) {
+          fd.append('convention_piece', inputs.conventionFile.files[0]);
         }
 
-        if (editingId) {
-          const upd = await wpFetch(`/projet/${editingId}`, {
-            method: 'PATCH',
-            body
-          });
-          const idx = projects.findIndex(p => p.id == editingId);
-          if (idx > -1) projects[idx] = {
-            ...projects[idx],
-            ...upd
-          };
-          notify('Projet mis à jour.');
-        } else {
-          const created = await wpFetch('/projet', {
-            method: 'POST',
-            body
-          });
-          projects.unshift(created);
-          notify('Projet ajouté.');
-        }
+        const method = editingId ? 'POST' : 'POST'; // WP REST attend POST + route différente
+        const endpoint = editingId ? `/projet/${editingId}` : '/projet';
+
+        const res = await fetch(API_BASE + endpoint, {
+          method: editingId ? 'POST' : 'POST',
+          credentials: 'include',
+          headers: { 'X-WP-Nonce': PM.nonce || '' },
+          body: fd
+        });
+        if (!res.ok) throw new Error('Erreur serveur');
+        const data = await res.json();
+
+        notify(editingId ? 'Projet mis à jour.' : 'Projet ajouté.');
         closeModal();
-        applyFilters(); // Re-apply filters to show new project in correct page
+        loadProjects();
+
       } catch (e) {
-        notify('Échec de l’enregistrement : ' + e.message, 'error');
+        notify('Erreur enregistrement : ' + e.message, 'error');
       }
     };
+
 
     const deleteProject = async (id) => {
       const result = await Swal.fire({
@@ -1308,7 +1390,7 @@ ${typeProj !== '—' ? `<div class="project-type small text-muted">${escapeHtml(
           p.id,
           (p.titre || '').replace(/;/g, ','),
           p.statut || '',
-          r.porteur_nom || '',
+         // r.porteur_nom || '',
           p.date_debut ? toFR(p.date_debut) : '',
           p.date_fin ? toFR(p.date_fin) : '',
           (p.budget != null) ? String(p.budget) : (r.financement_text || ''),
@@ -1353,10 +1435,29 @@ ${typeProj !== '—' ? `<div class="project-type small text-muted">${escapeHtml(
         const tr = a.closest('tr');
         const id = Number(tr?.dataset?.id);
         if (!id) return;
-        if (a.classList.contains('btn-modifier')) {
+       /* if (a.classList.contains('btn-modifier')) {
           const p = projects.find(x => x.id == id);
           return openModal(true, p);
-        }
+        }*/
+
+          // --- Dans onBodyClick --- 
+        if (a.classList.contains('btn-modifier')) {
+          const tr = a.closest('tr');
+          const id = Number(tr?.dataset?.id);
+          if (!id) return;
+
+          // 🔹 Charger le projet complet par API
+          wpFetch(`/projet/${id}`)
+            .then(proj => {
+              openModal(true, proj); // on passe l’objet projet au modal
+            })
+            .catch(e => {
+              notify('Erreur chargement projet : ' + e.message, 'error');
+            });
+
+          return;
+          }
+
         if (a.classList.contains('btn-supprimer')) {
           return deleteProject(id);
         }

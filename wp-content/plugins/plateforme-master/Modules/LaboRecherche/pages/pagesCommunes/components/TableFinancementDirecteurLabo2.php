@@ -425,7 +425,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
+               <!-- <tr>
                     <td><input type="checkbox" class="row-checkbox2"></td>
                     <td class="left">BCI-Learn</td>
                     <td class="left">150 000 TND</td>
@@ -481,14 +481,12 @@
                             </div>
                         </div>
                     </td>
-                </tr>
+                </tr>-->
             </tbody>
         </table>
     </div>
 
     <!-- SCRIPTS -->
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
 
     <script>
         $(document).ready(function () {

@@ -883,3 +883,966 @@ Stack trace:
 [11-Sep-2025 13:33:07 Africa/Tunis] PHP Warning:  Undefined variable $email in C:\laragon\www\wordpress\wp-content\plugins\secure-login\includes\login-handler.php on line 4
 [11-Sep-2025 12:33:07 UTC] PHP Warning:  Constant GE_MODULE already defined in C:\laragon\www\wordpress\wp-content\plugins\GestionMasters\GestionMasters.php on line 11
 [11-Sep-2025 13:33:07 Africa/Tunis] PHP Warning:  Undefined variable $email in C:\laragon\www\wordpress\wp-content\plugins\secure-login\includes\login-handler.php on line 4
+[11-Sep-2025 16:10:04 UTC] PHP Warning:  Constant GE_MODULE already defined in C:\laragon\www\wordpress\wp-content\plugins\GestionMasters\GestionMasters.php on line 11
+[11-Sep-2025 16:10:04 UTC] PHP Warning:  Constant GE_MODULE already defined in C:\laragon\www\wordpress\wp-content\plugins\GestionMasters\GestionMasters.php on line 11
+[11-Sep-2025 16:10:04 UTC] PHP Warning:  Constant GE_MODULE already defined in C:\laragon\www\wordpress\wp-content\plugins\GestionMasters\GestionMasters.php on line 11
+[11-Sep-2025 17:10:05 Africa/Tunis] PHP Warning:  Undefined variable $email in C:\laragon\www\wordpress\wp-content\plugins\secure-login\includes\login-handler.php on line 4
+[11-Sep-2025 17:10:05 Africa/Tunis] PHP Warning:  Undefined variable $email in C:\laragon\www\wordpress\wp-content\plugins\secure-login\includes\login-handler.php on line 4
+[11-Sep-2025 17:10:05 Africa/Tunis] PHP Warning:  Undefined variable $email in C:\laragon\www\wordpress\wp-content\plugins\secure-login\includes\login-handler.php on line 4
+[11-Sep-2025 17:10:05 Africa/Tunis] PHP Deprecated:  strpos(): Passing null to parameter #1 ($haystack) of type string is deprecated in C:\laragon\www\wordpress\wp-includes\functions.php on line 7360
+[11-Sep-2025 17:10:05 Africa/Tunis] PHP Deprecated:  str_replace(): Passing null to parameter #3 ($subject) of type array|string is deprecated in C:\laragon\www\wordpress\wp-includes\functions.php on line 2195
+[11-Sep-2025 17:10:05 Africa/Tunis] WordPress database error Duplicate entry '0' for key 'utm_posts.PRIMARY' for query INSERT INTO `utm_posts` (`post_author`, `post_date`, `post_date_gmt`, `post_content`, `post_content_filtered`, `post_title`, `post_excerpt`, `post_status`, `post_type`, `comment_status`, `ping_status`, `post_password`, `post_name`, `to_ping`, `pinged`, `post_modified`, `post_modified_gmt`, `post_parent`, `menu_order`, `post_mime_type`, `guid`) VALUES (1, '2025-09-11 18:10:05', '0000-00-00 00:00:00', '', '', 'Brouillon auto', '', 'auto-draft', 'page', 'closed', 'closed', '', '', '', '', '2025-09-11 18:10:05', '0000-00-00 00:00:00', 0, 0, '', '') made by get_default_post_to_edit, wp_insert_post
+[11-Sep-2025 17:10:05 Africa/Tunis] PHP Warning:  Attempt to read property "post_type" on null in C:\laragon\www\wordpress\wp-admin\includes\post.php on line 775
+[11-Sep-2025 17:10:05 Africa/Tunis] PHP Fatal error:  Uncaught Error: Attempt to assign property "post_content" on null in C:\laragon\www\wordpress\wp-admin\includes\post.php:814
+Stack trace:
+#0 C:\laragon\www\wordpress\wp-admin\post-new.php(66): get_default_post_to_edit('page', true)
+#1 {main}
+  thrown in C:\laragon\www\wordpress\wp-admin\includes\post.php on line 814
+[11-Sep-2025 16:10:07 UTC] PHP Warning:  Constant GE_MODULE already defined in C:\laragon\www\wordpress\wp-content\plugins\GestionMasters\GestionMasters.php on line 11
+[11-Sep-2025 17:10:08 Africa/Tunis] PHP Warning:  Undefined variable $email in C:\laragon\www\wordpress\wp-content\plugins\secure-login\includes\login-handler.php on line 4
+[11-Sep-2025 16:10:08 UTC] PHP Warning:  Constant GE_MODULE already defined in C:\laragon\www\wordpress\wp-content\plugins\GestionMasters\GestionMasters.php on line 11
+[11-Sep-2025 17:10:09 Africa/Tunis] PHP Warning:  Undefined variable $email in C:\laragon\www\wordpress\wp-content\plugins\secure-login\includes\login-handler.php on line 4
+[11-Sep-2025 17:10:13 Africa/Tunis] PHP Fatal error:  Uncaught RuntimeException: Unable to release actions from claim id 0. in C:\laragon\www\wordpress\wp-content\plugins\ultimate-member\includes\lib\action-scheduler\classes\data-stores\ActionScheduler_DBStore.php:1128
+Stack trace:
+#0 C:\laragon\www\wordpress\wp-content\plugins\ultimate-member\includes\lib\action-scheduler\classes\ActionScheduler_QueueRunner.php(195): ActionScheduler_DBStore->release_claim(Object(ActionScheduler_ActionClaim))
+#1 C:\laragon\www\wordpress\wp-content\plugins\ultimate-member\includes\lib\action-scheduler\classes\ActionScheduler_QueueRunner.php(158): ActionScheduler_QueueRunner->do_batch(25, 'WP Cron')
+#2 C:\laragon\www\wordpress\wp-includes\class-wp-hook.php(324): ActionScheduler_QueueRunner->run('WP Cron')
+#3 C:\laragon\www\wordpress\wp-includes\class-wp-hook.php(348): WP_Hook->apply_filters('', Array)
+#4 C:\laragon\www\wordpress\wp-includes\plugin.php(565): WP_Hook->do_action(Array)
+#5 C:\laragon\www\wordpress\wp-cron.php(191): do_action_ref_array('action_schedule...', Array)
+#6 {main}
+  thrown in C:\laragon\www\wordpress\wp-content\plugins\ultimate-member\includes\lib\action-scheduler\classes\data-stores\ActionScheduler_DBStore.php on line 1128
+[11-Sep-2025 17:10:13 Africa/Tunis] PHP Fatal error:  Uncaught RuntimeException: Unable to release actions from claim id 0. in C:\laragon\www\wordpress\wp-content\plugins\ultimate-member\includes\lib\action-scheduler\classes\data-stores\ActionScheduler_DBStore.php:1128
+Stack trace:
+#0 C:\laragon\www\wordpress\wp-content\plugins\ultimate-member\includes\lib\action-scheduler\classes\ActionScheduler_FatalErrorMonitor.php(95): ActionScheduler_DBStore->release_claim(Object(ActionScheduler_ActionClaim))
+#1 C:\laragon\www\wordpress\wp-includes\class-wp-hook.php(324): ActionScheduler_FatalErrorMonitor->handle_unexpected_shutdown('')
+#2 C:\laragon\www\wordpress\wp-includes\class-wp-hook.php(348): WP_Hook->apply_filters(NULL, Array)
+#3 C:\laragon\www\wordpress\wp-includes\plugin.php(517): WP_Hook->do_action(Array)
+#4 C:\laragon\www\wordpress\wp-includes\load.php(1304): do_action('shutdown')
+#5 [internal function]: shutdown_action_hook()
+#6 {main}
+  thrown in C:\laragon\www\wordpress\wp-content\plugins\ultimate-member\includes\lib\action-scheduler\classes\data-stores\ActionScheduler_DBStore.php on line 1128
+[11-Sep-2025 17:10:15 Africa/Tunis] PHP Fatal error:  Uncaught RuntimeException: Unable to release actions from claim id 0. in C:\laragon\www\wordpress\wp-content\plugins\ultimate-member\includes\lib\action-scheduler\classes\data-stores\ActionScheduler_DBStore.php:1128
+Stack trace:
+#0 C:\laragon\www\wordpress\wp-content\plugins\ultimate-member\includes\lib\action-scheduler\classes\ActionScheduler_QueueRunner.php(195): ActionScheduler_DBStore->release_claim(Object(ActionScheduler_ActionClaim))
+#1 C:\laragon\www\wordpress\wp-content\plugins\ultimate-member\includes\lib\action-scheduler\classes\ActionScheduler_QueueRunner.php(158): ActionScheduler_QueueRunner->do_batch(25, 'Async Request')
+#2 C:\laragon\www\wordpress\wp-includes\class-wp-hook.php(324): ActionScheduler_QueueRunner->run('Async Request')
+#3 C:\laragon\www\wordpress\wp-includes\class-wp-hook.php(348): WP_Hook->apply_filters('', Array)
+#4 C:\laragon\www\wordpress\wp-includes\plugin.php(517): WP_Hook->do_action(Array)
+#5 C:\laragon\www\wordpress\wp-content\plugins\ultimate-member\includes\lib\action-scheduler\classes\ActionScheduler_AsyncRequest_QueueRunner.php(48): do_action('action_schedule...', 'Async Request')
+#6 C:\laragon\www\wordpress\wp-content\plugins\ultimate-member\includes\lib\action-scheduler\lib\WP_Async_Request.php(174): ActionScheduler_AsyncRequest_QueueRunner->handle()
+#7 C:\laragon\www\wordpress\wp-includes\class-wp-hook.php(324): WP_Async_Request->maybe_handle('')
+#8 C:\laragon\www\wordpress\wp-includes\class-wp-hook.php(348): WP_Hook->apply_filters('', Array)
+#9 C:\laragon\www\wordpress\wp-includes\plugin.php(517): WP_Hook->do_action(Array)
+#10 C:\laragon\www\wordpress\wp-admin\admin-ajax.php(192): do_action('wp_ajax_as_asyn...')
+#11 {main}
+  thrown in C:\laragon\www\wordpress\wp-content\plugins\ultimate-member\includes\lib\action-scheduler\classes\data-stores\ActionScheduler_DBStore.php on line 1128
+[11-Sep-2025 17:10:15 Africa/Tunis] PHP Fatal error:  Uncaught RuntimeException: Unable to release actions from claim id 0. in C:\laragon\www\wordpress\wp-content\plugins\ultimate-member\includes\lib\action-scheduler\classes\data-stores\ActionScheduler_DBStore.php:1128
+Stack trace:
+#0 C:\laragon\www\wordpress\wp-content\plugins\ultimate-member\includes\lib\action-scheduler\classes\ActionScheduler_FatalErrorMonitor.php(95): ActionScheduler_DBStore->release_claim(Object(ActionScheduler_ActionClaim))
+#1 C:\laragon\www\wordpress\wp-includes\class-wp-hook.php(324): ActionScheduler_FatalErrorMonitor->handle_unexpected_shutdown('')
+#2 C:\laragon\www\wordpress\wp-includes\class-wp-hook.php(348): WP_Hook->apply_filters(NULL, Array)
+#3 C:\laragon\www\wordpress\wp-includes\plugin.php(517): WP_Hook->do_action(Array)
+#4 C:\laragon\www\wordpress\wp-includes\load.php(1304): do_action('shutdown')
+#5 [internal function]: shutdown_action_hook()
+#6 {main}
+  thrown in C:\laragon\www\wordpress\wp-content\plugins\ultimate-member\includes\lib\action-scheduler\classes\data-stores\ActionScheduler_DBStore.php on line 1128
+[11-Sep-2025 16:10:46 UTC] PHP Warning:  Constant GE_MODULE already defined in C:\laragon\www\wordpress\wp-content\plugins\GestionMasters\GestionMasters.php on line 11
+[11-Sep-2025 17:10:47 Africa/Tunis] PHP Warning:  Undefined variable $email in C:\laragon\www\wordpress\wp-content\plugins\secure-login\includes\login-handler.php on line 4
+[11-Sep-2025 16:10:47 UTC] PHP Warning:  Constant GE_MODULE already defined in C:\laragon\www\wordpress\wp-content\plugins\GestionMasters\GestionMasters.php on line 11
+[11-Sep-2025 17:10:47 Africa/Tunis] PHP Warning:  Undefined variable $email in C:\laragon\www\wordpress\wp-content\plugins\secure-login\includes\login-handler.php on line 4
+[11-Sep-2025 16:11:46 UTC] PHP Warning:  Constant GE_MODULE already defined in C:\laragon\www\wordpress\wp-content\plugins\GestionMasters\GestionMasters.php on line 11
+[11-Sep-2025 17:11:47 Africa/Tunis] PHP Warning:  Undefined variable $email in C:\laragon\www\wordpress\wp-content\plugins\secure-login\includes\login-handler.php on line 4
+[11-Sep-2025 16:11:47 UTC] PHP Warning:  Constant GE_MODULE already defined in C:\laragon\www\wordpress\wp-content\plugins\GestionMasters\GestionMasters.php on line 11
+[11-Sep-2025 17:11:47 Africa/Tunis] PHP Warning:  Undefined variable $email in C:\laragon\www\wordpress\wp-content\plugins\secure-login\includes\login-handler.php on line 4
+[11-Sep-2025 16:11:48 UTC] PHP Warning:  Constant GE_MODULE already defined in C:\laragon\www\wordpress\wp-content\plugins\GestionMasters\GestionMasters.php on line 11
+[11-Sep-2025 17:11:48 Africa/Tunis] PHP Warning:  Undefined variable $email in C:\laragon\www\wordpress\wp-content\plugins\secure-login\includes\login-handler.php on line 4
+[11-Sep-2025 17:11:53 Africa/Tunis] PHP Fatal error:  Uncaught RuntimeException: Unable to release actions from claim id 0. in C:\laragon\www\wordpress\wp-content\plugins\ultimate-member\includes\lib\action-scheduler\classes\data-stores\ActionScheduler_DBStore.php:1128
+Stack trace:
+#0 C:\laragon\www\wordpress\wp-content\plugins\ultimate-member\includes\lib\action-scheduler\classes\ActionScheduler_QueueRunner.php(195): ActionScheduler_DBStore->release_claim(Object(ActionScheduler_ActionClaim))
+#1 C:\laragon\www\wordpress\wp-content\plugins\ultimate-member\includes\lib\action-scheduler\classes\ActionScheduler_QueueRunner.php(158): ActionScheduler_QueueRunner->do_batch(25, 'WP Cron')
+#2 C:\laragon\www\wordpress\wp-includes\class-wp-hook.php(324): ActionScheduler_QueueRunner->run('WP Cron')
+#3 C:\laragon\www\wordpress\wp-includes\class-wp-hook.php(348): WP_Hook->apply_filters('', Array)
+#4 C:\laragon\www\wordpress\wp-includes\plugin.php(565): WP_Hook->do_action(Array)
+#5 C:\laragon\www\wordpress\wp-cron.php(191): do_action_ref_array('action_schedule...', Array)
+#6 {main}
+  thrown in C:\laragon\www\wordpress\wp-content\plugins\ultimate-member\includes\lib\action-scheduler\classes\data-stores\ActionScheduler_DBStore.php on line 1128
+[11-Sep-2025 17:11:53 Africa/Tunis] PHP Fatal error:  Uncaught RuntimeException: Unable to release actions from claim id 0. in C:\laragon\www\wordpress\wp-content\plugins\ultimate-member\includes\lib\action-scheduler\classes\data-stores\ActionScheduler_DBStore.php:1128
+Stack trace:
+#0 C:\laragon\www\wordpress\wp-content\plugins\ultimate-member\includes\lib\action-scheduler\classes\ActionScheduler_FatalErrorMonitor.php(95): ActionScheduler_DBStore->release_claim(Object(ActionScheduler_ActionClaim))
+#1 C:\laragon\www\wordpress\wp-includes\class-wp-hook.php(324): ActionScheduler_FatalErrorMonitor->handle_unexpected_shutdown('')
+#2 C:\laragon\www\wordpress\wp-includes\class-wp-hook.php(348): WP_Hook->apply_filters(NULL, Array)
+#3 C:\laragon\www\wordpress\wp-includes\plugin.php(517): WP_Hook->do_action(Array)
+#4 C:\laragon\www\wordpress\wp-includes\load.php(1304): do_action('shutdown')
+#5 [internal function]: shutdown_action_hook()
+#6 {main}
+  thrown in C:\laragon\www\wordpress\wp-content\plugins\ultimate-member\includes\lib\action-scheduler\classes\data-stores\ActionScheduler_DBStore.php on line 1128
+[11-Sep-2025 16:13:04 UTC] PHP Warning:  Constant GE_MODULE already defined in C:\laragon\www\wordpress\wp-content\plugins\GestionMasters\GestionMasters.php on line 11
+[11-Sep-2025 17:13:04 Africa/Tunis] PHP Warning:  Undefined variable $email in C:\laragon\www\wordpress\wp-content\plugins\secure-login\includes\login-handler.php on line 4
+[11-Sep-2025 16:13:04 UTC] PHP Warning:  Constant GE_MODULE already defined in C:\laragon\www\wordpress\wp-content\plugins\GestionMasters\GestionMasters.php on line 11
+[11-Sep-2025 17:13:04 Africa/Tunis] PHP Warning:  Undefined variable $email in C:\laragon\www\wordpress\wp-content\plugins\secure-login\includes\login-handler.php on line 4
+[11-Sep-2025 16:13:05 UTC] PHP Warning:  Constant GE_MODULE already defined in C:\laragon\www\wordpress\wp-content\plugins\GestionMasters\GestionMasters.php on line 11
+[11-Sep-2025 17:13:05 Africa/Tunis] PHP Warning:  Undefined variable $email in C:\laragon\www\wordpress\wp-content\plugins\secure-login\includes\login-handler.php on line 4
+[11-Sep-2025 17:13:09 Africa/Tunis] PHP Fatal error:  Uncaught RuntimeException: Unable to release actions from claim id 0. in C:\laragon\www\wordpress\wp-content\plugins\ultimate-member\includes\lib\action-scheduler\classes\data-stores\ActionScheduler_DBStore.php:1128
+Stack trace:
+#0 C:\laragon\www\wordpress\wp-content\plugins\ultimate-member\includes\lib\action-scheduler\classes\ActionScheduler_QueueRunner.php(195): ActionScheduler_DBStore->release_claim(Object(ActionScheduler_ActionClaim))
+#1 C:\laragon\www\wordpress\wp-content\plugins\ultimate-member\includes\lib\action-scheduler\classes\ActionScheduler_QueueRunner.php(158): ActionScheduler_QueueRunner->do_batch(25, 'WP Cron')
+#2 C:\laragon\www\wordpress\wp-includes\class-wp-hook.php(324): ActionScheduler_QueueRunner->run('WP Cron')
+#3 C:\laragon\www\wordpress\wp-includes\class-wp-hook.php(348): WP_Hook->apply_filters('', Array)
+#4 C:\laragon\www\wordpress\wp-includes\plugin.php(565): WP_Hook->do_action(Array)
+#5 C:\laragon\www\wordpress\wp-cron.php(191): do_action_ref_array('action_schedule...', Array)
+#6 {main}
+  thrown in C:\laragon\www\wordpress\wp-content\plugins\ultimate-member\includes\lib\action-scheduler\classes\data-stores\ActionScheduler_DBStore.php on line 1128
+[11-Sep-2025 17:13:09 Africa/Tunis] PHP Fatal error:  Uncaught RuntimeException: Unable to release actions from claim id 0. in C:\laragon\www\wordpress\wp-content\plugins\ultimate-member\includes\lib\action-scheduler\classes\data-stores\ActionScheduler_DBStore.php:1128
+Stack trace:
+#0 C:\laragon\www\wordpress\wp-content\plugins\ultimate-member\includes\lib\action-scheduler\classes\ActionScheduler_FatalErrorMonitor.php(95): ActionScheduler_DBStore->release_claim(Object(ActionScheduler_ActionClaim))
+#1 C:\laragon\www\wordpress\wp-includes\class-wp-hook.php(324): ActionScheduler_FatalErrorMonitor->handle_unexpected_shutdown('')
+#2 C:\laragon\www\wordpress\wp-includes\class-wp-hook.php(348): WP_Hook->apply_filters(NULL, Array)
+#3 C:\laragon\www\wordpress\wp-includes\plugin.php(517): WP_Hook->do_action(Array)
+#4 C:\laragon\www\wordpress\wp-includes\load.php(1304): do_action('shutdown')
+#5 [internal function]: shutdown_action_hook()
+#6 {main}
+  thrown in C:\laragon\www\wordpress\wp-content\plugins\ultimate-member\includes\lib\action-scheduler\classes\data-stores\ActionScheduler_DBStore.php on line 1128
+[11-Sep-2025 16:14:04 UTC] PHP Warning:  Constant GE_MODULE already defined in C:\laragon\www\wordpress\wp-content\plugins\GestionMasters\GestionMasters.php on line 11
+[11-Sep-2025 17:14:04 Africa/Tunis] PHP Warning:  Undefined variable $email in C:\laragon\www\wordpress\wp-content\plugins\secure-login\includes\login-handler.php on line 4
+[11-Sep-2025 16:14:04 UTC] PHP Warning:  Constant GE_MODULE already defined in C:\laragon\www\wordpress\wp-content\plugins\GestionMasters\GestionMasters.php on line 11
+[11-Sep-2025 17:14:04 Africa/Tunis] PHP Warning:  Undefined variable $email in C:\laragon\www\wordpress\wp-content\plugins\secure-login\includes\login-handler.php on line 4
+[11-Sep-2025 16:14:04 UTC] PHP Warning:  Constant GE_MODULE already defined in C:\laragon\www\wordpress\wp-content\plugins\GestionMasters\GestionMasters.php on line 11
+[11-Sep-2025 17:14:04 Africa/Tunis] PHP Warning:  Undefined variable $email in C:\laragon\www\wordpress\wp-content\plugins\secure-login\includes\login-handler.php on line 4
+[11-Sep-2025 17:14:09 Africa/Tunis] PHP Fatal error:  Uncaught RuntimeException: Unable to release actions from claim id 0. in C:\laragon\www\wordpress\wp-content\plugins\ultimate-member\includes\lib\action-scheduler\classes\data-stores\ActionScheduler_DBStore.php:1128
+Stack trace:
+#0 C:\laragon\www\wordpress\wp-content\plugins\ultimate-member\includes\lib\action-scheduler\classes\ActionScheduler_QueueRunner.php(195): ActionScheduler_DBStore->release_claim(Object(ActionScheduler_ActionClaim))
+#1 C:\laragon\www\wordpress\wp-content\plugins\ultimate-member\includes\lib\action-scheduler\classes\ActionScheduler_QueueRunner.php(158): ActionScheduler_QueueRunner->do_batch(25, 'WP Cron')
+#2 C:\laragon\www\wordpress\wp-includes\class-wp-hook.php(324): ActionScheduler_QueueRunner->run('WP Cron')
+#3 C:\laragon\www\wordpress\wp-includes\class-wp-hook.php(348): WP_Hook->apply_filters('', Array)
+#4 C:\laragon\www\wordpress\wp-includes\plugin.php(565): WP_Hook->do_action(Array)
+#5 C:\laragon\www\wordpress\wp-cron.php(191): do_action_ref_array('action_schedule...', Array)
+#6 {main}
+  thrown in C:\laragon\www\wordpress\wp-content\plugins\ultimate-member\includes\lib\action-scheduler\classes\data-stores\ActionScheduler_DBStore.php on line 1128
+[11-Sep-2025 17:14:09 Africa/Tunis] PHP Fatal error:  Uncaught RuntimeException: Unable to release actions from claim id 0. in C:\laragon\www\wordpress\wp-content\plugins\ultimate-member\includes\lib\action-scheduler\classes\data-stores\ActionScheduler_DBStore.php:1128
+Stack trace:
+#0 C:\laragon\www\wordpress\wp-content\plugins\ultimate-member\includes\lib\action-scheduler\classes\ActionScheduler_FatalErrorMonitor.php(95): ActionScheduler_DBStore->release_claim(Object(ActionScheduler_ActionClaim))
+#1 C:\laragon\www\wordpress\wp-includes\class-wp-hook.php(324): ActionScheduler_FatalErrorMonitor->handle_unexpected_shutdown('')
+#2 C:\laragon\www\wordpress\wp-includes\class-wp-hook.php(348): WP_Hook->apply_filters(NULL, Array)
+#3 C:\laragon\www\wordpress\wp-includes\plugin.php(517): WP_Hook->do_action(Array)
+#4 C:\laragon\www\wordpress\wp-includes\load.php(1304): do_action('shutdown')
+#5 [internal function]: shutdown_action_hook()
+#6 {main}
+  thrown in C:\laragon\www\wordpress\wp-content\plugins\ultimate-member\includes\lib\action-scheduler\classes\data-stores\ActionScheduler_DBStore.php on line 1128
+[11-Sep-2025 16:15:03 UTC] PHP Warning:  Constant GE_MODULE already defined in C:\laragon\www\wordpress\wp-content\plugins\GestionMasters\GestionMasters.php on line 11
+[11-Sep-2025 17:15:04 Africa/Tunis] PHP Warning:  Undefined variable $email in C:\laragon\www\wordpress\wp-content\plugins\secure-login\includes\login-handler.php on line 4
+[11-Sep-2025 16:15:04 UTC] PHP Warning:  Constant GE_MODULE already defined in C:\laragon\www\wordpress\wp-content\plugins\GestionMasters\GestionMasters.php on line 11
+[11-Sep-2025 17:15:04 Africa/Tunis] PHP Warning:  Undefined variable $email in C:\laragon\www\wordpress\wp-content\plugins\secure-login\includes\login-handler.php on line 4
+[11-Sep-2025 16:16:04 UTC] PHP Warning:  Constant GE_MODULE already defined in C:\laragon\www\wordpress\wp-content\plugins\GestionMasters\GestionMasters.php on line 11
+[11-Sep-2025 17:16:04 Africa/Tunis] PHP Warning:  Undefined variable $email in C:\laragon\www\wordpress\wp-content\plugins\secure-login\includes\login-handler.php on line 4
+[11-Sep-2025 16:16:04 UTC] PHP Warning:  Constant GE_MODULE already defined in C:\laragon\www\wordpress\wp-content\plugins\GestionMasters\GestionMasters.php on line 11
+[11-Sep-2025 17:16:04 Africa/Tunis] PHP Warning:  Undefined variable $email in C:\laragon\www\wordpress\wp-content\plugins\secure-login\includes\login-handler.php on line 4
+[11-Sep-2025 16:16:05 UTC] PHP Warning:  Constant GE_MODULE already defined in C:\laragon\www\wordpress\wp-content\plugins\GestionMasters\GestionMasters.php on line 11
+[11-Sep-2025 17:16:05 Africa/Tunis] PHP Warning:  Undefined variable $email in C:\laragon\www\wordpress\wp-content\plugins\secure-login\includes\login-handler.php on line 4
+[11-Sep-2025 17:16:10 Africa/Tunis] PHP Fatal error:  Uncaught RuntimeException: Unable to release actions from claim id 0. in C:\laragon\www\wordpress\wp-content\plugins\ultimate-member\includes\lib\action-scheduler\classes\data-stores\ActionScheduler_DBStore.php:1128
+Stack trace:
+#0 C:\laragon\www\wordpress\wp-content\plugins\ultimate-member\includes\lib\action-scheduler\classes\ActionScheduler_QueueRunner.php(195): ActionScheduler_DBStore->release_claim(Object(ActionScheduler_ActionClaim))
+#1 C:\laragon\www\wordpress\wp-content\plugins\ultimate-member\includes\lib\action-scheduler\classes\ActionScheduler_QueueRunner.php(158): ActionScheduler_QueueRunner->do_batch(25, 'WP Cron')
+#2 C:\laragon\www\wordpress\wp-includes\class-wp-hook.php(324): ActionScheduler_QueueRunner->run('WP Cron')
+#3 C:\laragon\www\wordpress\wp-includes\class-wp-hook.php(348): WP_Hook->apply_filters('', Array)
+#4 C:\laragon\www\wordpress\wp-includes\plugin.php(565): WP_Hook->do_action(Array)
+#5 C:\laragon\www\wordpress\wp-cron.php(191): do_action_ref_array('action_schedule...', Array)
+#6 {main}
+  thrown in C:\laragon\www\wordpress\wp-content\plugins\ultimate-member\includes\lib\action-scheduler\classes\data-stores\ActionScheduler_DBStore.php on line 1128
+[11-Sep-2025 17:16:10 Africa/Tunis] PHP Fatal error:  Uncaught RuntimeException: Unable to release actions from claim id 0. in C:\laragon\www\wordpress\wp-content\plugins\ultimate-member\includes\lib\action-scheduler\classes\data-stores\ActionScheduler_DBStore.php:1128
+Stack trace:
+#0 C:\laragon\www\wordpress\wp-content\plugins\ultimate-member\includes\lib\action-scheduler\classes\ActionScheduler_FatalErrorMonitor.php(95): ActionScheduler_DBStore->release_claim(Object(ActionScheduler_ActionClaim))
+#1 C:\laragon\www\wordpress\wp-includes\class-wp-hook.php(324): ActionScheduler_FatalErrorMonitor->handle_unexpected_shutdown('')
+#2 C:\laragon\www\wordpress\wp-includes\class-wp-hook.php(348): WP_Hook->apply_filters(NULL, Array)
+#3 C:\laragon\www\wordpress\wp-includes\plugin.php(517): WP_Hook->do_action(Array)
+#4 C:\laragon\www\wordpress\wp-includes\load.php(1304): do_action('shutdown')
+#5 [internal function]: shutdown_action_hook()
+#6 {main}
+  thrown in C:\laragon\www\wordpress\wp-content\plugins\ultimate-member\includes\lib\action-scheduler\classes\data-stores\ActionScheduler_DBStore.php on line 1128
+[11-Sep-2025 16:17:03 UTC] PHP Warning:  Constant GE_MODULE already defined in C:\laragon\www\wordpress\wp-content\plugins\GestionMasters\GestionMasters.php on line 11
+[11-Sep-2025 17:17:04 Africa/Tunis] PHP Warning:  Undefined variable $email in C:\laragon\www\wordpress\wp-content\plugins\secure-login\includes\login-handler.php on line 4
+[11-Sep-2025 16:17:04 UTC] PHP Warning:  Constant GE_MODULE already defined in C:\laragon\www\wordpress\wp-content\plugins\GestionMasters\GestionMasters.php on line 11
+[11-Sep-2025 17:17:04 Africa/Tunis] PHP Warning:  Undefined variable $email in C:\laragon\www\wordpress\wp-content\plugins\secure-login\includes\login-handler.php on line 4
+[11-Sep-2025 16:17:04 UTC] PHP Warning:  Constant GE_MODULE already defined in C:\laragon\www\wordpress\wp-content\plugins\GestionMasters\GestionMasters.php on line 11
+[11-Sep-2025 17:17:04 Africa/Tunis] PHP Warning:  Undefined variable $email in C:\laragon\www\wordpress\wp-content\plugins\secure-login\includes\login-handler.php on line 4
+[11-Sep-2025 17:17:09 Africa/Tunis] PHP Fatal error:  Uncaught RuntimeException: Unable to release actions from claim id 0. in C:\laragon\www\wordpress\wp-content\plugins\ultimate-member\includes\lib\action-scheduler\classes\data-stores\ActionScheduler_DBStore.php:1128
+Stack trace:
+#0 C:\laragon\www\wordpress\wp-content\plugins\ultimate-member\includes\lib\action-scheduler\classes\ActionScheduler_QueueRunner.php(195): ActionScheduler_DBStore->release_claim(Object(ActionScheduler_ActionClaim))
+#1 C:\laragon\www\wordpress\wp-content\plugins\ultimate-member\includes\lib\action-scheduler\classes\ActionScheduler_QueueRunner.php(158): ActionScheduler_QueueRunner->do_batch(25, 'WP Cron')
+#2 C:\laragon\www\wordpress\wp-includes\class-wp-hook.php(324): ActionScheduler_QueueRunner->run('WP Cron')
+#3 C:\laragon\www\wordpress\wp-includes\class-wp-hook.php(348): WP_Hook->apply_filters('', Array)
+#4 C:\laragon\www\wordpress\wp-includes\plugin.php(565): WP_Hook->do_action(Array)
+#5 C:\laragon\www\wordpress\wp-cron.php(191): do_action_ref_array('action_schedule...', Array)
+#6 {main}
+  thrown in C:\laragon\www\wordpress\wp-content\plugins\ultimate-member\includes\lib\action-scheduler\classes\data-stores\ActionScheduler_DBStore.php on line 1128
+[11-Sep-2025 17:17:09 Africa/Tunis] PHP Fatal error:  Uncaught RuntimeException: Unable to release actions from claim id 0. in C:\laragon\www\wordpress\wp-content\plugins\ultimate-member\includes\lib\action-scheduler\classes\data-stores\ActionScheduler_DBStore.php:1128
+Stack trace:
+#0 C:\laragon\www\wordpress\wp-content\plugins\ultimate-member\includes\lib\action-scheduler\classes\ActionScheduler_FatalErrorMonitor.php(95): ActionScheduler_DBStore->release_claim(Object(ActionScheduler_ActionClaim))
+#1 C:\laragon\www\wordpress\wp-includes\class-wp-hook.php(324): ActionScheduler_FatalErrorMonitor->handle_unexpected_shutdown('')
+#2 C:\laragon\www\wordpress\wp-includes\class-wp-hook.php(348): WP_Hook->apply_filters(NULL, Array)
+#3 C:\laragon\www\wordpress\wp-includes\plugin.php(517): WP_Hook->do_action(Array)
+#4 C:\laragon\www\wordpress\wp-includes\load.php(1304): do_action('shutdown')
+#5 [internal function]: shutdown_action_hook()
+#6 {main}
+  thrown in C:\laragon\www\wordpress\wp-content\plugins\ultimate-member\includes\lib\action-scheduler\classes\data-stores\ActionScheduler_DBStore.php on line 1128
+[11-Sep-2025 16:18:03 UTC] PHP Warning:  Constant GE_MODULE already defined in C:\laragon\www\wordpress\wp-content\plugins\GestionMasters\GestionMasters.php on line 11
+[11-Sep-2025 17:18:04 Africa/Tunis] PHP Warning:  Undefined variable $email in C:\laragon\www\wordpress\wp-content\plugins\secure-login\includes\login-handler.php on line 4
+[11-Sep-2025 16:18:04 UTC] PHP Warning:  Constant GE_MODULE already defined in C:\laragon\www\wordpress\wp-content\plugins\GestionMasters\GestionMasters.php on line 11
+[11-Sep-2025 17:18:04 Africa/Tunis] PHP Warning:  Undefined variable $email in C:\laragon\www\wordpress\wp-content\plugins\secure-login\includes\login-handler.php on line 4
+[11-Sep-2025 16:19:04 UTC] PHP Warning:  Constant GE_MODULE already defined in C:\laragon\www\wordpress\wp-content\plugins\GestionMasters\GestionMasters.php on line 11
+[11-Sep-2025 17:19:04 Africa/Tunis] PHP Warning:  Undefined variable $email in C:\laragon\www\wordpress\wp-content\plugins\secure-login\includes\login-handler.php on line 4
+[11-Sep-2025 16:19:04 UTC] PHP Warning:  Constant GE_MODULE already defined in C:\laragon\www\wordpress\wp-content\plugins\GestionMasters\GestionMasters.php on line 11
+[11-Sep-2025 17:19:04 Africa/Tunis] PHP Warning:  Undefined variable $email in C:\laragon\www\wordpress\wp-content\plugins\secure-login\includes\login-handler.php on line 4
+[11-Sep-2025 16:19:05 UTC] PHP Warning:  Constant GE_MODULE already defined in C:\laragon\www\wordpress\wp-content\plugins\GestionMasters\GestionMasters.php on line 11
+[11-Sep-2025 17:19:05 Africa/Tunis] PHP Warning:  Undefined variable $email in C:\laragon\www\wordpress\wp-content\plugins\secure-login\includes\login-handler.php on line 4
+[11-Sep-2025 17:19:09 Africa/Tunis] PHP Fatal error:  Uncaught RuntimeException: Unable to release actions from claim id 0. in C:\laragon\www\wordpress\wp-content\plugins\ultimate-member\includes\lib\action-scheduler\classes\data-stores\ActionScheduler_DBStore.php:1128
+Stack trace:
+#0 C:\laragon\www\wordpress\wp-content\plugins\ultimate-member\includes\lib\action-scheduler\classes\ActionScheduler_QueueRunner.php(195): ActionScheduler_DBStore->release_claim(Object(ActionScheduler_ActionClaim))
+#1 C:\laragon\www\wordpress\wp-content\plugins\ultimate-member\includes\lib\action-scheduler\classes\ActionScheduler_QueueRunner.php(158): ActionScheduler_QueueRunner->do_batch(25, 'WP Cron')
+#2 C:\laragon\www\wordpress\wp-includes\class-wp-hook.php(324): ActionScheduler_QueueRunner->run('WP Cron')
+#3 C:\laragon\www\wordpress\wp-includes\class-wp-hook.php(348): WP_Hook->apply_filters('', Array)
+#4 C:\laragon\www\wordpress\wp-includes\plugin.php(565): WP_Hook->do_action(Array)
+#5 C:\laragon\www\wordpress\wp-cron.php(191): do_action_ref_array('action_schedule...', Array)
+#6 {main}
+  thrown in C:\laragon\www\wordpress\wp-content\plugins\ultimate-member\includes\lib\action-scheduler\classes\data-stores\ActionScheduler_DBStore.php on line 1128
+[11-Sep-2025 17:19:09 Africa/Tunis] PHP Fatal error:  Uncaught RuntimeException: Unable to release actions from claim id 0. in C:\laragon\www\wordpress\wp-content\plugins\ultimate-member\includes\lib\action-scheduler\classes\data-stores\ActionScheduler_DBStore.php:1128
+Stack trace:
+#0 C:\laragon\www\wordpress\wp-content\plugins\ultimate-member\includes\lib\action-scheduler\classes\ActionScheduler_FatalErrorMonitor.php(95): ActionScheduler_DBStore->release_claim(Object(ActionScheduler_ActionClaim))
+#1 C:\laragon\www\wordpress\wp-includes\class-wp-hook.php(324): ActionScheduler_FatalErrorMonitor->handle_unexpected_shutdown('')
+#2 C:\laragon\www\wordpress\wp-includes\class-wp-hook.php(348): WP_Hook->apply_filters(NULL, Array)
+#3 C:\laragon\www\wordpress\wp-includes\plugin.php(517): WP_Hook->do_action(Array)
+#4 C:\laragon\www\wordpress\wp-includes\load.php(1304): do_action('shutdown')
+#5 [internal function]: shutdown_action_hook()
+#6 {main}
+  thrown in C:\laragon\www\wordpress\wp-content\plugins\ultimate-member\includes\lib\action-scheduler\classes\data-stores\ActionScheduler_DBStore.php on line 1128
+[11-Sep-2025 16:20:03 UTC] PHP Warning:  Constant GE_MODULE already defined in C:\laragon\www\wordpress\wp-content\plugins\GestionMasters\GestionMasters.php on line 11
+[11-Sep-2025 17:20:04 Africa/Tunis] PHP Warning:  Undefined variable $email in C:\laragon\www\wordpress\wp-content\plugins\secure-login\includes\login-handler.php on line 4
+[11-Sep-2025 16:20:04 UTC] PHP Warning:  Constant GE_MODULE already defined in C:\laragon\www\wordpress\wp-content\plugins\GestionMasters\GestionMasters.php on line 11
+[11-Sep-2025 17:20:04 Africa/Tunis] PHP Warning:  Undefined variable $email in C:\laragon\www\wordpress\wp-content\plugins\secure-login\includes\login-handler.php on line 4
+[11-Sep-2025 16:20:04 UTC] PHP Warning:  Constant GE_MODULE already defined in C:\laragon\www\wordpress\wp-content\plugins\GestionMasters\GestionMasters.php on line 11
+[11-Sep-2025 17:20:04 Africa/Tunis] PHP Warning:  Undefined variable $email in C:\laragon\www\wordpress\wp-content\plugins\secure-login\includes\login-handler.php on line 4
+[11-Sep-2025 17:20:09 Africa/Tunis] PHP Fatal error:  Uncaught RuntimeException: Unable to release actions from claim id 0. in C:\laragon\www\wordpress\wp-content\plugins\ultimate-member\includes\lib\action-scheduler\classes\data-stores\ActionScheduler_DBStore.php:1128
+Stack trace:
+#0 C:\laragon\www\wordpress\wp-content\plugins\ultimate-member\includes\lib\action-scheduler\classes\ActionScheduler_QueueRunner.php(195): ActionScheduler_DBStore->release_claim(Object(ActionScheduler_ActionClaim))
+#1 C:\laragon\www\wordpress\wp-content\plugins\ultimate-member\includes\lib\action-scheduler\classes\ActionScheduler_QueueRunner.php(158): ActionScheduler_QueueRunner->do_batch(25, 'WP Cron')
+#2 C:\laragon\www\wordpress\wp-includes\class-wp-hook.php(324): ActionScheduler_QueueRunner->run('WP Cron')
+#3 C:\laragon\www\wordpress\wp-includes\class-wp-hook.php(348): WP_Hook->apply_filters('', Array)
+#4 C:\laragon\www\wordpress\wp-includes\plugin.php(565): WP_Hook->do_action(Array)
+#5 C:\laragon\www\wordpress\wp-cron.php(191): do_action_ref_array('action_schedule...', Array)
+#6 {main}
+  thrown in C:\laragon\www\wordpress\wp-content\plugins\ultimate-member\includes\lib\action-scheduler\classes\data-stores\ActionScheduler_DBStore.php on line 1128
+[11-Sep-2025 17:20:09 Africa/Tunis] PHP Fatal error:  Uncaught RuntimeException: Unable to release actions from claim id 0. in C:\laragon\www\wordpress\wp-content\plugins\ultimate-member\includes\lib\action-scheduler\classes\data-stores\ActionScheduler_DBStore.php:1128
+Stack trace:
+#0 C:\laragon\www\wordpress\wp-content\plugins\ultimate-member\includes\lib\action-scheduler\classes\ActionScheduler_FatalErrorMonitor.php(95): ActionScheduler_DBStore->release_claim(Object(ActionScheduler_ActionClaim))
+#1 C:\laragon\www\wordpress\wp-includes\class-wp-hook.php(324): ActionScheduler_FatalErrorMonitor->handle_unexpected_shutdown('')
+#2 C:\laragon\www\wordpress\wp-includes\class-wp-hook.php(348): WP_Hook->apply_filters(NULL, Array)
+#3 C:\laragon\www\wordpress\wp-includes\plugin.php(517): WP_Hook->do_action(Array)
+#4 C:\laragon\www\wordpress\wp-includes\load.php(1304): do_action('shutdown')
+#5 [internal function]: shutdown_action_hook()
+#6 {main}
+  thrown in C:\laragon\www\wordpress\wp-content\plugins\ultimate-member\includes\lib\action-scheduler\classes\data-stores\ActionScheduler_DBStore.php on line 1128
+[11-Sep-2025 16:21:04 UTC] PHP Warning:  Constant GE_MODULE already defined in C:\laragon\www\wordpress\wp-content\plugins\GestionMasters\GestionMasters.php on line 11
+[11-Sep-2025 17:21:04 Africa/Tunis] PHP Warning:  Undefined variable $email in C:\laragon\www\wordpress\wp-content\plugins\secure-login\includes\login-handler.php on line 4
+[11-Sep-2025 16:21:04 UTC] PHP Warning:  Constant GE_MODULE already defined in C:\laragon\www\wordpress\wp-content\plugins\GestionMasters\GestionMasters.php on line 11
+[11-Sep-2025 17:21:04 Africa/Tunis] PHP Warning:  Undefined variable $email in C:\laragon\www\wordpress\wp-content\plugins\secure-login\includes\login-handler.php on line 4
+[11-Sep-2025 16:21:04 UTC] PHP Warning:  Constant GE_MODULE already defined in C:\laragon\www\wordpress\wp-content\plugins\GestionMasters\GestionMasters.php on line 11
+[11-Sep-2025 17:21:04 Africa/Tunis] PHP Warning:  Undefined variable $email in C:\laragon\www\wordpress\wp-content\plugins\secure-login\includes\login-handler.php on line 4
+[11-Sep-2025 17:21:10 Africa/Tunis] PHP Fatal error:  Uncaught RuntimeException: Unable to release actions from claim id 0. in C:\laragon\www\wordpress\wp-content\plugins\ultimate-member\includes\lib\action-scheduler\classes\data-stores\ActionScheduler_DBStore.php:1128
+Stack trace:
+#0 C:\laragon\www\wordpress\wp-content\plugins\ultimate-member\includes\lib\action-scheduler\classes\ActionScheduler_QueueRunner.php(195): ActionScheduler_DBStore->release_claim(Object(ActionScheduler_ActionClaim))
+#1 C:\laragon\www\wordpress\wp-content\plugins\ultimate-member\includes\lib\action-scheduler\classes\ActionScheduler_QueueRunner.php(158): ActionScheduler_QueueRunner->do_batch(25, 'WP Cron')
+#2 C:\laragon\www\wordpress\wp-includes\class-wp-hook.php(324): ActionScheduler_QueueRunner->run('WP Cron')
+#3 C:\laragon\www\wordpress\wp-includes\class-wp-hook.php(348): WP_Hook->apply_filters('', Array)
+#4 C:\laragon\www\wordpress\wp-includes\plugin.php(565): WP_Hook->do_action(Array)
+#5 C:\laragon\www\wordpress\wp-cron.php(191): do_action_ref_array('action_schedule...', Array)
+#6 {main}
+  thrown in C:\laragon\www\wordpress\wp-content\plugins\ultimate-member\includes\lib\action-scheduler\classes\data-stores\ActionScheduler_DBStore.php on line 1128
+[11-Sep-2025 17:21:10 Africa/Tunis] PHP Fatal error:  Uncaught RuntimeException: Unable to release actions from claim id 0. in C:\laragon\www\wordpress\wp-content\plugins\ultimate-member\includes\lib\action-scheduler\classes\data-stores\ActionScheduler_DBStore.php:1128
+Stack trace:
+#0 C:\laragon\www\wordpress\wp-content\plugins\ultimate-member\includes\lib\action-scheduler\classes\ActionScheduler_FatalErrorMonitor.php(95): ActionScheduler_DBStore->release_claim(Object(ActionScheduler_ActionClaim))
+#1 C:\laragon\www\wordpress\wp-includes\class-wp-hook.php(324): ActionScheduler_FatalErrorMonitor->handle_unexpected_shutdown('')
+#2 C:\laragon\www\wordpress\wp-includes\class-wp-hook.php(348): WP_Hook->apply_filters(NULL, Array)
+#3 C:\laragon\www\wordpress\wp-includes\plugin.php(517): WP_Hook->do_action(Array)
+#4 C:\laragon\www\wordpress\wp-includes\load.php(1304): do_action('shutdown')
+#5 [internal function]: shutdown_action_hook()
+#6 {main}
+  thrown in C:\laragon\www\wordpress\wp-content\plugins\ultimate-member\includes\lib\action-scheduler\classes\data-stores\ActionScheduler_DBStore.php on line 1128
+[11-Sep-2025 16:22:04 UTC] PHP Warning:  Constant GE_MODULE already defined in C:\laragon\www\wordpress\wp-content\plugins\GestionMasters\GestionMasters.php on line 11
+[11-Sep-2025 17:22:04 Africa/Tunis] PHP Warning:  Undefined variable $email in C:\laragon\www\wordpress\wp-content\plugins\secure-login\includes\login-handler.php on line 4
+[11-Sep-2025 16:22:04 UTC] PHP Warning:  Constant GE_MODULE already defined in C:\laragon\www\wordpress\wp-content\plugins\GestionMasters\GestionMasters.php on line 11
+[11-Sep-2025 17:22:04 Africa/Tunis] PHP Warning:  Undefined variable $email in C:\laragon\www\wordpress\wp-content\plugins\secure-login\includes\login-handler.php on line 4
+[11-Sep-2025 16:22:04 UTC] PHP Warning:  Constant GE_MODULE already defined in C:\laragon\www\wordpress\wp-content\plugins\GestionMasters\GestionMasters.php on line 11
+[11-Sep-2025 17:22:04 Africa/Tunis] PHP Warning:  Undefined variable $email in C:\laragon\www\wordpress\wp-content\plugins\secure-login\includes\login-handler.php on line 4
+[11-Sep-2025 17:22:09 Africa/Tunis] PHP Fatal error:  Uncaught RuntimeException: Unable to release actions from claim id 0. in C:\laragon\www\wordpress\wp-content\plugins\ultimate-member\includes\lib\action-scheduler\classes\data-stores\ActionScheduler_DBStore.php:1128
+Stack trace:
+#0 C:\laragon\www\wordpress\wp-content\plugins\ultimate-member\includes\lib\action-scheduler\classes\ActionScheduler_QueueRunner.php(195): ActionScheduler_DBStore->release_claim(Object(ActionScheduler_ActionClaim))
+#1 C:\laragon\www\wordpress\wp-content\plugins\ultimate-member\includes\lib\action-scheduler\classes\ActionScheduler_QueueRunner.php(158): ActionScheduler_QueueRunner->do_batch(25, 'WP Cron')
+#2 C:\laragon\www\wordpress\wp-includes\class-wp-hook.php(324): ActionScheduler_QueueRunner->run('WP Cron')
+#3 C:\laragon\www\wordpress\wp-includes\class-wp-hook.php(348): WP_Hook->apply_filters('', Array)
+#4 C:\laragon\www\wordpress\wp-includes\plugin.php(565): WP_Hook->do_action(Array)
+#5 C:\laragon\www\wordpress\wp-cron.php(191): do_action_ref_array('action_schedule...', Array)
+#6 {main}
+  thrown in C:\laragon\www\wordpress\wp-content\plugins\ultimate-member\includes\lib\action-scheduler\classes\data-stores\ActionScheduler_DBStore.php on line 1128
+[11-Sep-2025 17:22:09 Africa/Tunis] PHP Fatal error:  Uncaught RuntimeException: Unable to release actions from claim id 0. in C:\laragon\www\wordpress\wp-content\plugins\ultimate-member\includes\lib\action-scheduler\classes\data-stores\ActionScheduler_DBStore.php:1128
+Stack trace:
+#0 C:\laragon\www\wordpress\wp-content\plugins\ultimate-member\includes\lib\action-scheduler\classes\ActionScheduler_FatalErrorMonitor.php(95): ActionScheduler_DBStore->release_claim(Object(ActionScheduler_ActionClaim))
+#1 C:\laragon\www\wordpress\wp-includes\class-wp-hook.php(324): ActionScheduler_FatalErrorMonitor->handle_unexpected_shutdown('')
+#2 C:\laragon\www\wordpress\wp-includes\class-wp-hook.php(348): WP_Hook->apply_filters(NULL, Array)
+#3 C:\laragon\www\wordpress\wp-includes\plugin.php(517): WP_Hook->do_action(Array)
+#4 C:\laragon\www\wordpress\wp-includes\load.php(1304): do_action('shutdown')
+#5 [internal function]: shutdown_action_hook()
+#6 {main}
+  thrown in C:\laragon\www\wordpress\wp-content\plugins\ultimate-member\includes\lib\action-scheduler\classes\data-stores\ActionScheduler_DBStore.php on line 1128
+[11-Sep-2025 16:23:04 UTC] PHP Warning:  Constant GE_MODULE already defined in C:\laragon\www\wordpress\wp-content\plugins\GestionMasters\GestionMasters.php on line 11
+[11-Sep-2025 17:23:04 Africa/Tunis] PHP Warning:  Undefined variable $email in C:\laragon\www\wordpress\wp-content\plugins\secure-login\includes\login-handler.php on line 4
+[11-Sep-2025 16:23:04 UTC] PHP Warning:  Constant GE_MODULE already defined in C:\laragon\www\wordpress\wp-content\plugins\GestionMasters\GestionMasters.php on line 11
+[11-Sep-2025 17:23:04 Africa/Tunis] PHP Warning:  Undefined variable $email in C:\laragon\www\wordpress\wp-content\plugins\secure-login\includes\login-handler.php on line 4
+[11-Sep-2025 16:24:03 UTC] PHP Warning:  Constant GE_MODULE already defined in C:\laragon\www\wordpress\wp-content\plugins\GestionMasters\GestionMasters.php on line 11
+[11-Sep-2025 17:24:04 Africa/Tunis] PHP Warning:  Undefined variable $email in C:\laragon\www\wordpress\wp-content\plugins\secure-login\includes\login-handler.php on line 4
+[11-Sep-2025 16:24:04 UTC] PHP Warning:  Constant GE_MODULE already defined in C:\laragon\www\wordpress\wp-content\plugins\GestionMasters\GestionMasters.php on line 11
+[11-Sep-2025 17:24:04 Africa/Tunis] PHP Warning:  Undefined variable $email in C:\laragon\www\wordpress\wp-content\plugins\secure-login\includes\login-handler.php on line 4
+[11-Sep-2025 16:24:05 UTC] PHP Warning:  Constant GE_MODULE already defined in C:\laragon\www\wordpress\wp-content\plugins\GestionMasters\GestionMasters.php on line 11
+[11-Sep-2025 17:24:05 Africa/Tunis] PHP Warning:  Undefined variable $email in C:\laragon\www\wordpress\wp-content\plugins\secure-login\includes\login-handler.php on line 4
+[11-Sep-2025 17:24:09 Africa/Tunis] PHP Fatal error:  Uncaught RuntimeException: Unable to release actions from claim id 0. in C:\laragon\www\wordpress\wp-content\plugins\ultimate-member\includes\lib\action-scheduler\classes\data-stores\ActionScheduler_DBStore.php:1128
+Stack trace:
+#0 C:\laragon\www\wordpress\wp-content\plugins\ultimate-member\includes\lib\action-scheduler\classes\ActionScheduler_QueueRunner.php(195): ActionScheduler_DBStore->release_claim(Object(ActionScheduler_ActionClaim))
+#1 C:\laragon\www\wordpress\wp-content\plugins\ultimate-member\includes\lib\action-scheduler\classes\ActionScheduler_QueueRunner.php(158): ActionScheduler_QueueRunner->do_batch(25, 'WP Cron')
+#2 C:\laragon\www\wordpress\wp-includes\class-wp-hook.php(324): ActionScheduler_QueueRunner->run('WP Cron')
+#3 C:\laragon\www\wordpress\wp-includes\class-wp-hook.php(348): WP_Hook->apply_filters('', Array)
+#4 C:\laragon\www\wordpress\wp-includes\plugin.php(565): WP_Hook->do_action(Array)
+#5 C:\laragon\www\wordpress\wp-cron.php(191): do_action_ref_array('action_schedule...', Array)
+#6 {main}
+  thrown in C:\laragon\www\wordpress\wp-content\plugins\ultimate-member\includes\lib\action-scheduler\classes\data-stores\ActionScheduler_DBStore.php on line 1128
+[11-Sep-2025 17:24:09 Africa/Tunis] PHP Fatal error:  Uncaught RuntimeException: Unable to release actions from claim id 0. in C:\laragon\www\wordpress\wp-content\plugins\ultimate-member\includes\lib\action-scheduler\classes\data-stores\ActionScheduler_DBStore.php:1128
+Stack trace:
+#0 C:\laragon\www\wordpress\wp-content\plugins\ultimate-member\includes\lib\action-scheduler\classes\ActionScheduler_FatalErrorMonitor.php(95): ActionScheduler_DBStore->release_claim(Object(ActionScheduler_ActionClaim))
+#1 C:\laragon\www\wordpress\wp-includes\class-wp-hook.php(324): ActionScheduler_FatalErrorMonitor->handle_unexpected_shutdown('')
+#2 C:\laragon\www\wordpress\wp-includes\class-wp-hook.php(348): WP_Hook->apply_filters(NULL, Array)
+#3 C:\laragon\www\wordpress\wp-includes\plugin.php(517): WP_Hook->do_action(Array)
+#4 C:\laragon\www\wordpress\wp-includes\load.php(1304): do_action('shutdown')
+#5 [internal function]: shutdown_action_hook()
+#6 {main}
+  thrown in C:\laragon\www\wordpress\wp-content\plugins\ultimate-member\includes\lib\action-scheduler\classes\data-stores\ActionScheduler_DBStore.php on line 1128
+[11-Sep-2025 16:25:03 UTC] PHP Warning:  Constant GE_MODULE already defined in C:\laragon\www\wordpress\wp-content\plugins\GestionMasters\GestionMasters.php on line 11
+[11-Sep-2025 17:25:04 Africa/Tunis] PHP Warning:  Undefined variable $email in C:\laragon\www\wordpress\wp-content\plugins\secure-login\includes\login-handler.php on line 4
+[11-Sep-2025 16:25:04 UTC] PHP Warning:  Constant GE_MODULE already defined in C:\laragon\www\wordpress\wp-content\plugins\GestionMasters\GestionMasters.php on line 11
+[11-Sep-2025 17:25:04 Africa/Tunis] PHP Warning:  Undefined variable $email in C:\laragon\www\wordpress\wp-content\plugins\secure-login\includes\login-handler.php on line 4
+[11-Sep-2025 16:25:05 UTC] PHP Warning:  Constant GE_MODULE already defined in C:\laragon\www\wordpress\wp-content\plugins\GestionMasters\GestionMasters.php on line 11
+[11-Sep-2025 17:25:05 Africa/Tunis] PHP Warning:  Undefined variable $email in C:\laragon\www\wordpress\wp-content\plugins\secure-login\includes\login-handler.php on line 4
+[11-Sep-2025 17:25:09 Africa/Tunis] PHP Fatal error:  Uncaught RuntimeException: Unable to release actions from claim id 0. in C:\laragon\www\wordpress\wp-content\plugins\ultimate-member\includes\lib\action-scheduler\classes\data-stores\ActionScheduler_DBStore.php:1128
+Stack trace:
+#0 C:\laragon\www\wordpress\wp-content\plugins\ultimate-member\includes\lib\action-scheduler\classes\ActionScheduler_QueueRunner.php(195): ActionScheduler_DBStore->release_claim(Object(ActionScheduler_ActionClaim))
+#1 C:\laragon\www\wordpress\wp-content\plugins\ultimate-member\includes\lib\action-scheduler\classes\ActionScheduler_QueueRunner.php(158): ActionScheduler_QueueRunner->do_batch(25, 'WP Cron')
+#2 C:\laragon\www\wordpress\wp-includes\class-wp-hook.php(324): ActionScheduler_QueueRunner->run('WP Cron')
+#3 C:\laragon\www\wordpress\wp-includes\class-wp-hook.php(348): WP_Hook->apply_filters('', Array)
+#4 C:\laragon\www\wordpress\wp-includes\plugin.php(565): WP_Hook->do_action(Array)
+#5 C:\laragon\www\wordpress\wp-cron.php(191): do_action_ref_array('action_schedule...', Array)
+#6 {main}
+  thrown in C:\laragon\www\wordpress\wp-content\plugins\ultimate-member\includes\lib\action-scheduler\classes\data-stores\ActionScheduler_DBStore.php on line 1128
+[11-Sep-2025 17:25:09 Africa/Tunis] PHP Fatal error:  Uncaught RuntimeException: Unable to release actions from claim id 0. in C:\laragon\www\wordpress\wp-content\plugins\ultimate-member\includes\lib\action-scheduler\classes\data-stores\ActionScheduler_DBStore.php:1128
+Stack trace:
+#0 C:\laragon\www\wordpress\wp-content\plugins\ultimate-member\includes\lib\action-scheduler\classes\ActionScheduler_FatalErrorMonitor.php(95): ActionScheduler_DBStore->release_claim(Object(ActionScheduler_ActionClaim))
+#1 C:\laragon\www\wordpress\wp-includes\class-wp-hook.php(324): ActionScheduler_FatalErrorMonitor->handle_unexpected_shutdown('')
+#2 C:\laragon\www\wordpress\wp-includes\class-wp-hook.php(348): WP_Hook->apply_filters(NULL, Array)
+#3 C:\laragon\www\wordpress\wp-includes\plugin.php(517): WP_Hook->do_action(Array)
+#4 C:\laragon\www\wordpress\wp-includes\load.php(1304): do_action('shutdown')
+#5 [internal function]: shutdown_action_hook()
+#6 {main}
+  thrown in C:\laragon\www\wordpress\wp-content\plugins\ultimate-member\includes\lib\action-scheduler\classes\data-stores\ActionScheduler_DBStore.php on line 1128
+[11-Sep-2025 16:26:03 UTC] PHP Warning:  Constant GE_MODULE already defined in C:\laragon\www\wordpress\wp-content\plugins\GestionMasters\GestionMasters.php on line 11
+[11-Sep-2025 17:26:04 Africa/Tunis] PHP Warning:  Undefined variable $email in C:\laragon\www\wordpress\wp-content\plugins\secure-login\includes\login-handler.php on line 4
+[11-Sep-2025 16:26:04 UTC] PHP Warning:  Constant GE_MODULE already defined in C:\laragon\www\wordpress\wp-content\plugins\GestionMasters\GestionMasters.php on line 11
+[11-Sep-2025 17:26:04 Africa/Tunis] PHP Warning:  Undefined variable $email in C:\laragon\www\wordpress\wp-content\plugins\secure-login\includes\login-handler.php on line 4
+[11-Sep-2025 16:26:05 UTC] PHP Warning:  Constant GE_MODULE already defined in C:\laragon\www\wordpress\wp-content\plugins\GestionMasters\GestionMasters.php on line 11
+[11-Sep-2025 17:26:05 Africa/Tunis] PHP Warning:  Undefined variable $email in C:\laragon\www\wordpress\wp-content\plugins\secure-login\includes\login-handler.php on line 4
+[11-Sep-2025 17:26:10 Africa/Tunis] PHP Fatal error:  Uncaught RuntimeException: Unable to release actions from claim id 0. in C:\laragon\www\wordpress\wp-content\plugins\ultimate-member\includes\lib\action-scheduler\classes\data-stores\ActionScheduler_DBStore.php:1128
+Stack trace:
+#0 C:\laragon\www\wordpress\wp-content\plugins\ultimate-member\includes\lib\action-scheduler\classes\ActionScheduler_QueueRunner.php(195): ActionScheduler_DBStore->release_claim(Object(ActionScheduler_ActionClaim))
+#1 C:\laragon\www\wordpress\wp-content\plugins\ultimate-member\includes\lib\action-scheduler\classes\ActionScheduler_QueueRunner.php(158): ActionScheduler_QueueRunner->do_batch(25, 'WP Cron')
+#2 C:\laragon\www\wordpress\wp-includes\class-wp-hook.php(324): ActionScheduler_QueueRunner->run('WP Cron')
+#3 C:\laragon\www\wordpress\wp-includes\class-wp-hook.php(348): WP_Hook->apply_filters('', Array)
+#4 C:\laragon\www\wordpress\wp-includes\plugin.php(565): WP_Hook->do_action(Array)
+#5 C:\laragon\www\wordpress\wp-cron.php(191): do_action_ref_array('action_schedule...', Array)
+#6 {main}
+  thrown in C:\laragon\www\wordpress\wp-content\plugins\ultimate-member\includes\lib\action-scheduler\classes\data-stores\ActionScheduler_DBStore.php on line 1128
+[11-Sep-2025 17:26:10 Africa/Tunis] PHP Fatal error:  Uncaught RuntimeException: Unable to release actions from claim id 0. in C:\laragon\www\wordpress\wp-content\plugins\ultimate-member\includes\lib\action-scheduler\classes\data-stores\ActionScheduler_DBStore.php:1128
+Stack trace:
+#0 C:\laragon\www\wordpress\wp-content\plugins\ultimate-member\includes\lib\action-scheduler\classes\ActionScheduler_FatalErrorMonitor.php(95): ActionScheduler_DBStore->release_claim(Object(ActionScheduler_ActionClaim))
+#1 C:\laragon\www\wordpress\wp-includes\class-wp-hook.php(324): ActionScheduler_FatalErrorMonitor->handle_unexpected_shutdown('')
+#2 C:\laragon\www\wordpress\wp-includes\class-wp-hook.php(348): WP_Hook->apply_filters(NULL, Array)
+#3 C:\laragon\www\wordpress\wp-includes\plugin.php(517): WP_Hook->do_action(Array)
+#4 C:\laragon\www\wordpress\wp-includes\load.php(1304): do_action('shutdown')
+#5 [internal function]: shutdown_action_hook()
+#6 {main}
+  thrown in C:\laragon\www\wordpress\wp-content\plugins\ultimate-member\includes\lib\action-scheduler\classes\data-stores\ActionScheduler_DBStore.php on line 1128
+[11-Sep-2025 16:27:04 UTC] PHP Warning:  Constant GE_MODULE already defined in C:\laragon\www\wordpress\wp-content\plugins\GestionMasters\GestionMasters.php on line 11
+[11-Sep-2025 17:27:04 Africa/Tunis] PHP Warning:  Undefined variable $email in C:\laragon\www\wordpress\wp-content\plugins\secure-login\includes\login-handler.php on line 4
+[11-Sep-2025 16:27:04 UTC] PHP Warning:  Constant GE_MODULE already defined in C:\laragon\www\wordpress\wp-content\plugins\GestionMasters\GestionMasters.php on line 11
+[11-Sep-2025 17:27:04 Africa/Tunis] PHP Warning:  Undefined variable $email in C:\laragon\www\wordpress\wp-content\plugins\secure-login\includes\login-handler.php on line 4
+[11-Sep-2025 16:27:05 UTC] PHP Warning:  Constant GE_MODULE already defined in C:\laragon\www\wordpress\wp-content\plugins\GestionMasters\GestionMasters.php on line 11
+[11-Sep-2025 17:27:05 Africa/Tunis] PHP Warning:  Undefined variable $email in C:\laragon\www\wordpress\wp-content\plugins\secure-login\includes\login-handler.php on line 4
+[11-Sep-2025 17:27:09 Africa/Tunis] PHP Fatal error:  Uncaught RuntimeException: Unable to release actions from claim id 0. in C:\laragon\www\wordpress\wp-content\plugins\ultimate-member\includes\lib\action-scheduler\classes\data-stores\ActionScheduler_DBStore.php:1128
+Stack trace:
+#0 C:\laragon\www\wordpress\wp-content\plugins\ultimate-member\includes\lib\action-scheduler\classes\ActionScheduler_QueueRunner.php(195): ActionScheduler_DBStore->release_claim(Object(ActionScheduler_ActionClaim))
+#1 C:\laragon\www\wordpress\wp-content\plugins\ultimate-member\includes\lib\action-scheduler\classes\ActionScheduler_QueueRunner.php(158): ActionScheduler_QueueRunner->do_batch(25, 'WP Cron')
+#2 C:\laragon\www\wordpress\wp-includes\class-wp-hook.php(324): ActionScheduler_QueueRunner->run('WP Cron')
+#3 C:\laragon\www\wordpress\wp-includes\class-wp-hook.php(348): WP_Hook->apply_filters('', Array)
+#4 C:\laragon\www\wordpress\wp-includes\plugin.php(565): WP_Hook->do_action(Array)
+#5 C:\laragon\www\wordpress\wp-cron.php(191): do_action_ref_array('action_schedule...', Array)
+#6 {main}
+  thrown in C:\laragon\www\wordpress\wp-content\plugins\ultimate-member\includes\lib\action-scheduler\classes\data-stores\ActionScheduler_DBStore.php on line 1128
+[11-Sep-2025 17:27:09 Africa/Tunis] PHP Fatal error:  Uncaught RuntimeException: Unable to release actions from claim id 0. in C:\laragon\www\wordpress\wp-content\plugins\ultimate-member\includes\lib\action-scheduler\classes\data-stores\ActionScheduler_DBStore.php:1128
+Stack trace:
+#0 C:\laragon\www\wordpress\wp-content\plugins\ultimate-member\includes\lib\action-scheduler\classes\ActionScheduler_FatalErrorMonitor.php(95): ActionScheduler_DBStore->release_claim(Object(ActionScheduler_ActionClaim))
+#1 C:\laragon\www\wordpress\wp-includes\class-wp-hook.php(324): ActionScheduler_FatalErrorMonitor->handle_unexpected_shutdown('')
+#2 C:\laragon\www\wordpress\wp-includes\class-wp-hook.php(348): WP_Hook->apply_filters(NULL, Array)
+#3 C:\laragon\www\wordpress\wp-includes\plugin.php(517): WP_Hook->do_action(Array)
+#4 C:\laragon\www\wordpress\wp-includes\load.php(1304): do_action('shutdown')
+#5 [internal function]: shutdown_action_hook()
+#6 {main}
+  thrown in C:\laragon\www\wordpress\wp-content\plugins\ultimate-member\includes\lib\action-scheduler\classes\data-stores\ActionScheduler_DBStore.php on line 1128
+[11-Sep-2025 16:28:03 UTC] PHP Warning:  Constant GE_MODULE already defined in C:\laragon\www\wordpress\wp-content\plugins\GestionMasters\GestionMasters.php on line 11
+[11-Sep-2025 17:28:04 Africa/Tunis] PHP Warning:  Undefined variable $email in C:\laragon\www\wordpress\wp-content\plugins\secure-login\includes\login-handler.php on line 4
+[11-Sep-2025 16:28:04 UTC] PHP Warning:  Constant GE_MODULE already defined in C:\laragon\www\wordpress\wp-content\plugins\GestionMasters\GestionMasters.php on line 11
+[11-Sep-2025 17:28:04 Africa/Tunis] PHP Warning:  Undefined variable $email in C:\laragon\www\wordpress\wp-content\plugins\secure-login\includes\login-handler.php on line 4
+[11-Sep-2025 16:28:04 UTC] PHP Warning:  Constant GE_MODULE already defined in C:\laragon\www\wordpress\wp-content\plugins\GestionMasters\GestionMasters.php on line 11
+[11-Sep-2025 17:28:04 Africa/Tunis] PHP Warning:  Undefined variable $email in C:\laragon\www\wordpress\wp-content\plugins\secure-login\includes\login-handler.php on line 4
+[11-Sep-2025 17:28:09 Africa/Tunis] PHP Fatal error:  Uncaught RuntimeException: Unable to release actions from claim id 0. in C:\laragon\www\wordpress\wp-content\plugins\ultimate-member\includes\lib\action-scheduler\classes\data-stores\ActionScheduler_DBStore.php:1128
+Stack trace:
+#0 C:\laragon\www\wordpress\wp-content\plugins\ultimate-member\includes\lib\action-scheduler\classes\ActionScheduler_QueueRunner.php(195): ActionScheduler_DBStore->release_claim(Object(ActionScheduler_ActionClaim))
+#1 C:\laragon\www\wordpress\wp-content\plugins\ultimate-member\includes\lib\action-scheduler\classes\ActionScheduler_QueueRunner.php(158): ActionScheduler_QueueRunner->do_batch(25, 'WP Cron')
+#2 C:\laragon\www\wordpress\wp-includes\class-wp-hook.php(324): ActionScheduler_QueueRunner->run('WP Cron')
+#3 C:\laragon\www\wordpress\wp-includes\class-wp-hook.php(348): WP_Hook->apply_filters('', Array)
+#4 C:\laragon\www\wordpress\wp-includes\plugin.php(565): WP_Hook->do_action(Array)
+#5 C:\laragon\www\wordpress\wp-cron.php(191): do_action_ref_array('action_schedule...', Array)
+#6 {main}
+  thrown in C:\laragon\www\wordpress\wp-content\plugins\ultimate-member\includes\lib\action-scheduler\classes\data-stores\ActionScheduler_DBStore.php on line 1128
+[11-Sep-2025 17:28:09 Africa/Tunis] PHP Fatal error:  Uncaught RuntimeException: Unable to release actions from claim id 0. in C:\laragon\www\wordpress\wp-content\plugins\ultimate-member\includes\lib\action-scheduler\classes\data-stores\ActionScheduler_DBStore.php:1128
+Stack trace:
+#0 C:\laragon\www\wordpress\wp-content\plugins\ultimate-member\includes\lib\action-scheduler\classes\ActionScheduler_FatalErrorMonitor.php(95): ActionScheduler_DBStore->release_claim(Object(ActionScheduler_ActionClaim))
+#1 C:\laragon\www\wordpress\wp-includes\class-wp-hook.php(324): ActionScheduler_FatalErrorMonitor->handle_unexpected_shutdown('')
+#2 C:\laragon\www\wordpress\wp-includes\class-wp-hook.php(348): WP_Hook->apply_filters(NULL, Array)
+#3 C:\laragon\www\wordpress\wp-includes\plugin.php(517): WP_Hook->do_action(Array)
+#4 C:\laragon\www\wordpress\wp-includes\load.php(1304): do_action('shutdown')
+#5 [internal function]: shutdown_action_hook()
+#6 {main}
+  thrown in C:\laragon\www\wordpress\wp-content\plugins\ultimate-member\includes\lib\action-scheduler\classes\data-stores\ActionScheduler_DBStore.php on line 1128
+[11-Sep-2025 16:28:17 UTC] PHP Warning:  Constant GE_MODULE already defined in C:\laragon\www\wordpress\wp-content\plugins\GestionMasters\GestionMasters.php on line 11
+[11-Sep-2025 17:28:17 Africa/Tunis] PHP Warning:  Undefined variable $email in C:\laragon\www\wordpress\wp-content\plugins\secure-login\includes\login-handler.php on line 4
+[11-Sep-2025 16:28:17 UTC] PHP Warning:  Constant GE_MODULE already defined in C:\laragon\www\wordpress\wp-content\plugins\GestionMasters\GestionMasters.php on line 11
+[11-Sep-2025 17:28:17 Africa/Tunis] PHP Warning:  Undefined variable $email in C:\laragon\www\wordpress\wp-content\plugins\secure-login\includes\login-handler.php on line 4
+[11-Sep-2025 17:28:17 Africa/Tunis] PHP Deprecated:  strpos(): Passing null to parameter #1 ($haystack) of type string is deprecated in C:\laragon\www\wordpress\wp-includes\functions.php on line 7360
+[11-Sep-2025 17:28:17 Africa/Tunis] PHP Deprecated:  str_replace(): Passing null to parameter #3 ($subject) of type array|string is deprecated in C:\laragon\www\wordpress\wp-includes\functions.php on line 2195
+[11-Sep-2025 16:28:18 UTC] PHP Warning:  Constant GE_MODULE already defined in C:\laragon\www\wordpress\wp-content\plugins\GestionMasters\GestionMasters.php on line 11
+[11-Sep-2025 17:28:18 Africa/Tunis] PHP Warning:  Undefined variable $email in C:\laragon\www\wordpress\wp-content\plugins\secure-login\includes\login-handler.php on line 4
+[11-Sep-2025 16:28:24 UTC] PHP Warning:  Constant GE_MODULE already defined in C:\laragon\www\wordpress\wp-content\plugins\GestionMasters\GestionMasters.php on line 11
+[11-Sep-2025 17:28:24 Africa/Tunis] PHP Warning:  Undefined variable $email in C:\laragon\www\wordpress\wp-content\plugins\secure-login\includes\login-handler.php on line 4
+[11-Sep-2025 17:28:24 Africa/Tunis] PHP Deprecated:  strpos(): Passing null to parameter #1 ($haystack) of type string is deprecated in C:\laragon\www\wordpress\wp-includes\functions.php on line 7360
+[11-Sep-2025 17:28:24 Africa/Tunis] PHP Deprecated:  str_replace(): Passing null to parameter #3 ($subject) of type array|string is deprecated in C:\laragon\www\wordpress\wp-includes\functions.php on line 2195
+[11-Sep-2025 17:28:25 Africa/Tunis] PHP Fatal error:  Uncaught RuntimeException: Unable to release actions from claim id 0. in C:\laragon\www\wordpress\wp-content\plugins\ultimate-member\includes\lib\action-scheduler\classes\data-stores\ActionScheduler_DBStore.php:1128
+Stack trace:
+#0 C:\laragon\www\wordpress\wp-content\plugins\ultimate-member\includes\lib\action-scheduler\classes\ActionScheduler_QueueRunner.php(195): ActionScheduler_DBStore->release_claim(Object(ActionScheduler_ActionClaim))
+#1 C:\laragon\www\wordpress\wp-content\plugins\ultimate-member\includes\lib\action-scheduler\classes\ActionScheduler_QueueRunner.php(158): ActionScheduler_QueueRunner->do_batch(25, 'Async Request')
+#2 C:\laragon\www\wordpress\wp-includes\class-wp-hook.php(324): ActionScheduler_QueueRunner->run('Async Request')
+#3 C:\laragon\www\wordpress\wp-includes\class-wp-hook.php(348): WP_Hook->apply_filters('', Array)
+#4 C:\laragon\www\wordpress\wp-includes\plugin.php(517): WP_Hook->do_action(Array)
+#5 C:\laragon\www\wordpress\wp-content\plugins\ultimate-member\includes\lib\action-scheduler\classes\ActionScheduler_AsyncRequest_QueueRunner.php(48): do_action('action_schedule...', 'Async Request')
+#6 C:\laragon\www\wordpress\wp-content\plugins\ultimate-member\includes\lib\action-scheduler\lib\WP_Async_Request.php(174): ActionScheduler_AsyncRequest_QueueRunner->handle()
+#7 C:\laragon\www\wordpress\wp-includes\class-wp-hook.php(324): WP_Async_Request->maybe_handle('')
+#8 C:\laragon\www\wordpress\wp-includes\class-wp-hook.php(348): WP_Hook->apply_filters('', Array)
+#9 C:\laragon\www\wordpress\wp-includes\plugin.php(517): WP_Hook->do_action(Array)
+#10 C:\laragon\www\wordpress\wp-admin\admin-ajax.php(192): do_action('wp_ajax_as_asyn...')
+#11 {main}
+  thrown in C:\laragon\www\wordpress\wp-content\plugins\ultimate-member\includes\lib\action-scheduler\classes\data-stores\ActionScheduler_DBStore.php on line 1128
+[11-Sep-2025 17:28:25 Africa/Tunis] PHP Fatal error:  Uncaught RuntimeException: Unable to release actions from claim id 0. in C:\laragon\www\wordpress\wp-content\plugins\ultimate-member\includes\lib\action-scheduler\classes\data-stores\ActionScheduler_DBStore.php:1128
+Stack trace:
+#0 C:\laragon\www\wordpress\wp-content\plugins\ultimate-member\includes\lib\action-scheduler\classes\ActionScheduler_FatalErrorMonitor.php(95): ActionScheduler_DBStore->release_claim(Object(ActionScheduler_ActionClaim))
+#1 C:\laragon\www\wordpress\wp-includes\class-wp-hook.php(324): ActionScheduler_FatalErrorMonitor->handle_unexpected_shutdown('')
+#2 C:\laragon\www\wordpress\wp-includes\class-wp-hook.php(348): WP_Hook->apply_filters(NULL, Array)
+#3 C:\laragon\www\wordpress\wp-includes\plugin.php(517): WP_Hook->do_action(Array)
+#4 C:\laragon\www\wordpress\wp-includes\load.php(1304): do_action('shutdown')
+#5 [internal function]: shutdown_action_hook()
+#6 {main}
+  thrown in C:\laragon\www\wordpress\wp-content\plugins\ultimate-member\includes\lib\action-scheduler\classes\data-stores\ActionScheduler_DBStore.php on line 1128
+[11-Sep-2025 16:28:25 UTC] PHP Warning:  Constant GE_MODULE already defined in C:\laragon\www\wordpress\wp-content\plugins\GestionMasters\GestionMasters.php on line 11
+[11-Sep-2025 17:28:25 Africa/Tunis] PHP Warning:  Undefined variable $email in C:\laragon\www\wordpress\wp-content\plugins\secure-login\includes\login-handler.php on line 4
+[11-Sep-2025 16:28:27 UTC] PHP Warning:  Constant GE_MODULE already defined in C:\laragon\www\wordpress\wp-content\plugins\GestionMasters\GestionMasters.php on line 11
+[11-Sep-2025 17:28:27 Africa/Tunis] PHP Warning:  Undefined variable $email in C:\laragon\www\wordpress\wp-content\plugins\secure-login\includes\login-handler.php on line 4
+[11-Sep-2025 17:28:27 Africa/Tunis] PHP Deprecated:  strpos(): Passing null to parameter #1 ($haystack) of type string is deprecated in C:\laragon\www\wordpress\wp-includes\functions.php on line 7360
+[11-Sep-2025 17:28:27 Africa/Tunis] PHP Deprecated:  str_replace(): Passing null to parameter #3 ($subject) of type array|string is deprecated in C:\laragon\www\wordpress\wp-includes\functions.php on line 2195
+[11-Sep-2025 16:28:27 UTC] PHP Warning:  Constant GE_MODULE already defined in C:\laragon\www\wordpress\wp-content\plugins\GestionMasters\GestionMasters.php on line 11
+[11-Sep-2025 17:28:28 Africa/Tunis] PHP Warning:  Undefined variable $email in C:\laragon\www\wordpress\wp-content\plugins\secure-login\includes\login-handler.php on line 4
+[11-Sep-2025 16:28:30 UTC] PHP Warning:  Constant GE_MODULE already defined in C:\laragon\www\wordpress\wp-content\plugins\GestionMasters\GestionMasters.php on line 11
+[11-Sep-2025 17:28:30 Africa/Tunis] PHP Warning:  Undefined variable $email in C:\laragon\www\wordpress\wp-content\plugins\secure-login\includes\login-handler.php on line 4
+[11-Sep-2025 17:28:30 Africa/Tunis] PHP Deprecated:  strpos(): Passing null to parameter #1 ($haystack) of type string is deprecated in C:\laragon\www\wordpress\wp-includes\functions.php on line 7360
+[11-Sep-2025 17:28:30 Africa/Tunis] PHP Deprecated:  str_replace(): Passing null to parameter #3 ($subject) of type array|string is deprecated in C:\laragon\www\wordpress\wp-includes\functions.php on line 2195
+[11-Sep-2025 17:28:30 Africa/Tunis] PHP Warning:  Attempt to read property "post_type" on null in C:\laragon\www\wordpress\wp-includes\post.php on line 7874
+[11-Sep-2025 17:28:30 Africa/Tunis] PHP Warning:  Attempt to read property "post_type" on null in C:\laragon\www\wordpress\wp-includes\post.php on line 7875
+[11-Sep-2025 17:28:30 Africa/Tunis] PHP Warning:  Attempt to read property "ID" on null in C:\laragon\www\wordpress\wp-includes\post.php on line 7879
+[11-Sep-2025 17:28:30 Africa/Tunis] PHP Warning:  Attempt to read property "post_type" on null in C:\laragon\www\wordpress\wp-includes\post.php on line 8137
+[11-Sep-2025 17:28:30 Africa/Tunis] PHP Warning:  Attempt to read property "post_type" on null in C:\laragon\www\wordpress\wp-includes\theme.php on line 3644
+[11-Sep-2025 17:28:30 Africa/Tunis] PHP Warning:  Attempt to read property "post_type" on null in C:\laragon\www\wordpress\wp-content\plugins\ultimate-member\includes\common\class-cpt.php on line 150
+[11-Sep-2025 17:28:30 Africa/Tunis] PHP Warning:  Attempt to read property "post_type" on null in C:\laragon\www\wordpress\wp-includes\theme.php on line 3870
+[11-Sep-2025 17:28:30 Africa/Tunis] PHP Warning:  Attempt to read property "post_type" on null in C:\laragon\www\wordpress\wp-includes\post.php on line 5798
+[11-Sep-2025 17:28:30 Africa/Tunis] PHP Warning:  Attempt to read property "ID" on null in C:\laragon\www\wordpress\wp-includes\post.php on line 5798
+[11-Sep-2025 17:28:30 Africa/Tunis] PHP Warning:  Attempt to read property "post_type" on null in C:\laragon\www\wordpress\wp-includes\post.php on line 5099
+[11-Sep-2025 16:28:30 UTC] PHP Warning:  Constant GE_MODULE already defined in C:\laragon\www\wordpress\wp-content\plugins\GestionMasters\GestionMasters.php on line 11
+[11-Sep-2025 17:28:30 Africa/Tunis] PHP Warning:  Undefined variable $email in C:\laragon\www\wordpress\wp-content\plugins\secure-login\includes\login-handler.php on line 4
+[11-Sep-2025 17:28:30 Africa/Tunis] PHP Deprecated:  strpos(): Passing null to parameter #1 ($haystack) of type string is deprecated in C:\laragon\www\wordpress\wp-includes\functions.php on line 7360
+[11-Sep-2025 17:28:30 Africa/Tunis] PHP Deprecated:  str_replace(): Passing null to parameter #3 ($subject) of type array|string is deprecated in C:\laragon\www\wordpress\wp-includes\functions.php on line 2195
+[11-Sep-2025 16:28:31 UTC] PHP Warning:  Constant GE_MODULE already defined in C:\laragon\www\wordpress\wp-content\plugins\GestionMasters\GestionMasters.php on line 11
+[11-Sep-2025 17:28:31 Africa/Tunis] PHP Warning:  Undefined variable $email in C:\laragon\www\wordpress\wp-content\plugins\secure-login\includes\login-handler.php on line 4
+[11-Sep-2025 16:28:33 UTC] PHP Warning:  Constant GE_MODULE already defined in C:\laragon\www\wordpress\wp-content\plugins\GestionMasters\GestionMasters.php on line 11
+[11-Sep-2025 17:28:33 Africa/Tunis] PHP Warning:  Undefined variable $email in C:\laragon\www\wordpress\wp-content\plugins\secure-login\includes\login-handler.php on line 4
+[11-Sep-2025 17:28:33 Africa/Tunis] PHP Deprecated:  strpos(): Passing null to parameter #1 ($haystack) of type string is deprecated in C:\laragon\www\wordpress\wp-includes\functions.php on line 7360
+[11-Sep-2025 17:28:33 Africa/Tunis] PHP Deprecated:  str_replace(): Passing null to parameter #3 ($subject) of type array|string is deprecated in C:\laragon\www\wordpress\wp-includes\functions.php on line 2195
+[11-Sep-2025 17:28:33 Africa/Tunis] PHP Notice:  La fonction WP_List_Util::pluck a été appelée de façon <strong>incorrecte</strong>. Les valeurs du tableau fourni doivent être soit des objets soit des tableaux. Veuillez lire <a href="https://developer.wordpress.org/advanced-administration/debug/debug-wordpress/">Débogage dans WordPress</a> (en) pour plus d’informations. (Ce message a été ajouté à la version 6.2.0.) in C:\laragon\www\wordpress\wp-includes\functions.php on line 6121
+[11-Sep-2025 17:28:33 Africa/Tunis] PHP Warning:  Attempt to read property "ID" on null in C:\laragon\www\wordpress\wp-includes\post.php on line 7611
+[11-Sep-2025 17:28:33 Africa/Tunis] PHP Notice:  La fonction WP_Object_Cache::add a été appelée de façon <strong>incorrecte</strong>. La clé du cache ne doit pas être une chaîne vide. Veuillez lire <a href="https://developer.wordpress.org/advanced-administration/debug/debug-wordpress/">Débogage dans WordPress</a> (en) pour plus d’informations. (Ce message a été ajouté à la version 6.1.0.) in C:\laragon\www\wordpress\wp-includes\functions.php on line 6121
+[11-Sep-2025 17:28:33 Africa/Tunis] PHP Warning:  Attempt to read property "ID" on null in C:\laragon\www\wordpress\wp-includes\post.php on line 7698
+[11-Sep-2025 17:28:33 Africa/Tunis] PHP Warning:  Attempt to read property "ID" on null in C:\laragon\www\wordpress\wp-admin\includes\class-wp-posts-list-table.php on line 830
+[11-Sep-2025 17:28:33 Africa/Tunis] PHP Notice:  La fonction WP_List_Util::pluck a été appelée de façon <strong>incorrecte</strong>. Les valeurs du tableau fourni doivent être soit des objets soit des tableaux. Veuillez lire <a href="https://developer.wordpress.org/advanced-administration/debug/debug-wordpress/">Débogage dans WordPress</a> (en) pour plus d’informations. (Ce message a été ajouté à la version 6.2.0.) in C:\laragon\www\wordpress\wp-includes\functions.php on line 6121
+[11-Sep-2025 17:28:33 Africa/Tunis] PHP Warning:  Attempt to read property "post_author" on null in C:\laragon\www\wordpress\wp-admin\includes\class-wp-posts-list-table.php on line 1428
+[11-Sep-2025 17:28:33 Africa/Tunis] PHP Warning:  Attempt to read property "ID" on null in C:\laragon\www\wordpress\wp-admin\includes\class-wp-posts-list-table.php on line 1430
+[11-Sep-2025 17:28:33 Africa/Tunis] PHP Warning:  Attempt to read property "post_parent" on null in C:\laragon\www\wordpress\wp-admin\includes\class-wp-posts-list-table.php on line 1436
+[11-Sep-2025 17:28:33 Africa/Tunis] PHP Warning:  Attempt to read property "ID" on null in C:\laragon\www\wordpress\wp-admin\includes\class-wp-posts-list-table.php on line 1443
+[11-Sep-2025 17:28:33 Africa/Tunis] PHP Warning:  Attempt to read property "ID" on null in C:\laragon\www\wordpress\wp-admin\includes\class-wp-posts-list-table.php on line 1443
+[11-Sep-2025 17:28:33 Africa/Tunis] PHP Warning:  Attempt to read property "ID" on null in C:\laragon\www\wordpress\wp-admin\includes\class-wp-posts-list-table.php on line 1028
+[11-Sep-2025 17:28:33 Africa/Tunis] PHP Notice:  La fonction map_meta_cap a été appelée de façon <strong>incorrecte</strong>. Lors de la vérification de la capacité <code>edit_post</code>, vous devez toujours la comparer avec une publication spécifique. Veuillez lire <a href="https://developer.wordpress.org/advanced-administration/debug/debug-wordpress/">Débogage dans WordPress</a> (en) pour plus d’informations. (Ce message a été ajouté à la version 6.1.0.) in C:\laragon\www\wordpress\wp-includes\functions.php on line 6121
+[11-Sep-2025 17:28:33 Africa/Tunis] PHP Warning:  Attempt to read property "ID" on null in C:\laragon\www\wordpress\wp-admin\includes\class-wp-posts-list-table.php on line 1117
+[11-Sep-2025 17:28:33 Africa/Tunis] PHP Notice:  La fonction map_meta_cap a été appelée de façon <strong>incorrecte</strong>. Lors de la vérification de la capacité <code>edit_post</code>, vous devez toujours la comparer avec une publication spécifique. Veuillez lire <a href="https://developer.wordpress.org/advanced-administration/debug/debug-wordpress/">Débogage dans WordPress</a> (en) pour plus d’informations. (Ce message a été ajouté à la version 6.1.0.) in C:\laragon\www\wordpress\wp-includes\functions.php on line 6121
+[11-Sep-2025 17:28:33 Africa/Tunis] PHP Warning:  Attempt to read property "post_status" on null in C:\laragon\www\wordpress\wp-admin\includes\template.php on line 2298
+[11-Sep-2025 17:28:33 Africa/Tunis] PHP Warning:  Attempt to read property "post_status" on null in C:\laragon\www\wordpress\wp-admin\includes\template.php on line 2302
+[11-Sep-2025 17:28:33 Africa/Tunis] PHP Warning:  Attempt to read property "post_status" on null in C:\laragon\www\wordpress\wp-admin\includes\template.php on line 2308
+[11-Sep-2025 17:28:33 Africa/Tunis] PHP Warning:  Attempt to read property "post_status" on null in C:\laragon\www\wordpress\wp-admin\includes\template.php on line 2312
+[11-Sep-2025 17:28:33 Africa/Tunis] PHP Warning:  Attempt to read property "ID" on null in C:\laragon\www\wordpress\wp-admin\includes\template.php on line 2316
+[11-Sep-2025 17:28:33 Africa/Tunis] PHP Warning:  Attempt to read property "post_status" on null in C:\laragon\www\wordpress\wp-admin\includes\template.php on line 2320
+[11-Sep-2025 17:28:33 Africa/Tunis] PHP Warning:  Attempt to read property "ID" on null in C:\laragon\www\wordpress\wp-admin\includes\template.php on line 2325
+[11-Sep-2025 17:28:33 Africa/Tunis] PHP Warning:  Attempt to read property "ID" on null in C:\laragon\www\wordpress\wp-admin\includes\template.php on line 2329
+[11-Sep-2025 17:28:33 Africa/Tunis] PHP Warning:  Attempt to read property "ID" on null in C:\laragon\www\wordpress\wp-admin\includes\template.php on line 2334
+[11-Sep-2025 17:28:33 Africa/Tunis] PHP Warning:  Attempt to read property "ID" on null in C:\laragon\www\wordpress\wp-content\plugins\ultimate-member\includes\admin\core\class-admin-columns.php on line 213
+[11-Sep-2025 17:28:33 Africa/Tunis] PHP Warning:  Attempt to read property "ID" on null in C:\laragon\www\wordpress\wp-content\plugins\ultimate-member\includes\admin\core\class-admin-columns.php on line 213
+[11-Sep-2025 17:28:33 Africa/Tunis] PHP Warning:  Attempt to read property "ID" on null in C:\laragon\www\wordpress\wp-content\plugins\ultimate-member\includes\admin\core\class-admin-columns.php on line 213
+[11-Sep-2025 17:28:33 Africa/Tunis] PHP Warning:  Attempt to read property "ID" on null in C:\laragon\www\wordpress\wp-content\plugins\ultimate-member\includes\admin\core\class-admin-columns.php on line 213
+[11-Sep-2025 17:28:33 Africa/Tunis] PHP Warning:  Attempt to read property "ID" on null in C:\laragon\www\wordpress\wp-content\plugins\ultimate-member\includes\admin\core\class-admin-columns.php on line 213
+[11-Sep-2025 17:28:33 Africa/Tunis] PHP Warning:  Attempt to read property "ID" on null in C:\laragon\www\wordpress\wp-content\plugins\ultimate-member\includes\admin\core\class-admin-columns.php on line 213
+[11-Sep-2025 17:28:33 Africa/Tunis] PHP Warning:  Attempt to read property "ID" on null in C:\laragon\www\wordpress\wp-content\plugins\ultimate-member\includes\admin\core\class-admin-columns.php on line 213
+[11-Sep-2025 17:28:33 Africa/Tunis] PHP Warning:  Attempt to read property "post_type" on null in C:\laragon\www\wordpress\wp-admin\includes\class-wp-posts-list-table.php on line 1177
+[11-Sep-2025 17:28:33 Africa/Tunis] PHP Warning:  Attempt to read property "post_type" on null in C:\laragon\www\wordpress\wp-admin\includes\template.php on line 312
+[11-Sep-2025 17:28:33 Africa/Tunis] PHP Warning:  Attempt to read property "ID" on null in C:\laragon\www\wordpress\wp-admin\includes\template.php on line 313
+[11-Sep-2025 17:28:33 Africa/Tunis] PHP Notice:  La fonction map_meta_cap a été appelée de façon <strong>incorrecte</strong>. Lors de la vérification de la capacité <code>edit_post</code>, vous devez toujours la comparer avec une publication spécifique. Veuillez lire <a href="https://developer.wordpress.org/advanced-administration/debug/debug-wordpress/">Débogage dans WordPress</a> (en) pour plus d’informations. (Ce message a été ajouté à la version 6.1.0.) in C:\laragon\www\wordpress\wp-includes\functions.php on line 6121
+[11-Sep-2025 17:28:33 Africa/Tunis] PHP Warning:  Attempt to read property "post_type" on null in C:\laragon\www\wordpress\wp-admin\includes\class-wp-posts-list-table.php on line 1481
+[11-Sep-2025 17:28:33 Africa/Tunis] PHP Warning:  Attempt to read property "ID" on null in C:\laragon\www\wordpress\wp-admin\includes\class-wp-posts-list-table.php on line 1482
+[11-Sep-2025 17:28:33 Africa/Tunis] PHP Notice:  La fonction map_meta_cap a été appelée de façon <strong>incorrecte</strong>. Lors de la vérification de la capacité <code>edit_post</code>, vous devez toujours la comparer avec une publication spécifique. Veuillez lire <a href="https://developer.wordpress.org/advanced-administration/debug/debug-wordpress/">Débogage dans WordPress</a> (en) pour plus d’informations. (Ce message a été ajouté à la version 6.1.0.) in C:\laragon\www\wordpress\wp-includes\functions.php on line 6121
+[11-Sep-2025 17:28:33 Africa/Tunis] PHP Warning:  Attempt to read property "ID" on null in C:\laragon\www\wordpress\wp-admin\includes\class-wp-posts-list-table.php on line 1515
+[11-Sep-2025 17:28:33 Africa/Tunis] PHP Notice:  La fonction map_meta_cap a été appelée de façon <strong>incorrecte</strong>. Lors de la vérification de la capacité <code>delete_post</code>, vous devez toujours la comparer avec une publication spécifique. Veuillez lire <a href="https://developer.wordpress.org/advanced-administration/debug/debug-wordpress/">Débogage dans WordPress</a> (en) pour plus d’informations. (Ce message a été ajouté à la version 6.1.0.) in C:\laragon\www\wordpress\wp-includes\functions.php on line 6121
+[11-Sep-2025 17:28:33 Africa/Tunis] PHP Warning:  Attempt to read property "post_type" on null in C:\laragon\www\wordpress\wp-admin\includes\class-wp-posts-list-table.php on line 1568
+[11-Sep-2025 17:28:33 Africa/Tunis] PHP Warning:  Attempt to read property "post_type" on null in C:\laragon\www\wordpress\wp-admin\includes\class-wp-posts-list-table.php on line 1578
+[11-Sep-2025 17:28:33 Africa/Tunis] PHP Warning:  Attempt to read property "post_type" on null in C:\laragon\www\wordpress\wp-content\plugins\duplicate-page\duplicatepage.php on line 254
+[11-Sep-2025 17:28:33 Africa/Tunis] PHP Warning:  Attempt to read property "post_type" on null in C:\laragon\www\wordpress\wp-content\plugins\ultimate-member\includes\admin\core\class-admin-columns.php on line 53
+[11-Sep-2025 17:28:33 Africa/Tunis] PHP Warning:  Attempt to read property "post_type" on null in C:\laragon\www\wordpress\wp-content\plugins\ultimate-member\includes\admin\core\class-admin-columns.php on line 70
+[11-Sep-2025 17:28:33 Africa/Tunis] PHP Warning:  Attempt to read property "ID" on null in C:\laragon\www\wordpress\wp-admin\includes\class-wp-posts-list-table.php on line 1268
+[11-Sep-2025 17:28:33 Africa/Tunis] PHP Warning:  Attempt to read property "ID" on null in C:\laragon\www\wordpress\wp-admin\includes\class-wp-posts-list-table.php on line 1270
+[11-Sep-2025 17:28:33 Africa/Tunis] PHP Warning:  Attempt to read property "post_date" on null in C:\laragon\www\wordpress\wp-admin\includes\class-wp-posts-list-table.php on line 1196
+[11-Sep-2025 17:28:33 Africa/Tunis] PHP Warning:  Attempt to read property "post_status" on null in C:\laragon\www\wordpress\wp-admin\includes\class-wp-posts-list-table.php on line 1213
+[11-Sep-2025 17:28:33 Africa/Tunis] PHP Warning:  Attempt to read property "post_status" on null in C:\laragon\www\wordpress\wp-admin\includes\class-wp-posts-list-table.php on line 1215
+[11-Sep-2025 17:28:33 Africa/Tunis] PHP Warning:  Attempt to read property "post_status" on null in C:\laragon\www\wordpress\wp-admin\includes\template.php on line 812
+[11-Sep-2025 17:28:33 Africa/Tunis] PHP Warning:  Attempt to read property "post_date" on null in C:\laragon\www\wordpress\wp-admin\includes\template.php on line 823
+[11-Sep-2025 16:28:34 UTC] PHP Warning:  Constant GE_MODULE already defined in C:\laragon\www\wordpress\wp-content\plugins\GestionMasters\GestionMasters.php on line 11
+[11-Sep-2025 17:28:34 Africa/Tunis] PHP Warning:  Undefined variable $email in C:\laragon\www\wordpress\wp-content\plugins\secure-login\includes\login-handler.php on line 4
+[11-Sep-2025 16:28:42 UTC] PHP Warning:  Constant GE_MODULE already defined in C:\laragon\www\wordpress\wp-content\plugins\GestionMasters\GestionMasters.php on line 11
+[11-Sep-2025 17:28:42 Africa/Tunis] PHP Warning:  Undefined variable $email in C:\laragon\www\wordpress\wp-content\plugins\secure-login\includes\login-handler.php on line 4
+[11-Sep-2025 17:28:42 Africa/Tunis] PHP Deprecated:  strpos(): Passing null to parameter #1 ($haystack) of type string is deprecated in C:\laragon\www\wordpress\wp-includes\functions.php on line 7360
+[11-Sep-2025 17:28:42 Africa/Tunis] PHP Deprecated:  str_replace(): Passing null to parameter #3 ($subject) of type array|string is deprecated in C:\laragon\www\wordpress\wp-includes\functions.php on line 2195
+[11-Sep-2025 16:28:42 UTC] PHP Warning:  Constant GE_MODULE already defined in C:\laragon\www\wordpress\wp-content\plugins\GestionMasters\GestionMasters.php on line 11
+[11-Sep-2025 17:28:42 Africa/Tunis] PHP Warning:  Undefined variable $email in C:\laragon\www\wordpress\wp-content\plugins\secure-login\includes\login-handler.php on line 4
+[11-Sep-2025 16:28:44 UTC] PHP Warning:  Constant GE_MODULE already defined in C:\laragon\www\wordpress\wp-content\plugins\GestionMasters\GestionMasters.php on line 11
+[11-Sep-2025 17:28:44 Africa/Tunis] PHP Warning:  Undefined variable $email in C:\laragon\www\wordpress\wp-content\plugins\secure-login\includes\login-handler.php on line 4
+[11-Sep-2025 17:28:44 Africa/Tunis] PHP Deprecated:  strpos(): Passing null to parameter #1 ($haystack) of type string is deprecated in C:\laragon\www\wordpress\wp-includes\functions.php on line 7360
+[11-Sep-2025 17:28:44 Africa/Tunis] PHP Deprecated:  str_replace(): Passing null to parameter #3 ($subject) of type array|string is deprecated in C:\laragon\www\wordpress\wp-includes\functions.php on line 2195
+[11-Sep-2025 17:28:44 Africa/Tunis] PHP Notice:  La fonction WP_List_Util::pluck a été appelée de façon <strong>incorrecte</strong>. Les valeurs du tableau fourni doivent être soit des objets soit des tableaux. Veuillez lire <a href="https://developer.wordpress.org/advanced-administration/debug/debug-wordpress/">Débogage dans WordPress</a> (en) pour plus d’informations. (Ce message a été ajouté à la version 6.2.0.) in C:\laragon\www\wordpress\wp-includes\functions.php on line 6121
+[11-Sep-2025 17:28:44 Africa/Tunis] PHP Warning:  Attempt to read property "ID" on null in C:\laragon\www\wordpress\wp-includes\post.php on line 7611
+[11-Sep-2025 17:28:44 Africa/Tunis] PHP Notice:  La fonction WP_Object_Cache::add a été appelée de façon <strong>incorrecte</strong>. La clé du cache ne doit pas être une chaîne vide. Veuillez lire <a href="https://developer.wordpress.org/advanced-administration/debug/debug-wordpress/">Débogage dans WordPress</a> (en) pour plus d’informations. (Ce message a été ajouté à la version 6.1.0.) in C:\laragon\www\wordpress\wp-includes\functions.php on line 6121
+[11-Sep-2025 17:28:44 Africa/Tunis] PHP Warning:  Attempt to read property "ID" on null in C:\laragon\www\wordpress\wp-includes\post.php on line 7698
+[11-Sep-2025 17:28:44 Africa/Tunis] PHP Warning:  Attempt to read property "ID" on null in C:\laragon\www\wordpress\wp-admin\includes\class-wp-posts-list-table.php on line 830
+[11-Sep-2025 17:28:44 Africa/Tunis] PHP Notice:  La fonction WP_List_Util::pluck a été appelée de façon <strong>incorrecte</strong>. Les valeurs du tableau fourni doivent être soit des objets soit des tableaux. Veuillez lire <a href="https://developer.wordpress.org/advanced-administration/debug/debug-wordpress/">Débogage dans WordPress</a> (en) pour plus d’informations. (Ce message a été ajouté à la version 6.2.0.) in C:\laragon\www\wordpress\wp-includes\functions.php on line 6121
+[11-Sep-2025 17:28:44 Africa/Tunis] PHP Warning:  Attempt to read property "post_author" on null in C:\laragon\www\wordpress\wp-admin\includes\class-wp-posts-list-table.php on line 1428
+[11-Sep-2025 17:28:44 Africa/Tunis] PHP Warning:  Attempt to read property "ID" on null in C:\laragon\www\wordpress\wp-admin\includes\class-wp-posts-list-table.php on line 1430
+[11-Sep-2025 17:28:44 Africa/Tunis] PHP Warning:  Attempt to read property "post_parent" on null in C:\laragon\www\wordpress\wp-admin\includes\class-wp-posts-list-table.php on line 1436
+[11-Sep-2025 17:28:44 Africa/Tunis] PHP Warning:  Attempt to read property "ID" on null in C:\laragon\www\wordpress\wp-admin\includes\class-wp-posts-list-table.php on line 1443
+[11-Sep-2025 17:28:44 Africa/Tunis] PHP Warning:  Attempt to read property "ID" on null in C:\laragon\www\wordpress\wp-admin\includes\class-wp-posts-list-table.php on line 1443
+[11-Sep-2025 17:28:44 Africa/Tunis] PHP Warning:  Attempt to read property "ID" on null in C:\laragon\www\wordpress\wp-admin\includes\class-wp-posts-list-table.php on line 1028
+[11-Sep-2025 17:28:44 Africa/Tunis] PHP Notice:  La fonction map_meta_cap a été appelée de façon <strong>incorrecte</strong>. Lors de la vérification de la capacité <code>edit_post</code>, vous devez toujours la comparer avec une publication spécifique. Veuillez lire <a href="https://developer.wordpress.org/advanced-administration/debug/debug-wordpress/">Débogage dans WordPress</a> (en) pour plus d’informations. (Ce message a été ajouté à la version 6.1.0.) in C:\laragon\www\wordpress\wp-includes\functions.php on line 6121
+[11-Sep-2025 17:28:44 Africa/Tunis] PHP Warning:  Attempt to read property "ID" on null in C:\laragon\www\wordpress\wp-admin\includes\class-wp-posts-list-table.php on line 1117
+[11-Sep-2025 17:28:44 Africa/Tunis] PHP Notice:  La fonction map_meta_cap a été appelée de façon <strong>incorrecte</strong>. Lors de la vérification de la capacité <code>edit_post</code>, vous devez toujours la comparer avec une publication spécifique. Veuillez lire <a href="https://developer.wordpress.org/advanced-administration/debug/debug-wordpress/">Débogage dans WordPress</a> (en) pour plus d’informations. (Ce message a été ajouté à la version 6.1.0.) in C:\laragon\www\wordpress\wp-includes\functions.php on line 6121
+[11-Sep-2025 17:28:44 Africa/Tunis] PHP Warning:  Attempt to read property "post_status" on null in C:\laragon\www\wordpress\wp-admin\includes\template.php on line 2298
+[11-Sep-2025 17:28:44 Africa/Tunis] PHP Warning:  Attempt to read property "post_status" on null in C:\laragon\www\wordpress\wp-admin\includes\template.php on line 2302
+[11-Sep-2025 17:28:44 Africa/Tunis] PHP Warning:  Attempt to read property "post_status" on null in C:\laragon\www\wordpress\wp-admin\includes\template.php on line 2308
+[11-Sep-2025 17:28:44 Africa/Tunis] PHP Warning:  Attempt to read property "post_status" on null in C:\laragon\www\wordpress\wp-admin\includes\template.php on line 2312
+[11-Sep-2025 17:28:44 Africa/Tunis] PHP Warning:  Attempt to read property "ID" on null in C:\laragon\www\wordpress\wp-admin\includes\template.php on line 2316
+[11-Sep-2025 17:28:44 Africa/Tunis] PHP Warning:  Attempt to read property "post_status" on null in C:\laragon\www\wordpress\wp-admin\includes\template.php on line 2320
+[11-Sep-2025 17:28:44 Africa/Tunis] PHP Warning:  Attempt to read property "ID" on null in C:\laragon\www\wordpress\wp-admin\includes\template.php on line 2325
+[11-Sep-2025 17:28:44 Africa/Tunis] PHP Warning:  Attempt to read property "ID" on null in C:\laragon\www\wordpress\wp-admin\includes\template.php on line 2329
+[11-Sep-2025 17:28:44 Africa/Tunis] PHP Warning:  Attempt to read property "ID" on null in C:\laragon\www\wordpress\wp-admin\includes\template.php on line 2334
+[11-Sep-2025 17:28:44 Africa/Tunis] PHP Warning:  Attempt to read property "ID" on null in C:\laragon\www\wordpress\wp-content\plugins\ultimate-member\includes\admin\core\class-admin-columns.php on line 213
+[11-Sep-2025 17:28:44 Africa/Tunis] PHP Warning:  Attempt to read property "ID" on null in C:\laragon\www\wordpress\wp-content\plugins\ultimate-member\includes\admin\core\class-admin-columns.php on line 213
+[11-Sep-2025 17:28:44 Africa/Tunis] PHP Warning:  Attempt to read property "ID" on null in C:\laragon\www\wordpress\wp-content\plugins\ultimate-member\includes\admin\core\class-admin-columns.php on line 213
+[11-Sep-2025 17:28:44 Africa/Tunis] PHP Warning:  Attempt to read property "ID" on null in C:\laragon\www\wordpress\wp-content\plugins\ultimate-member\includes\admin\core\class-admin-columns.php on line 213
+[11-Sep-2025 17:28:44 Africa/Tunis] PHP Warning:  Attempt to read property "ID" on null in C:\laragon\www\wordpress\wp-content\plugins\ultimate-member\includes\admin\core\class-admin-columns.php on line 213
+[11-Sep-2025 17:28:44 Africa/Tunis] PHP Warning:  Attempt to read property "ID" on null in C:\laragon\www\wordpress\wp-content\plugins\ultimate-member\includes\admin\core\class-admin-columns.php on line 213
+[11-Sep-2025 17:28:44 Africa/Tunis] PHP Warning:  Attempt to read property "ID" on null in C:\laragon\www\wordpress\wp-content\plugins\ultimate-member\includes\admin\core\class-admin-columns.php on line 213
+[11-Sep-2025 17:28:44 Africa/Tunis] PHP Warning:  Attempt to read property "post_type" on null in C:\laragon\www\wordpress\wp-admin\includes\class-wp-posts-list-table.php on line 1177
+[11-Sep-2025 17:28:44 Africa/Tunis] PHP Warning:  Attempt to read property "post_type" on null in C:\laragon\www\wordpress\wp-admin\includes\template.php on line 312
+[11-Sep-2025 17:28:44 Africa/Tunis] PHP Warning:  Attempt to read property "ID" on null in C:\laragon\www\wordpress\wp-admin\includes\template.php on line 313
+[11-Sep-2025 17:28:44 Africa/Tunis] PHP Notice:  La fonction map_meta_cap a été appelée de façon <strong>incorrecte</strong>. Lors de la vérification de la capacité <code>edit_post</code>, vous devez toujours la comparer avec une publication spécifique. Veuillez lire <a href="https://developer.wordpress.org/advanced-administration/debug/debug-wordpress/">Débogage dans WordPress</a> (en) pour plus d’informations. (Ce message a été ajouté à la version 6.1.0.) in C:\laragon\www\wordpress\wp-includes\functions.php on line 6121
+[11-Sep-2025 17:28:44 Africa/Tunis] PHP Warning:  Attempt to read property "post_type" on null in C:\laragon\www\wordpress\wp-admin\includes\class-wp-posts-list-table.php on line 1481
+[11-Sep-2025 17:28:44 Africa/Tunis] PHP Warning:  Attempt to read property "ID" on null in C:\laragon\www\wordpress\wp-admin\includes\class-wp-posts-list-table.php on line 1482
+[11-Sep-2025 17:28:44 Africa/Tunis] PHP Notice:  La fonction map_meta_cap a été appelée de façon <strong>incorrecte</strong>. Lors de la vérification de la capacité <code>edit_post</code>, vous devez toujours la comparer avec une publication spécifique. Veuillez lire <a href="https://developer.wordpress.org/advanced-administration/debug/debug-wordpress/">Débogage dans WordPress</a> (en) pour plus d’informations. (Ce message a été ajouté à la version 6.1.0.) in C:\laragon\www\wordpress\wp-includes\functions.php on line 6121
+[11-Sep-2025 17:28:44 Africa/Tunis] PHP Warning:  Attempt to read property "ID" on null in C:\laragon\www\wordpress\wp-admin\includes\class-wp-posts-list-table.php on line 1515
+[11-Sep-2025 17:28:44 Africa/Tunis] PHP Notice:  La fonction map_meta_cap a été appelée de façon <strong>incorrecte</strong>. Lors de la vérification de la capacité <code>delete_post</code>, vous devez toujours la comparer avec une publication spécifique. Veuillez lire <a href="https://developer.wordpress.org/advanced-administration/debug/debug-wordpress/">Débogage dans WordPress</a> (en) pour plus d’informations. (Ce message a été ajouté à la version 6.1.0.) in C:\laragon\www\wordpress\wp-includes\functions.php on line 6121
+[11-Sep-2025 17:28:44 Africa/Tunis] PHP Warning:  Attempt to read property "post_type" on null in C:\laragon\www\wordpress\wp-admin\includes\class-wp-posts-list-table.php on line 1568
+[11-Sep-2025 17:28:44 Africa/Tunis] PHP Warning:  Attempt to read property "post_type" on null in C:\laragon\www\wordpress\wp-admin\includes\class-wp-posts-list-table.php on line 1578
+[11-Sep-2025 17:28:44 Africa/Tunis] PHP Warning:  Attempt to read property "post_type" on null in C:\laragon\www\wordpress\wp-content\plugins\duplicate-page\duplicatepage.php on line 254
+[11-Sep-2025 17:28:44 Africa/Tunis] PHP Warning:  Attempt to read property "post_type" on null in C:\laragon\www\wordpress\wp-content\plugins\ultimate-member\includes\admin\core\class-admin-columns.php on line 53
+[11-Sep-2025 17:28:44 Africa/Tunis] PHP Warning:  Attempt to read property "post_type" on null in C:\laragon\www\wordpress\wp-content\plugins\ultimate-member\includes\admin\core\class-admin-columns.php on line 70
+[11-Sep-2025 17:28:44 Africa/Tunis] PHP Warning:  Attempt to read property "ID" on null in C:\laragon\www\wordpress\wp-admin\includes\class-wp-posts-list-table.php on line 1268
+[11-Sep-2025 17:28:44 Africa/Tunis] PHP Warning:  Attempt to read property "ID" on null in C:\laragon\www\wordpress\wp-admin\includes\class-wp-posts-list-table.php on line 1270
+[11-Sep-2025 17:28:44 Africa/Tunis] PHP Warning:  Attempt to read property "post_date" on null in C:\laragon\www\wordpress\wp-admin\includes\class-wp-posts-list-table.php on line 1196
+[11-Sep-2025 17:28:44 Africa/Tunis] PHP Warning:  Attempt to read property "post_status" on null in C:\laragon\www\wordpress\wp-admin\includes\class-wp-posts-list-table.php on line 1213
+[11-Sep-2025 17:28:44 Africa/Tunis] PHP Warning:  Attempt to read property "post_status" on null in C:\laragon\www\wordpress\wp-admin\includes\class-wp-posts-list-table.php on line 1215
+[11-Sep-2025 17:28:44 Africa/Tunis] PHP Warning:  Attempt to read property "post_status" on null in C:\laragon\www\wordpress\wp-admin\includes\template.php on line 812
+[11-Sep-2025 17:28:44 Africa/Tunis] PHP Warning:  Attempt to read property "post_date" on null in C:\laragon\www\wordpress\wp-admin\includes\template.php on line 823
+[11-Sep-2025 16:28:45 UTC] PHP Warning:  Constant GE_MODULE already defined in C:\laragon\www\wordpress\wp-content\plugins\GestionMasters\GestionMasters.php on line 11
+[11-Sep-2025 17:28:45 Africa/Tunis] PHP Warning:  Undefined variable $email in C:\laragon\www\wordpress\wp-content\plugins\secure-login\includes\login-handler.php on line 4
+[11-Sep-2025 16:28:55 UTC] PHP Warning:  Constant GE_MODULE already defined in C:\laragon\www\wordpress\wp-content\plugins\GestionMasters\GestionMasters.php on line 11
+[11-Sep-2025 17:28:55 Africa/Tunis] PHP Warning:  Undefined variable $email in C:\laragon\www\wordpress\wp-content\plugins\secure-login\includes\login-handler.php on line 4
+[11-Sep-2025 16:29:03 UTC] PHP Warning:  Constant GE_MODULE already defined in C:\laragon\www\wordpress\wp-content\plugins\GestionMasters\GestionMasters.php on line 11
+[11-Sep-2025 17:29:04 Africa/Tunis] PHP Warning:  Undefined variable $email in C:\laragon\www\wordpress\wp-content\plugins\secure-login\includes\login-handler.php on line 4
+[11-Sep-2025 16:29:04 UTC] PHP Warning:  Constant GE_MODULE already defined in C:\laragon\www\wordpress\wp-content\plugins\GestionMasters\GestionMasters.php on line 11
+[11-Sep-2025 17:29:04 Africa/Tunis] PHP Warning:  Undefined variable $email in C:\laragon\www\wordpress\wp-content\plugins\secure-login\includes\login-handler.php on line 4
+[11-Sep-2025 16:29:05 UTC] PHP Warning:  Constant GE_MODULE already defined in C:\laragon\www\wordpress\wp-content\plugins\GestionMasters\GestionMasters.php on line 11
+[11-Sep-2025 17:29:05 Africa/Tunis] PHP Warning:  Undefined variable $email in C:\laragon\www\wordpress\wp-content\plugins\secure-login\includes\login-handler.php on line 4
+[11-Sep-2025 16:29:05 UTC] PHP Warning:  Constant GE_MODULE already defined in C:\laragon\www\wordpress\wp-content\plugins\GestionMasters\GestionMasters.php on line 11
+[11-Sep-2025 17:29:05 Africa/Tunis] PHP Warning:  Undefined variable $email in C:\laragon\www\wordpress\wp-content\plugins\secure-login\includes\login-handler.php on line 4
+[11-Sep-2025 17:29:10 Africa/Tunis] PHP Fatal error:  Uncaught RuntimeException: Unable to release actions from claim id 0. in C:\laragon\www\wordpress\wp-content\plugins\ultimate-member\includes\lib\action-scheduler\classes\data-stores\ActionScheduler_DBStore.php:1128
+Stack trace:
+#0 C:\laragon\www\wordpress\wp-content\plugins\ultimate-member\includes\lib\action-scheduler\classes\ActionScheduler_QueueRunner.php(195): ActionScheduler_DBStore->release_claim(Object(ActionScheduler_ActionClaim))
+#1 C:\laragon\www\wordpress\wp-content\plugins\ultimate-member\includes\lib\action-scheduler\classes\ActionScheduler_QueueRunner.php(158): ActionScheduler_QueueRunner->do_batch(25, 'WP Cron')
+#2 C:\laragon\www\wordpress\wp-includes\class-wp-hook.php(324): ActionScheduler_QueueRunner->run('WP Cron')
+#3 C:\laragon\www\wordpress\wp-includes\class-wp-hook.php(348): WP_Hook->apply_filters('', Array)
+#4 C:\laragon\www\wordpress\wp-includes\plugin.php(565): WP_Hook->do_action(Array)
+#5 C:\laragon\www\wordpress\wp-cron.php(191): do_action_ref_array('action_schedule...', Array)
+#6 {main}
+  thrown in C:\laragon\www\wordpress\wp-content\plugins\ultimate-member\includes\lib\action-scheduler\classes\data-stores\ActionScheduler_DBStore.php on line 1128
+[11-Sep-2025 17:29:10 Africa/Tunis] PHP Fatal error:  Uncaught RuntimeException: Unable to release actions from claim id 0. in C:\laragon\www\wordpress\wp-content\plugins\ultimate-member\includes\lib\action-scheduler\classes\data-stores\ActionScheduler_DBStore.php:1128
+Stack trace:
+#0 C:\laragon\www\wordpress\wp-content\plugins\ultimate-member\includes\lib\action-scheduler\classes\ActionScheduler_FatalErrorMonitor.php(95): ActionScheduler_DBStore->release_claim(Object(ActionScheduler_ActionClaim))
+#1 C:\laragon\www\wordpress\wp-includes\class-wp-hook.php(324): ActionScheduler_FatalErrorMonitor->handle_unexpected_shutdown('')
+#2 C:\laragon\www\wordpress\wp-includes\class-wp-hook.php(348): WP_Hook->apply_filters(NULL, Array)
+#3 C:\laragon\www\wordpress\wp-includes\plugin.php(517): WP_Hook->do_action(Array)
+#4 C:\laragon\www\wordpress\wp-includes\load.php(1304): do_action('shutdown')
+#5 [internal function]: shutdown_action_hook()
+#6 {main}
+  thrown in C:\laragon\www\wordpress\wp-content\plugins\ultimate-member\includes\lib\action-scheduler\classes\data-stores\ActionScheduler_DBStore.php on line 1128
+[11-Sep-2025 16:30:03 UTC] PHP Warning:  Constant GE_MODULE already defined in C:\laragon\www\wordpress\wp-content\plugins\GestionMasters\GestionMasters.php on line 11
+[11-Sep-2025 17:30:04 Africa/Tunis] PHP Warning:  Undefined variable $email in C:\laragon\www\wordpress\wp-content\plugins\secure-login\includes\login-handler.php on line 4
+[11-Sep-2025 16:30:04 UTC] PHP Warning:  Constant GE_MODULE already defined in C:\laragon\www\wordpress\wp-content\plugins\GestionMasters\GestionMasters.php on line 11
+[11-Sep-2025 17:30:04 Africa/Tunis] PHP Warning:  Undefined variable $email in C:\laragon\www\wordpress\wp-content\plugins\secure-login\includes\login-handler.php on line 4
+[11-Sep-2025 16:30:27 UTC] PHP Warning:  Constant GE_MODULE already defined in C:\laragon\www\wordpress\wp-content\plugins\GestionMasters\GestionMasters.php on line 11
+[11-Sep-2025 17:30:27 Africa/Tunis] PHP Warning:  Undefined variable $email in C:\laragon\www\wordpress\wp-content\plugins\secure-login\includes\login-handler.php on line 4
+[11-Sep-2025 16:30:27 UTC] PHP Warning:  Constant GE_MODULE already defined in C:\laragon\www\wordpress\wp-content\plugins\GestionMasters\GestionMasters.php on line 11
+[11-Sep-2025 17:30:27 Africa/Tunis] PHP Warning:  Undefined variable $email in C:\laragon\www\wordpress\wp-content\plugins\secure-login\includes\login-handler.php on line 4
+[11-Sep-2025 16:30:28 UTC] PHP Warning:  Constant GE_MODULE already defined in C:\laragon\www\wordpress\wp-content\plugins\GestionMasters\GestionMasters.php on line 11
+[11-Sep-2025 17:30:29 Africa/Tunis] PHP Warning:  Undefined variable $email in C:\laragon\www\wordpress\wp-content\plugins\secure-login\includes\login-handler.php on line 4
+[11-Sep-2025 17:30:32 Africa/Tunis] PHP Fatal error:  Uncaught RuntimeException: Unable to release actions from claim id 0. in C:\laragon\www\wordpress\wp-content\plugins\ultimate-member\includes\lib\action-scheduler\classes\data-stores\ActionScheduler_DBStore.php:1128
+Stack trace:
+#0 C:\laragon\www\wordpress\wp-content\plugins\ultimate-member\includes\lib\action-scheduler\classes\ActionScheduler_QueueRunner.php(195): ActionScheduler_DBStore->release_claim(Object(ActionScheduler_ActionClaim))
+#1 C:\laragon\www\wordpress\wp-content\plugins\ultimate-member\includes\lib\action-scheduler\classes\ActionScheduler_QueueRunner.php(158): ActionScheduler_QueueRunner->do_batch(25, 'WP Cron')
+#2 C:\laragon\www\wordpress\wp-includes\class-wp-hook.php(324): ActionScheduler_QueueRunner->run('WP Cron')
+#3 C:\laragon\www\wordpress\wp-includes\class-wp-hook.php(348): WP_Hook->apply_filters('', Array)
+#4 C:\laragon\www\wordpress\wp-includes\plugin.php(565): WP_Hook->do_action(Array)
+#5 C:\laragon\www\wordpress\wp-cron.php(191): do_action_ref_array('action_schedule...', Array)
+#6 {main}
+  thrown in C:\laragon\www\wordpress\wp-content\plugins\ultimate-member\includes\lib\action-scheduler\classes\data-stores\ActionScheduler_DBStore.php on line 1128
+[11-Sep-2025 17:30:32 Africa/Tunis] PHP Fatal error:  Uncaught RuntimeException: Unable to release actions from claim id 0. in C:\laragon\www\wordpress\wp-content\plugins\ultimate-member\includes\lib\action-scheduler\classes\data-stores\ActionScheduler_DBStore.php:1128
+Stack trace:
+#0 C:\laragon\www\wordpress\wp-content\plugins\ultimate-member\includes\lib\action-scheduler\classes\ActionScheduler_FatalErrorMonitor.php(95): ActionScheduler_DBStore->release_claim(Object(ActionScheduler_ActionClaim))
+#1 C:\laragon\www\wordpress\wp-includes\class-wp-hook.php(324): ActionScheduler_FatalErrorMonitor->handle_unexpected_shutdown('')
+#2 C:\laragon\www\wordpress\wp-includes\class-wp-hook.php(348): WP_Hook->apply_filters(NULL, Array)
+#3 C:\laragon\www\wordpress\wp-includes\plugin.php(517): WP_Hook->do_action(Array)
+#4 C:\laragon\www\wordpress\wp-includes\load.php(1304): do_action('shutdown')
+#5 [internal function]: shutdown_action_hook()
+#6 {main}
+  thrown in C:\laragon\www\wordpress\wp-content\plugins\ultimate-member\includes\lib\action-scheduler\classes\data-stores\ActionScheduler_DBStore.php on line 1128
+[11-Sep-2025 16:30:32 UTC] PHP Warning:  Constant GE_MODULE already defined in C:\laragon\www\wordpress\wp-content\plugins\GestionMasters\GestionMasters.php on line 11
+[11-Sep-2025 17:30:33 Africa/Tunis] PHP Warning:  Undefined variable $email in C:\laragon\www\wordpress\wp-content\plugins\secure-login\includes\login-handler.php on line 4
+[11-Sep-2025 17:30:33 Africa/Tunis] PHP Deprecated:  strpos(): Passing null to parameter #1 ($haystack) of type string is deprecated in C:\laragon\www\wordpress\wp-includes\functions.php on line 7360
+[11-Sep-2025 17:30:33 Africa/Tunis] PHP Deprecated:  str_replace(): Passing null to parameter #3 ($subject) of type array|string is deprecated in C:\laragon\www\wordpress\wp-includes\functions.php on line 2195
+[11-Sep-2025 16:30:33 UTC] PHP Warning:  Constant GE_MODULE already defined in C:\laragon\www\wordpress\wp-content\plugins\GestionMasters\GestionMasters.php on line 11
+[11-Sep-2025 17:30:34 Africa/Tunis] PHP Warning:  Undefined variable $email in C:\laragon\www\wordpress\wp-content\plugins\secure-login\includes\login-handler.php on line 4
+[11-Sep-2025 17:30:34 Africa/Tunis] PHP Fatal error:  Uncaught RuntimeException: Unable to release actions from claim id 0. in C:\laragon\www\wordpress\wp-content\plugins\ultimate-member\includes\lib\action-scheduler\classes\data-stores\ActionScheduler_DBStore.php:1128
+Stack trace:
+#0 C:\laragon\www\wordpress\wp-content\plugins\ultimate-member\includes\lib\action-scheduler\classes\ActionScheduler_QueueRunner.php(195): ActionScheduler_DBStore->release_claim(Object(ActionScheduler_ActionClaim))
+#1 C:\laragon\www\wordpress\wp-content\plugins\ultimate-member\includes\lib\action-scheduler\classes\ActionScheduler_QueueRunner.php(158): ActionScheduler_QueueRunner->do_batch(25, 'Async Request')
+#2 C:\laragon\www\wordpress\wp-includes\class-wp-hook.php(324): ActionScheduler_QueueRunner->run('Async Request')
+#3 C:\laragon\www\wordpress\wp-includes\class-wp-hook.php(348): WP_Hook->apply_filters('', Array)
+#4 C:\laragon\www\wordpress\wp-includes\plugin.php(517): WP_Hook->do_action(Array)
+#5 C:\laragon\www\wordpress\wp-content\plugins\ultimate-member\includes\lib\action-scheduler\classes\ActionScheduler_AsyncRequest_QueueRunner.php(48): do_action('action_schedule...', 'Async Request')
+#6 C:\laragon\www\wordpress\wp-content\plugins\ultimate-member\includes\lib\action-scheduler\lib\WP_Async_Request.php(174): ActionScheduler_AsyncRequest_QueueRunner->handle()
+#7 C:\laragon\www\wordpress\wp-includes\class-wp-hook.php(324): WP_Async_Request->maybe_handle('')
+#8 C:\laragon\www\wordpress\wp-includes\class-wp-hook.php(348): WP_Hook->apply_filters('', Array)
+#9 C:\laragon\www\wordpress\wp-includes\plugin.php(517): WP_Hook->do_action(Array)
+#10 C:\laragon\www\wordpress\wp-admin\admin-ajax.php(192): do_action('wp_ajax_as_asyn...')
+#11 {main}
+  thrown in C:\laragon\www\wordpress\wp-content\plugins\ultimate-member\includes\lib\action-scheduler\classes\data-stores\ActionScheduler_DBStore.php on line 1128
+[11-Sep-2025 17:30:34 Africa/Tunis] PHP Fatal error:  Uncaught RuntimeException: Unable to release actions from claim id 0. in C:\laragon\www\wordpress\wp-content\plugins\ultimate-member\includes\lib\action-scheduler\classes\data-stores\ActionScheduler_DBStore.php:1128
+Stack trace:
+#0 C:\laragon\www\wordpress\wp-content\plugins\ultimate-member\includes\lib\action-scheduler\classes\ActionScheduler_FatalErrorMonitor.php(95): ActionScheduler_DBStore->release_claim(Object(ActionScheduler_ActionClaim))
+#1 C:\laragon\www\wordpress\wp-includes\class-wp-hook.php(324): ActionScheduler_FatalErrorMonitor->handle_unexpected_shutdown('')
+#2 C:\laragon\www\wordpress\wp-includes\class-wp-hook.php(348): WP_Hook->apply_filters(NULL, Array)
+#3 C:\laragon\www\wordpress\wp-includes\plugin.php(517): WP_Hook->do_action(Array)
+#4 C:\laragon\www\wordpress\wp-includes\load.php(1304): do_action('shutdown')
+#5 [internal function]: shutdown_action_hook()
+#6 {main}
+  thrown in C:\laragon\www\wordpress\wp-content\plugins\ultimate-member\includes\lib\action-scheduler\classes\data-stores\ActionScheduler_DBStore.php on line 1128
+[11-Sep-2025 16:30:36 UTC] PHP Warning:  Constant GE_MODULE already defined in C:\laragon\www\wordpress\wp-content\plugins\GestionMasters\GestionMasters.php on line 11
+[11-Sep-2025 17:30:36 Africa/Tunis] PHP Warning:  Undefined variable $email in C:\laragon\www\wordpress\wp-content\plugins\secure-login\includes\login-handler.php on line 4
+[11-Sep-2025 17:30:36 Africa/Tunis] PHP Deprecated:  strpos(): Passing null to parameter #1 ($haystack) of type string is deprecated in C:\laragon\www\wordpress\wp-includes\functions.php on line 7360
+[11-Sep-2025 17:30:36 Africa/Tunis] PHP Deprecated:  str_replace(): Passing null to parameter #3 ($subject) of type array|string is deprecated in C:\laragon\www\wordpress\wp-includes\functions.php on line 2195
+[11-Sep-2025 16:30:37 UTC] PHP Warning:  Constant GE_MODULE already defined in C:\laragon\www\wordpress\wp-content\plugins\GestionMasters\GestionMasters.php on line 11
+[11-Sep-2025 17:30:37 Africa/Tunis] PHP Warning:  Undefined variable $email in C:\laragon\www\wordpress\wp-content\plugins\secure-login\includes\login-handler.php on line 4
+[11-Sep-2025 16:30:42 UTC] PHP Warning:  Constant GE_MODULE already defined in C:\laragon\www\wordpress\wp-content\plugins\GestionMasters\GestionMasters.php on line 11
+[11-Sep-2025 17:30:42 Africa/Tunis] PHP Warning:  Undefined variable $email in C:\laragon\www\wordpress\wp-content\plugins\secure-login\includes\login-handler.php on line 4
+[11-Sep-2025 17:30:42 Africa/Tunis] PHP Deprecated:  strpos(): Passing null to parameter #1 ($haystack) of type string is deprecated in C:\laragon\www\wordpress\wp-includes\functions.php on line 7360
+[11-Sep-2025 17:30:42 Africa/Tunis] PHP Deprecated:  str_replace(): Passing null to parameter #3 ($subject) of type array|string is deprecated in C:\laragon\www\wordpress\wp-includes\functions.php on line 2195
+[11-Sep-2025 16:30:43 UTC] PHP Warning:  Constant GE_MODULE already defined in C:\laragon\www\wordpress\wp-content\plugins\GestionMasters\GestionMasters.php on line 11
+[11-Sep-2025 17:30:43 Africa/Tunis] PHP Warning:  Undefined variable $email in C:\laragon\www\wordpress\wp-content\plugins\secure-login\includes\login-handler.php on line 4
+[11-Sep-2025 16:30:45 UTC] PHP Warning:  Constant GE_MODULE already defined in C:\laragon\www\wordpress\wp-content\plugins\GestionMasters\GestionMasters.php on line 11
+[11-Sep-2025 17:30:45 Africa/Tunis] PHP Warning:  Undefined variable $email in C:\laragon\www\wordpress\wp-content\plugins\secure-login\includes\login-handler.php on line 4
+[11-Sep-2025 17:30:45 Africa/Tunis] PHP Deprecated:  strpos(): Passing null to parameter #1 ($haystack) of type string is deprecated in C:\laragon\www\wordpress\wp-includes\functions.php on line 7360
+[11-Sep-2025 17:30:45 Africa/Tunis] PHP Deprecated:  str_replace(): Passing null to parameter #3 ($subject) of type array|string is deprecated in C:\laragon\www\wordpress\wp-includes\functions.php on line 2195
+[11-Sep-2025 17:30:45 Africa/Tunis] PHP Notice:  La fonction WP_List_Util::pluck a été appelée de façon <strong>incorrecte</strong>. Les valeurs du tableau fourni doivent être soit des objets soit des tableaux. Veuillez lire <a href="https://developer.wordpress.org/advanced-administration/debug/debug-wordpress/">Débogage dans WordPress</a> (en) pour plus d’informations. (Ce message a été ajouté à la version 6.2.0.) in C:\laragon\www\wordpress\wp-includes\functions.php on line 6121
+[11-Sep-2025 17:30:45 Africa/Tunis] PHP Warning:  Attempt to read property "ID" on null in C:\laragon\www\wordpress\wp-includes\post.php on line 7611
+[11-Sep-2025 17:30:45 Africa/Tunis] PHP Notice:  La fonction WP_Object_Cache::add a été appelée de façon <strong>incorrecte</strong>. La clé du cache ne doit pas être une chaîne vide. Veuillez lire <a href="https://developer.wordpress.org/advanced-administration/debug/debug-wordpress/">Débogage dans WordPress</a> (en) pour plus d’informations. (Ce message a été ajouté à la version 6.1.0.) in C:\laragon\www\wordpress\wp-includes\functions.php on line 6121
+[11-Sep-2025 17:30:45 Africa/Tunis] PHP Warning:  Attempt to read property "ID" on null in C:\laragon\www\wordpress\wp-includes\post.php on line 7698
+[11-Sep-2025 17:30:45 Africa/Tunis] PHP Warning:  Attempt to read property "ID" on null in C:\laragon\www\wordpress\wp-admin\includes\class-wp-posts-list-table.php on line 830
+[11-Sep-2025 17:30:45 Africa/Tunis] PHP Notice:  La fonction WP_List_Util::pluck a été appelée de façon <strong>incorrecte</strong>. Les valeurs du tableau fourni doivent être soit des objets soit des tableaux. Veuillez lire <a href="https://developer.wordpress.org/advanced-administration/debug/debug-wordpress/">Débogage dans WordPress</a> (en) pour plus d’informations. (Ce message a été ajouté à la version 6.2.0.) in C:\laragon\www\wordpress\wp-includes\functions.php on line 6121
+[11-Sep-2025 17:30:45 Africa/Tunis] PHP Warning:  Attempt to read property "post_author" on null in C:\laragon\www\wordpress\wp-admin\includes\class-wp-posts-list-table.php on line 1428
+[11-Sep-2025 17:30:45 Africa/Tunis] PHP Warning:  Attempt to read property "ID" on null in C:\laragon\www\wordpress\wp-admin\includes\class-wp-posts-list-table.php on line 1430
+[11-Sep-2025 17:30:45 Africa/Tunis] PHP Warning:  Attempt to read property "post_parent" on null in C:\laragon\www\wordpress\wp-admin\includes\class-wp-posts-list-table.php on line 1436
+[11-Sep-2025 17:30:45 Africa/Tunis] PHP Warning:  Attempt to read property "ID" on null in C:\laragon\www\wordpress\wp-admin\includes\class-wp-posts-list-table.php on line 1443
+[11-Sep-2025 17:30:45 Africa/Tunis] PHP Warning:  Attempt to read property "ID" on null in C:\laragon\www\wordpress\wp-admin\includes\class-wp-posts-list-table.php on line 1443
+[11-Sep-2025 17:30:45 Africa/Tunis] PHP Warning:  Attempt to read property "ID" on null in C:\laragon\www\wordpress\wp-admin\includes\class-wp-posts-list-table.php on line 1028
+[11-Sep-2025 17:30:45 Africa/Tunis] PHP Notice:  La fonction map_meta_cap a été appelée de façon <strong>incorrecte</strong>. Lors de la vérification de la capacité <code>edit_post</code>, vous devez toujours la comparer avec une publication spécifique. Veuillez lire <a href="https://developer.wordpress.org/advanced-administration/debug/debug-wordpress/">Débogage dans WordPress</a> (en) pour plus d’informations. (Ce message a été ajouté à la version 6.1.0.) in C:\laragon\www\wordpress\wp-includes\functions.php on line 6121
+[11-Sep-2025 17:30:45 Africa/Tunis] PHP Warning:  Attempt to read property "ID" on null in C:\laragon\www\wordpress\wp-admin\includes\class-wp-posts-list-table.php on line 1117
+[11-Sep-2025 17:30:45 Africa/Tunis] PHP Notice:  La fonction map_meta_cap a été appelée de façon <strong>incorrecte</strong>. Lors de la vérification de la capacité <code>edit_post</code>, vous devez toujours la comparer avec une publication spécifique. Veuillez lire <a href="https://developer.wordpress.org/advanced-administration/debug/debug-wordpress/">Débogage dans WordPress</a> (en) pour plus d’informations. (Ce message a été ajouté à la version 6.1.0.) in C:\laragon\www\wordpress\wp-includes\functions.php on line 6121
+[11-Sep-2025 17:30:45 Africa/Tunis] PHP Warning:  Attempt to read property "post_status" on null in C:\laragon\www\wordpress\wp-admin\includes\template.php on line 2298
+[11-Sep-2025 17:30:45 Africa/Tunis] PHP Warning:  Attempt to read property "post_status" on null in C:\laragon\www\wordpress\wp-admin\includes\template.php on line 2302
+[11-Sep-2025 17:30:45 Africa/Tunis] PHP Warning:  Attempt to read property "post_status" on null in C:\laragon\www\wordpress\wp-admin\includes\template.php on line 2308
+[11-Sep-2025 17:30:45 Africa/Tunis] PHP Warning:  Attempt to read property "post_status" on null in C:\laragon\www\wordpress\wp-admin\includes\template.php on line 2312
+[11-Sep-2025 17:30:45 Africa/Tunis] PHP Warning:  Attempt to read property "ID" on null in C:\laragon\www\wordpress\wp-admin\includes\template.php on line 2316
+[11-Sep-2025 17:30:45 Africa/Tunis] PHP Warning:  Attempt to read property "post_status" on null in C:\laragon\www\wordpress\wp-admin\includes\template.php on line 2320
+[11-Sep-2025 17:30:45 Africa/Tunis] PHP Warning:  Attempt to read property "ID" on null in C:\laragon\www\wordpress\wp-admin\includes\template.php on line 2325
+[11-Sep-2025 17:30:45 Africa/Tunis] PHP Warning:  Attempt to read property "ID" on null in C:\laragon\www\wordpress\wp-admin\includes\template.php on line 2329
+[11-Sep-2025 17:30:45 Africa/Tunis] PHP Warning:  Attempt to read property "ID" on null in C:\laragon\www\wordpress\wp-admin\includes\template.php on line 2334
+[11-Sep-2025 17:30:45 Africa/Tunis] PHP Warning:  Attempt to read property "ID" on null in C:\laragon\www\wordpress\wp-content\plugins\ultimate-member\includes\admin\core\class-admin-columns.php on line 213
+[11-Sep-2025 17:30:45 Africa/Tunis] PHP Warning:  Attempt to read property "ID" on null in C:\laragon\www\wordpress\wp-content\plugins\ultimate-member\includes\admin\core\class-admin-columns.php on line 213
+[11-Sep-2025 17:30:45 Africa/Tunis] PHP Warning:  Attempt to read property "ID" on null in C:\laragon\www\wordpress\wp-content\plugins\ultimate-member\includes\admin\core\class-admin-columns.php on line 213
+[11-Sep-2025 17:30:45 Africa/Tunis] PHP Warning:  Attempt to read property "ID" on null in C:\laragon\www\wordpress\wp-content\plugins\ultimate-member\includes\admin\core\class-admin-columns.php on line 213
+[11-Sep-2025 17:30:45 Africa/Tunis] PHP Warning:  Attempt to read property "ID" on null in C:\laragon\www\wordpress\wp-content\plugins\ultimate-member\includes\admin\core\class-admin-columns.php on line 213
+[11-Sep-2025 17:30:45 Africa/Tunis] PHP Warning:  Attempt to read property "ID" on null in C:\laragon\www\wordpress\wp-content\plugins\ultimate-member\includes\admin\core\class-admin-columns.php on line 213
+[11-Sep-2025 17:30:45 Africa/Tunis] PHP Warning:  Attempt to read property "ID" on null in C:\laragon\www\wordpress\wp-content\plugins\ultimate-member\includes\admin\core\class-admin-columns.php on line 213
+[11-Sep-2025 17:30:45 Africa/Tunis] PHP Warning:  Attempt to read property "post_type" on null in C:\laragon\www\wordpress\wp-admin\includes\class-wp-posts-list-table.php on line 1177
+[11-Sep-2025 17:30:45 Africa/Tunis] PHP Warning:  Attempt to read property "post_type" on null in C:\laragon\www\wordpress\wp-admin\includes\template.php on line 312
+[11-Sep-2025 17:30:45 Africa/Tunis] PHP Warning:  Attempt to read property "ID" on null in C:\laragon\www\wordpress\wp-admin\includes\template.php on line 313
+[11-Sep-2025 17:30:45 Africa/Tunis] PHP Notice:  La fonction map_meta_cap a été appelée de façon <strong>incorrecte</strong>. Lors de la vérification de la capacité <code>edit_post</code>, vous devez toujours la comparer avec une publication spécifique. Veuillez lire <a href="https://developer.wordpress.org/advanced-administration/debug/debug-wordpress/">Débogage dans WordPress</a> (en) pour plus d’informations. (Ce message a été ajouté à la version 6.1.0.) in C:\laragon\www\wordpress\wp-includes\functions.php on line 6121
+[11-Sep-2025 17:30:45 Africa/Tunis] PHP Warning:  Attempt to read property "post_type" on null in C:\laragon\www\wordpress\wp-admin\includes\class-wp-posts-list-table.php on line 1481
+[11-Sep-2025 17:30:45 Africa/Tunis] PHP Warning:  Attempt to read property "ID" on null in C:\laragon\www\wordpress\wp-admin\includes\class-wp-posts-list-table.php on line 1482
+[11-Sep-2025 17:30:45 Africa/Tunis] PHP Notice:  La fonction map_meta_cap a été appelée de façon <strong>incorrecte</strong>. Lors de la vérification de la capacité <code>edit_post</code>, vous devez toujours la comparer avec une publication spécifique. Veuillez lire <a href="https://developer.wordpress.org/advanced-administration/debug/debug-wordpress/">Débogage dans WordPress</a> (en) pour plus d’informations. (Ce message a été ajouté à la version 6.1.0.) in C:\laragon\www\wordpress\wp-includes\functions.php on line 6121
+[11-Sep-2025 17:30:45 Africa/Tunis] PHP Warning:  Attempt to read property "ID" on null in C:\laragon\www\wordpress\wp-admin\includes\class-wp-posts-list-table.php on line 1515
+[11-Sep-2025 17:30:45 Africa/Tunis] PHP Notice:  La fonction map_meta_cap a été appelée de façon <strong>incorrecte</strong>. Lors de la vérification de la capacité <code>delete_post</code>, vous devez toujours la comparer avec une publication spécifique. Veuillez lire <a href="https://developer.wordpress.org/advanced-administration/debug/debug-wordpress/">Débogage dans WordPress</a> (en) pour plus d’informations. (Ce message a été ajouté à la version 6.1.0.) in C:\laragon\www\wordpress\wp-includes\functions.php on line 6121
+[11-Sep-2025 17:30:45 Africa/Tunis] PHP Warning:  Attempt to read property "post_type" on null in C:\laragon\www\wordpress\wp-admin\includes\class-wp-posts-list-table.php on line 1568
+[11-Sep-2025 17:30:45 Africa/Tunis] PHP Warning:  Attempt to read property "post_type" on null in C:\laragon\www\wordpress\wp-admin\includes\class-wp-posts-list-table.php on line 1578
+[11-Sep-2025 17:30:45 Africa/Tunis] PHP Warning:  Attempt to read property "post_type" on null in C:\laragon\www\wordpress\wp-content\plugins\duplicate-page\duplicatepage.php on line 254
+[11-Sep-2025 17:30:45 Africa/Tunis] PHP Warning:  Attempt to read property "post_type" on null in C:\laragon\www\wordpress\wp-content\plugins\ultimate-member\includes\admin\core\class-admin-columns.php on line 53
+[11-Sep-2025 17:30:45 Africa/Tunis] PHP Warning:  Attempt to read property "post_type" on null in C:\laragon\www\wordpress\wp-content\plugins\ultimate-member\includes\admin\core\class-admin-columns.php on line 70
+[11-Sep-2025 17:30:45 Africa/Tunis] PHP Warning:  Attempt to read property "ID" on null in C:\laragon\www\wordpress\wp-admin\includes\class-wp-posts-list-table.php on line 1268
+[11-Sep-2025 17:30:45 Africa/Tunis] PHP Warning:  Attempt to read property "ID" on null in C:\laragon\www\wordpress\wp-admin\includes\class-wp-posts-list-table.php on line 1270
+[11-Sep-2025 17:30:45 Africa/Tunis] PHP Warning:  Attempt to read property "post_date" on null in C:\laragon\www\wordpress\wp-admin\includes\class-wp-posts-list-table.php on line 1196
+[11-Sep-2025 17:30:45 Africa/Tunis] PHP Warning:  Attempt to read property "post_status" on null in C:\laragon\www\wordpress\wp-admin\includes\class-wp-posts-list-table.php on line 1213
+[11-Sep-2025 17:30:45 Africa/Tunis] PHP Warning:  Attempt to read property "post_status" on null in C:\laragon\www\wordpress\wp-admin\includes\class-wp-posts-list-table.php on line 1215
+[11-Sep-2025 17:30:45 Africa/Tunis] PHP Warning:  Attempt to read property "post_status" on null in C:\laragon\www\wordpress\wp-admin\includes\template.php on line 812
+[11-Sep-2025 17:30:45 Africa/Tunis] PHP Warning:  Attempt to read property "post_date" on null in C:\laragon\www\wordpress\wp-admin\includes\template.php on line 823
+[11-Sep-2025 16:30:46 UTC] PHP Warning:  Constant GE_MODULE already defined in C:\laragon\www\wordpress\wp-content\plugins\GestionMasters\GestionMasters.php on line 11
+[11-Sep-2025 17:30:46 Africa/Tunis] PHP Warning:  Undefined variable $email in C:\laragon\www\wordpress\wp-content\plugins\secure-login\includes\login-handler.php on line 4
+[11-Sep-2025 16:30:49 UTC] PHP Warning:  Constant GE_MODULE already defined in C:\laragon\www\wordpress\wp-content\plugins\GestionMasters\GestionMasters.php on line 11
+[11-Sep-2025 17:30:49 Africa/Tunis] PHP Warning:  Undefined variable $email in C:\laragon\www\wordpress\wp-content\plugins\secure-login\includes\login-handler.php on line 4
+[11-Sep-2025 17:30:49 Africa/Tunis] PHP Deprecated:  strpos(): Passing null to parameter #1 ($haystack) of type string is deprecated in C:\laragon\www\wordpress\wp-includes\functions.php on line 7360
+[11-Sep-2025 17:30:49 Africa/Tunis] PHP Deprecated:  str_replace(): Passing null to parameter #3 ($subject) of type array|string is deprecated in C:\laragon\www\wordpress\wp-includes\functions.php on line 2195
+[11-Sep-2025 16:30:50 UTC] PHP Warning:  Constant GE_MODULE already defined in C:\laragon\www\wordpress\wp-content\plugins\GestionMasters\GestionMasters.php on line 11
+[11-Sep-2025 17:30:50 Africa/Tunis] PHP Warning:  Undefined variable $email in C:\laragon\www\wordpress\wp-content\plugins\secure-login\includes\login-handler.php on line 4
+[11-Sep-2025 16:30:51 UTC] PHP Warning:  Constant GE_MODULE already defined in C:\laragon\www\wordpress\wp-content\plugins\GestionMasters\GestionMasters.php on line 11
+[11-Sep-2025 17:30:51 Africa/Tunis] PHP Warning:  Undefined variable $email in C:\laragon\www\wordpress\wp-content\plugins\secure-login\includes\login-handler.php on line 4
+[11-Sep-2025 17:30:51 Africa/Tunis] PHP Deprecated:  strpos(): Passing null to parameter #1 ($haystack) of type string is deprecated in C:\laragon\www\wordpress\wp-includes\functions.php on line 7360
+[11-Sep-2025 17:30:51 Africa/Tunis] PHP Deprecated:  str_replace(): Passing null to parameter #3 ($subject) of type array|string is deprecated in C:\laragon\www\wordpress\wp-includes\functions.php on line 2195
+[11-Sep-2025 17:30:51 Africa/Tunis] WordPress database error Duplicate entry '0' for key 'utm_posts.PRIMARY' for query INSERT INTO `utm_posts` (`post_author`, `post_date`, `post_date_gmt`, `post_content`, `post_content_filtered`, `post_title`, `post_excerpt`, `post_status`, `post_type`, `comment_status`, `ping_status`, `post_password`, `post_name`, `to_ping`, `pinged`, `post_modified`, `post_modified_gmt`, `post_parent`, `menu_order`, `post_mime_type`, `guid`) VALUES (1, '2025-09-11 18:30:51', '0000-00-00 00:00:00', '', '', 'Brouillon auto', '', 'auto-draft', 'page', 'closed', 'closed', '', '', '', '', '2025-09-11 18:30:51', '0000-00-00 00:00:00', 0, 0, '', '') made by get_default_post_to_edit, wp_insert_post
+[11-Sep-2025 17:30:51 Africa/Tunis] PHP Warning:  Attempt to read property "post_type" on null in C:\laragon\www\wordpress\wp-admin\includes\post.php on line 775
+[11-Sep-2025 17:30:51 Africa/Tunis] PHP Fatal error:  Uncaught Error: Attempt to assign property "post_content" on null in C:\laragon\www\wordpress\wp-admin\includes\post.php:814
+Stack trace:
+#0 C:\laragon\www\wordpress\wp-admin\post-new.php(66): get_default_post_to_edit('page', true)
+#1 {main}
+  thrown in C:\laragon\www\wordpress\wp-admin\includes\post.php on line 814
+[11-Sep-2025 16:30:58 UTC] PHP Warning:  Constant GE_MODULE already defined in C:\laragon\www\wordpress\wp-content\plugins\GestionMasters\GestionMasters.php on line 11
+[11-Sep-2025 17:30:58 Africa/Tunis] PHP Warning:  Undefined variable $email in C:\laragon\www\wordpress\wp-content\plugins\secure-login\includes\login-handler.php on line 4
+[11-Sep-2025 17:30:58 Africa/Tunis] PHP Deprecated:  strpos(): Passing null to parameter #1 ($haystack) of type string is deprecated in C:\laragon\www\wordpress\wp-includes\functions.php on line 7360
+[11-Sep-2025 17:30:58 Africa/Tunis] PHP Deprecated:  str_replace(): Passing null to parameter #3 ($subject) of type array|string is deprecated in C:\laragon\www\wordpress\wp-includes\functions.php on line 2195
+[11-Sep-2025 17:30:58 Africa/Tunis] WordPress database error Duplicate entry '0' for key 'utm_posts.PRIMARY' for query INSERT INTO `utm_posts` (`post_author`, `post_date`, `post_date_gmt`, `post_content`, `post_content_filtered`, `post_title`, `post_excerpt`, `post_status`, `post_type`, `comment_status`, `ping_status`, `post_password`, `post_name`, `to_ping`, `pinged`, `post_modified`, `post_modified_gmt`, `post_parent`, `menu_order`, `post_mime_type`, `guid`) VALUES (1, '2025-09-11 18:30:58', '0000-00-00 00:00:00', '', '', 'Brouillon auto', '', 'auto-draft', 'page', 'closed', 'closed', '', '', '', '', '2025-09-11 18:30:58', '0000-00-00 00:00:00', 0, 0, '', '') made by get_default_post_to_edit, wp_insert_post
+[11-Sep-2025 17:30:58 Africa/Tunis] PHP Warning:  Attempt to read property "post_type" on null in C:\laragon\www\wordpress\wp-admin\includes\post.php on line 775
+[11-Sep-2025 17:30:58 Africa/Tunis] PHP Fatal error:  Uncaught Error: Attempt to assign property "post_content" on null in C:\laragon\www\wordpress\wp-admin\includes\post.php:814
+Stack trace:
+#0 C:\laragon\www\wordpress\wp-admin\post-new.php(66): get_default_post_to_edit('page', true)
+#1 {main}
+  thrown in C:\laragon\www\wordpress\wp-admin\includes\post.php on line 814
+[11-Sep-2025 16:30:58 UTC] PHP Warning:  Constant GE_MODULE already defined in C:\laragon\www\wordpress\wp-content\plugins\GestionMasters\GestionMasters.php on line 11
+[11-Sep-2025 17:30:59 Africa/Tunis] PHP Warning:  Undefined variable $email in C:\laragon\www\wordpress\wp-content\plugins\secure-login\includes\login-handler.php on line 4
+[11-Sep-2025 16:31:00 UTC] PHP Warning:  Constant GE_MODULE already defined in C:\laragon\www\wordpress\wp-content\plugins\GestionMasters\GestionMasters.php on line 11
+[11-Sep-2025 17:31:00 Africa/Tunis] PHP Warning:  Undefined variable $email in C:\laragon\www\wordpress\wp-content\plugins\secure-login\includes\login-handler.php on line 4
+[11-Sep-2025 17:31:00 Africa/Tunis] PHP Deprecated:  strpos(): Passing null to parameter #1 ($haystack) of type string is deprecated in C:\laragon\www\wordpress\wp-includes\functions.php on line 7360
+[11-Sep-2025 17:31:00 Africa/Tunis] PHP Deprecated:  str_replace(): Passing null to parameter #3 ($subject) of type array|string is deprecated in C:\laragon\www\wordpress\wp-includes\functions.php on line 2195
+[11-Sep-2025 16:31:00 UTC] PHP Warning:  Constant GE_MODULE already defined in C:\laragon\www\wordpress\wp-content\plugins\GestionMasters\GestionMasters.php on line 11
+[11-Sep-2025 17:31:00 Africa/Tunis] PHP Warning:  Undefined variable $email in C:\laragon\www\wordpress\wp-content\plugins\secure-login\includes\login-handler.php on line 4
+[11-Sep-2025 16:31:03 UTC] PHP Warning:  Constant GE_MODULE already defined in C:\laragon\www\wordpress\wp-content\plugins\GestionMasters\GestionMasters.php on line 11
+[11-Sep-2025 17:31:04 Africa/Tunis] PHP Warning:  Undefined variable $email in C:\laragon\www\wordpress\wp-content\plugins\secure-login\includes\login-handler.php on line 4
+[11-Sep-2025 16:31:04 UTC] PHP Warning:  Constant GE_MODULE already defined in C:\laragon\www\wordpress\wp-content\plugins\GestionMasters\GestionMasters.php on line 11
+[11-Sep-2025 17:31:04 Africa/Tunis] PHP Warning:  Undefined variable $email in C:\laragon\www\wordpress\wp-content\plugins\secure-login\includes\login-handler.php on line 4
+[11-Sep-2025 16:31:10 UTC] PHP Warning:  Constant GE_MODULE already defined in C:\laragon\www\wordpress\wp-content\plugins\GestionMasters\GestionMasters.php on line 11
+[11-Sep-2025 17:31:10 Africa/Tunis] PHP Warning:  Undefined variable $email in C:\laragon\www\wordpress\wp-content\plugins\secure-login\includes\login-handler.php on line 4
+[11-Sep-2025 16:31:10 UTC] PHP Warning:  Constant GE_MODULE already defined in C:\laragon\www\wordpress\wp-content\plugins\GestionMasters\GestionMasters.php on line 11
+[11-Sep-2025 17:31:10 Africa/Tunis] PHP Warning:  Undefined variable $email in C:\laragon\www\wordpress\wp-content\plugins\secure-login\includes\login-handler.php on line 4
+[11-Sep-2025 16:31:14 UTC] PHP Warning:  Constant GE_MODULE already defined in C:\laragon\www\wordpress\wp-content\plugins\GestionMasters\GestionMasters.php on line 11
+[11-Sep-2025 17:31:14 Africa/Tunis] PHP Warning:  Undefined variable $email in C:\laragon\www\wordpress\wp-content\plugins\secure-login\includes\login-handler.php on line 4
+[11-Sep-2025 16:31:14 UTC] PHP Warning:  Constant GE_MODULE already defined in C:\laragon\www\wordpress\wp-content\plugins\GestionMasters\GestionMasters.php on line 11
+[11-Sep-2025 17:31:14 Africa/Tunis] PHP Warning:  Undefined variable $email in C:\laragon\www\wordpress\wp-content\plugins\secure-login\includes\login-handler.php on line 4
+[11-Sep-2025 17:31:14 Africa/Tunis] PHP Deprecated:  strpos(): Passing null to parameter #1 ($haystack) of type string is deprecated in C:\laragon\www\wordpress\wp-includes\functions.php on line 7360
+[11-Sep-2025 17:31:14 Africa/Tunis] PHP Deprecated:  str_replace(): Passing null to parameter #3 ($subject) of type array|string is deprecated in C:\laragon\www\wordpress\wp-includes\functions.php on line 2195
+[11-Sep-2025 16:31:17 UTC] PHP Warning:  Constant GE_MODULE already defined in C:\laragon\www\wordpress\wp-content\plugins\GestionMasters\GestionMasters.php on line 11
+[11-Sep-2025 17:31:17 Africa/Tunis] PHP Warning:  Undefined variable $email in C:\laragon\www\wordpress\wp-content\plugins\secure-login\includes\login-handler.php on line 4
+[11-Sep-2025 17:31:17 Africa/Tunis] PHP Deprecated:  strpos(): Passing null to parameter #1 ($haystack) of type string is deprecated in C:\laragon\www\wordpress\wp-includes\functions.php on line 7360
+[11-Sep-2025 17:31:17 Africa/Tunis] PHP Deprecated:  str_replace(): Passing null to parameter #3 ($subject) of type array|string is deprecated in C:\laragon\www\wordpress\wp-includes\functions.php on line 2195
+[11-Sep-2025 16:31:17 UTC] PHP Warning:  Constant GE_MODULE already defined in C:\laragon\www\wordpress\wp-content\plugins\GestionMasters\GestionMasters.php on line 11
+[11-Sep-2025 17:31:18 Africa/Tunis] PHP Warning:  Undefined variable $email in C:\laragon\www\wordpress\wp-content\plugins\secure-login\includes\login-handler.php on line 4
+[11-Sep-2025 16:31:22 UTC] PHP Warning:  Constant GE_MODULE already defined in C:\laragon\www\wordpress\wp-content\plugins\GestionMasters\GestionMasters.php on line 11
+[11-Sep-2025 17:31:22 Africa/Tunis] PHP Warning:  Undefined variable $email in C:\laragon\www\wordpress\wp-content\plugins\secure-login\includes\login-handler.php on line 4
+[11-Sep-2025 17:31:22 Africa/Tunis] PHP Deprecated:  strpos(): Passing null to parameter #1 ($haystack) of type string is deprecated in C:\laragon\www\wordpress\wp-includes\functions.php on line 7360
+[11-Sep-2025 17:31:22 Africa/Tunis] PHP Deprecated:  str_replace(): Passing null to parameter #3 ($subject) of type array|string is deprecated in C:\laragon\www\wordpress\wp-includes\functions.php on line 2195
+[11-Sep-2025 17:31:22 Africa/Tunis] PHP Notice:  La fonction WP_List_Util::pluck a été appelée de façon <strong>incorrecte</strong>. Les valeurs du tableau fourni doivent être soit des objets soit des tableaux. Veuillez lire <a href="https://developer.wordpress.org/advanced-administration/debug/debug-wordpress/">Débogage dans WordPress</a> (en) pour plus d’informations. (Ce message a été ajouté à la version 6.2.0.) in C:\laragon\www\wordpress\wp-includes\functions.php on line 6121
+[11-Sep-2025 17:31:22 Africa/Tunis] PHP Warning:  Attempt to read property "ID" on null in C:\laragon\www\wordpress\wp-includes\post.php on line 7611
+[11-Sep-2025 17:31:22 Africa/Tunis] PHP Notice:  La fonction WP_Object_Cache::add a été appelée de façon <strong>incorrecte</strong>. La clé du cache ne doit pas être une chaîne vide. Veuillez lire <a href="https://developer.wordpress.org/advanced-administration/debug/debug-wordpress/">Débogage dans WordPress</a> (en) pour plus d’informations. (Ce message a été ajouté à la version 6.1.0.) in C:\laragon\www\wordpress\wp-includes\functions.php on line 6121
+[11-Sep-2025 17:31:22 Africa/Tunis] PHP Warning:  Attempt to read property "ID" on null in C:\laragon\www\wordpress\wp-includes\post.php on line 7698
+[11-Sep-2025 17:31:22 Africa/Tunis] PHP Warning:  Attempt to read property "ID" on null in C:\laragon\www\wordpress\wp-admin\includes\class-wp-posts-list-table.php on line 830
+[11-Sep-2025 17:31:22 Africa/Tunis] PHP Notice:  La fonction WP_List_Util::pluck a été appelée de façon <strong>incorrecte</strong>. Les valeurs du tableau fourni doivent être soit des objets soit des tableaux. Veuillez lire <a href="https://developer.wordpress.org/advanced-administration/debug/debug-wordpress/">Débogage dans WordPress</a> (en) pour plus d’informations. (Ce message a été ajouté à la version 6.2.0.) in C:\laragon\www\wordpress\wp-includes\functions.php on line 6121
+[11-Sep-2025 17:31:22 Africa/Tunis] PHP Warning:  Attempt to read property "post_author" on null in C:\laragon\www\wordpress\wp-admin\includes\class-wp-posts-list-table.php on line 1428
+[11-Sep-2025 17:31:22 Africa/Tunis] PHP Warning:  Attempt to read property "ID" on null in C:\laragon\www\wordpress\wp-admin\includes\class-wp-posts-list-table.php on line 1430
+[11-Sep-2025 17:31:22 Africa/Tunis] PHP Warning:  Attempt to read property "post_parent" on null in C:\laragon\www\wordpress\wp-admin\includes\class-wp-posts-list-table.php on line 1436
+[11-Sep-2025 17:31:22 Africa/Tunis] PHP Warning:  Attempt to read property "ID" on null in C:\laragon\www\wordpress\wp-admin\includes\class-wp-posts-list-table.php on line 1443
+[11-Sep-2025 17:31:22 Africa/Tunis] PHP Warning:  Attempt to read property "ID" on null in C:\laragon\www\wordpress\wp-admin\includes\class-wp-posts-list-table.php on line 1443
+[11-Sep-2025 17:31:22 Africa/Tunis] PHP Warning:  Attempt to read property "ID" on null in C:\laragon\www\wordpress\wp-admin\includes\class-wp-posts-list-table.php on line 1028
+[11-Sep-2025 17:31:22 Africa/Tunis] PHP Notice:  La fonction map_meta_cap a été appelée de façon <strong>incorrecte</strong>. Lors de la vérification de la capacité <code>edit_post</code>, vous devez toujours la comparer avec une publication spécifique. Veuillez lire <a href="https://developer.wordpress.org/advanced-administration/debug/debug-wordpress/">Débogage dans WordPress</a> (en) pour plus d’informations. (Ce message a été ajouté à la version 6.1.0.) in C:\laragon\www\wordpress\wp-includes\functions.php on line 6121
+[11-Sep-2025 17:31:22 Africa/Tunis] PHP Warning:  Attempt to read property "ID" on null in C:\laragon\www\wordpress\wp-admin\includes\class-wp-posts-list-table.php on line 1117
+[11-Sep-2025 17:31:22 Africa/Tunis] PHP Notice:  La fonction map_meta_cap a été appelée de façon <strong>incorrecte</strong>. Lors de la vérification de la capacité <code>edit_post</code>, vous devez toujours la comparer avec une publication spécifique. Veuillez lire <a href="https://developer.wordpress.org/advanced-administration/debug/debug-wordpress/">Débogage dans WordPress</a> (en) pour plus d’informations. (Ce message a été ajouté à la version 6.1.0.) in C:\laragon\www\wordpress\wp-includes\functions.php on line 6121
+[11-Sep-2025 17:31:22 Africa/Tunis] PHP Warning:  Attempt to read property "post_status" on null in C:\laragon\www\wordpress\wp-admin\includes\template.php on line 2298
+[11-Sep-2025 17:31:22 Africa/Tunis] PHP Warning:  Attempt to read property "post_status" on null in C:\laragon\www\wordpress\wp-admin\includes\template.php on line 2302
+[11-Sep-2025 17:31:22 Africa/Tunis] PHP Warning:  Attempt to read property "post_status" on null in C:\laragon\www\wordpress\wp-admin\includes\template.php on line 2308
+[11-Sep-2025 17:31:22 Africa/Tunis] PHP Warning:  Attempt to read property "post_status" on null in C:\laragon\www\wordpress\wp-admin\includes\template.php on line 2312
+[11-Sep-2025 17:31:22 Africa/Tunis] PHP Warning:  Attempt to read property "ID" on null in C:\laragon\www\wordpress\wp-admin\includes\template.php on line 2316
+[11-Sep-2025 17:31:22 Africa/Tunis] PHP Warning:  Attempt to read property "post_status" on null in C:\laragon\www\wordpress\wp-admin\includes\template.php on line 2320
+[11-Sep-2025 17:31:22 Africa/Tunis] PHP Warning:  Attempt to read property "ID" on null in C:\laragon\www\wordpress\wp-admin\includes\template.php on line 2325
+[11-Sep-2025 17:31:22 Africa/Tunis] PHP Warning:  Attempt to read property "ID" on null in C:\laragon\www\wordpress\wp-admin\includes\template.php on line 2329
+[11-Sep-2025 17:31:22 Africa/Tunis] PHP Warning:  Attempt to read property "ID" on null in C:\laragon\www\wordpress\wp-admin\includes\template.php on line 2334
+[11-Sep-2025 17:31:22 Africa/Tunis] PHP Warning:  Attempt to read property "ID" on null in C:\laragon\www\wordpress\wp-content\plugins\ultimate-member\includes\admin\core\class-admin-columns.php on line 213
+[11-Sep-2025 17:31:22 Africa/Tunis] PHP Warning:  Attempt to read property "ID" on null in C:\laragon\www\wordpress\wp-content\plugins\ultimate-member\includes\admin\core\class-admin-columns.php on line 213
+[11-Sep-2025 17:31:22 Africa/Tunis] PHP Warning:  Attempt to read property "ID" on null in C:\laragon\www\wordpress\wp-content\plugins\ultimate-member\includes\admin\core\class-admin-columns.php on line 213
+[11-Sep-2025 17:31:22 Africa/Tunis] PHP Warning:  Attempt to read property "ID" on null in C:\laragon\www\wordpress\wp-content\plugins\ultimate-member\includes\admin\core\class-admin-columns.php on line 213
+[11-Sep-2025 17:31:22 Africa/Tunis] PHP Warning:  Attempt to read property "ID" on null in C:\laragon\www\wordpress\wp-content\plugins\ultimate-member\includes\admin\core\class-admin-columns.php on line 213
+[11-Sep-2025 17:31:22 Africa/Tunis] PHP Warning:  Attempt to read property "ID" on null in C:\laragon\www\wordpress\wp-content\plugins\ultimate-member\includes\admin\core\class-admin-columns.php on line 213
+[11-Sep-2025 17:31:22 Africa/Tunis] PHP Warning:  Attempt to read property "ID" on null in C:\laragon\www\wordpress\wp-content\plugins\ultimate-member\includes\admin\core\class-admin-columns.php on line 213
+[11-Sep-2025 17:31:22 Africa/Tunis] PHP Warning:  Attempt to read property "post_type" on null in C:\laragon\www\wordpress\wp-admin\includes\class-wp-posts-list-table.php on line 1177
+[11-Sep-2025 17:31:22 Africa/Tunis] PHP Warning:  Attempt to read property "post_type" on null in C:\laragon\www\wordpress\wp-admin\includes\template.php on line 312
+[11-Sep-2025 17:31:22 Africa/Tunis] PHP Warning:  Attempt to read property "ID" on null in C:\laragon\www\wordpress\wp-admin\includes\template.php on line 313
+[11-Sep-2025 17:31:22 Africa/Tunis] PHP Notice:  La fonction map_meta_cap a été appelée de façon <strong>incorrecte</strong>. Lors de la vérification de la capacité <code>edit_post</code>, vous devez toujours la comparer avec une publication spécifique. Veuillez lire <a href="https://developer.wordpress.org/advanced-administration/debug/debug-wordpress/">Débogage dans WordPress</a> (en) pour plus d’informations. (Ce message a été ajouté à la version 6.1.0.) in C:\laragon\www\wordpress\wp-includes\functions.php on line 6121
+[11-Sep-2025 17:31:22 Africa/Tunis] PHP Warning:  Attempt to read property "post_type" on null in C:\laragon\www\wordpress\wp-admin\includes\class-wp-posts-list-table.php on line 1481
+[11-Sep-2025 17:31:22 Africa/Tunis] PHP Warning:  Attempt to read property "ID" on null in C:\laragon\www\wordpress\wp-admin\includes\class-wp-posts-list-table.php on line 1482
+[11-Sep-2025 17:31:22 Africa/Tunis] PHP Notice:  La fonction map_meta_cap a été appelée de façon <strong>incorrecte</strong>. Lors de la vérification de la capacité <code>edit_post</code>, vous devez toujours la comparer avec une publication spécifique. Veuillez lire <a href="https://developer.wordpress.org/advanced-administration/debug/debug-wordpress/">Débogage dans WordPress</a> (en) pour plus d’informations. (Ce message a été ajouté à la version 6.1.0.) in C:\laragon\www\wordpress\wp-includes\functions.php on line 6121
+[11-Sep-2025 17:31:22 Africa/Tunis] PHP Warning:  Attempt to read property "ID" on null in C:\laragon\www\wordpress\wp-admin\includes\class-wp-posts-list-table.php on line 1515
+[11-Sep-2025 17:31:22 Africa/Tunis] PHP Notice:  La fonction map_meta_cap a été appelée de façon <strong>incorrecte</strong>. Lors de la vérification de la capacité <code>delete_post</code>, vous devez toujours la comparer avec une publication spécifique. Veuillez lire <a href="https://developer.wordpress.org/advanced-administration/debug/debug-wordpress/">Débogage dans WordPress</a> (en) pour plus d’informations. (Ce message a été ajouté à la version 6.1.0.) in C:\laragon\www\wordpress\wp-includes\functions.php on line 6121
+[11-Sep-2025 17:31:22 Africa/Tunis] PHP Warning:  Attempt to read property "post_type" on null in C:\laragon\www\wordpress\wp-admin\includes\class-wp-posts-list-table.php on line 1568
+[11-Sep-2025 17:31:22 Africa/Tunis] PHP Warning:  Attempt to read property "post_type" on null in C:\laragon\www\wordpress\wp-admin\includes\class-wp-posts-list-table.php on line 1578
+[11-Sep-2025 17:31:22 Africa/Tunis] PHP Warning:  Attempt to read property "post_type" on null in C:\laragon\www\wordpress\wp-content\plugins\duplicate-page\duplicatepage.php on line 254
+[11-Sep-2025 17:31:22 Africa/Tunis] PHP Warning:  Attempt to read property "post_type" on null in C:\laragon\www\wordpress\wp-content\plugins\ultimate-member\includes\admin\core\class-admin-columns.php on line 53
+[11-Sep-2025 17:31:22 Africa/Tunis] PHP Warning:  Attempt to read property "post_type" on null in C:\laragon\www\wordpress\wp-content\plugins\ultimate-member\includes\admin\core\class-admin-columns.php on line 70
+[11-Sep-2025 17:31:22 Africa/Tunis] PHP Warning:  Attempt to read property "post_date" on null in C:\laragon\www\wordpress\wp-admin\includes\class-wp-posts-list-table.php on line 1196
+[11-Sep-2025 17:31:22 Africa/Tunis] PHP Warning:  Attempt to read property "post_status" on null in C:\laragon\www\wordpress\wp-admin\includes\class-wp-posts-list-table.php on line 1213
+[11-Sep-2025 17:31:22 Africa/Tunis] PHP Warning:  Attempt to read property "post_status" on null in C:\laragon\www\wordpress\wp-admin\includes\class-wp-posts-list-table.php on line 1215
+[11-Sep-2025 17:31:22 Africa/Tunis] PHP Warning:  Attempt to read property "post_status" on null in C:\laragon\www\wordpress\wp-admin\includes\template.php on line 812
+[11-Sep-2025 17:31:22 Africa/Tunis] PHP Warning:  Attempt to read property "post_date" on null in C:\laragon\www\wordpress\wp-admin\includes\template.php on line 823
+[11-Sep-2025 16:31:23 UTC] PHP Warning:  Constant GE_MODULE already defined in C:\laragon\www\wordpress\wp-content\plugins\GestionMasters\GestionMasters.php on line 11
+[11-Sep-2025 17:31:23 Africa/Tunis] PHP Warning:  Undefined variable $email in C:\laragon\www\wordpress\wp-content\plugins\secure-login\includes\login-handler.php on line 4
+[11-Sep-2025 16:31:33 UTC] PHP Warning:  Constant GE_MODULE already defined in C:\laragon\www\wordpress\wp-content\plugins\GestionMasters\GestionMasters.php on line 11
+[11-Sep-2025 17:31:33 Africa/Tunis] PHP Warning:  Undefined variable $email in C:\laragon\www\wordpress\wp-content\plugins\secure-login\includes\login-handler.php on line 4
+[11-Sep-2025 16:31:33 UTC] PHP Warning:  Constant GE_MODULE already defined in C:\laragon\www\wordpress\wp-content\plugins\GestionMasters\GestionMasters.php on line 11
+[11-Sep-2025 17:31:33 Africa/Tunis] PHP Warning:  Undefined variable $email in C:\laragon\www\wordpress\wp-content\plugins\secure-login\includes\login-handler.php on line 4
+[11-Sep-2025 16:31:34 UTC] PHP Warning:  Constant GE_MODULE already defined in C:\laragon\www\wordpress\wp-content\plugins\GestionMasters\GestionMasters.php on line 11
+[11-Sep-2025 17:31:35 Africa/Tunis] PHP Warning:  Undefined variable $email in C:\laragon\www\wordpress\wp-content\plugins\secure-login\includes\login-handler.php on line 4
+[11-Sep-2025 17:31:38 Africa/Tunis] PHP Fatal error:  Uncaught RuntimeException: Unable to release actions from claim id 0. in C:\laragon\www\wordpress\wp-content\plugins\ultimate-member\includes\lib\action-scheduler\classes\data-stores\ActionScheduler_DBStore.php:1128
+Stack trace:
+#0 C:\laragon\www\wordpress\wp-content\plugins\ultimate-member\includes\lib\action-scheduler\classes\ActionScheduler_QueueRunner.php(195): ActionScheduler_DBStore->release_claim(Object(ActionScheduler_ActionClaim))
+#1 C:\laragon\www\wordpress\wp-content\plugins\ultimate-member\includes\lib\action-scheduler\classes\ActionScheduler_QueueRunner.php(158): ActionScheduler_QueueRunner->do_batch(25, 'WP Cron')
+#2 C:\laragon\www\wordpress\wp-includes\class-wp-hook.php(324): ActionScheduler_QueueRunner->run('WP Cron')
+#3 C:\laragon\www\wordpress\wp-includes\class-wp-hook.php(348): WP_Hook->apply_filters('', Array)
+#4 C:\laragon\www\wordpress\wp-includes\plugin.php(565): WP_Hook->do_action(Array)
+#5 C:\laragon\www\wordpress\wp-cron.php(191): do_action_ref_array('action_schedule...', Array)
+#6 {main}
+  thrown in C:\laragon\www\wordpress\wp-content\plugins\ultimate-member\includes\lib\action-scheduler\classes\data-stores\ActionScheduler_DBStore.php on line 1128
+[11-Sep-2025 17:31:38 Africa/Tunis] PHP Fatal error:  Uncaught RuntimeException: Unable to release actions from claim id 0. in C:\laragon\www\wordpress\wp-content\plugins\ultimate-member\includes\lib\action-scheduler\classes\data-stores\ActionScheduler_DBStore.php:1128
+Stack trace:
+#0 C:\laragon\www\wordpress\wp-content\plugins\ultimate-member\includes\lib\action-scheduler\classes\ActionScheduler_FatalErrorMonitor.php(95): ActionScheduler_DBStore->release_claim(Object(ActionScheduler_ActionClaim))
+#1 C:\laragon\www\wordpress\wp-includes\class-wp-hook.php(324): ActionScheduler_FatalErrorMonitor->handle_unexpected_shutdown('')
+#2 C:\laragon\www\wordpress\wp-includes\class-wp-hook.php(348): WP_Hook->apply_filters(NULL, Array)
+#3 C:\laragon\www\wordpress\wp-includes\plugin.php(517): WP_Hook->do_action(Array)
+#4 C:\laragon\www\wordpress\wp-includes\load.php(1304): do_action('shutdown')
+#5 [internal function]: shutdown_action_hook()
+#6 {main}
+  thrown in C:\laragon\www\wordpress\wp-content\plugins\ultimate-member\includes\lib\action-scheduler\classes\data-stores\ActionScheduler_DBStore.php on line 1128
+[11-Sep-2025 17:31:40 Africa/Tunis] PHP Fatal error:  Uncaught RuntimeException: Unable to release actions from claim id 0. in C:\laragon\www\wordpress\wp-content\plugins\ultimate-member\includes\lib\action-scheduler\classes\data-stores\ActionScheduler_DBStore.php:1128
+Stack trace:
+#0 C:\laragon\www\wordpress\wp-content\plugins\ultimate-member\includes\lib\action-scheduler\classes\ActionScheduler_QueueRunner.php(195): ActionScheduler_DBStore->release_claim(Object(ActionScheduler_ActionClaim))
+#1 C:\laragon\www\wordpress\wp-content\plugins\ultimate-member\includes\lib\action-scheduler\classes\ActionScheduler_QueueRunner.php(158): ActionScheduler_QueueRunner->do_batch(25, 'Async Request')
+#2 C:\laragon\www\wordpress\wp-includes\class-wp-hook.php(324): ActionScheduler_QueueRunner->run('Async Request')
+#3 C:\laragon\www\wordpress\wp-includes\class-wp-hook.php(348): WP_Hook->apply_filters('', Array)
+#4 C:\laragon\www\wordpress\wp-includes\plugin.php(517): WP_Hook->do_action(Array)
+#5 C:\laragon\www\wordpress\wp-content\plugins\ultimate-member\includes\lib\action-scheduler\classes\ActionScheduler_AsyncRequest_QueueRunner.php(48): do_action('action_schedule...', 'Async Request')
+#6 C:\laragon\www\wordpress\wp-content\plugins\ultimate-member\includes\lib\action-scheduler\lib\WP_Async_Request.php(174): ActionScheduler_AsyncRequest_QueueRunner->handle()
+#7 C:\laragon\www\wordpress\wp-includes\class-wp-hook.php(324): WP_Async_Request->maybe_handle('')
+#8 C:\laragon\www\wordpress\wp-includes\class-wp-hook.php(348): WP_Hook->apply_filters('', Array)
+#9 C:\laragon\www\wordpress\wp-includes\plugin.php(517): WP_Hook->do_action(Array)
+#10 C:\laragon\www\wordpress\wp-admin\admin-ajax.php(192): do_action('wp_ajax_as_asyn...')
+#11 {main}
+  thrown in C:\laragon\www\wordpress\wp-content\plugins\ultimate-member\includes\lib\action-scheduler\classes\data-stores\ActionScheduler_DBStore.php on line 1128
+[11-Sep-2025 17:31:40 Africa/Tunis] PHP Fatal error:  Uncaught RuntimeException: Unable to release actions from claim id 0. in C:\laragon\www\wordpress\wp-content\plugins\ultimate-member\includes\lib\action-scheduler\classes\data-stores\ActionScheduler_DBStore.php:1128
+Stack trace:
+#0 C:\laragon\www\wordpress\wp-content\plugins\ultimate-member\includes\lib\action-scheduler\classes\ActionScheduler_FatalErrorMonitor.php(95): ActionScheduler_DBStore->release_claim(Object(ActionScheduler_ActionClaim))
+#1 C:\laragon\www\wordpress\wp-includes\class-wp-hook.php(324): ActionScheduler_FatalErrorMonitor->handle_unexpected_shutdown('')
+#2 C:\laragon\www\wordpress\wp-includes\class-wp-hook.php(348): WP_Hook->apply_filters(NULL, Array)
+#3 C:\laragon\www\wordpress\wp-includes\plugin.php(517): WP_Hook->do_action(Array)
+#4 C:\laragon\www\wordpress\wp-includes\load.php(1304): do_action('shutdown')
+#5 [internal function]: shutdown_action_hook()
+#6 {main}
+  thrown in C:\laragon\www\wordpress\wp-content\plugins\ultimate-member\includes\lib\action-scheduler\classes\data-stores\ActionScheduler_DBStore.php on line 1128
+[11-Sep-2025 16:31:43 UTC] PHP Warning:  Constant GE_MODULE already defined in C:\laragon\www\wordpress\wp-content\plugins\GestionMasters\GestionMasters.php on line 11
+[11-Sep-2025 17:31:43 Africa/Tunis] PHP Warning:  Undefined variable $email in C:\laragon\www\wordpress\wp-content\plugins\secure-login\includes\login-handler.php on line 4
+[11-Sep-2025 16:31:46 UTC] PHP Warning:  Constant GE_MODULE already defined in C:\laragon\www\wordpress\wp-content\plugins\GestionMasters\GestionMasters.php on line 11
+[11-Sep-2025 17:31:47 Africa/Tunis] PHP Warning:  Undefined variable $email in C:\laragon\www\wordpress\wp-content\plugins\secure-login\includes\login-handler.php on line 4
+[11-Sep-2025 16:31:47 UTC] PHP Warning:  Constant GE_MODULE already defined in C:\laragon\www\wordpress\wp-content\plugins\GestionMasters\GestionMasters.php on line 11
+[11-Sep-2025 17:31:47 Africa/Tunis] PHP Warning:  Undefined variable $email in C:\laragon\www\wordpress\wp-content\plugins\secure-login\includes\login-handler.php on line 4
+[11-Sep-2025 16:31:53 UTC] PHP Warning:  Constant GE_MODULE already defined in C:\laragon\www\wordpress\wp-content\plugins\GestionMasters\GestionMasters.php on line 11
+[11-Sep-2025 17:31:54 Africa/Tunis] PHP Warning:  Undefined variable $email in C:\laragon\www\wordpress\wp-content\plugins\secure-login\includes\login-handler.php on line 4

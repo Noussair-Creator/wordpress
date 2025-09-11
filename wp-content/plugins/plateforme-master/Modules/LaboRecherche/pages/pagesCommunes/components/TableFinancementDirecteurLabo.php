@@ -445,7 +445,7 @@
             </tr>
         </thead>
         <tbody>
-            <tr>
+            <!--<tr>
                 <td><input type="checkbox" class="row-checkbox"></td>
                 <td class="left">MESRS</td>
                 <td class="left">Public</td>
@@ -573,16 +573,31 @@
                         </div>
                     </div>
                 </td>
-            </tr>
+            </tr>-->
         </tbody>
     </table>
 </div>
 
 <!-- SCRIPTS -->
-<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+<?php
+$current_user = wp_get_current_user();
+$roles = (array) $current_user->roles;
+$role = $roles[0] ?? '';
+$user_id = get_current_user_id();
+?>
+
 
 <script>
+  window.PMSettings = {
+    restUrl: "<?= esc_url(rest_url()) ?>", // ex: https://utmresearchplatform.clickerp.tn/wp-json/
+    nonce: "<?= wp_create_nonce('wp_rest') ?>", // nonce pour X-WP-Nonce
+    role: "<?= esc_js($role) ?>", // rôle principal de l’utilisateur
+    userId: <?= (int) $user_id ?> // ID WP de l’utilisateur
+  };
+</script>
+
+<script>
+    /*
     $(document).ready(function () {
         // --- TABLE 1 SCRIPT ---
         var table1 = $('#candidaturesTable').DataTable({
@@ -643,4 +658,5 @@
             $('.dropdown-menu').removeClass('show');
         });
     });
+    */
 </script>

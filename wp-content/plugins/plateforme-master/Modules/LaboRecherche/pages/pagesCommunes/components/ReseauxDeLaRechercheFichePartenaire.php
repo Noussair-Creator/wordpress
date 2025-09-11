@@ -159,7 +159,7 @@
         <h3>Informations générales</h3>
         <ul class="styled-list">
             <li><strong>Institution :</strong> <span id="rg-institution">—</span></li>
-            <li><strong>Département / Unité :</strong> <span id="rg-unite">—</span></li>
+            <!--<li><strong>Département / Unité :</strong> <span id="rg-unite">—</span></li>-->
             <li><strong>Pays :</strong> <span id="rg-pays">—</span></li>
             <li><strong>Adresse :</strong> <span id="rg-adresse">—</span></li>
             <li>
@@ -258,7 +258,7 @@
     </div>
 
     <!-- Pièces jointes -->
-    <div class="card full-width">
+   <!-- <div class="card full-width">
         <h3>Pièces jointes</h3>
         <table class="parcours-table">
             <thead>
@@ -270,11 +270,10 @@
                 </tr>
             </thead>
             <tbody id="rg-pj-tbody">
-                <!-- Rempli par JS -->
             </tbody>
         </table>
         <div id="rg-pj-empty" style="margin-top:8px;">Aucune pièce jointe</div>
-    </div>
+    </div>-->
 
 </div>
 
@@ -1249,12 +1248,17 @@ $user_id = get_current_user_id();
 
             // Bloc Informations générales
             document.querySelector(".card:nth-of-type(1) ul").innerHTML = `
-      <li><strong>Institution :</strong> ${reseau.institution || ''}</li>
-      <li><strong>Département / Unité :</strong> ${reseau.unite || '—'}</li>
-      <li><strong>Pays :</strong> ${reseau.pays || ''}</li>
-      <li><strong>Adresse :</strong> ${reseau.adresse || '—'}</li>
-      <li><strong>Site web :</strong> ${reseau.site_web ? `<a href="${reseau.site_web}" target="_blank">${reseau.site_web}</a>` : '—'}</li>
-    `;
+            <li><strong>Institution :</strong> ${reseau.institution || ''}</li>
+            <!--<li><strong>Département / Unité :</strong> ${reseau.unite || '—'}</li>-->
+            <li><strong>Pays :</strong> ${reseau.pays || ''}</li>
+            <li><strong>Adresse :</strong> ${reseau.adresse_org || '—'}</li>
+            <li><strong>Site web :</strong> ${
+                reseau.site_web 
+                    ? `<a href="${reseau.site_web}" target="_blank">${reseau.site_web}</a>` 
+                    : '—'
+            }</li>
+            `;
+
 
             // Bloc Contacts & Responsables
             const tbodyContact = document.querySelector(".card:nth-of-type(2) tbody");
@@ -1284,15 +1288,22 @@ $user_id = get_current_user_id();
     `;
 
             // --- Bloc Projets associés ---
-            const projIds = reseau.projets_associes || [];
+            const projets = reseau.projets_associes || [];
 
-            if (projIds.length) {
-                // on envoie les IDs au backend et on ne garde que ceux demandés
-                const projects = await getProjectsByIds(projIds);
-                renderProjectsIntoCard4(projects);
+            if (projets.length) {
+            const html = projets.map(p => `
+                <ul class="styled-list">
+                <li><strong>Projet :</strong> ${p.titre || '—'}</li>
+                </ul>
+            `).join('');
+
+            document.querySelector(".card:nth-of-type(4)").innerHTML =
+                `<h3>Projets de recherche associés</h3>${html}`;
             } else {
-                renderProjectsIntoCard4([]);
+            document.querySelector(".card:nth-of-type(4)").innerHTML =
+                `<h3>Projets de recherche associés</h3><p>Aucun projet associé</p>`;
             }
+
 
 
             // Bloc Activités (si tu stockes dans reseau.activites)

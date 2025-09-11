@@ -3,6 +3,7 @@ $role = $role ?? "service";
 // require_once plugin_dir_path(__FILE__) . '../config/roles.php';
 require_once plugin_dir_path(__FILE__) . '../../../../config/roles.php';
 require_once plugin_dir_path(__FILE__) . '../requireApi.php';
+
 ?>
 
 <!DOCTYPE html>
@@ -10,7 +11,7 @@ require_once plugin_dir_path(__FILE__) . '../requireApi.php';
 
 <head>
     <meta charset="UTF-8">
-    <title>Fiche Projet</title>
+    <title>ACTUALITÉS DE L'UTM</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
@@ -19,19 +20,25 @@ require_once plugin_dir_path(__FILE__) . '../requireApi.php';
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
-    <style>
-    :root {
-        --red: #b60303;
-        --gray: #f3f3f3;
-        --dark: #333;
-    }
 
-    body {
-        margin: 0;
-        font-family: 'Segoe UI', sans-serif;
-        background: var(--gray);
-        min-height: 100vh;
-    }
+
+
+
+
+
+    <style>
+        :root {
+            --red: #b60303;
+            --gray: #f3f3f3;
+            --dark: #333;
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', sans-serif;
+            background: var(--gray);
+            min-height: 100vh;
+        }
     </style>
 </head>
 
@@ -55,8 +62,16 @@ require_once plugin_dir_path(__FILE__) . '../requireApi.php';
                 <?php include 'wp-content/plugins/plateforme-master/pages/components/Dashboard-Bar.php'; ?>
 
                 <div class="content p-4">
+                    <!-- Top Boxes (disponibilités, calendriers, carrousel) -->
 
-                    <?php include 'components/EtatDavancementDesProjetsFicheProjet.php'; ?>
+                    <!-- Card Grid (modules) -->
+                    <?php include 'components/statmanifestations-scientifiques.php'; ?>
+
+                    <?php // include 'components/carouselActualitesDeLutmDirecteurlabo.php'; ?>
+
+                    <?php // include 'components/TableActualitesDeLutmDirecteurlabo.php'; ?>
+
+                    <?php include 'components/Cardmanifestations-scientifiques.php'; ?>
 
                 </div>
             </div>

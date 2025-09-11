@@ -8,84 +8,24 @@
     <div class="card full-width">
         <h3>Informations générales</h3>
         <ul class="styled-list">
-            <li><strong>Nom du financement :</strong> Programme H2020 – BCI-Learn</li>
-            <li><strong>Type de source :</strong> Financement international (Union Européenne – H2020)</li>
-            <li><strong>Référence de convention :</strong> EU/H2020/UTM/BCI/2023</li>
-            <li><strong>Montant total attribué :</strong> 150 000 TND</li>
-            <li><strong>Projet associé :</strong> BCI-Learn - Interface cerveau-machine portable</li>
-            <li><strong>Date de début :</strong> 01 mars 2023</li>
-            <li><strong>Date de fin prévue :</strong> 28 février 2026</li>
+            <li><strong>Source du financement :</strong> </li>
+            <li><strong>Type de source :</strong> </li>
+            <li><strong>Référence de convention :</strong> </li>
+            <li><strong>Montant total attribué :</strong> </li>
+            <li><strong>Projets associés :</strong> </li>
+            <li><strong>Date de début de  premier projet :</strong> </li>
+            <li><strong>Date de fin prévue de  dernier projet  :</strong> </li>
             <li><strong>Montant consommé à ce jour :</strong> 95 000 TND</li>
             <li><strong>Reste à engager :</strong> 55 000 TND</li>
-            <li><strong>Taux d'exécution budgétaire :</strong> 63.33 %</li>
+            <li><strong>Taux d'exécution budgétaire :</strong> </li>
             <li><strong>Statut du financement :</strong> <span> <i class="fas fa-circle status-active-icon"></i>En
                     cours</span></li>
-            <li><strong>Dernière mise à jour :</strong> 05 juillet 2025</li>
-            <li><strong>Responsable financier :</strong> Dr. Sarra Messaoudi (Responsable projet UTM)</li>
-            <li><strong>Observations :</strong> Dernier virement UE reçu le 10/06/2025 – prochaine tranche en
-                attente.</li>
+            <li><strong>Dernière mise à jour : dernierezs depenses </strong> </li>
+           
         </ul>
     </div>
 
-    <!-- Contacts & Responsables  block -->
-    <div class="card full-width">
-        <h3>Contacts & Responsables</h3>
-        <table class="parcours-table">
-            <thead>
-                <tr>
-                    <th>Poste budgétaire</th>
-                    <th>Montant alloué (TND)</th>
-                    <th>Consommé (TND)</th>
-                    <th>Solde</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>Équipements EEG</td>
-                    <td>40 000</td>
-                    <td>38 000</td>
-                    <td>2 000</td>
-                </tr>
-                <tr>
-                    <td>Développement logiciel</td>
-                    <td>30 000</td>
-                    <td>22 000</td>
-                    <td>8 000</td>
-                </tr>
-                <tr>
-                    <td>Missions (mobilité Europe)</td>
-                    <td>25 000</td>
-                    <td>20 000</td>
-                    <td>5 000</td>
-                </tr>
-                <tr>
-                    <td>Doctorants & stages</td>
-                    <td>20 000</td>
-                    <td>10 000</td>
-                    <td>10 000</td>
-                </tr>
-                <tr>
-                    <td>Publications & communication</td>
-                    <td>15 000</td>
-                    <td>3 000</td>
-                    <td>12 000</td>
-                </tr>
-                <tr>
-                    <td>Gestion administrative</td>
-                    <td>10 000</td>
-                    <td>2 000</td>
-                    <td>8 000</td>
-                </tr>
-                <tr style="font-weight: bold; background-color: #f5f5f5;">
-                    <td>Total</td>
-                    <td>150 000</td>
-                    <td>95 000</td>
-                    <td>55 000</td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-    <!-- Répartition budgétaire block -->
+    <!-- Répartition budgétaire block 
     <div class="card full-width">
         <h3>Répartition budgétaire</h3>
         <ul class="styled-list">
@@ -94,7 +34,6 @@
             <li><strong>Durée prévue :</strong>3 ans (Mars 2023 – Février 2026)</li>
             <li><strong>Convention signée :</strong>Oui (réf. : CONV/PSACLAY/2023)</li>
             <li><strong>Lien GED :</strong> <a href="#">
-                    <!-- <i class="fas fa-file-pdf pdf-icon"></i> -->
                     <img width="20px" class="pdf-icon"
                         src="/wp-content/plugins/plateforme-master/images/icons/pdf-svgrepo-com (2).png"
                         alt="pdf-svgrepo-com (2).png">
@@ -102,7 +41,7 @@
                 </a></li>
         </ul>
     </div>
-
+-->
 
 
     <!-- Pièces justificatives associées block -->

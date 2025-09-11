@@ -1648,7 +1648,17 @@
                         <label for="email">Email</label>
                         <input type="email" id="email">
                     </div>
+                    
                 </fieldset>
+
+                <div class="form-group">
+                        <label for="adresse">Adresse</label>
+                        <input type="adresse" id="adresse">
+                    </div>
+                    <div class="form-group">
+                        <label for="siteweb">Site Web</label>
+                        <input type="siteweb" id="siteweb">
+                    </div>
 
                 <div class="form-group">
                     <label for="dateDebut">Date Début</label>
@@ -1659,6 +1669,7 @@
                     <label for="dateFin">Date Fin</label>
                     <input type="date" id="dateFin">
                 </div>
+                
 
 
                 <div class="form-group">
@@ -1752,6 +1763,16 @@
                         <input type="email" id="emailModifier">
                     </div>
                 </fieldset>
+
+
+                <div class="form-group">
+                        <label for="adresseModifier">Adresse</label>
+                        <input type="adresseModifier" id="adresseModifier">
+                    </div>
+                    <div class="form-group">
+                        <label for="sitewebModifier">Site Web</label>
+                        <input type="sitewebModifier" id="sitewebModifier">
+                </div>
 
                 <div class="form-group">
                     <label for="dateDebut">Date Début</label>
