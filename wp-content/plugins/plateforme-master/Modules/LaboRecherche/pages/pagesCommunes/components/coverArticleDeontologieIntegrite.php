@@ -54,13 +54,13 @@
 </style>
 
 <div class="cover-container">
-    <img src="/wp-content/plugins/plateforme-master/images/newimages/Groupe de masques 433.png"
+    <img src="/wp-content/plugins/plateforme-master/images/newimages/Groupe de masques 436.png"
         alt="Person working on a laptop">
 
     <!-- The overlay content (text) -->
     <div class="cover-content">
         <div class="cover-text">
-            COMMENT PROTÉGER<br>MA RECHERCHE?
+            ETHIQUE, DÉONTOLOGIE ET <br>INTÉGRITÉ
         </div>
 
     </div>

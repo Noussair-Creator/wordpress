@@ -60,7 +60,7 @@
     <!-- The overlay content (text) -->
     <div class="cover-content">
         <div class="cover-text">
-            COMMENT PROTÉGER<br>MA RECHERCHE?
+            COMMENT DIFFUSER<br>MA RECHERCHE?
         </div>
 
     </div>

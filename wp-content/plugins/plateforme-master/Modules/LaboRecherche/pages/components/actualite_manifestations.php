@@ -25,7 +25,7 @@
 
     <!-- Bloc Manifestations -->
     <div class="card-manif">
-        <div class="corner-icon">↗</div>
+        <div class="corner-icon"><a href="/manifestations-scientifiques">↗</a></div>
         <div class="title">Manifestations scientifiques</div>
 
         <div class="photo-grid">

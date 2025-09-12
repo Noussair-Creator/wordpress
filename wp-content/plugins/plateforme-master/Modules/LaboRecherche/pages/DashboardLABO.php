@@ -1,6 +1,6 @@
 <?php
 $role = $role ?? "service";
-require_once plugin_dir_path(__FILE__) . '../../../config/roles.php';
+require_once 'config/roles.php';
 
 require_once 'requireApi.php';
 
@@ -8,92 +8,92 @@ require_once 'requireApi.php';
 
 <!DOCTYPE html>
 <html lang="fr">
-
 <head>
-    <meta charset="UTF-8">
-    <title>Dashboard - Laboratoire de recherche</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <meta charset="UTF-8">
+  <title>Dashboard - Laboratoire de recherche</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+ 
 
 
+ 
 
-
-
-
-
-    <style>
+ 
+  <style>
     :root {
-        --red: #b60303;
-        --gray: #f3f3f3;
-        --dark: #333;
+      --red: #b60303;
+      --gray: #f3f3f3;
+      --dark: #333;
     }
 
     body {
-        margin: 0;
-        font-family: 'Segoe UI', sans-serif;
-        background: var(--gray);
-        min-height: 100vh;
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: var(--gray);
+      min-height: 100vh; 
     }
+
     </style>
 </head>
 
 
 <body>
-    <!-- Header -->
-    <?php include plugin_dir_path(__FILE__) . './components/header.php'; ?>
+  <!-- Header -->
+  <?php include 'components/header.php'; ?>
 
-    <div class="container-fluid">
-        <div class="row">
-            <!-- Sidebar -->
-            <div class="col-md-3 col-lg-2 p-0 sidbarcol">
+  <div class="container-fluid">
+    <div class="row">
+      <!-- Sidebar -->
+      <div class="col-md-3 col-lg-2 p-0 sidbarcol">
 
-                <?php
-                if ($role == 'um_service-etablissement' || $role == 'um_service-utm') {
-                    include plugin_dir_path(__FILE__) . './components/sidebarUTM.php';
-                } else {
-                    include plugin_dir_path(__FILE__) . './components/sidebar.php';
-                }
-                ?>
-
-
-            </div>
-
-            <div class="col-md-9 col-lg-10 p-0">
-                <!-- Nav pages -->
-                <?php plugin_dir_path(__FILE__) . './components/Nav-Pages.php'; ?>
-
-                <!-- Dashboard Top Bar -->
-                <?php include 'wp-content/plugins/plateforme-master/pages/components/Dashboard-Bar.php'; ?>
-
-                <div class="content p-4">
-                    <!-- Top Boxes (disponibilités, calendriers, carrousel) -->
-                    <?php include plugin_dir_path(__FILE__) . './components/Top-Boxes.php'; ?>
-
-                    <!-- Stats Graphs (3 graphiques) -->
-                    <?php include plugin_dir_path(__FILE__) . './components/stats/Stat-Box.php'; ?>
+        <?php
+            if ($role == 'um_service-etablissement' || $role == 'um_service-utm') {
+                include 'components/sidebarUTM.php'; 
+            }
+            else {
+              include 'components/sidebar.php'; 
+            }
+       ?>
 
 
-                    <!-- Card Grid (modules) -->
-                    <?php include plugin_dir_path(__FILE__) . './components/Card-Grid.php'; ?>
+      </div>
+
+      <div class="col-md-9 col-lg-10 p-0">
+        <!-- Nav pages -->
+        <?php include 'components/Nav-Pages.php'; ?>
+
+        <!-- Dashboard Top Bar -->
+        <?php include 'wp-content/plugins/plateforme-master/pages/components/Dashboard-Bar.php'; ?>
+
+        <div class="content p-4">
+          <!-- Top Boxes (disponibilités, calendriers, carrousel) -->
+          <?php include 'components/Top-Boxes.php'; ?>
+
+          <!-- Stats Graphs (3 graphiques) -->
+          <?php include 'components/stats/Stat-Box.php'; ?>
 
 
-                    <?php include plugin_dir_path(__FILE__) . './components/actualite_manifestations.php'; ?>
-                    <?php include plugin_dir_path(__FILE__) . './components/box_liens.php'; ?>
+          <!-- Card Grid (modules) -->
+          <?php include 'components/Card-Grid.php'; ?>
 
 
+          <?php include 'components/actualite_manifestations.php'; ?>
+          <?php include 'components/box_liens.php'; ?>
 
-                </div>
-            </div>
+          
+
         </div>
+      </div>
     </div>
+  </div>
 
-    <!-- Scripts -->
-    <?php include 'components/scripts.php'; ?>
+  <!-- Scripts -->
+  <?php include 'components/scripts.php'; ?>
 </body>
-
 </html>
