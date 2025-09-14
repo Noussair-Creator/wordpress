@@ -233,7 +233,7 @@ add_action('rest_api_init', function () {
     array('methods'=>'DELETE','callback'=>'svc_activite_quotidienne_delete','permission_callback'=>function(){ return is_user_logged_in(); })
   ));
 });
-
+/*
 // Paramètres/validation pour activite_scientifique
 function svc_activite_scientifique_args_create(){ return array(
     'annee' => array('required' => true, 'validate_callback' => function($param){ return is_scalar($param) || is_array($param); }, 'sanitize_callback' => 'sanitize_text_field'),
@@ -247,6 +247,50 @@ function svc_activite_scientifique_args_update(){ return array(
     'titre_reference' => array('required' => false, 'validate_callback' => function($param){ return is_scalar($param) || is_array($param); }, 'sanitize_callback' => 'sanitize_text_field'),
     'type' => array('required' => false, 'validate_callback' => function($param){ return is_scalar($param) || is_array($param); }, 'sanitize_callback' => 'sanitize_text_field')
 ); }
+*/
+
+// Paramètres/validation pour activite_scientifique
+function svc_activite_scientifique_args_create(){ 
+  return array(
+    'annee' => array(
+      'required' => true,
+      'validate_callback' => function($param){ return is_scalar($param); },
+      'sanitize_callback' => 'sanitize_text_field'
+    ),
+    'user_id' => array(
+      'required' => true,
+      'validate_callback' => function($param){ return is_numeric($param); },
+      'sanitize_callback' => 'absint'
+    ),
+    'titre_reference' => array(
+      'required' => true,
+      'validate_callback' => function($param){ return is_scalar($param); },
+      'sanitize_callback' => 'sanitize_text_field'
+    ),
+    'type_id' => array(
+      'required' => true,
+      'validate_callback' => function($param){ return is_scalar($param); },
+      'sanitize_callback' => 'sanitize_text_field'
+    ),
+    'Source' => array(
+      'required' => false,
+      'validate_callback' => function($param){ return is_scalar($param); },
+      'sanitize_callback' => 'sanitize_text_field'
+    ),
+    'piece_jointe_path' => array(
+      'required' => false,
+      'validate_callback' => function($param){ return is_scalar($param); },
+      'sanitize_callback' => 'sanitize_text_field'
+    ),
+  );
+}
+
+function svc_activite_scientifique_args_update(){ 
+  $args = svc_activite_scientifique_args_create();
+  // tous facultatifs en update
+  foreach ($args as &$def){ $def['required'] = false; }
+  return $args;
+}
 
 add_action('rest_api_init', function () {
   $ns = 'plateforme-directeurderecherche/v1';
@@ -256,7 +300,13 @@ add_action('rest_api_init', function () {
   ));
   register_rest_route($ns, '/activite_scientifique/(?P<id>\d+)', array(
     array('methods'=>'GET','callback'=>'svc_activite_scientifique_get','permission_callback'=>function(){ return is_user_logged_in(); }),
-    array('methods'=>'PATCH','callback'=>'svc_activite_scientifique_update','permission_callback'=>function(){ return is_user_logged_in(); }, 'args'=>array_merge(array('id'=>array('required'=>true,'validate_callback'=>function($p){return is_numeric($p);})), svc_activite_scientifique_args_update())),
+    array(
+      'methods'  => ['PATCH','POST'], // accepte PATCH et POST
+      'callback' => 'svc_activite_scientifique_update',
+      'permission_callback' => function(){ return is_user_logged_in(); }
+    
+      
+    ),
     array('methods'=>'PUT','callback'=>'svc_activite_scientifique_update','permission_callback'=>function(){ return is_user_logged_in(); }, 'args'=>array_merge(array('id'=>array('required'=>true,'validate_callback'=>function($p){return is_numeric($p);})), svc_activite_scientifique_args_update())),
     array('methods'=>'DELETE','callback'=>'svc_activite_scientifique_delete','permission_callback'=>function(){ return is_user_logged_in(); })
   ));

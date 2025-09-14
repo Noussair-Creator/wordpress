@@ -14,12 +14,12 @@
         <!-- Gauche -->
         <div class="left-stats">
             <div class="stat-box">
-                <span class="label">Dernier actualité publiée </span>
-                <span class="value">13/06/2025</span>
+                <span class="label">Dernière manifestation publiée</span>
+                <span class="value"></span>
             </div>
             <div class="stat-box">
-                <span class="label">Nombre d'actualités ce mois</span>
-                <span class="value">5</span>
+                <span class="label">Nombre de manifestations ce mois</span>
+                <span class="value"></span>
             </div>
         </div>
 
@@ -28,7 +28,7 @@
             <div class="graph-header">
                 <h4>Catégories disponibles</h4>
                 <select class="graph-select">
-                    <option>2024 - 2025</option>
+                    <option>2025 - 2026</option>
                 </select>
             </div>
             <div class="blocChart">
@@ -434,7 +434,7 @@
 <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
 
 <script>
-    const labels = ['Appels à p projets', 'Colloques', 'Décisions'];
+   /* const labels = ['Appels à p projets', 'Colloques', 'Décisions'];
     const dataValues = [72, 14, 17];
     const colors = ['#808066', '#b1342f', '#dabebe'];
 
@@ -474,5 +474,5 @@
         item.className = 'legend-item';
         item.innerHTML = `<span class="legend-dot" style="background-color:${colors[i]}"></span>${label}`;
         legendContainer.appendChild(item);
-    });
+    });*/
 </script>

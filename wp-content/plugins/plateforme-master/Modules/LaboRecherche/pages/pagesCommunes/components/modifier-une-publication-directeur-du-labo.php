@@ -257,6 +257,132 @@ h2:not(:first-of-type) {
     </div>
 </div>
 
+<?php if (is_user_logged_in()): ?>
+  <script>
+    // REST settings exposées au JS
+    window.pmsettings = {
+      rest_root: <?php echo json_encode(esc_url_raw(rest_url())); ?>,
+      nonce: <?php echo json_encode(wp_create_nonce('wp_rest')); ?>
+    };
+    // Rôles utilisateur courant
+    window.pmuser = {
+      roles: <?php echo json_encode($roles); ?>
+    };
+  </script>
+<?php endif; ?>
+<script>
+(function(){
+  const REST_ROOT = (window.pmsettings && pmsettings.rest_root) || (window.wpApiSettings && wpApiSettings.root) || '/wp-json/';
+  const NONCE     = (window.pmsettings && pmsettings.nonce) || (window.wpApiSettings && wpApiSettings.nonce) || '';
+  const API       = REST_ROOT.replace(/\/$/,'') + '/plateforme-recherche/v1';
+
+  function q(k){ return new URLSearchParams(location.search).get(k); }
+  const pubId = q('id');
+
+  const $type   = document.getElementById('publicationType');
+  const $date   = document.getElementById('submissionDate');
+  const $titre  = document.getElementById('completeTitle');
+  const $resume = document.getElementById('summary');
+  const $comment= document.getElementById('comment');
+
+  // (optionnel) ton champ fichier unique -> 'fichier_url'
+  const $fileInput = document.getElementById('fileInput');
+
+  // Préremplir
+  async function load(){
+    if(!pubId){ alert('ID manquant'); return; }
+    const res = await fetch(`${API}/publication/${pubId}`, {
+      headers:{'X-WP-Nonce':NONCE,'Accept':'application/json'},
+      credentials:'same-origin'
+    });
+    if(!res.ok){ alert('Publication introuvable'); return; }
+    const p = await res.json();
+
+    $type.value   = p.type || '';
+    $date.value   = p.date_publication || '';
+    $titre.value  = p.titre || '';
+    $resume.value = p.resume || '';
+    $comment.value= p.commentaire || '';
+
+    // afficher fichier existant dans la liste
+    if (p.fichier_url) {
+      addFileListEntryFromURL(p.fichier_url);
+    }
+  }
+
+  function addFileListEntryFromURL(url){
+    const list = document.getElementById('fileList');
+    const li = document.createElement('li');
+    li.className = 'file-list-item';
+    li.innerHTML = `
+      <img style="width:30px" src="/wp-content/plugins/plateforme-master/imagesED/pdf-svgrepo-com (2).png" alt="">
+      <span>${url.split('/').pop()}</span>
+      <a class="btn-remove-file" href="${url}" target="_blank" title="Voir" style="text-decoration:none;">🔗</a>
+    `;
+    list.appendChild(li);
+  }
+
+  async function uploadToMedia(file){
+    // Utilise l’API WP REST Media pour obtenir une URL
+    const fd = new FormData();
+    fd.append('file', file, file.name);
+    const res = await fetch(REST_ROOT.replace(/\/$/,'') + '/wp/v2/media', {
+      method:'POST',
+      headers:{ 'X-WP-Nonce': NONCE },
+      body: fd,
+      credentials:'same-origin'
+    });
+    if(!res.ok) throw new Error('Upload failed');
+    const json = await res.json();
+    return json.source_url || '';
+  }
+
+  async function submit(){
+    let fichier_url = null;
+    if ($fileInput.files.length) {
+      try{
+        fichier_url = await uploadToMedia($fileInput.files[0]);
+      }catch(e){
+        alert('Upload fichier échoué'); return;
+      }
+    }
+
+    const payload = {
+      type: $type.value || '',
+      date_publication: $date.value || '',
+      titre: $titre.value || '',
+      resume: $resume.value || '',
+      commentaire: $comment.value || '',
+    };
+    if (fichier_url) payload.fichier_url = fichier_url;
+
+    const res = await fetch(`${API}/publication/${pubId}`, {
+      method:'PUT',
+      headers:{ 'X-WP-Nonce': NONCE, 'Content-Type':'application/json' },
+      credentials:'same-origin',
+      body: JSON.stringify(payload)
+    });
+    if(!res.ok){
+      const err = await res.json().catch(()=>({}));
+      alert((err && err.message) || 'Erreur serveur'); return;
+    }
+    // rediriger ou notifier
+    alert('Publication mise à jour');
+    // location.href = '/details-publication?id='+pubId;
+  }
+
+  // Boutons
+  document.querySelector('.btn-submit')?.addEventListener('click', function(e){
+    e.preventDefault(); submit();
+  });
+  document.querySelector('.btn-draft')?.addEventListener('click', function(e){
+    e.preventDefault(); submit(); // ou ajouter un flag draft si tu gères des brouillons
+  });
+
+  load();
+})();
+</script>
+
 <!-- Bootstrap 5 JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
     xintegrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous">

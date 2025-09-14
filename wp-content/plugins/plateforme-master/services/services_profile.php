@@ -130,51 +130,83 @@ function profile_get($current_user_id) {
 
 /* ---------------- UPDATE profile ---------------- */
 function profile_update($current_user_id, $patch) {
-  if (!$current_user_id) return new WP_Error('not_logged_in','Non connecté',['status'=>401]);
+  if (!$current_user_id) return new WP_Error('not_logged_in', 'Non connecté', ['status' => 401]);
   if (!is_array($patch)) $patch = [];
 
   $is_student = profile_is_student_role();
 
-  // Champs communs (NB: UI lock sur nom/prénom/nationalité/CIN; on accepte nationalité/CIN si envoyés)
-  if (isset($patch['nationalite'])) update_user_meta($current_user_id,'nationalite', sanitize_text_field($patch['nationalite']));
-  if (isset($patch['cin']))         update_user_meta($current_user_id,'cin',         sanitize_text_field($patch['cin']));
+  // Prepare user data for wp_update_user
+  $user_data = ['ID' => $current_user_id];
 
-  // Email/Tel (autorisés pour tout le monde selon ton NB)
+  // Update nom and prenom if provided and not locked (non-student)
+  if (!$is_student) {
+    if (isset($patch['nom'])) {
+      $user_data['last_name'] = sanitize_text_field($patch['nom']);
+    }
+    if (isset($patch['prenom'])) {
+      $user_data['first_name'] = sanitize_text_field($patch['prenom']);
+    }
+  }
+
+  // Update email1 if provided
   if (isset($patch['email1'])) {
-    $res = wp_update_user(['ID'=>$current_user_id,'user_email'=>sanitize_email($patch['email1'])]);
+    $user_data['user_email'] = sanitize_email($patch['email1']);
+  }
+
+  // Update user data if any fields are set
+  if (count($user_data) > 1) { // More than just ID
+    $res = wp_update_user($user_data);
     if (is_wp_error($res)) return $res;
   }
-  if (isset($patch['email2']))      update_user_meta($current_user_id,'email2',      sanitize_email($patch['email2']));
-  if (isset($patch['tel_country'])) update_user_meta($current_user_id,'tel_country', sanitize_text_field($patch['tel_country']));
-  if (isset($patch['tel']))         update_user_meta($current_user_id,'tel',         sanitize_text_field($patch['tel']));
 
-  // Grade / Spécialité (principalement pour non-étudiants ; on valide contre les tables)
+  // Update user meta fields
+  if (isset($patch['nationalite'])) update_user_meta($current_user_id, 'nationalite', sanitize_text_field($patch['nationalite']));
+  if (isset($patch['cin'])) update_user_meta($current_user_id, 'cin', sanitize_text_field($patch['cin']));
+  if (isset($patch['email2'])) update_user_meta($current_user_id, 'email2', sanitize_email($patch['email2']));
+  if (isset($patch['tel_country'])) update_user_meta($current_user_id, 'tel_country', sanitize_text_field($patch['tel_country']));
+  if (isset($patch['tel'])) update_user_meta($current_user_id, 'tel', sanitize_text_field($patch['tel']));
+
+  // Grade / Spécialité
   if (isset($patch['grade_id'])) {
     $gid = (int)$patch['grade_id'];
-    if ($gid === 0 || profile__grade_exists($gid)) update_user_meta($current_user_id,'grade_id',$gid);
-    else return new WP_Error('bad_request','grade_id invalide',['status'=>400]);
+    if ($gid === 0 || profile__grade_exists($gid)) {
+      update_user_meta($current_user_id, 'grade_id', $gid);
+    } else {
+      return new WP_Error('bad_request', 'grade_id invalide', ['status' => 400]);
+    }
   }
   if (isset($patch['specialite_id'])) {
     $sid = (int)$patch['specialite_id'];
-    if ($sid === 0 || profile__spec_exists($sid)) update_user_meta($current_user_id,'specialite_id',$sid);
-    else return new WP_Error('bad_request','specialite_id invalide',['status'=>400]);
+    if ($sid === 0 || profile__spec_exists($sid)) {
+      update_user_meta($current_user_id, 'specialite_id', $sid);
+    } else {
+      return new WP_Error('bad_request', 'specialite_id invalide', ['status' => 400]);
+    }
   }
 
   if ($is_student) {
-    foreach (['adr_etud','gov_etud','cp_etud','adr_parents','gov_parents','cp_parents','tel_parents'] as $k) {
-      if (isset($patch[$k])) update_user_meta($current_user_id,$k,sanitize_text_field($patch[$k]));
+    foreach (['adr_etud', 'gov_etud', 'cp_etud', 'adr_parents', 'gov_parents', 'cp_parents', 'tel_parents'] as $k) {
+      if (isset($patch[$k])) {
+        update_user_meta($current_user_id, $k, sanitize_text_field($patch[$k]));
+      }
     }
   } else {
     if (isset($patch['academic_info'])) {
-      $val = is_array($patch['academic_info']) ? wp_json_encode($patch['academic_info']) : (string)$patch['academic_info'];
-      update_user_meta($current_user_id,'academic_info',$val);
+      $academic_info = is_array($patch['academic_info']) ? $patch['academic_info'] : [];
+      // Sanitize academic_info fields
+      $sanitized_info = [
+        'email_acad' => isset($academic_info['email_acad']) ? sanitize_email($academic_info['email_acad']) : '',
+        'tel_pro' => isset($academic_info['tel_pro']) ? sanitize_text_field($academic_info['tel_pro']) : '',
+        'adresse_pro' => isset($academic_info['adresse_pro']) ? sanitize_text_field($academic_info['adresse_pro']) : '',
+        'fonctions' => isset($academic_info['fonctions']) ? sanitize_text_field($academic_info['fonctions']) : ''
+      ];
+      update_user_meta($current_user_id, 'academic_info', wp_json_encode($sanitized_info));
     }
   }
 
-  profile_emit_event('profile.updated',['user_id'=>$current_user_id,'updated_at'=>gmdate('c')]);
-  return ['ok'=>true];
+  profile_emit_event('profile.updated', ['user_id' => $current_user_id, 'updated_at' => gmdate('c')]);
+  return ['ok' => true];
 }
-
 /* ---------------- PASSWORD ---------------- */
 function profile_change_password($current_user_id, $payload) {
   if (!$current_user_id) return new WP_Error('not_logged_in','Non connecté',['status'=>401]);

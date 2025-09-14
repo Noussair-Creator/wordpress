@@ -207,6 +207,8 @@
                         l'environnement</a></li>
                 <li class="nav-separator">|</li>
                 <li class="nav-link-item"><a href="/annonces-de-soutenances-utm">Annonces de soutenances</a></li>
+                <li class="nav-separator">|</li>
+                <li class="nav-link-item"><a href="/manifestation-utm">Manifestation</a></li>
             </ul>
         </div>
     </nav>

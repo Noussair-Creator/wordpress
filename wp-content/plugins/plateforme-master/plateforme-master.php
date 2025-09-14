@@ -19,6 +19,7 @@ require_once plugin_dir_path(__FILE__) . 'includes/api-universites.php';
 require_once plugin_dir_path(__FILE__) . 'includes/reclamations-api.php';
 require_once plugin_dir_path(__FILE__) . 'includes//doctorants/api_doctorants.php';
 require_once plugin_dir_path(__FILE__) . 'includes//recherche/api_chercheur.php';
+require_once plugin_dir_path(__FILE__) . 'includes//recherche/api_assiduite.php';
 require_once plugin_dir_path(__FILE__) . 'includes/recherche/api_directeurderecherche.php';
 require_once plugin_dir_path(__FILE__) . 'includes/class-publication-controller.php';
 
@@ -34,6 +35,7 @@ require_once plugin_dir_path(__FILE__) . 'includes/api-profile.php';
 
 require_once plugin_dir_path(__FILE__) . 'includes/api_reunion.php';
 
+// require_once plugin_dir_path(__FILE__) . 'includes/api-notifications.php';
 
 
 
@@ -216,21 +218,8 @@ function plateforme_content($content)
             plateforme_redirect_home();
         }
     }
-    if (is_page('reclamation')) {
-        if (is_user_logged_in()) {
-            $current_user = wp_get_current_user();
-            if (in_array('um_candidat', $current_user->roles)) {
-                ob_start();
 
-                include plugin_dir_path(__FILE__) . 'pages/Candidature/reclamation/index.php';
 
-            } else {
-                plateforme_redirect_home();
-            }
-        } else {
-            plateforme_redirect_home();
-        }
-    }
     if (is_page('historique-de-candidature')) {
         if (is_user_logged_in()) {
             $current_user = wp_get_current_user();
@@ -633,6 +622,17 @@ function plateforme_content($content)
             plateforme_redirect_home();
         }
     }
+
+    if (is_page('notifications')) {
+        if (is_user_logged_in()) {
+            $current_user = wp_get_current_user();
+
+            include plugin_dir_path(__FILE__) . 'Modules/notifications/notifications.php';
+
+        } else {
+            plateforme_redirect_home();
+        }
+    }
     if (is_page('contacts')) {
         if (is_user_logged_in()) {
             $current_user = wp_get_current_user();
@@ -738,44 +738,22 @@ function plateforme_content($content)
         }
     }
 
+    if (is_page('reclamations')) {
+        if (is_user_logged_in()) {
+            $current_user = wp_get_current_user();
+
+            include plugin_dir_path(__FILE__) . 'Modules/reclamation/reclamations.php';
+
+        } else {
+            plateforme_redirect_home();
+        }
+    }
     if (is_page('suivi-reclamation')) {
         if (is_user_logged_in()) {
             $current_user = wp_get_current_user();
 
             include plugin_dir_path(__FILE__) . 'Modules/reclamation/SuiviReclamations.php';
 
-        } else {
-            plateforme_redirect_home();
-        }
-    }
-
-    if (is_page('reclamations')) {
-        if (is_user_logged_in()) {
-            $current_user = wp_get_current_user();
-            if (in_array('um_student_master', $current_user->roles)) {
-                ob_start();
-
-                include plugin_dir_path(__FILE__) . 'Modules/Master/pagesstudentmaster/reclamations.php';
-
-            } else {
-                plateforme_redirect_home();
-            }
-        } else {
-            plateforme_redirect_home();
-        }
-    }
-
-    if (is_page('suivi-reclamation')) {
-        if (is_user_logged_in()) {
-            $current_user = wp_get_current_user();
-            if (in_array('um_student_master', $current_user->roles)) {
-                ob_start();
-
-                include plugin_dir_path(__FILE__) . 'Modules/Master/pagesstudentmaster/SuiviReclamations.php';
-
-            } else {
-                plateforme_redirect_home();
-            }
         } else {
             plateforme_redirect_home();
         }
@@ -963,6 +941,26 @@ function plateforme_content($content)
             plateforme_redirect_home();
         }
     }
+    // create page manifestation-utm 
+    if (is_page('manifestation-utm')) {
+        if (is_user_logged_in()) {
+
+            include plugin_dir_path(__FILE__) . 'Modules/SiteRecherche/manifestation-utm.php';
+
+        } else {
+            plateforme_redirect_home();
+        }
+    }
+    // create page manifestation-details-utm
+    if (is_page('manifestation-details-utm')) {
+        if (is_user_logged_in()) {
+
+            include plugin_dir_path(__FILE__) . 'Modules/SiteRecherche/manifestation-details-utm.php';
+
+        } else {
+            plateforme_redirect_home();
+        }
+    }
 
 
 
@@ -1033,7 +1031,7 @@ function plateforme_content($content)
         'financements',
         'financement-fiche-de-financements',
         'actualites-de-l-utm',
-        'article',
+        'article-protection',
         'membre-de-labo',
         'membre-de-labo-fiche-membres',
         'publication',
@@ -1043,7 +1041,6 @@ function plateforme_content($content)
         'etat-d-avancement-des-projets',
         'etat-d-avancement-des-projets-fiche-projet',
         'rapports',
-        'suivi-reclamation',
         'reunions',
         'profile_',
         'ged_',
@@ -1053,6 +1050,10 @@ function plateforme_content($content)
         'assiduite-des-chercheurs',
         'calendrier_',
         'calendrier-detais',
+        'manifestations-scientifiques',
+        'article-publie',
+        'article-publication',
+        'article-deontologie-et-integrite'
     ];
 
     foreach ($Pages_communes as $page_slug) {
@@ -1336,7 +1337,6 @@ function plateforme_content($content)
         'conventions',
         'sujetsmemoire',
         'soutenances_coord',
-        'reclamation_coord',
         'rapport',
         'cours-planification-coord',
 
@@ -1523,19 +1523,7 @@ function pm_template_override()
         wp_redirect(home_url());
         exit;
     }
-    if (is_page('reclamation')) {
-        if (is_user_logged_in()) {
-            $user = wp_get_current_user();
-            if (in_array('um_candidat', $user->roles)) {
-                include plugin_dir_path(__FILE__) . 'pages/Candidature/reclamation/index.php';
-                exit;
-            }
-        }
 
-        // Rediriger les non autorisés
-        wp_redirect(home_url());
-        exit;
-    }
     if (is_page('historique-de-candidature')) {
         if (is_user_logged_in()) {
             $user = wp_get_current_user();
@@ -1832,6 +1820,16 @@ function pm_template_override()
 
         wp_redirect(home_url());
         exit;
+    } elseif (is_page('notifications')) {
+        if (is_user_logged_in()) {
+            $user = wp_get_current_user();
+            include plugin_dir_path(__FILE__) . 'Modules/notifications/notifications.php';
+            exit;
+
+        }
+
+        wp_redirect(home_url());
+        exit;
     } elseif (is_page('contacts')) {
         if (is_user_logged_in()) {
             $user = wp_get_current_user();
@@ -1911,10 +1909,9 @@ function pm_template_override()
     } elseif (is_page('reclamations')) {
         if (is_user_logged_in()) {
             $user = wp_get_current_user();
-            if (in_array('um_student_master', $user->roles)) {
-                include plugin_dir_path(__FILE__) . 'Modules/Master/pagesstudentmaster/reclamations.php';
-                exit;
-            }
+            include plugin_dir_path(__FILE__) . 'Modules/reclamation/reclamations.php';
+            exit;
+
         }
 
         wp_redirect(home_url());
@@ -1922,10 +1919,9 @@ function pm_template_override()
     } elseif (is_page('suivi-reclamation')) {
         if (is_user_logged_in()) {
             $user = wp_get_current_user();
-            if (in_array('um_student_master', $user->roles)) {
-                include plugin_dir_path(__FILE__) . 'Modules/Master/pagesstudentmaster/SuiviReclamations.php';
-                exit;
-            }
+            include plugin_dir_path(__FILE__) . 'Modules/reclamation/SuiviReclamations.php';
+            exit;
+
         }
 
         wp_redirect(home_url());
@@ -2187,18 +2183,28 @@ function pm_template_override()
         wp_redirect(home_url());
         exit;
     }
-
-    if (is_page('suivi-reclamation')) {
+    //ouverture-manifestation-utm
+    if (is_page('manifestation-utm')) {
         if (is_user_logged_in()) {
-            $user = wp_get_current_user();
-            include plugin_dir_path(__FILE__) . 'Modules/reclamation/SuiviReclamations.php';
+            include plugin_dir_path(__FILE__) . 'Modules/SiteRecherche/manifestation-utm.php';
             exit;
-
         }
 
         wp_redirect(home_url());
         exit;
     }
+    //ouverture-manifestation-details-utm
+    if (is_page('manifestation-details-utm')) {
+        if (is_user_logged_in()) {
+            include plugin_dir_path(__FILE__) . 'Modules/SiteRecherche/manifestation-details-utm.php';
+            exit;
+        }
+
+        wp_redirect(home_url());
+        exit;
+    }
+
+
 
 
     // 🔁 Chargement automatique des pages ED dynamiques
@@ -2495,7 +2501,7 @@ function pm_template_override()
         'financements',
         'financement-fiche-de-financements',
         'actualites-de-l-utm',
-        'article',
+        'article-protection',
         'membre-de-labo',
         'membre-de-labo-fiche-membres',
         'publication',
@@ -2505,7 +2511,6 @@ function pm_template_override()
         'etat-d-avancement-des-projets',
         'etat-d-avancement-des-projets-fiche-projet',
         'rapports',
-        'suivi-reclamation',
         'reunions',
         'profile_',
         'ged_',
@@ -2515,6 +2520,10 @@ function pm_template_override()
         'assiduite-des-chercheurs',
         'calendrier_',
         'calendrier-detais',
+        'manifestations-scientifiques',
+        'article-publie',
+        'article-publication',
+        'article-deontologie-et-integrite'
     ];
 
     foreach ($Pages_communes as $page_slug) {
@@ -2592,7 +2601,6 @@ function pm_template_override()
         'conventions',
         'sujetsmemoire',
         'soutenances_coord',
-        'reclamation_coord',
         'rapport',
         'cours-planification-coord',
 

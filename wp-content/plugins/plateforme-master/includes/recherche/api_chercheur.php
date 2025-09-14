@@ -25,11 +25,6 @@ add_action('rest_api_init', function () {
 });
 
 
-add_action('rest_api_init', function () {
-  $ns = 'plateforme-recherche/v1';
-  register_rest_route($ns, '/test', array(
-    'methods' => 'GET', 'callback' => function(){ return array('message'=>'ok'); }, 'permission_callback' => '__return_true' ));
-});
 
 
 // etablissement 
@@ -625,8 +620,98 @@ function svc_labo_common_field_defs($for_update = false){
 }
 
 
-function svc_laboratoire_args_create(){ return svc_labo_common_field_defs(false); }
-function svc_laboratoire_args_update(){ return svc_labo_common_field_defs(true); }
+function svc_laboratoire_args_update(){
+  return [
+    'id' => [
+      'description' => 'ID labo',
+      'type'        => 'integer',
+      'required'    => true,
+      'sanitize_callback' => 'absint',
+      'validate_callback' => function($param/*, $request, $key*/){
+        return is_numeric($param) && (int)$param > 0;
+      },
+    ],
+    'etablissement_id' => [
+      'type' => 'integer',
+      'required' => false,
+      'sanitize_callback' => 'absint',
+      'validate_callback' => function($param/*, $request, $key*/){
+        if ($param === null || $param === '') return true;
+        return is_numeric($param) && (int)$param > 0;
+      },
+    ],
+    'denomination' => [
+      'type' => 'string',
+      'required' => false,
+      'sanitize_callback' => 'sanitize_text_field',
+    ],
+    'nom' => [
+      'type' => 'string',
+      'required' => false,
+      'sanitize_callback' => 'sanitize_text_field',
+    ],
+    'domaine' => [
+      'type' => 'string',
+      'required' => false,
+      'sanitize_callback' => 'sanitize_text_field',
+    ],
+    'directeur_user_id' => [
+      'type' => 'integer',
+      'required' => false,
+      'sanitize_callback' => 'absint',
+      'validate_callback' => function($param/*, $request, $key*/){
+        if ($param === null || $param === '') return true;
+        return is_numeric($param) && (int)$param >= 1;
+      },
+    ],
+  ];
+}
+
+function svc_laboratoire_args_create(){
+  return [
+    'etablissement_id' => [
+      'description'       => 'ID de l’établissement',
+      'type'              => 'integer',
+      'required'          => true,
+      'sanitize_callback' => 'absint',
+      'validate_callback' => function($param, $request, $key){
+        return is_numeric($param) && (int)$param > 0;
+      },
+    ],
+    // Tolérance: on ne met pas "required" ici; validation finale dans le callback
+    'denomination' => [
+      'description'       => 'Nom / Dénomination du laboratoire',
+      'type'              => 'string',
+      'required'          => false,
+      'sanitize_callback' => 'sanitize_text_field',
+    ],
+    // Compat si le front envoie encore "nom"
+    'nom' => [
+      'description'       => 'Alias de "denomination" (compatibilité front)',
+      'type'              => 'string',
+      'required'          => false,
+      'sanitize_callback' => 'sanitize_text_field',
+    ],
+    'domaine' => [
+      'description'       => 'Domaine scientifique',
+      'type'              => 'string',
+      'required'          => false,
+      'sanitize_callback' => 'sanitize_text_field',
+    ],
+    'directeur_user_id' => [
+      'description'       => 'ID user du directeur du labo',
+      'type'              => 'integer',
+      'required'          => false,
+      'sanitize_callback' => 'absint',
+      'validate_callback' => function($param, $request, $key){
+        // autorise vide/null; si fourni => numérique >= 1
+        if ($param === null || $param === '') return true;
+        return is_numeric($param) && (int)$param >= 1;
+      },
+    ],
+  ];
+}
+
 
 add_action('rest_api_init', function () {
   $ns = 'plateforme-recherche/v1';
@@ -687,7 +772,6 @@ add_action('rest_api_init', function () {
 function svc_manifestation_args_create(){ return array(
     'date' => array('required' => true, 'validate_callback' => function($param){ return is_string($param) && preg_match('/^\d{4}-\d{2}-\d{2}$/',$param); }, 'sanitize_callback' => 'sanitize_text_field'),
     'intitule' => array('required' => true, 'validate_callback' => function($param){ return is_scalar($param) || is_array($param); }, 'sanitize_callback' => 'sanitize_text_field'),
-    'type' => array('required' => true, 'validate_callback' => function($param){ return is_scalar($param) || is_array($param); }, 'sanitize_callback' => 'sanitize_text_field'),
     'chercheur_id' => array('required' => false, 'validate_callback' => function($param){ return is_numeric($param); }, 'sanitize_callback' => 'absint'),
     'lieu' => array('required' => false, 'validate_callback' => function($param){ return is_scalar($param) || is_array($param); }, 'sanitize_callback' => 'sanitize_text_field'),
     'preuve_url' => array('required' => false, 'validate_callback' => function($param){ return is_scalar($param) || is_array($param); }, 'sanitize_callback' => 'sanitize_text_field'),
@@ -696,7 +780,6 @@ function svc_manifestation_args_create(){ return array(
 function svc_manifestation_args_update(){ return array(
     'date' => array('required' => false, 'validate_callback' => function($param){ return is_string($param) && preg_match('/^\d{4}-\d{2}-\d{2}$/',$param); }, 'sanitize_callback' => 'sanitize_text_field'),
     'intitule' => array('required' => false, 'validate_callback' => function($param){ return is_scalar($param) || is_array($param); }, 'sanitize_callback' => 'sanitize_text_field'),
-    'type' => array('required' => false, 'validate_callback' => function($param){ return is_scalar($param) || is_array($param); }, 'sanitize_callback' => 'sanitize_text_field'),
     'chercheur_id' => array('required' => false, 'validate_callback' => function($param){ return is_numeric($param); }, 'sanitize_callback' => 'absint'),
     'lieu' => array('required' => false, 'validate_callback' => function($param){ return is_scalar($param) || is_array($param); }, 'sanitize_callback' => 'sanitize_text_field'),
     'preuve_url' => array('required' => false, 'validate_callback' => function($param){ return is_scalar($param) || is_array($param); }, 'sanitize_callback' => 'sanitize_text_field'),
@@ -844,46 +927,7 @@ add_action('rest_api_init', function () {
 
 
 // Paramètres/validation pour publication
-function svc_publication_args_create(){ return array(
-    'date_publication' => array('required' => true, 'validate_callback' => function($param){ return is_string($param) && preg_match('/^\d{4}-\d{2}-\d{2}$/',$param); }, 'sanitize_callback' => 'sanitize_text_field'),
-    'titre' => array('required' => true, 'validate_callback' => function($param){ return is_scalar($param) || is_array($param); }, 'sanitize_callback' => 'sanitize_text_field'),
-    'type' => array('required' => true, 'validate_callback' => function($param){ return is_scalar($param) || is_array($param); }, 'sanitize_callback' => 'sanitize_text_field'),
-    // 'chercheur_id' => array('required' => false, 'validate_callback' => function($param){ return is_numeric($param); }, 'sanitize_callback' => 'absint'),
-    'doi' => array('required' => false, 'validate_callback' => function($param){ return is_scalar($param) || is_array($param); }, 'sanitize_callback' => 'sanitize_text_field'),
-    'fichier_url' => array('required' => false, 'validate_callback' => function($param){ return is_scalar($param) || is_array($param); }, 'sanitize_callback' => 'sanitize_text_field'),
-    // 'isbn' => array('required' => false, 'validate_callback' => function($param){ return is_scalar($param) || is_array($param); }, 'sanitize_callback' => 'sanitize_text_field'),
-    // 'revue' => array('required' => false, 'validate_callback' => function($param){ return is_scalar($param) || is_array($param); }, 'sanitize_callback' => 'sanitize_text_field'),
-    'resume'           => array('required' => false, 'validate_callback' => function($p){ return is_scalar($p)||is_array($p); }, 'sanitize_callback' => 'sanitize_textarea_field'),
-    'commentaire'      => array('required' => false, 'validate_callback' => function($p){ return is_scalar($p)||is_array($p); }, 'sanitize_callback' => 'sanitize_textarea_field'),
-    
-); }
-function svc_publication_args_update(){ return array(
-    'date_publication' => array('required' => false, 'validate_callback' => function($param){ return is_string($param) && preg_match('/^\d{4}-\d{2}-\d{2}$/',$param); }, 'sanitize_callback' => 'sanitize_text_field'),
-    'titre' => array('required' => false, 'validate_callback' => function($param){ return is_scalar($param) || is_array($param); }, 'sanitize_callback' => 'sanitize_text_field'),
-    'type' => array('required' => false, 'validate_callback' => function($param){ return is_scalar($param) || is_array($param); }, 'sanitize_callback' => 'sanitize_text_field'),
-    // 'chercheur_id' => array('required' => false, 'validate_callback' => function($param){ return is_numeric($param); }, 'sanitize_callback' => 'absint'),
-    'doi' => array('required' => false, 'validate_callback' => function($param){ return is_scalar($param) || is_array($param); }, 'sanitize_callback' => 'sanitize_text_field'),
-    'fichier_url' => array('required' => false, 'validate_callback' => function($param){ return is_scalar($param) || is_array($param); }, 'sanitize_callback' => 'sanitize_text_field'),
-    // 'isbn' => array('required' => false, 'validate_callback' => function($param){ return is_scalar($param) || is_array($param); }, 'sanitize_callback' => 'sanitize_text_field'),
-    // 'revue' => array('required' => false, 'validate_callback' => function($param){ return is_scalar($param) || is_array($param); }, 'sanitize_callback' => 'sanitize_text_field'),
-    'resume'           => array('required' => false, 'validate_callback' => function($p){ return is_scalar($p)||is_array($p); }, 'sanitize_callback' => 'sanitize_textarea_field'),
-    'commentaire'      => array('required' => false, 'validate_callback' => function($p){ return is_scalar($p)||is_array($p); }, 'sanitize_callback' => 'sanitize_textarea_field'),
-    
-); }
 
-add_action('rest_api_init', function () {
-  $ns = 'plateforme-recherche/v1';
-  register_rest_route($ns, '/publication', array(
-    array('methods'=>'GET','callback'=>'svc_publication_list','permission_callback'=>function(){ return is_user_logged_in(); }),
-    array('methods'=>'POST','callback'=>'svc_publication_create','permission_callback'=>function(){ return is_user_logged_in(); }, 'args'=>svc_publication_args_create())
-  ));
-  register_rest_route($ns, '/publication/(?P<id>\d+)', array(
-    array('methods'=>'GET','callback'=>'svc_publication_get','permission_callback'=>function(){ return is_user_logged_in(); }),
-    array('methods'=>'PATCH','callback'=>'svc_publication_update','permission_callback'=>function(){ return is_user_logged_in(); }, 'args'=>array_merge(array('id'=>array('required'=>true,'validate_callback'=>function($p){return is_numeric($p);})), svc_publication_args_update())),
-    array('methods'=>'PUT','callback'=>'svc_publication_update','permission_callback'=>function(){ return is_user_logged_in(); }, 'args'=>array_merge(array('id'=>array('required'=>true,'validate_callback'=>function($p){return is_numeric($p);})), svc_publication_args_update())),
-    array('methods'=>'DELETE','callback'=>'svc_publication_delete','permission_callback'=>function(){ return is_user_logged_in(); })
-  ));
-});
 
 // Paramètres/validation pour reunion
 function svc_reunion_args_create(){ return array(
@@ -1082,5 +1126,126 @@ add_action('rest_api_init', function () {
         'directeur_user_id' => ['type'=>'integer','required'=>false],
       ]
     ],
+  ]);
+});
+
+
+add_action('rest_api_init', function () {
+  register_rest_route('plateforme-recherche/v1', '/laboratoire/(?P<id>\d+)/directeur', [
+    'methods'  => 'PUT,PATCH',
+    'callback' => 'svc_laboratoire_update_directeur',
+    'permission_callback' => function(){ return is_user_logged_in(); },
+    'args' => [
+      'id' => [
+        'required' => true,
+        'sanitize_callback' => 'absint',
+        'validate_callback' => function($param){ return is_numeric($param) && (int)$param>0; },
+      ],
+      'directeur_user_id' => [
+        'required' => true,
+        'sanitize_callback' => 'absint',
+        'validate_callback' => function($param){ return is_numeric($param) && (int)$param>0; },
+      ],
+    ],
+  ]);
+});
+
+
+add_action('rest_api_init', function() {
+    register_rest_route('plateforme-recherche/v1', '/projet/(?P<id>\d+)/full', [
+        'methods' => 'GET',
+        'callback' => 'svc_projet_full',
+        'permission_callback' => '__return_true'
+    ]);
+});
+
+// Enregistrer la route
+add_action('rest_api_init', function () {
+    register_rest_route('plateforme-recherche/v1', '/projet/(?P<projet_id>\d+)/depense', [
+        'methods' => 'POST',
+        'callback' => 'svc_depense_create',
+        'permission_callback' => function () {
+            return current_user_can('read'); // à adapter si besoin
+        }
+    ]);
+});
+
+add_action('rest_api_init', function () {
+
+    // 1. Liste des sources de financement
+    register_rest_route('plateforme-recherche/v1', '/financement/sources', [
+        'methods'  => 'GET',
+        'callback' => 'svc_sources_list',
+        'permission_callback' => '__return_true'
+    ]);
+
+    // 2. Suivi budgétaire par source
+    register_rest_route('plateforme-recherche/v1', '/financement/suivi-sources', [
+        'methods'  => 'GET',
+        'callback' => 'svc_suivi_sources',
+        'permission_callback' => '__return_true'
+    ]);
+
+    // 3. Suivi budgétaire par projet
+    register_rest_route('plateforme-recherche/v1', '/financement/suivi-projets', [
+        'methods'  => 'GET',
+        'callback' => 'svc_suivi_projets',
+        'permission_callback' => '__return_true'
+    ]);
+
+    // 4. Statistiques globales
+    register_rest_route('plateforme-recherche/v1', '/financement/stats', [
+        'methods'  => 'GET',
+        'callback' => 'svc_financement_stats',
+        'permission_callback' => '__return_true'
+    ]);
+});
+
+
+
+add_action('rest_api_init', function () {
+  $ns = 'plateforme-recherche/v1';
+
+  // Catégories (liste simple)
+  register_rest_route($ns, '/manifestation/categories', [
+    'methods'  => 'GET',
+    'callback' => 'svc_manifestation_categories',
+    'permission_callback' => function(){ return is_user_logged_in(); }
+  ]);
+
+  // Images d'une manifestation
+  register_rest_route($ns, '/manifestation/(?P<id>\d+)/images', [
+    [
+      'methods'  => 'GET',
+      'callback' => 'svc_manifestation_images_list',
+      'permission_callback' => function(){ return is_user_logged_in(); }
+    ],
+    [
+      'methods'  => 'POST', // multipart (files[])
+      'callback' => 'svc_manifestation_images_add',
+      'permission_callback' => function(){ return is_user_logged_in(); }
+    ],
+    [
+      'methods'  => 'DELETE',
+      'callback' => 'svc_manifestation_images_delete', // ?image_id=...
+      'permission_callback' => function(){ return is_user_logged_in(); }
+    ],
+  ]);
+
+  // Stats (dernier publié, nb ce mois, donut par catégorie, années proposées)
+  register_rest_route($ns, '/manifestation/stats', [
+    'methods'  => 'GET',
+    'callback' => 'svc_manifestation_stats',
+    'permission_callback' => function(){ return is_user_logged_in(); },
+    'args' => [
+      'year' => ['type'=>'string'] // "2024-2025" ou "2025"
+    ]
+  ]);
+
+  // Bloc média d’accueil (carousel actu + grille photos)
+  register_rest_route($ns, '/manifestation/media', [
+    'methods'  => 'GET',
+    'callback' => 'svc_manifestation_media',
+    'permission_callback' => function(){ return is_user_logged_in(); }
   ]);
 });

@@ -8,7 +8,11 @@ if (!defined('ABSPATH')) { exit; }
 require_once dirname(__DIR__, 1) . '/services/services-contact.php';
 
 add_action('rest_api_init', function () {
-
+  register_rest_route('plateforme-recherche/v1', '/contact/upload', [
+    'methods' => 'POST',
+    'callback' => 'svc_contact_upload_image',
+    'permission_callback' => function () { return is_user_logged_in(); },
+  ]);
   // /contact : liste + création
   register_rest_route('plateforme-recherche/v1', '/contact', array(
     array(

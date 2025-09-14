@@ -644,19 +644,19 @@ $roles = is_user_logged_in() ? (array) $current_user->roles : array();
       rows.forEach(p => {
         const st = normStatut(p.statut);
         // Moderator si directeur OU si l'API renvoie can_moderate
-        const IS_SERVICE_UTM = (window.pmuser && pmuser.roles || []).map(x=>String(x).toLowerCase())
-          .some(r => r==='um_service-utm' || r==='service_utm' || r==='service-utm');
-        const canModerate = IS_SERVICE_UTM || IS_DIRECTEUR || !!p.can_moderate;
-                
-        const actionsHtml = canModerate ?
-          `
-          <a href="/details-publication?id=${esc(p.id)}"><i class="fa-regular fa-eye"></i>Voir</a>
-          <a href="#" class="js-validate" data-id="${esc(p.id)}"><i class="fa-regular fa-circle-check"></i>Valider</a>
-          <a href="#" class="js-reject" data-id="${esc(p.id)}"><i class="fa-regular fa-circle-xmark"></i>Rejeter</a>
-        ` :
-          `
-          <a href="/details-publication?id=${esc(p.id)}"><i class="fa-regular fa-eye"></i>Voir</a>
-        `;
+       const canModerate = IS_SERVICE_UTM || IS_DIRECTEUR || !!p.can_moderate;
+
+const actionsHtml = canModerate
+  ? `
+     <a href="/details-publication?id=${esc(p.id)}"><i class="fa-regular fa-eye"></i>Voir</a>
+     <a href="/modifier-une-publication?id=${esc(p.id)}"><i class="fa-regular fa-pen-to-square"></i>Modifier</a>
+     <a href="#" class="js-validate" data-id="${esc(p.id)}"><i class="fa-regular fa-circle-check"></i>Valider</a>
+     <a href="#" class="js-reject" data-id="${esc(p.id)}"><i class="fa-regular fa-circle-xmark"></i>Rejeter</a>
+    `
+  : `
+     <a href="/details-publication?id=${esc(p.id)}"><i class="fa-regular fa-eye"></i>Voir</a>
+    `;
+
 
 
         $tb.append(`

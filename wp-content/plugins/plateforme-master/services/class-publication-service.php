@@ -1,266 +1,310 @@
 <?php
-if (!defined('ABSPATH')) { exit; }
+if (!defined('ABSPATH')) exit;
 
-class UTM_Publication_Service {
-    /** Retourne [ 'member_ids' => [], 'lab_ids' => [] ] pour l’utilisateur courant */
-// 1) Qui suis-je ? (membre + labos où je suis directeur)
-public static function get_current_memberships(): array {
+class PubService {
+
+  public static function t_publications() { global $wpdb; return $wpdb->prefix . 'recherche_publication'; }
+  public static function t_membres()      { global $wpdb; return $wpdb->prefix . 'recherche_membre'; }
+  public static function t_labs()         { global $wpdb; return $wpdb->prefix . 'recherche_laboratoire'; }
+
+  public static $ROLE_DIR  = ['um_directeur_laboratoire','directeur_laboratoire','directeur-laboratoire'];
+  public static $ROLE_UTM  = ['um_service-utm','service_utm','service-utm'];
+  public static $ROLE_ETAB = ['um_service-etablissement','service_etablissement','service-etablissement'];
+
+  public static function user_has_any_role(array $choices): bool {
+    $u = wp_get_current_user(); if (!$u || empty($u->roles)) return false;
+    $roles = array_map('strtolower', (array)$u->roles);
+    foreach ($choices as $r) if (in_array(strtolower($r), $roles, true)) return true;
+    return false;
+  }
+  public static function is_directeur()    { return self::user_has_any_role(self::$ROLE_DIR); }
+  public static function is_service_utm()  { return self::user_has_any_role(self::$ROLE_UTM); }
+  public static function is_service_etab() { return self::user_has_any_role(self::$ROLE_ETAB); }
+
+  public static function my_lab_ids(): array {
     global $wpdb;
-    $uid = get_current_user_id();
-    if (!$uid) return ['member_ids' => [], 'lab_ids' => []];
+    $uid = get_current_user_id(); if (!$uid) return [];
+    $mT = self::t_membres(); $lT = self::t_labs();
+    $ids = [];
+    $rows = $wpdb->get_col($wpdb->prepare("SELECT laboratoire_id FROM {$mT} WHERE user_id=%d", $uid)) ?: [];
+    $ids = array_merge($ids, array_map('intval',$rows));
+    $rows = $wpdb->get_col($wpdb->prepare("SELECT id FROM {$lT} WHERE directeur_user_id=%d", $uid)) ?: [];
+    $ids = array_merge($ids, array_map('intval',$rows));
+    return array_values(array_unique(array_filter($ids)));
+  }
 
-    // A) je suis membre (chercheur)
-    $rows = $wpdb->get_results(
-        $wpdb->prepare(
-            "SELECT id AS member_id, laboratoire_id 
-             FROM utm_recherche_membre 
-             WHERE user_id = %d",
-            $uid
-        ), ARRAY_A
+  public static function user_etab_id(int $user_id): int {
+    return (int) get_user_meta($user_id, 'etablissement_id', true) ?: 0;
+  }
+
+  public static function create(array $payload) {
+    global $wpdb; $t = self::t_publications();
+    $uid = get_current_user_id(); if (!$uid) return new WP_Error('forbidden','Non connecté', ['status'=>401]);
+
+    $labs = self::my_lab_ids(); if (empty($labs))
+      return new WP_Error('forbidden','Aucun laboratoire rattaché', ['status'=>403]);
+
+    $lab_id = (int)($payload['laboratoire_id'] ?? 0);
+    if ($lab_id && !in_array($lab_id, $labs, true))
+      return new WP_Error('forbidden','Labo invalide pour cet utilisateur', ['status'=>403]);
+    if (!$lab_id) $lab_id = (int)$labs[0];
+
+    $is_dir_for_lab = false;
+    if (self::is_directeur()) {
+      $is_dir_for_lab = (bool)$wpdb->get_var(
+        $wpdb->prepare("SELECT 1 FROM ".self::t_labs()." WHERE id=%d AND directeur_user_id=%d", $lab_id, $uid)
+      );
+    }
+    $statut = $is_dir_for_lab ? 'Validée' : 'En attente';
+
+    $data = [
+      'date_publication' => sanitize_text_field($payload['date_publication'] ?? ''),
+      'type'             => sanitize_text_field($payload['type'] ?? ''),
+      'titre'            => sanitize_text_field($payload['titre'] ?? ''),
+      'resume'           => sanitize_textarea_field($payload['resume'] ?? ''),
+      'commentaire'      => sanitize_textarea_field($payload['commentaire'] ?? ''),
+      'fichier_url'      => esc_url_raw($payload['fichier_url'] ?? ''),
+      'laboratoire_id'   => $lab_id,
+      'chercheur_id'     => $uid,
+      'created_by'       => $uid,
+      'updated_by'       => $uid,
+      'created_at'       => current_time('mysql'),
+      'updated_at'       => current_time('mysql'),
+      'statut'           => $statut,
+    ];
+    if ($is_dir_for_lab) {
+      $data['validated_by'] = $uid;
+      $data['validated_at'] = current_time('mysql');
+    }
+
+    $ok = $wpdb->insert($t, $data, [
+      '%s','%s','%s','%s','%s','%s','%d','%d','%d','%s','%s','%s','%s'
+    ]);
+    if (!$ok) return new WP_Error('db_error','Insert failed: '.$wpdb->last_error, ['status'=>500]);
+
+    return self::get((int)$wpdb->insert_id);
+  }
+
+  public static function get(int $id) {
+    global $wpdb; $t = self::t_publications();
+    $row = $wpdb->get_row($wpdb->prepare("SELECT * FROM {$t} WHERE id=%d", $id), ARRAY_A);
+    if (!$row) return null;
+    $row['auteur_display_name'] = get_the_author_meta('display_name', (int)$row['chercheur_id']) ?: '';
+    return $row;
+  }
+
+  public static function delete(int $id) {
+    global $wpdb; $t = self::t_publications(); $uid = get_current_user_id();
+    $cur = $wpdb->get_row($wpdb->prepare("SELECT created_by, statut FROM {$t} WHERE id=%d", $id), ARRAY_A);
+    if (!$cur) return new WP_Error('not_found','Introuvable', ['status'=>404]);
+
+    $can = false;
+    if (self::is_service_utm()) $can = true;
+    else if ((int)$cur['created_by'] === $uid && strtolower($cur['statut']) !== 'validée') $can = true;
+
+    if (!$can) return new WP_Error('forbidden','Suppression non autorisée', ['status'=>403]);
+
+    $ok = $wpdb->delete($t, ['id'=>$id], ['%d']);
+    if (!$ok) return new WP_Error('db_error','Delete failed', ['status'=>500]);
+    return true;
+  }
+
+  public static function set_status(int $id, string $status) {
+    global $wpdb; $t = self::t_publications(); $uid = get_current_user_id();
+
+    $cur = $wpdb->get_row($wpdb->prepare("SELECT laboratoire_id FROM {$t} WHERE id=%d", $id), ARRAY_A);
+    if (!$cur) return new WP_Error('not_found','Introuvable', ['status'=>404]);
+
+    $lab_id = (int)$cur['laboratoire_id'];
+    $is_dir_for_lab = (bool)$wpdb->get_var(
+      $wpdb->prepare("SELECT 1 FROM ".self::t_labs()." WHERE id=%d AND directeur_user_id=%d", $lab_id, $uid)
     );
-    $member_ids = array_map(fn($r)=>(int)$r['member_id'], $rows ?: []);
-    $lab_ids    = array_map(fn($r)=>(int)$r['laboratoire_id'], $rows ?: []);
 
-    // B) je suis directeur d’un ou plusieurs labos (via la colonne directeur_user_id)
-    $director_labs = $wpdb->get_col(
-        $wpdb->prepare(
-            "SELECT id 
-             FROM utm_recherche_laboratoire 
-             WHERE directeur_user_id = %d",
-            $uid
-        )
-    ) ?: [];
-
-    // union unique
-    $lab_ids = array_values(array_unique(array_merge($lab_ids, array_map('intval',$director_labs))));
-
-    return ['member_ids' => $member_ids, 'lab_ids' => $lab_ids];
-}
-// === Helpers DB (dans UTM_Publication_Service) ===
-private static function t_pub(){ global $wpdb; return $wpdb->prefix.'recherche_publication'; }
-private static function t_mem(){ global $wpdb; return $wpdb->prefix.'recherche_membre'; }
-private static function t_lab(){ global $wpdb; return $wpdb->prefix.'recherche_laboratoire'; }
-
-private static function col_exists($table, $col){
-    global $wpdb;
-    return (bool)$wpdb->get_var($wpdb->prepare("SHOW COLUMNS FROM {$table} LIKE %s", $col));
-}
-
-/** Auteur WP (user_id) d’une publication : created_by si dispo, sinon fallback */
-public static function author_user_id(int $pub_id): int {
-    global $wpdb;
-    $pt = self::t_pub(); $mt = self::t_mem();
-
-    // 1) created_by si la colonne existe
-    if (self::col_exists($pt,'created_by')) {
-        $uid = (int)$wpdb->get_var($wpdb->prepare("SELECT created_by FROM {$pt} WHERE id=%d", $pub_id));
-        if ($uid) return $uid;
+    if (!self::is_service_utm() && !$is_dir_for_lab) {
+      return new WP_Error('forbidden','Action réservée au directeur du labo', ['status'=>403]);
     }
 
-    // 2) Fallback ancien schéma via chercheur_id → essai m.id puis m.user_id
-    $cid = (int)$wpdb->get_var($wpdb->prepare("SELECT chercheur_id FROM {$pt} WHERE id=%d", $pub_id));
-    if ($cid) {
-        $uid = (int)$wpdb->get_var($wpdb->prepare("SELECT user_id FROM {$mt} WHERE id=%d LIMIT 1", $cid));
-        if ($uid) return $uid;
-        $uid = (int)$wpdb->get_var($wpdb->prepare("SELECT user_id FROM {$mt} WHERE user_id=%d LIMIT 1", $cid));
-        if ($uid) return $uid;
-    }
-    return 0;
-}
+    $status = in_array($status, ['Validée','Rejetée','En attente'], true) ? $status : 'En attente';
 
-// 2) Suis-je directeur ?
-public static function is_director(): bool {
-    // On peut rester sur le rôle OU accepter "je suis listé comme directeur_user_id"
-    $u = wp_get_current_user();
-    if (in_array('um_directeur_laboratoire', (array)$u->roles, true)) return true;
-
-    global $wpdb;
-    $uid = get_current_user_id();
-    $has = (int)$wpdb->get_var(
-        $wpdb->prepare("SELECT COUNT(*) FROM utm_recherche_laboratoire WHERE directeur_user_id=%d", $uid)
-    );
-    return $has > 0;
-}
-
-    /** Normalise le statut en 3 états */
-    public static function norm_statut(?string $s): string {
-        $v = strtolower(trim((string)$s));
-        if (str_starts_with($v, 'val')) return 'Validée';
-        if (str_starts_with($v, 'rej')) return 'Rejetée';
-        return 'En attente';
+    $upd = [
+      'statut'     => $status,
+      'updated_by' => $uid,
+      'updated_at' => current_time('mysql'),
+    ];
+    if ($status === 'Validée') {
+      $upd['validated_by'] = $uid;
+      $upd['validated_at'] = current_time('mysql');
     }
 
-    /** Liste des publications visible selon le rôle et filtres */
-    public static function list(array $args = []): array {
-        global $wpdb;
+    $ok = $wpdb->update($t, $upd, ['id'=>$id], null, ['%d']);
+    if ($ok === false) return new WP_Error('db_error','Update failed: '.$wpdb->last_error, ['status'=>500]);
 
-        $with_auteur = !empty($args['with_auteur']);
-        $only_me     = !empty($args['me']);
+    return self::get($id);
+  }
 
-        $you  = self::get_current_memberships();
-        $mids = $you['member_ids'];
-        $labs = $you['lab_ids'];
-        $is_dir = self::is_director();
+  public static function list(array $opts = []) {
+    global $wpdb; $t = self::t_publications(); $uid = get_current_user_id();
+    if (!$uid) return [];
 
-        if (empty($mids) && empty($labs)) return [];
+    $with_auteur = !empty($opts['with_auteur']);
+    $me          = !empty($opts['me']);
+    $search      = trim((string)($opts['search'] ?? ''));
 
-        // jointure membre->labo pour inférer le labo d’une publication
-        $select_cols = [
-            "p.id", "p.type", "p.titre", "p.date_publication", "p.statut", 
-            "p.chercheur_id", "m.laboratoire_id"
-        ];
+    $where = []; $params = [];
 
-        $join = "JOIN utm_recherche_membre m ON m.id = p.chercheur_id";
-
-        if ($with_auteur) {
-            // auteur = wp_users.display_name via m.user_id
-            $select_cols[] = "u.display_name AS auteur_display_name";
-            $join .= " JOIN {$wpdb->users} u ON u.ID = m.user_id";
-        }
-
-        $where = [];
-        $params = [];
-
-        // visibilité :
-        if ($only_me) {
-            // Mes publications : par mes ids membre
-            if (!empty($mids)) {
-                $where[] = "p.chercheur_id IN (" . implode(',', array_map('intval',$mids)) . ")";
-            } else {
-                return [];
-            }
-        } else {
-            // Espace labo : restreindre aux labos de l’utilisateur
-            if (!empty($labs)) {
-                $where[] = "m.laboratoire_id IN (" . implode(',', array_map('intval',$labs)) . ")";
-            } else {
-                return [];
-            }
-            // Si pas directeur → uniquement Validées
-            if (!$is_dir) {
-                $where[] = "(LOWER(p.statut) LIKE 'val%')";
-            }
-        }
-
-        $sql = "SELECT " . implode(", ", $select_cols) . "
-                FROM utm_recherche_publication p
-                $join";
-
-        if ($where) {
-            $sql .= " WHERE " . implode(" AND ", $where);
-        }
-        $sql .= " ORDER BY COALESCE(p.date_publication, '1970-01-01') DESC, p.id DESC";
-
-        $rows = $wpdb->get_results($sql, ARRAY_A) ?: [];
-
-        // post-traitement
-        foreach ($rows as &$r) {
-            $r['statut'] = self::norm_statut($r['statut'] ?? '');
-            $r['can_moderate'] = $is_dir && in_array((int)$r['laboratoire_id'], $labs, true);
-        }
-        return $rows;
+    if ($search !== '') {
+      $like = '%'.$wpdb->esc_like($search).'%';
+      $where[] = "(p.titre LIKE %s OR p.type LIKE %s OR p.resume LIKE %s)";
+      array_push($params, $like,$like,$like);
     }
 
-    /** Vérifie que la publication appartient à un labo de l’utilisateur (retourne [row, lab_id]) */
-    public static function fetch_owned_pub(int $pub_id): array {
-        global $wpdb;
-        $you  = self::get_current_memberships();
-        $labs = $you['lab_ids'];
-        if (empty($labs)) return [null, null];
+    if ($me) {
+      $where[] = "p.created_by=%d"; $params[] = $uid;
+    } else if ($with_auteur) {
+      if (self::is_service_utm()) {
+        // tout voir
+      } else if (self::is_service_etab()) {
+        $my_etab = self::user_etab_id($uid);
+        if (!$my_etab) $where[]='1=0';
+        else {
+          $um = $wpdb->usermeta;
+          $where[] = "p.created_by IN (SELECT user_id FROM {$um} WHERE meta_key='etablissement_id' AND CAST(meta_value AS UNSIGNED)=%d)";
+          $params[] = $my_etab;
+        }
+      } else if (self::is_directeur()) {
+        $labs = self::my_lab_ids();
+        if (empty($labs)) $where[]='1=0';
+        else $where[] = "p.laboratoire_id IN (".implode(',', array_map('intval',$labs)).")";
+      } else {
+        $labs = self::my_lab_ids();
+        if (empty($labs)) $where[]='1=0';
+        else {
+          $where[] = "p.laboratoire_id IN (".implode(',', array_map('intval',$labs)).")";
+          $where[] = "p.statut = 'Validée'";
+        }
+      }
+    } else {
+      $where[] = '1=0';
+    }
 
-        $row = $wpdb->get_row(
-            $wpdb->prepare(
-                "SELECT p.*, m.laboratoire_id 
-                 FROM utm_recherche_publication p
-                 JOIN utm_recherche_membre m ON m.id = p.chercheur_id
-                 WHERE p.id = %d",
-                $pub_id
-            ), ARRAY_A
+    $where_sql = empty($where) ? '' : 'WHERE '.implode(' AND ', $where);
+    $sql = "SELECT p.* FROM {$t} p {$where_sql} ORDER BY p.created_at DESC";
+    $rows = $wpdb->get_results($wpdb->prepare($sql, ...$params), ARRAY_A) ?: [];
+
+    foreach ($rows as &$r) {
+      $r['auteur_display_name'] = get_the_author_meta('display_name', (int)$r['chercheur_id']) ?: '';
+      $r['can_moderate'] = (self::is_service_utm() ? 1 : 0);
+      if (!$r['can_moderate'] && self::is_directeur()) {
+        $r['can_moderate'] = (int)$wpdb->get_var(
+          $wpdb->prepare("SELECT 1 FROM ".self::t_labs()." WHERE id=%d AND directeur_user_id=%d", (int)$r['laboratoire_id'], $uid)
         );
-
-        if (!$row) {
-            $user  = wp_get_current_user();
-            $roles = (array) $user->roles;
-            if (in_array('um_directeur_laboratoire', (array)$roles, true)) {
-            $row_directeur = $wpdb->get_row(
-                $wpdb->prepare(
-                        "SELECT created_by
-                        FROM utm_recherche_publication
-                        WHERE id = %d and created_by = " . $user->id,
-                        $pub_id
-                    ), ARRAY_A
-                );
-            
-                if ($row_directeur) return [$row_directeur, (int)$row_directeur['laboratoire_id']]; 
-            }
-            return [null, null];
-        }
-
-        if (!in_array((int)$row['laboratoire_id'], $labs, true)) return [null, null];
-        return [$row, (int)$row['laboratoire_id']];
+      }
     }
+    return $rows;
+  }
 
-    /** Valide une publication (directeur uniquement dans ses labos) */
-    public static function validate_pub(int $pub_id): bool {
-        if (!self::is_director()) return false;
-        global $wpdb;
-
-        [$row, $lab_id] = self::fetch_owned_pub($pub_id);
-        if (!$row) return false;
-
-        $ok = $wpdb->update(
-            'utm_recherche_publication',
-            [
-                'statut'       => 'Validée',
-                'validated_by' => get_current_user_id(),
-                'validated_at' => current_time('mysql'),
-            ],
-            [ 'id' => $pub_id ],
-            [ '%s', '%d', '%s' ],
-            [ '%d' ]
-        );
-
-        return $ok !== false;
-    }
-
-    /** Rejette (= supprime) une publication (directeur uniquement dans ses labos) */
-    public static function reject_pub(int $pub_id): bool {
-    if (!self::is_director()) return false;
+  /**
+   * ===== STATS corrigées =====
+   * - dref = COALESCE(date_publication, DATE(created_at))
+   * - normalisation des statuts
+   * - périmètre par rôle
+   */
+  public static function stats(array $args = []) {
     global $wpdb;
 
-    [$row, $lab_id] = self::fetch_owned_pub($pub_id);
-    if (!$row) return false;
+    $tp   = $wpdb->prefix . 'recherche_publication';
+    $tlab = $wpdb->prefix . 'recherche_laboratoire';
+    $tmem = $wpdb->prefix . 'recherche_membre';
 
-    $pt = self::t_pub();
-    $upd = []; $fmts = [];
+    $uid   = get_current_user_id();
+    $roles = wp_get_current_user() ? (array) wp_get_current_user()->roles : [];
 
-    // statut
-    $upd['statut'] = 'Rejetée'; $fmts[] = '%s';
-
-    // métadonnées si dispo
-    if (self::col_exists($pt,'rejected_by')) { $upd['rejected_by'] = get_current_user_id(); $fmts[] = '%d'; }
-    if (self::col_exists($pt,'rejected_at')) { $upd['rejected_at'] = current_time('mysql'); $fmts[] = '%s'; }
-    if (self::col_exists($pt,'updated_by'))  { $upd['updated_by']  = get_current_user_id(); $fmts[] = '%d'; }
-    if (self::col_exists($pt,'updated_at'))  { $upd['updated_at']  = current_time('mysql'); $fmts[] = '%s'; }
-
-    $ok = $wpdb->update($pt, $upd, ['id'=>$pub_id], $fmts, ['%d']);
-    return $ok !== false;
-}
-
-
-    /** Supprimer “ma” publication (créateur) — pour ton onglet “Mes publications” */
-    public static function delete_my_pub(int $pub_id): bool {
-        global $wpdb;
-        $you = self::get_current_memberships();
-        if (empty($you['member_ids'])) return false;
-
-        // sécurité : n’autoriser la suppression que si je suis l’auteur
-        $owner_id = (int)$wpdb->get_var(
-            $wpdb->prepare("SELECT chercheur_id FROM utm_recherche_publication WHERE id=%d", $pub_id)
-        );
-        if (!$owner_id || !in_array($owner_id, $you['member_ids'], true)) return false;
-
-        $ok = $wpdb->delete('utm_recherche_publication', ['id' => $pub_id], ['%d']);
-        return $ok !== false;
+    // 1) Fenêtre année universitaire (par défaut : illimitée si year vide)
+    $yearLabel = trim((string)($args['year'] ?? ''));
+    $dateFrom = null; $dateTo = null;
+    if ($yearLabel && preg_match('/(\d{4}).*?(\d{4})/', $yearLabel, $m)) {
+    $y1 = (int)$m[1]; $y2 = (int)$m[2];
+    // année universitaire: 01/09/y1 -> 31/08/y2
+    $dateFrom = sprintf('%04d-09-01', $y1);
+    $dateTo   = sprintf('%04d-08-31', $y2);
     }
+
+
+    // 2) Rôles
+    $roleL = array_map('strtolower', $roles);
+    $isServiceUTM  = in_array('um_service-utm', $roleL, true) || in_array('service-utm', $roleL, true);
+    $isServiceEtab = in_array('um_service-etablissement', $roleL, true) || in_array('service-etablissement', $roleL, true);
+    $isDirecteur   = in_array('um_directeur_laboratoire', $roleL, true) || in_array('directeur_laboratoire', $roleL, true);
+
+    // 3) Sous-select avec dref + statut normalisé
+    $joins  = [];
+    $where  = [];
+    $params = [];
+
+    if ($isServiceUTM) {
+      // rien
+    } elseif ($isServiceEtab) {
+      $myEtab = (int) get_user_meta($uid, 'etablissement_id', true);
+      if (!$myEtab) $where[] = '1=0'; 
+      else {
+        $joins[]  = "JOIN {$tlab} lab ON lab.id = p.laboratoire_id";
+        $where[]  = 'lab.etablissement_id = %d';
+        $params[] = $myEtab;
+      }
+    } elseif ($isDirecteur) {
+      $labIds = $wpdb->get_col($wpdb->prepare("SELECT id FROM {$tlab} WHERE directeur_user_id=%d", $uid)) ?: [];
+      $labIds = array_map('intval',$labIds);
+      if (empty($labIds)) $where[]='1=0';
+      else $where[] = 'p.laboratoire_id IN ('.implode(',', $labIds).')';
+    } else {
+      // chercheur : labos dont je suis membre
+      $labIds = $wpdb->get_col($wpdb->prepare("SELECT laboratoire_id FROM {$tmem} WHERE user_id=%d", $uid)) ?: [];
+      $labIds = array_map('intval',$labIds);
+      if (empty($labIds)) $where[]='1=0';
+      else $where[] = 'p.laboratoire_id IN ('.implode(',', $labIds).')';
+    }
+
+    $scopeJoin = implode("\n", $joins);
+    $scopeWhere = empty($where) ? '1=1' : implode(' AND ', $where);
+
+    // 4) On calcule, puis on filtre la période sur x.dref
+    $sql = "
+      SELECT
+        COUNT(*)                                                     AS total,
+        SUM(CASE WHEN x.st = 'publiees'   THEN 1 ELSE 0 END)         AS publiees,
+        SUM(CASE WHEN x.st = 'en_attente' THEN 1 ELSE 0 END)         AS en_attente,
+        SUM(CASE WHEN x.st = 'rejetees'   THEN 1 ELSE 0 END)         AS rejetees
+      FROM (
+        SELECT
+          p.id,
+          DATE(COALESCE(NULLIF(p.date_publication,'0000-00-00'), DATE(p.created_at))) AS dref,
+          CASE
+            WHEN LOWER(TRIM(p.statut)) IN ('validée','validee','valide','publiee','publiée','published') THEN 'publiees'
+            WHEN LOWER(TRIM(p.statut)) IN ('rejete','rejetee','rejetée','rejected')                      THEN 'rejetees'
+            ELSE 'en_attente'
+          END AS st
+        FROM {$tp} p
+        {$scopeJoin}
+        WHERE {$scopeWhere}
+      ) x
+      WHERE 1=1
+    ";
+
+    if ($dateFrom && $dateTo) {
+      $sql    .= " AND x.dref BETWEEN %s AND %s ";
+      $params[] = $dateFrom;
+      $params[] = $dateTo;
+    }
+
+    $row = $wpdb->get_row($wpdb->prepare($sql, ...$params), ARRAY_A);
+
+    return [
+      'total'      => (int)($row['total'] ?? 0),
+      'publiees'   => (int)($row['publiees'] ?? 0),
+      'en_attente' => (int)($row['en_attente'] ?? 0),
+      'rejetees'   => (int)($row['rejetees'] ?? 0),
+      'from'       => $dateFrom ?: null,
+      'to'         => $dateTo   ?: null,
+    ];
+  }
 }

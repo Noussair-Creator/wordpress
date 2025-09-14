@@ -83,18 +83,12 @@
 
 <div class="sidebar">
   <div class="user">
-    <img id="sidebarAvatar" src="<?= esc_url($data['photo'] ?? '') ?>" alt="Profil">
-    <h5 id="sidebarName"><?= esc_html($data['user'] ?? '') ?></h5>
-    <p id="sidebarRole" style="color:#b60303; font-weight:600; text-transform:uppercase;">
-      <?= esc_html($data['label'] ?? '') ?>
-    </p>
+    <img src="<?= $data['photo'] ?>" alt="Profil">
+    <h5><?= $data['user'] ?></h5>
+    <p style="color:#b60303; font-weight:600; text-transform:uppercase;"><?= $data['label'] ?></p>
 
     <?php if (!empty($data['profil_nom'])): ?>
-      <p id="sidebarProfil" style="font-size:15px;color:#b60303;font-weight:600;text-transform:uppercase;margin-top:-20px">
-        <?= esc_html($data['profil_nom']) ?>
-      </p>
-    <?php else: ?>
-      <p id="sidebarProfil" style="display:none"></p>
+      <p style="font-size: 15px;color:#b60303; font-weight:600; text-transform:uppercase;margin-top:-20px"><?= $data['profil_nom'] ?></p>
     <?php endif; ?>
   </div>
 

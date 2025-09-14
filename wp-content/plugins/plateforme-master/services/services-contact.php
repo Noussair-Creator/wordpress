@@ -8,7 +8,7 @@ if (!defined('ABSPATH')) { exit; }
 if (!function_exists('svc_contacts_table')) {
   function svc_contacts_table(){ global $wpdb; return $wpdb->prefix . 'contacts'; }
 }
-if (!function_exists('svc_contact_membre_table')) {
+if (!function_exists(function: 'svc_contact_membre_table')) {
   function svc_contact_membre_table(){ global $wpdb; return $wpdb->prefix . 'recherche_membre'; }
 }
 if (!function_exists('svc_contact_laboratoire_table')) {
@@ -138,6 +138,12 @@ if (!function_exists('svc_contact_create')) {
 
     $allowed = svc_contact_allowed_fields();
     $data = $req->get_json_params(); if (!$data) $data = $req->get_params();
+    foreach (['logo_url','contact_avatar_url'] as $k) {
+      if (!empty($data[$k]) && is_string($data[$k]) && stripos($data[$k], 'data:image')===0) {
+        $url = svc_contact_store_dataurl_local($data[$k], $k==='logo_url'?'org-logo':'contact-avatar');
+        if ($url) { $data[$k] = $url; } else { unset($data[$k]); }
+      }
+    }
 
     $ins = array(); $fmts = array();
     foreach($allowed as $k=>$type){
@@ -191,6 +197,12 @@ if (!function_exists('svc_contact_update')) {
 
     $allowed = svc_contact_allowed_fields();
     $data = $req->get_json_params(); if (!$data) $data = $req->get_params();
+    foreach (['logo_url','contact_avatar_url'] as $k) {
+      if (!empty($data[$k]) && is_string($data[$k]) && stripos($data[$k], 'data:image')===0) {
+        $url = svc_contact_store_dataurl_local($data[$k], $k==='logo_url'?'org-logo':'contact-avatar');
+        if ($url) { $data[$k] = $url; } else { unset($data[$k]); }
+      }
+    }
 
     $upd=array(); $fmts=array();
     foreach($allowed as $k=>$type){
@@ -239,4 +251,26 @@ if (!function_exists('svc_contact_delete')) {
 
     return new WP_REST_Response(null, 204);
   }
+}
+function contact__uploads_dir() {
+  $u = wp_upload_dir();
+  $dir = trailingslashit($u['basedir']).'contacts';
+  if (!file_exists($dir)) wp_mkdir_p($dir);
+  return [$dir, trailingslashit($u['baseurl']).'contacts'];
+}
+function svc_contact_store_dataurl_local($dataurl, $prefix='contact') {
+  if (!is_string($dataurl) || stripos($dataurl, 'data:image') !== 0) return $dataurl;
+
+  if (!preg_match('#^data:(image/[\w\+\-\.]+);base64,(.+)$#', $dataurl, $m)) return null;
+  $mime = sanitize_mime_type($m[1]);
+  $bin  = base64_decode($m[2]);
+  if ($bin===false) return null;
+
+  list($dir,$baseurl) = contact__uploads_dir();
+  $ext  = (strpos($mime,'png')!==false) ? 'png' : ((strpos($mime,'webp')!==false)?'webp':'jpg');
+  $name = $prefix.'_'.time().'_'.wp_generate_password(6,false).'.'.$ext;
+  $path = trailingslashit($dir).$name;
+
+  if (file_put_contents($path, $bin)===false) return null;
+  return trailingslashit($baseurl).$name;
 }

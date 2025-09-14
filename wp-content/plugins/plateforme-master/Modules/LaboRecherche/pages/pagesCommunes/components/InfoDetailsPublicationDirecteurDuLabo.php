@@ -93,37 +93,81 @@
     </div>
 
     <ul class="info-list">
-        <li class="info-item">
-            <span class="info-item-label">Titre complet :</span>
-            <span class="info-item-value">Deep Learning for Brain-Computer Interface Systems</span>
-        </li>
-        <li class="info-item">
-            <span class="info-item-label">Type de publication :</span>
-            <span class="info-item-value">Article de conférence IEEE</span>
-        </li>
-        <li class="info-item">
-            <span class="info-item-label">Auteur(s) :</span>
-            <span class="info-item-value">Dr. Sarra Messaoudi (Maître-Assistant, Labo IA & Signal – FDST)</span>
-        </li>
-        <li class="info-item">
-            <span class="info-item-label">Date de soumission :</span>
-            <span class="info-item-value">05/08/2025</span>
-        </li>
-        <li class="info-item">
-            <span class="info-item-label">Mots-clés :</span>
-            <span class="info-item-value">Deep Learning, BCI, Neurosciences, Signal Processing</span>
-        </li>
-        <li class="info-item">
-            <span class="info-item-label">Statut actuel :</span>
-            <span class="info-item-value">En attente de validation</span>
-        </li>
-        <li class="info-item">
-            <span class="info-item-label">Résumé (Abstract) :</span>
-            <span class="info-item-value">Cet article explore l'utilisation des réseaux de neurones convolutifs et
-                des modèles Transformer pour améliorer la précision des systèmes d'interfaces cerveau-machine (BCI).
-                Les résultats obtenus sur des bases de données EEG montrent une amélioration de 12 % par rapport aux
-                méthodes classiques de traitement du signal. Cette approche ouvre la voie à des applications en
-                neuro-réhabilitation et contrôle de prothèses intelligentes.</span>
-        </li>
+       <li class="info-item">
+  <span class="info-item-label">Titre complet :</span>
+  <span class="info-item-value" id="completeTitleValue">—</span>
+</li>
+<li class="info-item">
+  <span class="info-item-label">Type de publication :</span>
+  <span class="info-item-value" id="typeValue">—</span>
+</li>
+<li class="info-item">
+  <span class="info-item-label">Auteur(s) :</span>
+  <span class="info-item-value" id="auteurValue">—</span>
+</li>
+<li class="info-item">
+  <span class="info-item-label">Date de soumission :</span>
+  <span class="info-item-value" id="dateValue">—</span>
+</li>
+<li class="info-item">
+  <span class="info-item-label">Statut actuel :</span>
+  <span class="info-item-value" id="statutValue">—</span>
+</li>
+<li class="info-item">
+  <span class="info-item-label">Résumé (Abstract) :</span>
+  <span class="info-item-value" id="resumeValue">—</span>
+</li>
+
     </ul>
 </div>
+<?php if (is_user_logged_in()): ?>
+  <script>
+    // REST settings exposées au JS
+    window.pmsettings = {
+      rest_root: <?php echo json_encode(esc_url_raw(rest_url())); ?>,
+      nonce: <?php echo json_encode(wp_create_nonce('wp_rest')); ?>
+    };
+    // Rôles utilisateur courant
+    window.pmuser = {
+      roles: <?php echo json_encode($roles); ?>
+    };
+  </script>
+<?php endif; ?>
+<script>
+(function(){
+  const REST_ROOT = (window.pmsettings && pmsettings.rest_root) || (window.wpApiSettings && wpApiSettings.root) || '/wp-json/';
+  const NONCE     = (window.pmsettings && pmsettings.nonce) || (window.wpApiSettings && wpApiSettings.nonce) || '';
+  const API       = REST_ROOT.replace(/\/$/,'') + '/plateforme-recherche/v1';
+
+  function q(k){ return new URLSearchParams(location.search).get(k); }
+  const pubId = q('id');
+
+  async function load(){
+    if(!pubId){ alert('ID manquant'); return; }
+    const res = await fetch(`${API}/publication/${pubId}`, {
+      headers:{'X-WP-Nonce':NONCE,'Accept':'application/json'},
+      credentials:'same-origin'
+    });
+    if(!res.ok){ alert('Publication introuvable'); return; }
+    const p = await res.json();
+
+    // Remplir les champs de la fiche (remplace tes valeurs statiques)
+    setText('completeTitleValue', p.titre || '—');
+    setText('typeValue', p.type || '—');
+    setText('auteurValue', p.auteur_display_name || '—');
+    setText('dateValue', p.date_publication || '—');
+    setText('statutValue', p.statut || '—');
+    setText('resumeValue', p.resume || '—');
+
+    // Si tu veux afficher des fichiers (si tu passes file URL)
+    // setText('fichiersValue', p.fichier_url ? p.fichier_url : '—');
+  }
+
+  function setText(domId, value){
+    const el = document.getElementById(domId);
+    if (el) el.textContent = value;
+  }
+
+  load();
+})();
+</script>

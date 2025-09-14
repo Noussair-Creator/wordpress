@@ -382,7 +382,6 @@ $roleConfigs = [
                 "lien" => "#",
                 "submenu" => [
                     ["label" => "Dashboard", "lien" => "/espace-labo"],
-                    ["label" => "Laboratoires de recherche", "lien" => "/liste-de-laboratoires"],
                     ["label" => "Membres", "lien" => "#"],
                     ["label" => "Projets", "lien" => "#"],
                     ["label" => "Activités", "lien" => "#"],

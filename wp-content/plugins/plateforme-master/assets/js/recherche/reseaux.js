@@ -46,9 +46,13 @@
       // Remplit les 2 selects
       const selAdd = document.getElementById('projetsAssocies');
       const selEdit = document.getElementById('projetsAssociesModifier');
+      // const seladd = document.getElementById('projectFilter');
+
+
 
       if (selAdd) selAdd.innerHTML = options;
       if (selEdit) selEdit.innerHTML = options;
+      // if (seladd) seladd.innerHTML = options;
 
     } catch (e) {
       console.error('Erreur lors du chargement des projets :', e);
@@ -133,6 +137,9 @@
       convention_signee: conv,
       statut: 'Actif',
       projets_associes: projets,
+       // 🔹 Ajouts
+    site_web: $('#siteweb', root)?.value?.trim() || "",
+    adresse_org: $('#adresse', root)?.value?.trim() || "",
       piece_jointe: file   // <-- fichier ajouté ici
     };
   }
@@ -186,34 +193,76 @@
     document.addEventListener('click', ()=> $$('.dropdown-menu.show').forEach(m=>m.classList.remove('show')), { once:true });
 
     // === Modifier ===
-    $$('#candidaturesTable .btn-modifier').forEach(a=>{
-      a.addEventListener('click', async e=>{
-        e.preventDefault();
-        const id = a.dataset.id;
-        try {
-          const item = await api(`reseaux/${id}`, { method:'GET' });
-          $('#institutionPartenaireModifier').value = item.institution || '';
-          $('#paysModifier').value = item.pays || '';
-          $('#typeCollaborationModifier').value = item.type_collab || '';
-          $('#nomCompletModifier').value = item.contact_nom || '';
-          $('#emailModifier').value = item.contact_email || '';
-          $('#dateDebutModifier').value = item.date_debut || '';
-          $('#dateFinModifier').value = item.date_fin || '';
-          const yes = document.querySelector('input[name="conventionModifier"][value="oui"]');
-          const no  = document.querySelector('input[name="conventionModifier"][value="non"]');
-          (item.convention_signee ? yes : no).checked = true;
-          if (item.projets_associes?.length) {
-            $('#projetsAssociesModifier').value = String(item.projets_associes[0]);
+  // === Modifier ===
+$$('#candidaturesTable .btn-modifier').forEach(a=>{
+  a.addEventListener('click', async e=>{
+    e.preventDefault();
+    const id = a.dataset.id;
+    try {
+      const item = await api(`reseaux/${id}`, { method:'GET' });
+
+      // Champs de base
+      $('#institutionPartenaireModifier').value = item.institution || '';
+      $('#paysModifier').value                  = item.pays || '';
+      $('#typeCollaborationModifier').value     = item.type_collab || '';
+      $('#nomCompletModifier').value            = item.contact_nom || '';
+      $('#emailModifier').value                 = item.contact_email || '';
+      $('#dateDebutModifier').value             = item.date_debut || '';
+      $('#dateFinModifier').value               = item.date_fin || '';
+
+      // Champs ajoutés
+      $('#adresseModifier').value = item.adresse_org || '';
+      $('#sitewebModifier').value = item.site_web || '';
+
+      // Convention radio
+      const yes = document.querySelector('input[name="conventionModifier"][value="oui"]');
+      const no  = document.querySelector('input[name="conventionModifier"][value="non"]');
+      (item.convention_signee ? yes : no).checked = true;
+
+      // Projet associé (si le select existe)
+      if (item.projets_associes && item.projets_associes.length) {
+        const selProj = document.getElementById('projetsAssociesModifier');
+        if (selProj) {
+          // Cas 1 : objets complets [{id:6,...}]
+          if (typeof item.projets_associes[0] === 'object' && item.projets_associes[0].id) {
+            selProj.value = String(item.projets_associes[0].id);
           }
-          
-          $('#modalModifier').dataset.id = id;
-          $('#modalModifier').style.display = 'flex';
-        } catch (err) {
-          alert('Impossible de charger les données du réseau');
-          console.error(err);
+          // Cas 2 : simple tableau d’IDs [6, 7]
+          else {
+            selProj.value = String(item.projets_associes[0]);
+          }
         }
-      });
-    });
+      }
+
+
+      // Pièce jointe
+      const fileTextEl = document.getElementById('fileTextModifier');
+      const linkEl     = document.getElementById('pieceJointeModifierLink'); // ⚠️ à ajouter dans HTML sous l'input
+      const fileInput  = document.getElementById('fileUploadModifier');
+      if (fileInput) fileInput.value = ''; // reset
+
+      if (item.piece_jointe_path) {
+        const name = item.piece_jointe_path.split('/').pop();
+        if (fileTextEl) fileTextEl.value = name || 'Fichier existant';
+        if (linkEl) {
+          linkEl.href = item.piece_jointe_path;
+          linkEl.textContent = name;
+          linkEl.style.display = 'inline-block';
+        }
+      } else {
+        if (fileTextEl) fileTextEl.value = 'Aucun fichier choisi';
+        if (linkEl) linkEl.style.display = 'none';
+      }
+
+      // Ouvrir la modale
+      $('#modalModifier').dataset.id = id;
+      $('#modalModifier').style.display = 'flex';
+    } catch (err) {
+      alert('Impossible de charger les données du réseau');
+      console.error(err);
+    }
+  });
+});
 
     // === Supprimer ===
     $$('#candidaturesTable .btn-supprimer').forEach(a=>{
@@ -250,6 +299,10 @@
       fd.append('contact_email', $('#emailModifier').value.trim());
       fd.append('date_debut',    $('#dateDebutModifier').value);
       fd.append('date_fin',      $('#dateFinModifier').value);
+      
+      fd.append("site_web" , $('#sitewebModifier').value.trim());
+      fd.append("adresse_org" , $('#adresseModifie').value.trim());
+
       fd.append('convention_signee',
         document.querySelector('input[name="conventionModifier"]:checked')?.value === 'oui' ? '1' : '0'
       );
