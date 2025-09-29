@@ -685,7 +685,7 @@
         <div class="card full-width">
             <h3>Informations générales</h3>
             <div class="card-header-actions">
-                <div class="dropdown">
+               <!-- <div class="dropdown">
                     <button class="btn btn-danger dropdown-toggle" type="button" id="dropdownMenuButton1"
                         data-bs-toggle="dropdown" aria-expanded="false">
                         Actions
@@ -695,7 +695,7 @@
                         <li><a class="dropdown-item" href="#">Supprimer</a></li>
                         <li><a class="dropdown-item" href="#">Terminer</a></li>
                     </ul>
-                </div>
+                </div>-->
             </div>
             <ul class="styled-list">
                 <li><strong>Titre / Sujet :</strong> Prétraitement EEG Patient #4</li>
@@ -703,7 +703,8 @@
                 <li><strong>Date :</strong> 28/08/2025</li>
                 <li><strong>Heure :</strong> 10h00 – 11h30</li>
                 <li><strong>Statut :</strong> Terminé</li>
-                <li><strong>Membre concerné :</strong> Dr. Mohamed Abdelkefi - Chercheur – Spécialité Neurosciences</li>
+               <li><strong>Document associé:</strong> Terminé</li>
+
             </ul>
 
             <h4 class="section-title">Description détaillée</h4>
@@ -715,7 +716,9 @@
         </div>
     </div>
 
-    <div id="docs-container">
+
+    
+    <!--<div id="docs-container">
         <div class="card full-width">
             <div class="card-header">
                 <h3>Documents associés</h3>
@@ -782,9 +785,9 @@
                 </tbody>
             </table>
         </div>
-    </div>
+    </div>-->
 
-    <div id="results-container">
+    <!--<div id="results-container">
         <div class="card full-width">
             <div class="card-header">
                 <h3>Résultats & Indicateurs</h3>
@@ -802,7 +805,7 @@
                 </ul>
             </div>
         </div>
-    </div>
+    </div>-->
 
 </div>
 
@@ -887,7 +890,21 @@
 <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
 <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
 
+<?php
+    $current_user = wp_get_current_user();
+    $roles = (array) $current_user->roles;
+    $role  = $roles[0] ?? '';
+    $user_id = get_current_user_id();
 
+    ?>
+    <script>
+    window.PMSettings = {
+        restUrl: "<?= esc_url( rest_url() ) ?>",
+        nonce: "<?= wp_create_nonce('wp_rest') ?>",
+        role: "<?= esc_js( $role ) ?>",
+        userId: <?= (int) $user_id ?>
+    };
+    </script>
 <script>
     $(document).ready(function () {
         // Modifier Modal functionality
@@ -934,4 +951,58 @@
             $('#docFileText').val(fileName || 'Aucun fichier choisi');
         });
     });
+</script>
+
+
+<script>
+document.addEventListener("DOMContentLoaded", async () => {
+  // 🔹 1. Récupérer l'id depuis l'URL
+  const params = new URLSearchParams(window.location.search);
+  const id = params.get("id");
+  if (!id) {
+    console.warn("Aucun ID trouvé dans l'URL");
+    return;
+  }
+
+  // 🔹 2. Construire l'URL de l'API
+  const base = (window.PMSettings?.restUrl || '/wp-json').replace(/\/$/,'');
+  const url  = `${base}/plateforme-directeurderecherche/v1/activite_quotidienne/${id}`;
+
+  try {
+    // 🔹 3. Appel API
+    const res = await fetch(url, {
+      method: "GET",
+      credentials: "include",
+      headers: { "X-WP-Nonce": window.PMSettings?.nonce || "" }
+    });
+    if (!res.ok) throw new Error("Erreur API " + res.status);
+    const data = await res.json();
+
+    // 🔹 4. Injection dans le HTML
+    const container = document.querySelector("#info-container .styled-list");
+    if (container) {
+      container.innerHTML = `
+        <li><strong>Titre / Sujet :</strong> ${data.titre || '-'}</li>
+        <li><strong>Type :</strong> ${data.type_libelle || '-'}</li>
+        <li><strong>Date :</strong> ${data.date || '-'}</li>
+        <li><strong>Heure :</strong> ${data.heure_debut || ''} – ${data.heure_fin || ''}</li>
+        <li><strong>Statut :</strong> ${data.Statut || '-'}</li>
+        <li><strong>Document associé :</strong> ${
+          data.piece_jointe_path 
+          ? `<a href="${data.piece_jointe_path}" target="_blank">Voir le document</a>` 
+          : '—'
+        }</li>
+      `;
+    }
+
+    // 🔹 5. Description détaillée
+    const descBloc = document.querySelector("#info-container p");
+    if (descBloc) {
+      descBloc.textContent = data.description || data.titre || "Pas de description.";
+    }
+  } catch (e) {
+    console.error("Erreur lors du chargement de l'activité :", e);
+    Swal.fire("Erreur", "Impossible de charger les détails de l’activité.", "error");
+  }
+});
 </script>

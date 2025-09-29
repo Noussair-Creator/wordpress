@@ -132,19 +132,17 @@
     <section class="col-lg-12 mx-auto">
         <div class="details-card title-card">
             <div>
-                <h2>Lancement Du Programme Horizon Europe 2025</h2>
+                <h2></h2>
                 <div class="d-flex align-items-center gap-4 title-card-meta mt-3 justify-content-around">
                     <span>
                         <img class="me-2" width="15px"
                             src="/wp-content\plugins\plateforme-master\images\SiteRechercheImages\category-variety-random-shuffle-svgrepo-com.png"
                             alt="Category Icon">
-                        Appel à projet
                     </span>
                     <span>
                         <img class="me-2" width="15px"
                             src="/wp-content/plugins/plateforme-master/images/SiteRechercheImages/27) Icon-calendar.png"
                             alt="Calendar Icon">
-                        05/08/2025
                     </span>
                 </div>
             </div>
@@ -154,32 +152,9 @@
     <!-- Description Section -->
     <section class="col-lg-12 mx-auto mt-4">
         <div class="details-card description-card">
-            <p class="custom-font-style">
-                Le colloque marque le coup d’envoi du programme Horizon Europe 2025, initiative phare de
-                l’Union
-                européenne pour le financement de la recherche et de l’innovation.
-            </p>
-            <p>
-                Cet événement rassemble chercheurs, enseignants, institutions et acteurs
-                socio-économiques afin de
-                présenter les nouvelles priorités, les opportunités de financement et les modalités de
-                participation.
-            </p>
-            <p>
-                L’objectif est de favoriser la coopération scientifique internationale, d’encourager les
-                projets
-                interdisciplinaires et de soutenir l’excellence dans les domaines stratégiques tels que
-                la
-                transition numérique, l’énergie durable, la santé, le climat et la mobilité
-                intelligente.
-            </p>
-            <p>
-                Ce rendez-vous constitue une occasion unique pour les participants de découvrir les
-                appels à
-                projets, d’échanger avec des experts et de tisser des partenariats en vue de renforcer
-                la
-                compétitivité scientifique et technologique.
-            </p>
+           
+          
+           
         </div>
     </section>
 
@@ -189,7 +164,7 @@
             <h3>Galerie</h3>
             <div id="galleryCarousel" class="carousel slide gallery-carousel m-3" data-bs-ride="carousel">
                 <div class="carousel-inner">
-                    <div class="carousel-item active">
+                  <!--  <div class="carousel-item active">
                         <div class="row g-3">
                             <div class="col-md-4">
                                 <img src="/wp-content/plugins/plateforme-master/images/SiteRechercheImages/Groupe de masques 444.png"
@@ -247,12 +222,12 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                </div>-->
                 <div class="carousel-indicators position-static mt-4">
-                    <button type="button" data-bs-target="#galleryCarousel" data-bs-slide-to="0" class="active"
+                  <!--  <button type="button" data-bs-target="#galleryCarousel" data-bs-slide-to="0" class="active"
                         aria-current="true" aria-label="Slide 1"></button>
                     <button type="button" data-bs-target="#galleryCarousel" data-bs-slide-to="1"
-                        aria-label="Slide 2"></button>
+                        aria-label="Slide 2"></button>-->
                 </div>
             </div>
         </div>

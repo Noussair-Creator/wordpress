@@ -47,47 +47,79 @@
 
 
 <div class="content-block">
-    <table id="candidaturesTable" class="styled-table display">
-        <thead>
-            <tr>
-                <th>Ref_Doc</th>
-                <th>fichier</th>
-                <th>Télécharger</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>001</td>
-                <td>Deeplearning_BCI_Systems.Pdf</td>
-                <td>
-                    <img width="20px" src="/wp-content/plugins/plateforme-master/images/icons/upload-red.png"
-                        alt="upload-red.png">
-                </td>
-            </tr>
-            <tr>
-                <td>002</td>
-                <td>Poster_Bci2025.Pdf</td>
-                <td><img width="20px" src="/wp-content/plugins/plateforme-master/images/icons/upload-red.png"
-                        alt="upload-red.png"></td>
-            </tr>
-        </tbody>
-    </table>
+  <table id="candidaturesTable" class="styled-table display">
+    <thead>
+      <tr>
+        <th>Ref_Doc</th>
+        <th>Fichier</th>
+        <th>Télécharger</th>
+      </tr>
+    </thead>
+    <tbody id="candidaturesBody"></tbody>
+  </table>
 </div>
 
-<!-- Scripts specific to this table component -->
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-    // Ensure DataTables is loaded before trying to initialize it
-    if ($.fn.dataTable) {
-        $('#candidaturesTable').DataTable({
-            paging: false,
-            searching: false,
-            ordering: false,
-            info: false,
-            language: {
-                emptyTable: "Aucune donnée disponible"
-            }
-        });
+(function(){
+  const REST_ROOT  = (window.pmsettings && pmsettings.rest_root) || (window.wpApiSettings && wpApiSettings.root) || '/wp-json/';
+  const NONCE      = (window.pmsettings && pmsettings.nonce)     || (window.wpApiSettings && wpApiSettings.nonce) || '';
+  const API        = REST_ROOT.replace(/\/$/, '') + '/plateforme-recherche/v1';
+
+  function q(k){ return new URLSearchParams(location.search).get(k); }
+  const pubId = q('id');
+
+  async function fetchJSON(url){
+    const res = await fetch(url, { headers: { 'X-WP-Nonce': NONCE, 'Accept': 'application/json' }, credentials: 'same-origin' });
+    if (!res.ok) throw new Error('HTTP '+res.status);
+    return await res.json();
+  }
+
+  function filenameFromURL(u){
+    try { const p = new URL(u); return decodeURIComponent(p.pathname.split('/').pop() || 'fichier'); }
+    catch(_){ return (u||'').split('/').pop() || 'fichier'; }
+  }
+
+  async function load(){
+    const tbody = document.getElementById('candidaturesBody');
+    tbody.innerHTML = '';
+
+    if(!pubId){
+      tbody.innerHTML = `<tr><td colspan="3" style="text-align:center;color:#777;">ID manquant</td></tr>`;
+      return;
     }
-});
+
+    try {
+      const p = await fetchJSON(`${API}/publication/${pubId}`);
+      const url = (p && p.fichier_url) ? String(p.fichier_url).trim() : '';
+
+      if (!url){
+        tbody.innerHTML = `<tr><td colspan="3" style="text-align:center;color:#777;">Aucun fichier disponible</td></tr>`;
+      } else {
+        const name = filenameFromURL(url);
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td>001</td>
+          <td>${name}</td>
+          <td>
+            <a href="${url}" target="_blank" rel="noopener">
+              <img width="20" src="/wp-content/plugins/plateforme-master/images/icons/upload-red.png" alt="download">
+            </a>
+          </td>`;
+        tbody.appendChild(tr);
+      }
+
+      if ($.fn.dataTable) {
+        $('#candidaturesTable').DataTable({
+          paging:false, searching:false, ordering:false, info:false,
+          language:{ emptyTable: "Aucune donnée disponible" }
+        });
+      }
+    } catch(e){
+      console.error(e);
+      tbody.innerHTML = `<tr><td colspan="3" style="text-align:center;color:#c00;">Erreur de chargement</td></tr>`;
+    }
+  }
+
+  load();
+})();
 </script>

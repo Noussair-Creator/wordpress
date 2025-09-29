@@ -680,39 +680,40 @@ form.popup-form {
             </div>
             <div class="card-header-actions">
                 <div class="dropdown">
-                    <button class="btn btn-danger dropdown-toggle" type="button" id="dropdownMenuButton1"
+                    <!-- <button class="btn btn-danger dropdown-toggle" type="button" id="dropdownMenuButton1"
                         data-bs-toggle="dropdown" aria-expanded="false">
                         Actions
-                    </button>
-                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                    </button>-->
+                   <!-- <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
                         <li><a class="dropdown-item" href="#" id="openModalModifier">Modifier</a></li>
-                        <!-- <li><a class="dropdown-item" href="#">Ajouter commentaire</a></li> -->
+                         <li><a class="dropdown-item" href="#">Ajouter commentaire</a></li> 
                         <li><a class="dropdown-item" href="#">Supprimer</a></li>
-                    </ul>
+                    </ul>-->
                 </div>
             </div>
             <ul class="styled-list">
-                <li><strong>Titre de l'activité :</strong> Interface cerveau-machine et apprentissage</li>
-                <li><strong>Type :</strong> Article</li>
-                <li><strong>Année :</strong> 2024</li>
-                <li><strong>Auteur principal :</strong> Dr. Sarra Messaoudi</li>
+                <li><strong>Titre de l'activité :</strong> </li>
+                <li><strong>Type :</strong></li>
+                <li><strong>Année :</strong> </li>
+                <li><strong>Auteur principal :</strong> </li>
                 <li><strong>Statut :</strong> Publié</li>
-                <li><strong>Revue / Événement :</strong> Journal of Neuroscience Tech</li>
-                <li><strong>Résumé :</strong> Étude sur l'application des réseaux de neurones profonds à l'analyse
-                    EEG pour la détection de patterns neurologiques</li>
+                <li><strong>Revue / Événement :</strong> </li>
+                <li><strong>Pièce jointe :</strong> </li>
+               <!--  <li><strong>Résumé :</strong> Étude sur l'application des réseaux de neurones profonds à l'analyse
+                    EEG pour la détection de patterns neurologiques</li>-->
             </ul>
 
-            <h4 class="section-title">Description / Contenu</h4>
+           <!-- <h4 class="section-title">Description / Contenu</h4>
             <ol class="custom-ordered-list">
                 <li>Analyser les signaux EEG en utilisant le Deep Learning pour détecter des anomalies.</li>
                 <li>Pré-traitement des signaux, modélisation CNN, validation croisée.</li>
                 <li>Identification précise de patterns EEG associés à certaines conditions.</li>
-            </ol>
+            </ol>-->
         </div>
     </div>
 
     <!-- Container 2: Attached Documents -->
-    <div id="docs-container">
+    <!--<div id="docs-container">
         <div class="card full-width">
             <div class="card-header">
                 <h3>Pièces jointes / Documents</h3>
@@ -803,10 +804,10 @@ form.popup-form {
                 </tbody>
             </table>
         </div>
-    </div>
+    </div> -->
 
     <!-- Container 3: Participation Requests -->
-    <div id="participation-container">
+    <!--<div id="participation-container">
         <div class="card full-width">
             <div class="card-header">
                 <h3>Demandes de participation</h3>
@@ -873,7 +874,7 @@ form.popup-form {
                 </tbody>
             </table>
         </div>
-    </div>
+    </div>-->
 </div>
 
 <!-- Modifier Modal -->
@@ -962,7 +963,21 @@ form.popup-form {
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <!-- DataTables JS -->
 <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+<?php
+    $current_user = wp_get_current_user();
+    $roles = (array) $current_user->roles;
+    $role  = $roles[0] ?? '';
+    $user_id = get_current_user_id();
 
+    ?>
+    <script>
+    window.PMSettings = {
+        restUrl: "<?= esc_url( rest_url() ) ?>",
+        nonce: "<?= wp_create_nonce('wp_rest') ?>",
+        role: "<?= esc_js( $role ) ?>",
+        userId: <?= (int) $user_id ?>
+    };
+    </script>
 <!-- Your custom scripts -->
 <script>
 $(document).ready(function() {
@@ -1045,4 +1060,69 @@ $(document).ready(function() {
         $('#docFileText').val(fileName || 'Aucun fichier choisi');
     });
 });
+
+
+async function loadActiviteDetails(id) {
+  try {
+    const url = `${window.PMSettings.restUrl}plateforme-directeurderecherche/v1/activite_scientifique/${id}`;
+    const res = await fetch(url, {
+      headers: { "X-WP-Nonce": window.PMSettings.nonce },
+      credentials: "include"
+    });
+
+    if (!res.ok) throw new Error(`Erreur API (${res.status})`);
+    const act = await res.json();
+
+    // Injection des données dans la fiche
+    const list = document.querySelector("#info-container .styled-list");
+    if (list) {
+      list.innerHTML = `
+        <li><strong>Titre de l'activité :</strong> ${act.titre_reference || '-'}</li>
+        <li><strong>Type :</strong> ${act.type_libelle || '-'}</li>
+        <li><strong>Année :</strong> ${act.annee || '-'}</li>
+        <li><strong>Auteur principal :</strong> ${act.auteur_principal || '-'}</li>
+        <li><strong>Statut :</strong> Publiè</li>
+        <li><strong>Revue / Événement :</strong> ${act.Source || '-'}</li>
+        <li><strong>Pièce jointe :</strong> 
+          ${act.piece_jointe_path ? 
+            `<a href="${act.piece_jointe_path}" target="_blank">
+               <img src="/wp-content/plugins/plateforme-master/images/icons/pdf-svgrepo-com (2).png" width="16" style="vertical-align:middle;margin-right:6px;">
+               Télécharger
+             </a>` 
+            : '-'}
+        </li>
+      `;
+    }
+
+    // Description (si dispo)
+    if (act.resume) {
+      const container = document.querySelector("#info-container .card");
+      if (container) {
+        container.insertAdjacentHTML(
+          "beforeend",
+          `<h4 class="section-title">Description / Contenu</h4>
+           <div style="padding:15px; font-size:14px; color:#444;">${act.resume}</div>`
+        );
+      }
+    }
+  } catch (err) {
+    console.error("Erreur chargement activité :", err);
+  }
+}
+
+// Exemple : charger l’activité ID 12
+document.addEventListener("DOMContentLoaded", () => {
+  const params = new URLSearchParams(window.location.search);
+  const id = params.get("id"); // ?id=12
+  if (id) {
+    loadActiviteDetails(id);
+  }
+});
+
+
+
+
 </script>
+
+
+

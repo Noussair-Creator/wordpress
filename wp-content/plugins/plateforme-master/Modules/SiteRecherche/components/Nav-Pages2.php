@@ -67,6 +67,7 @@ a.nav-link2:hover {
 <div class="nav-pages2">
     <div class="nav-scroll2">
         <a href="#" class="nav-link2">UTM</a>
+         <a href="/etablissements-utm" class="nav-link2">Etablissements</a>
         <a href="#" class="nav-link2 active">Structures de recherche</a>
     </div>
 </div>

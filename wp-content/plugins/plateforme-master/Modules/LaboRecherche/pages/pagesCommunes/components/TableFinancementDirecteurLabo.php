@@ -440,7 +440,7 @@
                 <th>Consommé (TND)</th>
                 <th>Solde</th>
                 <th>Statut</th>
-                <th>Pièces</th>
+            <!-- <th>Pièces</th> -->
                 <th>Actions</th>
             </tr>
         </thead>

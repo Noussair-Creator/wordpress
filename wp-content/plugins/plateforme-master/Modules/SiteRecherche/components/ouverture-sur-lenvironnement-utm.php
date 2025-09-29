@@ -202,19 +202,15 @@
         <div class="search-box">
             <div class="row g-3 align-items-center">
                 <div class="col-lg-5">
-                    <select id="domainSelect" class="form-select" aria-label="Domaine">
-                        <option value="" selected>Domaine</option>
-                        <option value="Sciences Physiques">Sciences Physiques</option>
-                        <option value="Énergies Renouvelables">Énergies Renouvelables</option>
-                        <option value="Biologie">Biologie</option>
+                    <select id="domainSelect" class="form-select" aria-label="Type De Collaboration">
+                        <option value="" selected>Type De Collaboration</option>
+                      
                     </select>
                 </div>
                 <div class="col-lg-5">
-                    <select id="keywordsSelect" class="form-select" aria-label="Mots clés">
-                        <option value="" selected>Mots clés</option>
-                        <option value="Innovation">Innovation</option>
-                        <option value="Projets">Projets</option>
-                        <option value="Recherche">Recherche</option>
+                    <select id="keywordsSelect" class="form-select" aria-label="Pays">
+                        <option value="" selected>Pays</option>
+                        
                     </select>
                 </div>
                 <div class="col-lg-2 d-flex justify-content-end">
@@ -238,7 +234,7 @@
 <!-- Main Content -->
 <main class="container" style="margin-top: 4rem;">
     <div id="publicationsContainer" class="row g-5">
-        <!-- Publication Card 1 -->
+        <!-- Publication Card 1 
         <div class="col-lg-6 publication-item" data-domain="Sciences Physiques,Énergies Renouvelables"
             data-keywords="Innovation,Projets">
             <div class="publication-card">
@@ -253,7 +249,6 @@
                 <p><strong>Objectif:</strong> Développement de projets communs et séminaires</p>
             </div>
         </div>
-        <!-- Publication Card 2 -->
         <div class="col-lg-6 publication-item" data-domain="Biologie" data-keywords="Recherche">
             <div class="publication-card">
                 <div class="date-tag"><img width="15px" class="me-1"
@@ -264,7 +259,6 @@
                 <p><strong>Objectif:</strong> Publication des résultats de recherche annuels</p>
             </div>
         </div>
-        <!-- Publication Card 3 -->
         <div class="col-lg-6 publication-item" data-domain="Sciences Physiques" data-keywords="Recherche">
             <div class="publication-card">
                 <div class="date-tag"><img width="15px" class="me-1"
@@ -275,7 +269,6 @@
                 <p><strong>Objectif:</strong> Recherche sur les propriétés quantiques</p>
             </div>
         </div>
-        <!-- Publication Card 4 -->
         <div class="col-lg-6 publication-item" data-domain="Énergies Renouvelables" data-keywords="Projets">
             <div class="publication-card">
                 <div class="date-tag"><img width="15px" class="me-1"
@@ -286,7 +279,6 @@
                 <p><strong>Objectif:</strong> Test de nouvelles technologies photovoltaïques</p>
             </div>
         </div>
-        <!-- Publication Card 5 -->
         <div class="col-lg-6 publication-item" data-domain="Biologie" data-keywords="Innovation">
             <div class="publication-card">
                 <div class="date-tag"><img width="15px" class="me-1"
@@ -297,7 +289,6 @@
                 <p><strong>Objectif:</strong> Développement de nouveaux vecteurs viraux</p>
             </div>
         </div>
-        <!-- Publication Card 6 -->
         <div class="col-lg-6 publication-item" data-domain="Sciences Physiques,Énergies Renouvelables"
             data-keywords="Projets">
             <div class="publication-card">
@@ -308,7 +299,7 @@
                 <p><strong>Domaines:</strong> Sciences Physiques, Énergies Renouvelables</p>
                 <p><strong>Objectif:</strong> Mise en place d'un prototype fonctionnel</p>
             </div>
-        </div>
+        </div> -->
 
     </div>
     <div id="noResultsMessage" class="text-center fs-4 mt-5" style="display: none;">
@@ -364,4 +355,191 @@
             filterPublications();
         });
     });
+</script>
+
+    <?php
+    $current_user = wp_get_current_user();
+    $roles = (array) $current_user->roles;
+    $role = $roles[0] ?? '';
+    $user_id = get_current_user_id();
+
+?>
+<script>
+        window.PMSettings = {
+            restUrl: "<?= esc_url(rest_url()) ?>",
+            nonce: "<?= wp_create_nonce('wp_rest') ?>",
+            role: "<?= esc_js($role) ?>",
+            userId: <?= (int) $user_id ?>
+        };
+</script>
+
+
+<script>
+/* ========= Client API pour /reseaux/lab/... ========= */
+(function(){
+  const API_ROOT = (window.PMSettings?.restUrl || '/wp-json/').replace(/\/+$/,'') + '/plateforme-recherche/v1';
+
+  function headers(){ const h={}; if (window.PMSettings?.nonce) h['X-WP-Nonce']=PMSettings.nonce; return h; }
+  async function fetchJSON(url){
+    const r = await fetch(url, { headers: headers(), credentials: 'same-origin' });
+    if (!r.ok) throw new Error('HTTP '+r.status); return r.json();
+  }
+  function buildUrl(path, query={}){
+    const u = new URL(API_ROOT + path, location.origin);
+    Object.entries(query).forEach(([k,v])=>{ if(v!==undefined && v!=='') u.searchParams.set(k,v); });
+    return u.toString();
+  }
+
+  // Expose en global
+  window.ReseauxAPI = {
+    byLab(labId, opts={}) {
+      return fetchJSON(buildUrl(`/reseaux/lab/${encodeURIComponent(labId)}`, opts));
+    },
+    byLabType(labId, type_collab, opts={}) {
+      return fetchJSON(buildUrl(`/reseaux/lab/${encodeURIComponent(labId)}/type/${encodeURIComponent(type_collab)}`, opts));
+    },
+    byLabCountry(labId, pays, opts={}) {
+      return fetchJSON(buildUrl(`/reseaux/lab/${encodeURIComponent(labId)}/country/${encodeURIComponent(pays)}`, opts));
+    },
+    byLabStatus(labId, statut, opts={}) {
+      return fetchJSON(buildUrl(`/reseaux/lab/${encodeURIComponent(labId)}/status/${encodeURIComponent(statut)}`, opts));
+    }
+  };
+
+  // Helper pour récupérer l’ID labo depuis l’URL / stockage
+  window.getLaboratoireId = function(){
+    const u = new URL(location.href);
+    const id = u.searchParams.get('laboratoireid') || u.searchParams.get('laboratoire_id') || localStorage.getItem('laboratoireid');
+    if (id) localStorage.setItem('laboratoireid', id);
+    return id;
+  };
+})();
+</script>
+
+<!-- ========= Loader (optionnel) branché à ta page ========= -->
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const container   = document.getElementById('publicationsContainer');
+  const domainSel   = document.getElementById('domainSelect');   // => type_collab
+  const keywordSel  = document.getElementById('keywordsSelect'); // => pays
+  const applyBtn    = document.getElementById('applyBtn');
+  const resetBtn    = document.getElementById('resetBtn');
+  const viewMoreBtn = document.querySelector('.btn-view-more');
+  const noResults   = document.getElementById('noResultsMessage');
+
+  const LAB_ID = getLaboratoireId();
+  const PAGE_CHUNK = 4;
+
+  let ALL = [];
+  let LIST = [];
+  let idx = 0;
+  const seen = new Set();
+
+  // Utils
+  function esc(s){ return (''+s).replace(/[&<>"]/g, m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[m])); }
+  function escAttr(s){ return esc(s).replace(/"/g,'&quot;'); }
+  function formatFR(iso){ const d=new Date(iso); return isNaN(d)? (iso||'—'): d.toLocaleDateString('fr-FR'); }
+  function dedupe(arr){ const s=new Set(); return (arr||[]).filter(x=>{const id=String(x.id||''); if(!id||s.has(id)) return false; s.add(id); return true;}); }
+
+  function buildCard(r){
+    return `
+      <div class="col-lg-6 publication-item" data-domain="${escAttr(r.type_collab||'')}" data-keywords="${escAttr(r.pays||'')}">
+        <div class="publication-card">
+          <div class="date-tag">
+            <img width="15" class="me-1" src="/wp-content/plugins/plateforme-master/images/SiteRechercheImages/blanc.png" alt="">
+            ${formatFR(r.date_debut)}
+          </div>
+          <h3><a href="#">${esc(r.institution || 'Partenaire')}</a></h3>
+          <p><strong>Pays:</strong> ${esc(r.pays || '—')}</p>
+          <p><strong>Type De Collaboration:</strong> ${esc(r.type_collab || '—')}</p>
+        </div>
+      </div>`;
+  }
+
+  function resetRender(){
+    container.innerHTML = '';
+    idx = 0; seen.clear();
+    if (LIST.length === 0) {
+      noResults.style.display = 'block';
+      viewMoreBtn?.classList.add('d-none');
+      return;
+    }
+    noResults.style.display = 'none';
+    renderNext(PAGE_CHUNK);
+  }
+
+  function renderNext(n){
+    let added = 0;
+    while (idx < LIST.length && added < n) {
+      const r = LIST[idx++], id = String(r.id||'');
+      if (!id || seen.has(id)) continue;
+      container.insertAdjacentHTML('beforeend', buildCard(r));
+      seen.add(id); added++;
+    }
+    if (idx >= LIST.length) viewMoreBtn?.classList.add('d-none'); else viewMoreBtn?.classList.remove('d-none');
+  }
+
+  async function initialLoad(){
+    container.innerHTML = '<div class="col-12 text-center">Chargement…</div>';
+    const rows = await ReseauxAPI.byLab(LAB_ID, { per_page: 200, orderby: 'date_debut', order: 'DESC' });
+    ALL = dedupe(rows);
+    fillFilters(ALL);
+    LIST = ALL.slice();
+    resetRender();
+  }
+
+  function fillFilters(rows){
+    // Type = type_collab
+    const types = Array.from(new Set(rows.map(r=> (r.type_collab||'').trim()).filter(Boolean)))
+      .sort((a,b)=>a.localeCompare(b,'fr'));
+    domainSel.innerHTML = `<option value="" selected>Type De Collaboration</option>` +
+      types.map(t=>`<option value="${escAttr(t)}">${esc(t)}</option>`).join('');
+    // Mots clés = pays
+    const pays = Array.from(new Set(rows.map(r=> (r.pays||'').trim()).filter(Boolean)))
+      .sort((a,b)=>a.localeCompare(b,'fr'));
+    keywordSel.innerHTML = `<option value="" selected>Pays</option>` +
+      pays.map(p=>`<option value="${escAttr(p)}">${esc(p)}</option>`).join('');
+  }
+
+  async function applyFilters(){
+    const t = (domainSel.value||'').trim();  // type_collab
+    const p = (keywordSel.value||'').trim(); // pays
+    let rows;
+
+    // On privilégie les endpoints nommés pour réduire le volume:
+    if (t && !p) {
+      rows = await ReseauxAPI.byLabType(LAB_ID, t, { per_page: 200 });
+    } else if (!t && p) {
+      rows = await ReseauxAPI.byLabCountry(LAB_ID, p, { per_page: 200 });
+    } else if (t && p) {
+      // type en server-side, pays en client-side (évite 2 calls)
+      rows = await ReseauxAPI.byLabType(LAB_ID, t, { per_page: 200 });
+      rows = rows.filter(r => (r.pays||'').trim() === p);
+    } else {
+      rows = await ReseauxAPI.byLab(LAB_ID, { per_page: 200 });
+    }
+
+    LIST = dedupe(rows);
+    resetRender();
+  }
+
+  // Events
+  applyBtn?.addEventListener('click', (e)=>{ e.preventDefault(); applyFilters(); });
+  resetBtn?.addEventListener('click', async (e)=>{
+    e.preventDefault();
+    domainSel.value = ''; keywordSel.value = '';
+    await initialLoad();
+  });
+  viewMoreBtn?.addEventListener('click', (e)=>{ e.preventDefault(); renderNext(PAGE_CHUNK); });
+
+  // GO
+  if (!LAB_ID) {
+    container.innerHTML = '<div class="col-12 text-center text-danger">laboratoireid manquant.</div>';
+    return;
+  }
+  initialLoad().catch(err=>{
+    console.error(err);
+    container.innerHTML = '<div class="col-12 text-center text-danger">Erreur de chargement</div>';
+  });
+});
 </script>

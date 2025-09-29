@@ -1,56 +1,52 @@
-<div class="statistiques-wrapper">
-    <div class="header-bar">
-        <h2 class="dashboard-sub-title">
-            <img src="/wp-content/plugins/plateforme-master/images/ed/16406436.png" alt="Icon"
-                style="width: 38px; margin-right: 8px; vertical-align: middle;">
-            Statistiques Générales
-        </h2>
-        <button class="btn-report"><i class="fa fa-file-alt"></i> Générer un rapport global</button>
+<!-- ===================== STATISTIQUES – RÉPARTITION PAR GRADE ===================== -->
+<div class="statistiques-wrapper" id="bloc-stats-grade" data-lab-id="19">
+  <div class="header-bar">
+    <h2 class="dashboard-sub-title">
+      <img src="/wp-content/plugins/plateforme-master/images/ed/16406436.png" alt="Icon"
+           style="width:38px;margin-right:8px;vertical-align:middle;">
+      Statistiques Générales
+    </h2>
+    <button class="btn-report" type="button"><i class="fa fa-file-alt"></i> Générer un rapport global</button>
+  </div>
+
+  <hr class="section-divider">
+
+  <div class="stats-grid">
+    <!-- Cartes gauche (exemple) -->
+    <div class="left-stats">
+      <div class="stat-box">
+        <span class="label">Total des membres</span>
+        <span class="value" id="total-membres">—</span>
+      </div>
+      <div class="stat-box">
+        <span class="label">Membres actifs</span>
+        <span class="value" id="membres-actifs">—</span>
+      </div>
     </div>
-    <hr class="section-divider">
 
-    <div class="stats-grid">
-        <!-- Left Stats Cards -->
-        <!-- Gauche -->
-        <div class="left-stats">
-            <div class="stat-box">
-                <span class="label">Total des membres</span>
-                <span class="value">0</span>
-            </div>
-            <div class="stat-box">
-                <span class="label">Membres actifs</span>
-                <span class="value">0</span>
-            </div>
-        </div>
+    <!-- Graphe barres (répartition par grade) -->
+    <div class="right-graph bar-chart-section" style="max-width:unset;width:100%;">
+      <div class="graph-header">
+        <h4>Répartition par grade</h4>
+        <select class="graph-select" id="selectYear">
+          <option value="">Toutes années</option>
+          <option>2025 - 2026</option>
+        </select>
+      </div>
 
-        <!-- Center Donut Chart -->
-        <!-- <div class="right-graph center-chart">
-            <div class="graph-header">
-                <h4 style="font-size:15px  !important;color: #2A2916 !important;">Nombre d'inscriptions par année </h4>
-            </div>
-            <div class="blocChart">
-                <div class="canvas-container">
-                    <canvas id="donutChart" width="220" height="220"></canvas>
-                </div>
+      <div class="bar-chart-wrapper" style="position:relative;height:260px;">
+        <canvas id="barChartGrade" aria-label="Répartition par grade" role="img"></canvas>
 
-                <div class="legend" id="donutLegend"></div>
-            </div>
-        </div> -->
-
-        <!-- Right Bar Chart -->
-        <div class="right-graph bar-chart-section" style="max-width: unset;width: 50vw;">
-            <div class="graph-header">
-                <h4>Répartition par Spécialité</h4>
-                <select class="graph-select">
-                    <option>2025 - 2026</option>
-                </select>
-            </div>
-            <div class="bar-chart-wrapper">
-                <canvas id="barChart"></canvas>
-            </div>
-        </div>
+        <!-- États -->
+        <div id="grade-loading" class="chart-state" style="display:none;">Chargement…</div>
+        <div id="grade-empty"   class="chart-state" style="display:none;">Aucune donnée à afficher</div>
+        <div id="grade-error"   class="chart-state" style="display:none;color:#b00020;">Erreur de chargement</div>
+      </div>
     </div>
+  </div>
 </div>
+
+<!-- ===================== STYLES MINIMAUX ===================== -->
 <style>
     .dashboard-container {
         max-width: 1400px;
@@ -781,299 +777,154 @@
 } */
 </style>
 
+<!-- ===================== CHART.JS ===================== -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1"></script>
 
+<!-- ===================== LOGIQUE ===================== -->
 <script>
-    /*
-                // Dashboard JavaScript functionality
-                class VueGlobaleDashboard {
-                    constructor() {
-                        this.donutChart = null;
-                        this.barChart = null;
-                        this.currentYear = '2025-2026';
-                        this.init();
-                    }
-                
-                    init() {
-                        this.setupEventListeners();
-                        this.loadMockData();
-                        this.createCharts();
-                    }
-                
-                    setupEventListeners() {
-                        const yearSelector = document.getElementById('yearSelector');
-                        if (yearSelector) {
-                            yearSelector.addEventListener('change', (e) => {
-                                this.currentYear = e.target.value;
-                                this.updateData();
-                            });
-                        }
-                    }
-                
-                    loadMockData() {
-                        // Mock data structure matching the image requirements
-                        this.data = {
-                            '2025-2026': {
-                                barData: {
-                                    labels: ['Mathematiques', 'Physique', 'Statistiques', 'Chimie', 'Sciences de la vie'],
-                                    values: [33, 29, 21, 10, 7],
-                                    colors: ['#A6A485', '#DDACA7', '#FFD54F', '#A6C7FF', '#BF0404']
-                                }
-                            },
-                           
-                        };
-                    }
-                
-                    createCharts() {
-                        this.createDonutChart();
-                        this.createBarChart();
-                    }
-                
-                    createDonutChart() {
-                        const ctx = document.getElementById('donutChart');
-                        if (!ctx) return;
-                
-                        const currentData = this.data[this.currentYear];
-                        const labels = currentData.donutData.labels;
-                        const rawValues = currentData.donutData.values;
-                
-                        const totalInscriptions = rawValues.reduce((a, b) => a + b, 0);
-                
-                        const colors = ['#B00000', '#7CC7C9', '#FFD54F', '#E4B6B6'];
-                
-                        const centerTextPlugin = {
-                            id: 'centerText',
-                            beforeDraw(chart) {
-                                const {
-                                    ctx,
-                                    chartArea
-                                } = chart;
-                                const centerX = (chartArea.left + chartArea.right) / 2;
-                                const centerY = (chartArea.top + chartArea.bottom) / 2;
-                
-                                ctx.save();
-                
-                                // Texte principal (ex: 7830)
-                                ctx.font = 'bold 24px Roboto, sans-serif';
-                                ctx.fillStyle = '#2A2916';
-                                ctx.textAlign = 'center';
-                                ctx.textBaseline = 'middle';
-                                ctx.fillText(totalInscriptions.toString(), centerX, centerY - 10);
-                
-                                // Sous-texte (ex: inscription)
-                                ctx.font = '14px Roboto, sans-serif';
-                                ctx.fillStyle = '#2A2916';
-                                ctx.fillText('inscription', centerX, centerY + 14);
-                
-                                ctx.restore();
-                            }
-                        };
-                
-                
-                        if (this.donutChart) {
-                            this.donutChart.destroy();
-                        }
-                
-                        // ✅ Concentric donut layers from outer (index 0) to inner (index 3)
-                        const baseRadius = 90;
-                        const thickness = 5;
-                
-                        const datasets = rawValues.map((val, index) => {
-                            const radius = baseRadius - index * (thickness + 2); // décalage vers l’intérieur
-                            const cutout = radius - thickness; // épaisseur constante
-                
-                            return {
-                                label: labels[index],
-                                data: [val, totalInscriptions - val],
-                                backgroundColor: [colors[index], 'transparent'],
-                                radius: `${radius}%`,
-                                cutout: `${cutout}%`
-                            };
-                        });
-                
-                        this.donutChart = new Chart(ctx, {
-                            type: 'doughnut',
-                            data: {
-                                datasets
-                            },
-                            options: {
-                                responsive: true,
-                                maintainAspectRatio: false,
-                                plugins: {
-                                    legend: {
-                                        display: false
-                                    },
-                                    tooltip: {
-                                        callbacks: {
-                                            label: (context) => {
-                                                const val = context.raw;
-                                                const percent = ((val / totalInscriptions) * 100).toFixed(1);
-                                                return `${context.dataset.label} : ${val} (${percent}%)`;
-                                            }
-                                        }
-                                    }
-                                }
-                            },
-                            plugins: [centerTextPlugin]
-                        });
-                
-                        this.createDonutLegend(colors, labels);
-                    }
-                
-                
-                
-                    createDonutLegend(colors, labels) {
-                        const legendContainer = document.getElementById('donutLegend');
-                        if (!legendContainer) return;
-                
-                        legendContainer.innerHTML = '';
-                
-                        labels.forEach((label, index) => {
-                            const item = document.createElement('div');
-                            item.className = 'legend-item';
-                            item.innerHTML =
-                                `<span class="legend-dot" style="background:${colors[index]}"></span> ${label}`;
-                            legendContainer.appendChild(item);
-                        });
-                    }
-                
-                
-                    createBarChart() {
-                        const ctx = document.getElementById('barChart');
-                        if (!ctx) return;
-                
-                        const currentData = this.data[this.currentYear];
-                
-                        if (this.barChart) {
-                            this.barChart.destroy();
-                        }
-                
-                        this.barChart = new Chart(ctx, {
-                            type: 'bar',
-                            data: {
-                                labels: currentData.barData.labels,
-                                datasets: [{
-                                    data: currentData.barData.values,
-                                    backgroundColor: currentData.barData.colors,
-                                    borderRadius: 6,
-                                    borderSkipped: false,
-                                }]
-                            },
-                            options: {
-                                indexAxis: 'y',
-                                responsive: true,
-                                maintainAspectRatio: false,
-                                scales: {
-                                    x: {
-                                        beginAtZero: true,
-                                        max: 40,
-                                        ticks: {
-                                            callback: function(value) {
-                                                return value + '%';
-                                            }
-                                        },
-                                        grid: {
-                                            color: 'rgba(0,0,0,0.05)'
-                                        }
-                                    },
-                                    y: {
-                                        grid: {
-                                            display: false
-                                        },
-                                        ticks: {
-                                            font: {
-                                                size: 12
-                                            }
-                                        }
-                                    }
-                                },
-                                plugins: {
-                                    legend: {
-                                        display: false
-                                    },
-                                    tooltip: {
-                                        callbacks: {
-                                            label: function(context) {
-                                                return `${context.label}: ${context.parsed.x}%`;
-                                            }
-                                        }
-                                    }
-                                }
-                            },
-                            plugins: [{
-                                id: 'customDataLabels',
-                                afterDatasetsDraw(chart) {
-                                    const {
-                                        ctx,
-                                        data
-                                    } = chart;
-                                    chart.getDatasetMeta(0).data.forEach((bar, index) => {
-                                        const value = data.datasets[0].data[index];
-                                        ctx.save();
-                                        ctx.fillStyle = '#2c3e50';
-                                        ctx.font = 'bold 11px sans-serif';
-                                        ctx.textAlign = 'left';
-                                        ctx.textBaseline = 'middle';
-                                        ctx.fillText(value + '%', bar.x + 8, bar.y);
-                                        ctx.restore();
-                                    });
-                                }
-                            }]
-                        });
-                    }
-                
-                    updateData() {
-                        const currentData = this.data[this.currentYear];
-                
-                        // Update stat cards with loading animation
-                        this.updateStatCards(currentData.stats);
-                
-                        // Update charts
-                        this.createDonutChart();
-                        this.createBarChart();
-                    }
-                
-                    updateStatCards(stats) {
-                        const statElements = {
-                            'inscription-value': stats.inscription,
-                            'soutenance-value': stats.soutenance,
-                            'habilitation-value': stats.habilitation
-                        };
-                
-                        Object.entries(statElements).forEach(([id, value]) => {
-                            const element = document.getElementById(id);
-                            if (element) {
-                                // Add loading animation
-                                element.innerHTML = '<span class="loading"></span>';
-                
-                                // Simulate loading time
-                                setTimeout(() => {
-                                    element.textContent = value;
-                                }, 500);
-                            }
-                        });
-                    }
-                }
-                    */
+(function(){
+  'use strict';
 
-    // Global function for report generation
-    function generateReport() {
-        const btn = document.querySelector('.btn-report');
-        const originalHTML = btn.innerHTML;
+  // --------- PARAMS (adapte LAB_ID si nécessaire) ----------
+  const WRAPPER = document.getElementById('bloc-stats-grade');
+  const LAB_ID  = Number(WRAPPER?.dataset?.labId || 19);
+  const API_BASE = '/wp-json/plateforme-recherche/v1/membre';
 
-        btn.innerHTML = '<span class="loading"></span> Génération...';
-        btn.disabled = true;
+  // --------- ÉTATS UI ----------
+  const elTotal     = document.getElementById('total-membres');
+  const elActifs    = document.getElementById('membres-actifs');
+  const elLoading   = document.getElementById('grade-loading');
+  const elEmpty     = document.getElementById('grade-empty');
+  const elError     = document.getElementById('grade-error');
+  const canvas      = document.getElementById('barChartGrade');
 
-        // Simulate report generation
-        setTimeout(() => {
-            alert('Rapport généré avec succés !');
-            btn.innerHTML = originalHTML;
-            btn.disabled = false;
-        }, 2000);
+  // --------- Utils ----------
+  const palette = ['#A6A485','#DDACA7','#FFD54F','#A6C7FF','#BF0404','#7CC7C9','#E4B6B6','#808066','#b1342f','#dabebe'];
+
+  function showState({loading=false, empty=false, error=false}){
+    if (elLoading) elLoading.style.display = loading ? 'flex' : 'none';
+    if (elEmpty)   elEmpty.style.display   = empty   ? 'flex' : 'none';
+    if (elError)   elError.style.display   = error   ? 'flex' : 'none';
+  }
+
+  function destroyChartIfAny(canvasEl){
+    const inst = (Chart.getChart && Chart.getChart(canvasEl)) || null;
+    if (inst) inst.destroy();
+  }
+
+  function normalizeGradeData(json){
+    // 1) Si l'API fournit "repartition_grade"
+    if (Array.isArray(json?.repartition_grade)) {
+      return json.repartition_grade.map(x => ({
+        grade: (x.grade ?? 'Non renseigné').trim(),
+        total: Number(x.total) || 0
+      }));
     }
-    /*
-    // Initialize dashboard when DOM is loaded
-    document.addEventListener('DOMContentLoaded', () => {
-        new VueGlobaleDashboard();
+    // 2) Sinon, agrège à partir de "data"
+    if (Array.isArray(json?.data)) {
+      const map = new Map();
+      for (const m of json.data) {
+        const g = (m.grade || 'Non renseigné').trim();
+        map.set(g, (map.get(g) || 0) + 1);
+      }
+      return [...map].map(([grade,total]) => ({ grade, total }));
+    }
+    return [];
+  }
+
+  // --------- Rendu du chart ----------
+  function renderBarChartFromGrade(repartitionRaw){
+    destroyChartIfAny(canvas);
+
+    const rows = (repartitionRaw || [])
+      .map(r => ({ grade: r.grade ?? 'Non renseigné', total: Number(r.total) || 0 }))
+      .filter(r => r.total > 0)
+      .sort((a,b) => b.total - a.total);
+
+    showState({ loading:false, empty: rows.length === 0, error:false });
+    if (rows.length === 0) return;
+
+    const labels = rows.map(r => r.grade);
+    const values = rows.map(r => r.total);
+    const colors = labels.map((_, i) => palette[i % palette.length]);
+
+    new Chart(canvas, {
+      type: 'bar',
+      data: { labels, datasets: [{ data: values, backgroundColor: colors, borderRadius: 6, borderSkipped: false }] },
+      options: {
+        indexAxis: 'y',
+        responsive: true,
+        maintainAspectRatio: false,
+        scales: {
+          x: { beginAtZero: true, ticks: { precision: 0 }, grid: { color: 'rgba(0,0,0,0.05)' } },
+          y: { grid: { display: false } }
+        },
+        plugins: {
+          legend: { display: false },
+          tooltip: { callbacks: { label: (ctx) => `${ctx.label}: ${ctx.parsed.x}` } }
+        }
+      },
+      plugins: [{
+        id: 'barDataLabels',
+        afterDatasetsDraw(chart) {
+          const { ctx, data } = chart;
+          chart.getDatasetMeta(0).data.forEach((bar, i) => {
+            const v = data.datasets[0].data[i];
+            ctx.save();
+            ctx.fillStyle = '#2c3e50';
+            ctx.font = 'bold 11px sans-serif';
+            ctx.textAlign = 'left';
+            ctx.textBaseline = 'middle';
+            ctx.fillText(v, bar.x + 8, bar.y);
+            ctx.restore();
+          });
+        }
+      }]
     });
-    */
+  }
+
+  // --------- Chargement API ----------
+  async function loadGradeChart(){
+    try {
+      showState({loading:true, empty:false, error:false});
+
+      const url = new URL(API_BASE, window.location.origin);
+      url.searchParams.set('laboratoire_id', String(LAB_ID));
+      url.searchParams.set('with_user', '1');
+      url.searchParams.set('per_page', '200');
+
+      const res  = await fetch(url.toString(), { credentials: 'same-origin' });
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      const json = await res.json();
+
+      // Stat boxes (optionnel)
+      if (elTotal)  elTotal.textContent  = Array.isArray(json?.data) ? json.data.length : '0';
+      if (elActifs) elActifs.textContent = Array.isArray(json?.data) ? json.data.length : '0';
+
+      const rep = normalizeGradeData(json);
+      renderBarChartFromGrade(rep);
+    } catch (err) {
+      console.error('Erreur chargement répartition grade:', err);
+      showState({loading:false, empty:false, error:true});
+      destroyChartIfAny(canvas);
+    }
+  }
+
+  // --------- Report bouton (cosmétique) ----------
+  document.querySelector('.btn-report')?.addEventListener('click', function(){
+    const btn = this;
+    const original = btn.innerHTML;
+    btn.disabled = true;
+    btn.innerHTML = '<span class="loading" style="display:inline-block;width:16px;height:16px;border:2px solid rgba(0,0,0,.2);border-top-color:#c60000;border-radius:50%;animation:spin 1s linear infinite;margin-right:6px;"></span> Génération...';
+    setTimeout(()=>{ alert('Rapport généré avec succès !'); btn.innerHTML = original; btn.disabled = false; }, 1500);
+  });
+
+  // --------- Init ----------
+  document.addEventListener('DOMContentLoaded', () => {
+    // Affiche "chargement" avant le fetch
+    showState({loading:true});
+    loadGradeChart();
+  });
+
+})();
 </script>

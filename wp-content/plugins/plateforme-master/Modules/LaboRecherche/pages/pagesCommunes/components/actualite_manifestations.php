@@ -226,6 +226,8 @@
     showSlide(0);
     setInterval(nextSlide, 5000); // Change toutes les 5 sec
   });
+
+
 </script>
 
 

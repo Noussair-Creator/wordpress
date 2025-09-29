@@ -513,9 +513,10 @@ $phone = $phone ?: get_user_meta($user->ID, 'mobile', true);
                 if (!res.ok) {
                     alert(data?.message || 'Échec de l’envoi.');
                 } else {
-                    alert('Réclamation envoyée avec succès ✅');
+                    
                     form.reset();
                     if (out) out.value = '';
+                    window.location.href = "<?php echo esc_url(site_url('/suivi-reclamation')); ?>";
                 }
             } catch (err) {
                 alert('Erreur réseau : ' + err.message);

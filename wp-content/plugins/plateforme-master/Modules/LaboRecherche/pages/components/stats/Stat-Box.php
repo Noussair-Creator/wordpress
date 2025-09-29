@@ -30,9 +30,9 @@
 </style>
 
 <div class="stats-grid">
-  <!-- ===== Financements (existant / statique) ===== -->
-  <div class="card-stats" style="margin-right:11px;">
-    <div class="header">Financements</div>
+  <!-- ===== Financements (DYNAMIQUE) ===== -->
+  <div class="card-stats" style="margin-right: 11px;">
+    <div class="header">Top 4 Sources de financement</div>
     <div class="chart-row">
       <div class="chart-pie large"><canvas id="mainFinancementChart"></canvas></div>
       <div class="chart-pie"><canvas id="donut1"></canvas></div>
@@ -41,12 +41,13 @@
         <div class="chart-donut"><canvas id="donut3"></canvas></div>
       </div>
     </div>
+    <div id="legendTopSources" style="margin-top:15px;color:#333;font-size:11px"></div>
   </div>
 
-  <!-- ===== Répartition par type des publications (DYNAMIQUE) ===== -->
+  <!-- ===== Répartition par année des publications (DYNAMIQUE) ===== -->
   <div class="card-stats" style="margin-left:-11px;">
     <div class="header">
-      Répartition par type des publications
+      Répartition par année des publications
       <span id="pubTypePct" style="float:right; color:#333; font-weight:700;">—</span>
     </div>
     <div class="chart-bar">
@@ -54,6 +55,7 @@
     </div>
   </div>
 </div>
+
 <?php if ( is_user_logged_in() ) : ?>
   <script>
     window.pmsettings = {
@@ -66,68 +68,7 @@
 <?php endif; ?>
 
 <script>
-/* ===================== Charts “Financements” (exemple statique) ===================== */
-const financementData = [60]; // 60% funded
-const donutData1 = [15, 85];
-const donutData2 = [1, 2, 3, 4];
-const donutData3 = [3, 2, 1, 4];
-
-// Main pie chart
-new Chart(document.getElementById('mainFinancementChart'), {
-  type: 'pie',
-  data: {
-    labels: ['Financé','Restant'],
-    datasets: [{
-      data: [financementData[0], 100 - financementData[0]],
-      backgroundColor: ['#bc0503','#e5e7eb'], borderColor:'#fff', borderWidth:2
-    }]
-  },
-  options: {
-    responsive:true,
-    plugins:{
-      legend:{ display:false },
-      tooltip:{ callbacks:{ label: ctx => `${ctx.label} : ${ctx.raw}%` } },
-      datalabels:{
-        color: ctx => ctx.dataIndex===0 ? '#fff' : '#000',
-        font:{ size:16, weight:'bold' },
-        formatter: v => v + '%'
-      }
-    }
-  },
-  plugins:[ChartDataLabels]
-});
-
-// Small charts
-[{id:'donut2',data:donutData2,colors:['#ddaca7','#ffd54f','#6e6d55','#a6a485']},
- {id:'donut3',data:donutData3,colors:['#ffaa00','#ffd54f','#bf0404','#cb9042']}]
-.forEach(cfg=>{
-  new Chart(document.getElementById(cfg.id),{
-    type:'doughnut',
-    data:{ datasets:[{ data:cfg.data, backgroundColor:cfg.colors, borderWidth:0 }] },
-    options:{ cutout:'70%', plugins:{ legend:{display:false}, tooltip:{enabled:false} } }
-  });
-});
-
-// donut1 simple pie
-new Chart(document.getElementById('donut1'), {
-  type:'pie',
-  data:{
-    labels:['Part 1','Part 2'],
-    datasets:[{ data:donutData1, backgroundColor:['#B00000','#ECEBE3'], borderColor:'#fff', borderWidth:2 }]
-  },
-  options:{
-    responsive:true,
-    plugins:{
-      legend:{display:false},
-      tooltip:{ callbacks:{ label: ctx => `${ctx.label} : ${ctx.raw}%` } },
-      datalabels:{ color: ctx=>ctx.dataIndex===0?'#fff':'#000', font:{size:14,weight:'bold'}, formatter:v=>v+'%' }
-    }
-  },
-  plugins:[ChartDataLabels]
-});
-
-/* ===================== Répartition par type des publications (DYNAMIQUE) ===================== */
-// REST config (pmsettings → wpApiSettings → fallback)
+/* ===================== REST config (pmsettings → wpApiSettings → fallback) ===================== */
 const REST_ROOT =
   (window.pmsettings && pmsettings.rest_root) ||
   (window.wpApiSettings && wpApiSettings.root) ||
@@ -138,6 +79,92 @@ const NONCE =
   '';
 const API_BASE = REST_ROOT.replace(/\/$/, '') + '/plateforme-recherche/v1';
 
+/* ================================================================================================
+ *  TOP 4 SOURCES DE FINANCEMENT (donuts)
+ * ==============================================================================================*/
+async function fetchTopSources(){
+  try {
+    const res = await fetch(`${API_BASE}/financement/top-sources`, {
+      headers: { 'X-WP-Nonce': NONCE, 'Accept':'application/json' },
+      credentials: 'same-origin'
+    });
+    if (!res.ok) throw new Error("API error " + res.status);
+    return await res.json();
+  } catch(e){
+    console.error("Erreur fetchTopSources:", e);
+    return [];
+  }
+}
+
+async function buildTopSourcesCharts(){
+  const rows = await fetchTopSources();
+  const legend = document.getElementById('legendTopSources');
+
+  if (!rows.length){
+    legend.innerHTML = "<em>Aucune donnée disponible</em>";
+    return;
+  }
+
+  // Limite à 4 sources
+  const sources = rows.slice(0,4);
+  const canvasIds = ["mainFinancementChart","donut1","donut2","donut3"];
+  const colors = ['#BF0404','#808066','#D6A800','#4A7C59'];
+
+  legend.innerHTML = "";
+
+  sources.forEach((src,i)=>{
+    const reste = Math.max(0, (Number(src.montant)||0) - (Number(src.consomme)||0));
+    const canvas = document.getElementById(canvasIds[i]);
+    if (!canvas) return;
+
+    new Chart(canvas.getContext('2d'), {
+      type: 'doughnut',
+      data: {
+        labels: ["Consommé","Restant"],
+        datasets: [{
+          data: [src.consomme, reste],
+          backgroundColor: [colors[i], "#ECEBE3"],
+          borderWidth: 0
+        }]
+      },
+      options: {
+        cutout: i===0 ? "60%" : "70%", // le 1er donut plus épais/large
+        plugins: {
+          legend: { display: false },
+          tooltip: {
+            callbacks: {
+              label: (ctx) => `${ctx.label}: ${Number(ctx.raw).toLocaleString()} TND`
+            }
+          },
+          datalabels: {
+            color: "#000",
+            font: { size: i===0 ? 14 : 10, weight:"bold" },
+            formatter: (val, ctx)=>{
+              const total = ctx.chart.getDatasetMeta(0).total || 0;
+              const pct = total ? Math.round((val/total)*100) : 0;
+              return pct + "%";
+            }
+          }
+        }
+      },
+      plugins:[ChartDataLabels]
+    });
+
+    // Légende textuelle
+    legend.innerHTML += `
+      <div style="margin:4px 0;">
+        <span style="font-size:11px;display:inline-block;width:12px;height:12px;background:${colors[i]};margin-right:6px;border-radius:50%"></span>
+        ${src.intitule} (${src.type}) :
+        <strong>${Number(src.consomme).toLocaleString()} / ${Number(src.montant).toLocaleString()} TND</strong>
+      </div>
+    `;
+  });
+}
+
+/* ================================================================================================
+ *  RÉPARTITION PAR ANNÉE DES PUBLICATIONS (bar empilé Acceptés vs Autres)
+ * ==============================================================================================*/
+// Normalisation du statut
 function normStatut(s){
   const v = (s||'').toLowerCase().trim();
   if (v.startsWith('valid')) return 'Validée';
@@ -145,7 +172,21 @@ function normStatut(s){
   return 'En attente';
 }
 
-async function fetchTypeDistribution(){
+// Extraction robuste de l'année
+function getYearFromPub(p){
+  // Priorité au champ annee si présent
+  if (p.annee) {
+    const y = parseInt(String(p.annee).slice(0,4), 10);
+    if (!Number.isNaN(y)) return y;
+  }
+  // Sinon, chercher une année dans les dates possibles
+  const dateStr = p.date_publication || p.date_pub || p.date || p.created_at || '';
+  const m = String(dateStr).match(/(19|20)\d{2}/);
+  if (m) return parseInt(m[0], 10);
+  return 'Non précisé';
+}
+
+async function fetchYearDistribution(){
   async function fetchJSON(url){
     const r = await fetch(url, {
       headers: { 'X-WP-Nonce': NONCE, 'Accept':'application/json' },
@@ -160,41 +201,52 @@ async function fetchTypeDistribution(){
     return Array.isArray(data) ? data : [];
   }
 
-  // 1) Essaye with_auteur=1 (suivi des labos)
+  // 1) Essai "suivi labos"
   let rows = await fetchJSON(`${API_BASE}/publication?with_auteur=1`);
 
-  // 2) Si vide (souvent le cas pour un chercheur), bascule sur “mes publications”
+  // 2) Fallback “mes publications”
   if (!rows.length) {
     console.info('[stats] Fallback sur /publication?me=1 (aucune ligne avec with_auteur=1)');
     rows = await fetchJSON(`${API_BASE}/publication?me=1`);
   }
 
-  // 3) Agrégation
-  const byType = new Map();
+  // 3) Agrégation par année
+  const byYear = new Map();
   rows.forEach(p=>{
-    const type = (p.type || 'Autre').trim() || 'Autre';
+    const year = getYearFromPub(p);
     const st = normStatut(p.statut);
-    if (!byType.has(type)) byType.set(type, { total:0, val:0 });
-    const g = byType.get(type);
+    if (!byYear.has(year)) byYear.set(year, { total:0, val:0 });
+    const g = byYear.get(year);
     g.total += 1;
     if (st === 'Validée') g.val += 1;
   });
 
-  const entries = [...byType.entries()].sort((a,b)=> b[1].total - a[1].total);
-  const labels = entries.map(([k])=>k);
-  const accepted = entries.map(([,v])=>v.val);
-  const remaining = entries.map(([,v])=>Math.max(0, v.total - v.val));
+  // Tri : années croissantes ; “Non précisé” en dernier
+  const entries = [...byYear.entries()].sort((a,b)=>{
+    const ay = a[0], by = b[0];
+    const aIsNum = typeof ay === 'number';
+    const bIsNum = typeof by === 'number';
+    if (aIsNum && bIsNum) return ay - by;
+    if (aIsNum) return -1;
+    if (bIsNum) return 1;
+    return String(ay).localeCompare(String(by));
+  });
 
-  const globTotal = entries.reduce((s,[,v])=>s+v.total, 0);
-  const globVal   = entries.reduce((s,[,v])=>s+v.val, 0);
+  const labels    = entries.map(([k])=> String(k));
+  const accepted  = entries.map(([,v])=> v.val);
+  const remaining = entries.map(([,v])=> Math.max(0, v.total - v.val));
+
+  // % global accepté
+  const globTotal = entries.reduce((s,[,v])=> s + v.total, 0);
+  const globVal   = entries.reduce((s,[,v])=> s + v.val,   0);
   const pct = globTotal ? Math.round((globVal/globTotal)*100) : 0;
-
   const pctSpan = document.getElementById('pubTypePct');
   if (pctSpan) pctSpan.textContent = `${pct}%`;
 
   return { labels, accepted, remaining };
 }
 
+// Plugin d’annotations (points + étiquette % au-dessus des barres Acceptés)
 const customLabelsPlugin = {
   id: 'customBarLabels',
   afterDatasetsDraw(chart){
@@ -211,9 +263,11 @@ const customLabelsPlugin = {
       const dotY = meta0.y;
       const pct = tot ? Math.round((val/tot)*100) : 0;
 
+      // petit point
       ctx.beginPath(); ctx.arc(barX, dotY, 3.5, 0, Math.PI*2);
       ctx.fillStyle = '#2A2916'; ctx.fill();
 
+      // trait + étiquettes
       const lineEndY = dotY - 30, lineEndX = barX + 25;
       ctx.beginPath(); ctx.moveTo(barX, dotY); ctx.lineTo(barX, lineEndY); ctx.lineTo(lineEndX, lineEndY);
       ctx.strokeStyle = '#6e6d55'; ctx.lineWidth = 1; ctx.stroke();
@@ -226,16 +280,16 @@ const customLabelsPlugin = {
   }
 };
 
-let typeChart = null;
-async function buildTypeChart(){
-  const {labels, accepted, remaining} = await fetchTypeDistribution();
+let yearChart = null;
+async function buildYearChart(){
+  const {labels, accepted, remaining} = await fetchYearDistribution();
 
   const ctxBar = document.getElementById('etatProjetsChart').getContext('2d');
   const gradient = ctxBar.createLinearGradient(0, 0, 0, 300);
   gradient.addColorStop(0, '#B00000'); gradient.addColorStop(1, '#800000');
 
-  if (typeChart) typeChart.destroy();
-  typeChart = new Chart(ctxBar, {
+  if (yearChart) yearChart.destroy();
+  yearChart = new Chart(ctxBar, {
     type: 'bar',
     data: {
       labels,
@@ -267,6 +321,9 @@ async function buildTypeChart(){
   });
 }
 
-// Boot
-buildTypeChart();
+/* ===================== BOOT ===================== */
+document.addEventListener("DOMContentLoaded", async ()=>{
+  await buildTopSourcesCharts();
+  await buildYearChart();
+});
 </script>

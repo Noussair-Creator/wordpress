@@ -37,26 +37,26 @@ $role     = ($user && !empty($user->roles)) ? $user->roles[0] : '';
 .search-container.active #search-input{width:180px;opacity:1;pointer-events:auto}
 
 /* ====== Popover (réutilisé pour Messages & Notifications) ====== */
-.msg-popover{
+.msg-popover, .notification-popover{
   position:absolute;top:48px;right:0;width:340px;max-height:70vh;background:#fff;
   border:1px solid #e6e6e6;border-radius:10px;box-shadow:0 10px 28px rgba(0,0,0,.15);
   overflow:hidden;display:none;z-index:10000
 }
-.msg-popover::before{
+.msg-popover::before, .notification-popover::before{
   content:"";position:absolute;top:-8px;right:18px;width:14px;height:14px;background:#fff;
   border-left:1px solid #e6e6e6;border-top:1px solid #e6e6e6;transform:rotate(45deg)
 }
-.msg-head{
+.msg-head, .notification-head{
   display:flex;align-items:center;justify-content:space-between;padding:10px 12px;
   background:#f7f7f7;border-bottom:1px solid #eee;font-weight:700;font-size:14px;color:#111
 }
-.msg-head .open-full{color:#222;text-decoration:none;font-size:16px}
-.msg-search{position:relative;padding:10px;border-bottom:1px solid #f0f0f0;background:#fff}
-.msg-search input{
+.msg-head .open-full, .notification-head .open-full{ color:#222;text-decoration:none;font-size:16px}
+.msg-search, .notification-search{position:relative;padding:10px;border-bottom:1px solid #f0f0f0;background:#fff}
+.msg-search input, .notification-search input{
   width:100%;height:38px;border:1px solid #e6e6e6;border-radius:8px;padding:0 40px 0 12px;font-size:14px;outline:none
 }
-.msg-search i{position:absolute;right:18px;top:50%;transform:translateY(-50%);color:#777;font-size:16px}
-.msg-list{max-height:calc(70vh - 94px);overflow:auto;padding:10px;background:#fff}
+.msg-search i, .notification-search i{position:absolute;right:18px;top:50%;transform:translateY(-50%);color:#777;font-size:16px}
+.msg-list, .notification-list{max-height:calc(70vh - 94px);overflow:auto;padding:10px;background:#fff}
 .msg-item{
   border:1px solid #eee;border-radius:8px;padding:8px 10px;background:#fff;margin-bottom:8px;
   cursor:pointer;transition:box-shadow .15s
@@ -117,18 +117,18 @@ $role     = ($user && !empty($user->roles)) ? $user->roles[0] : '';
       <i class="fas fa-bell"></i>
       <span class="badge-dot" id="notifBadge">0</span>
 
-      <div class="msg-popover" id="notifPopover" role="dialog" aria-label="Notifications">
-        <div class="msg-head">
+      <div class="notification-popover" id="notifPopover" role="dialog" aria-label="Notifications">
+        <div class="notification-head">
           <span>Notifications</span>
-          <a href="/message" class="open-full" title="Ouvrir tout">
+          <a href="#" class="open-full" title="Ouvrir tout">
             <i class="fas fa-external-link-alt"></i>
           </a>
         </div>
-        <div class="msg-search">
+        <div class="notification-search">
           <input type="text" id="notifSearch" placeholder="Recherche...">
           <i class="fas fa-search"></i>
         </div>
-        <div class="msg-list" id="notifList"></div>
+        <div class="notification-list" id="notifList"></div>
       </div>
     </div>
 
@@ -217,25 +217,33 @@ notifSearch?.addEventListener('input', ()=>{
     it.style.display = it.textContent.toLowerCase().includes(q) ? '' : 'none';
   });
 });
-notifList.addEventListener('click', (e)=>{
-  const it = e.target.closest('.msg-item'); if(!it) return;
-  it.classList.remove('unread');
-  const href = it.getAttribute('data-href');
-  toggleNotif(false);
-  if (href) window.location.href = href; else window.location.href = '/notifications';
+notifList.addEventListener('click', async (e)=>{
+  const item = e.target.closest('.msg-item');
+  if (!item) return;
+
+  const id = item.getAttribute('data-id');
+  if (!id) return;
+
+  try {
+    await api(`/notifications/${id}`, {method:'PATCH', data:{lu:1}});
+    item.classList.remove('unread');
+    refreshNotifications();
+  } catch(e){
+    console.error("Erreur PATCH notification:", e);
+  }
 });
+
 </script>
 
 <script>
 /** ===== IIFE REST : chargement Messages + Notifications ===== */
+/*
 (function(){
   // --- Config REST depuis WP ---
   const REST_BASE = (window.PMSettings?.restUrl || '/wp-json').replace(/\/$/,'');
-  const NONCE     = window.PMSettings?.nonce || (window.wpApiSettings?.nonce || '');
 
   // Namespaces (⚠️ adapte si besoin)
   const NS_MSG   = REST_BASE + '/plateforme-messagerie/v1';
-  const NS_NOTIF = REST_BASE + '/plateforme-notifs/v1';
 
   // --- util REST générique (sélectionne base selon path) ---
   async function api(path, {method='GET', ns='msg', query=null, data=null, headers={}}={}){
@@ -313,6 +321,101 @@ notifList.addEventListener('click', (e)=>{
     }
   }
 
+ 
+
+
+
+  
+  setInterval(refreshMessages,     60000);
+  setInterval(refreshNotifications, 60000);
+})();
+
+*/
+
+/** ===== IIFE REST : chargement Messages + Notifications ===== */
+(function(){
+  // --- Config REST depuis WP ---
+  const REST_BASE = (window.PMSettings?.restUrl || '/wp-json').replace(/\/$/,'');
+  const NONCE     = window.PMSettings?.nonce || '';
+
+  const NS_MSG   = REST_BASE + '/plateforme-messagerie/v1';
+  const NS_NOTIF = REST_BASE + '/plateforme-recherche/v1'; // ✅ corrige namespace
+
+  // --- util REST générique ---
+  async function api(path, {method='GET', ns='msg', query=null, data=null, headers={}}={}) {
+    const base = ns === 'notif' ? NS_NOTIF : NS_MSG;
+    const url  = new URL(path.startsWith('http') ? path : (base + path), location.href);
+    if (query) Object.entries(query).forEach(([k,v])=>{
+      if (v!==undefined && v!==null && v!=='') url.searchParams.set(k,v);
+    });
+    const opts = {
+      method,
+      headers: { 'Content-Type':'application/json', ...headers },
+      credentials:'same-origin'
+    };
+    if (NONCE) opts.headers['X-WP-Nonce'] = NONCE;
+    if (data)  opts.body = JSON.stringify(data);
+
+    const r = await fetch(url.toString(), opts);
+    const t = await r.text(); let j; try { j = JSON.parse(t); } catch { j = { raw:t }; }
+    if (!r.ok) throw Object.assign(new Error(j?.message || ('HTTP '+r.status)), {status:r.status, detail:j});
+    return j;
+  }
+
+  // ====== MESSAGES ======
+  const ME1     = Number(window.PMSettings?.userId || 0);
+  const badgeEl = document.getElementById('msgBadge');
+  const listEl  = document.getElementById('msgList');
+  const search  = document.getElementById('msgSearch');
+
+  const esc = (s)=>String(s||'').replace(/[&<>]/g,m=>({ '&':'&amp;','<':'&lt;','>':'&gt;' }[m]));
+
+  function renderThreads(threads){
+    listEl.innerHTML = '';
+    if (!threads?.length) {
+      listEl.innerHTML = `<div class="msg-item"><div class="msg-snippet">Aucun message</div></div>`;
+      return;
+    }
+    const frag = document.createDocumentFragment();
+    threads.forEach(t=>{
+      const it = document.createElement('div');
+      it.className = 'msg-item' + ((t.unread_count>0)?' unread':'');
+      it.setAttribute('data-href','/messages');
+      it.innerHTML = `
+        <div class="msg-top">
+          <div class="from">
+            <span class="role">${esc(t.last_sender_role_label || '')}</span>
+            &nbsp;<span class="name">${esc(t.last_sender_name || '')}</span>
+          </div>
+          <div class="date">${esc(t.last_message_at_display || (t.last_message_at ? new Date(t.last_message_at).toLocaleDateString('fr-FR') : ''))}</div>
+        </div>
+        <div class="msg-snippet">${esc(t.last_excerpt || '')}</div>
+      `;
+      frag.appendChild(it);
+    });
+    listEl.appendChild(frag);
+  }
+
+  async function refreshMessages(){
+    try{
+      const latest = await api('/messages/threads', { ns:'msg', method:'GET', query:{ limit:5, offset:0 }});
+      const received = (latest || []).filter(t => Number(t.last_sender_id) !== ME1);
+      renderThreads(received.slice(0,5));
+
+      const unreadThreads = await api('/messages/threads', { ns:'msg', method:'GET', query:{ only_unread:1, limit:200 }});
+      const totalUnread = (unreadThreads || []).reduce((acc,t)=> acc + (parseInt(t.unread_count||0,10)||0), 0);
+
+      if (totalUnread > 0) { badgeEl.style.display=''; badgeEl.textContent=String(totalUnread); }
+      else { badgeEl.style.display='none'; badgeEl.textContent=''; }
+    } catch(e){
+      console.error('[navbar messages]', e);
+      badgeEl.style.display = 'none';
+      if (listEl.innerHTML.trim()==='') {
+        listEl.innerHTML = `<div class="msg-item"><div class="msg-snippet">Erreur de chargement</div></div>`;
+      }
+    }
+  }
+
   // ====== NOTIFICATIONS ======
   const notifBadge = document.getElementById('notifBadge');
   const notifList  = document.getElementById('notifList');
@@ -325,23 +428,15 @@ notifList.addEventListener('click', (e)=>{
     }
     const frag = document.createDocumentFragment();
     items.forEach(n=>{
-      // Adapte ici selon TA réponse API :
-      // { id, title, excerpt, date, href, is_unread }
-      const title   = n.title || n.type || 'Notification';
-      const excerpt = n.excerpt || n.message || '';
-      const date    = n.date_display || (n.date ? new Date(n.date).toLocaleDateString('fr-FR') : '');
-      const href    = n.href || '/notifications';
-      const unread  = !!n.is_unread;
-
       const it = document.createElement('div');
-      it.className = 'msg-item' + (unread ? ' unread' : '');
-      it.setAttribute('data-href', href);
+      it.className = 'msg-item' + (n.lu == 0 ? ' unread' : '');
+      it.setAttribute('data-id', n.id);
       it.innerHTML = `
         <div class="msg-top">
-          <div class="from"><span class="role">Notification :</span> <span class="name">${esc(title)}</span></div>
-          <div class="date">${esc(date)}</div>
+          <div class="from"><span class="role">${n.type || 'Info'}</span></div>
+          <div class="date">${n.created_at ? new Date(n.created_at).toLocaleDateString('fr-FR') : ''}</div>
         </div>
-        <div class="msg-snippet">${esc(excerpt)}</div>
+        <div class="msg-snippet">${n.message || ''}</div>
       `;
       frag.appendChild(it);
     });
@@ -350,16 +445,11 @@ notifList.addEventListener('click', (e)=>{
 
   async function refreshNotifications(){
     try{
-      // ⚠️ Endpoint à adapter si différent
-      const latest = await api('/notifications', { ns:'notif', method:'GET', query:{ limit:5 }});
-      const items       = Array.isArray(latest?.data) ? latest.data : (Array.isArray(latest) ? latest : []);
-      const unreadTotal = (typeof latest?.unread_total === 'number')
-        ? latest.unread_total
-        : items.filter(x=>x.is_unread).length;
+      const notifs = await api('/notifications?per_page=5', { ns:'notif', method:'GET' });
+      renderNotifs(notifs);
 
-      renderNotifs(items);
-
-      if (unreadTotal > 0) { notifBadge.style.display=''; notifBadge.textContent=String(unreadTotal); }
+      const unread = notifs.filter(n=>n.lu == 0).length;
+      if (unread > 0) { notifBadge.style.display=''; notifBadge.textContent=String(unread); }
       else { notifBadge.style.display='none'; notifBadge.textContent=''; }
     } catch(e){
       console.error('[navbar notifs]', e);
@@ -378,4 +468,6 @@ notifList.addEventListener('click', (e)=>{
   setInterval(refreshMessages,     60000);
   setInterval(refreshNotifications, 60000);
 })();
+
+
 </script>

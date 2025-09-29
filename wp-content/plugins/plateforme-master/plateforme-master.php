@@ -24,6 +24,8 @@ require_once plugin_dir_path(__FILE__) . 'includes/recherche/api_directeurderech
 require_once plugin_dir_path(__FILE__) . 'includes/class-publication-controller.php';
 
 require_once plugin_dir_path(__FILE__) . 'includes/api-contact.php';
+require_once plugin_dir_path(__FILE__) . 'includes//recherche/api_ged.php';
+
 
 // CORRECT PATH
 // require_once plugin_dir_path(__FILE__) . 'includes/directeur_de_labo/api_directeurderecherche.php';
@@ -218,7 +220,21 @@ function plateforme_content($content)
             plateforme_redirect_home();
         }
     }
+    if (is_page('reclamation')) {
+        if (is_user_logged_in()) {
+            $current_user = wp_get_current_user();
+            if (in_array('um_candidat', $current_user->roles)) {
+                ob_start();
 
+                include plugin_dir_path(__FILE__) . 'pages/Candidature/reclamation/index.php';
+
+            } else {
+                plateforme_redirect_home();
+            }
+        } else {
+            plateforme_redirect_home();
+        }
+    }
 
     if (is_page('historique-de-candidature')) {
         if (is_user_logged_in()) {
@@ -827,6 +843,22 @@ function plateforme_content($content)
         }
     }
 
+    if (is_page('dashboarduscr')) {
+        if (is_user_logged_in()) {
+            $current_user = wp_get_current_user();
+            if (in_array('um_responsable_uscr', $current_user->roles)) {
+                ob_start();
+
+                include plugin_dir_path(__FILE__) . '/Modules/Unités_Service_Communs/DashboardUSCR.php';
+
+            } else {
+                plateforme_redirect_home();
+            }
+        } else {
+            plateforme_redirect_home();
+        }
+    }
+
 
 
     // create page UTM
@@ -841,125 +873,92 @@ function plateforme_content($content)
     // }
     // create page presentation-utm
     if (is_page('presentation-utm')) {
-        if (is_user_logged_in()) {
+        include plugin_dir_path(__FILE__) . 'Modules/SiteRecherche/presentation-utm.php';
 
-            include plugin_dir_path(__FILE__) . 'Modules/SiteRecherche/presentation-utm.php';
-
-        } else {
-            plateforme_redirect_home();
-        }
     }
     // create page presentation-utm
     if (is_page('coordonnees')) {
-        if (is_user_logged_in()) {
 
-            include plugin_dir_path(__FILE__) . 'Modules/SiteRecherche/coordonnees.php';
+        include plugin_dir_path(__FILE__) . 'Modules/SiteRecherche/coordonnees.php';
 
-        } else {
-            plateforme_redirect_home();
-        }
+
     }
     // create page publications-utm
     if (is_page('publications-utm')) {
-        if (is_user_logged_in()) {
 
-            include plugin_dir_path(__FILE__) . 'Modules/SiteRecherche/publications-utm.php';
+        include plugin_dir_path(__FILE__) . 'Modules/SiteRecherche/publications-utm.php';
 
-        } else {
-            plateforme_redirect_home();
-        }
+
     }
     // create page publications-utm-details
     if (is_page('publications-utm-details')) {
-        if (is_user_logged_in()) {
 
-            include plugin_dir_path(__FILE__) . 'Modules/SiteRecherche/publications-utm-details';
 
-        } else {
-            plateforme_redirect_home();
-        }
+        include plugin_dir_path(__FILE__) . 'Modules/SiteRecherche/publications-utm-details.php';
+
     }
     // create page projets-de-cooperation-utm
     if (is_page('projets-de-cooperation-utm')) {
-        if (is_user_logged_in()) {
 
-            include plugin_dir_path(__FILE__) . 'Modules/SiteRecherche/projets-de-cooperation-utm';
 
-        } else {
-            plateforme_redirect_home();
-        }
+        include plugin_dir_path(__FILE__) . 'Modules/SiteRecherche/projets-de-cooperation-utm.php';
+
+
     }
     // create page annonces-de-soutenances-utm
     if (is_page('annonces-de-soutenances-utm')) {
-        if (is_user_logged_in()) {
 
-            include plugin_dir_path(__FILE__) . 'Modules/SiteRecherche/annonces-de-soutenances-utm.php';
 
-        } else {
-            plateforme_redirect_home();
-        }
+        include plugin_dir_path(__FILE__) . 'Modules/SiteRecherche/annonces-de-soutenances-utm.php';
+
+
     }
     // create page ouverture-sur-lenvironnement-utm
     if (is_page('ouverture-sur-lenvironnement-utm')) {
-        if (is_user_logged_in()) {
 
-            include plugin_dir_path(__FILE__) . 'Modules/SiteRecherche/ouverture-sur-lenvironnement-utm.php';
 
-        } else {
-            plateforme_redirect_home();
-        }
+        include plugin_dir_path(__FILE__) . 'Modules/SiteRecherche/ouverture-sur-lenvironnement-utm.php';
+
+
     }
     // create page etablissements UTM Details
     if (is_page('etablissements-utm-details')) {
-        if (is_user_logged_in()) {
 
-            include plugin_dir_path(__FILE__) . 'Modules/SiteRecherche/etablissements-utm-details.php';
+        include plugin_dir_path(__FILE__) . 'Modules/SiteRecherche/etablissements-utm-details.php';
 
-        } else {
-            plateforme_redirect_home();
-        }
+
     }
     // create page etablissements UTM
     if (is_page('etablissements-utm')) {
-        if (is_user_logged_in()) {
 
-            include plugin_dir_path(__FILE__) . 'Modules/SiteRecherche/etablissements-utm.php';
+        include plugin_dir_path(__FILE__) . 'Modules/SiteRecherche/etablissements-utm.php';
 
-        } else {
-            plateforme_redirect_home();
-        }
+
     }
 
+    /*
+        // create page Structures de recherche UTM
+        if (is_page('structures-de-recherche-utm')) {
 
-    // create page Structures de recherche UTM
-    if (is_page('structures-de-recherche-utm')) {
-        if (is_user_logged_in()) {
+                include plugin_dir_path(__FILE__) . 'Modules/SiteRecherche/structures-de-recherche-utm.php';
 
-            include plugin_dir_path(__FILE__) . 'Modules/SiteRecherche/structures-de-recherche-utm.php';
 
-        } else {
-            plateforme_redirect_home();
-        }
-    }
+        }*/
     // create page manifestation-utm 
     if (is_page('manifestation-utm')) {
-        if (is_user_logged_in()) {
 
-            include plugin_dir_path(__FILE__) . 'Modules/SiteRecherche/manifestation-utm.php';
 
-        } else {
-            plateforme_redirect_home();
-        }
+        include plugin_dir_path(__FILE__) . 'Modules/SiteRecherche/manifestation-utm.php';
+
+
     }
     // create page manifestation-details-utm
     if (is_page('manifestation-details-utm')) {
-        if (is_user_logged_in()) {
 
-            include plugin_dir_path(__FILE__) . 'Modules/SiteRecherche/manifestation-details-utm.php';
 
-        } else {
-            plateforme_redirect_home();
-        }
+        include plugin_dir_path(__FILE__) . 'Modules/SiteRecherche/manifestation-details-utm.php';
+
+
     }
 
 
@@ -1037,6 +1036,8 @@ function plateforme_content($content)
         'publication',
         'ajouter-une-publication',
         'modifier-une-publication',
+        'modifier-partage',
+        'mon-laboratoire',
         'details-publication',
         'etat-d-avancement-des-projets',
         'etat-d-avancement-des-projets-fiche-projet',
@@ -1523,6 +1524,19 @@ function pm_template_override()
         wp_redirect(home_url());
         exit;
     }
+    if (is_page('reclamation')) {
+        if (is_user_logged_in()) {
+            $user = wp_get_current_user();
+            if (in_array('um_candidat', $user->roles)) {
+                include plugin_dir_path(__FILE__) . 'pages/Candidature/reclamation/index.php';
+                exit;
+            }
+        }
+
+        // Rediriger les non autorisés
+        wp_redirect(home_url());
+        exit;
+    }
 
     if (is_page('historique-de-candidature')) {
         if (is_user_logged_in()) {
@@ -1689,6 +1703,17 @@ function pm_template_override()
             $user = wp_get_current_user();
             if (in_array('um_pmo', $user->roles)) {
                 include plugin_dir_path(__FILE__) . '/Modules/PMO/DashboardPMO.php';
+                exit;
+            }
+        }
+
+        wp_redirect(home_url());
+        exit;
+    } elseif (is_page('dashboarduscr')) {
+        if (is_user_logged_in()) {
+            $user = wp_get_current_user();
+            if (in_array('um_responsable_uscr', $user->roles)) {
+                include plugin_dir_path(__FILE__) . '/Modules/Unités_Service_Communs/DashboardUSCR.php';
                 exit;
             }
         }
@@ -2083,125 +2108,100 @@ function pm_template_override()
     // }
     // presentation-utm
     if (is_page('presentation-utm')) {
-        if (is_user_logged_in()) {
-            include plugin_dir_path(__FILE__) . 'Modules/SiteRecherche/presentation-utm.php';
-            exit;
-        }
 
-        wp_redirect(home_url());
+        include plugin_dir_path(__FILE__) . 'Modules/SiteRecherche/presentation-utm.php';
         exit;
+
+
+
     }
     // coordonnees
     if (is_page('coordonnees')) {
-        if (is_user_logged_in()) {
-            include plugin_dir_path(__FILE__) . 'Modules/SiteRecherche/coordonnees.php';
-            exit;
-        }
 
-        wp_redirect(home_url());
+        include plugin_dir_path(__FILE__) . 'Modules/SiteRecherche/coordonnees.php';
         exit;
+
+
+
     }
 
     // publications-utm
     if (is_page('publications-utm')) {
-        if (is_user_logged_in()) {
-            include plugin_dir_path(__FILE__) . 'Modules/SiteRecherche/publications-utm.php';
-            exit;
-        }
 
-        wp_redirect(home_url());
+        include plugin_dir_path(__FILE__) . 'Modules/SiteRecherche/publications-utm.php';
         exit;
+
     }
     // publications-utm-details
     if (is_page('publications-utm-details')) {
-        if (is_user_logged_in()) {
-            include plugin_dir_path(__FILE__) . 'Modules/SiteRecherche/publications-utm-details.php';
-            exit;
-        }
 
-        wp_redirect(home_url());
+        include plugin_dir_path(__FILE__) . 'Modules/SiteRecherche/publications-utm-details.php';
         exit;
+
     }
     // projets-de-cooperation-utm
     if (is_page('projets-de-cooperation-utm')) {
-        if (is_user_logged_in()) {
-            include plugin_dir_path(__FILE__) . 'Modules/SiteRecherche/projets-de-cooperation-utm.php';
-            exit;
-        }
 
-        wp_redirect(home_url());
+        include plugin_dir_path(__FILE__) . 'Modules/SiteRecherche/projets-de-cooperation-utm.php';
         exit;
+
     }
     // annonces-de-soutenances-utm
     if (is_page('annonces-de-soutenances-utm')) {
-        if (is_user_logged_in()) {
-            include plugin_dir_path(__FILE__) . 'Modules/SiteRecherche/annonces-de-soutenances-utm.php';
-            exit;
-        }
 
-        wp_redirect(home_url());
+        include plugin_dir_path(__FILE__) . 'Modules/SiteRecherche/annonces-de-soutenances-utm.php';
         exit;
+
     }
     //ouverture-sur-lenvironnement-utm
     if (is_page('ouverture-sur-lenvironnement-utm')) {
-        if (is_user_logged_in()) {
-            include plugin_dir_path(__FILE__) . 'Modules/SiteRecherche/ouverture-sur-lenvironnement-utm.php';
-            exit;
-        }
 
-        wp_redirect(home_url());
+        include plugin_dir_path(__FILE__) . 'Modules/SiteRecherche/ouverture-sur-lenvironnement-utm.php';
         exit;
+
     }
 
     //etablissements-utm-details
     if (is_page('etablissements-utm-details')) {
-        if (is_user_logged_in()) {
-            include plugin_dir_path(__FILE__) . 'Modules/SiteRecherche/etablissements-utm-details.php';
-            exit;
-        }
 
-        wp_redirect(home_url());
-        exit;
+        include plugin_dir_path(__FILE__) . 'Modules/SiteRecherche/etablissements-utm-details.php';
+
+
     }
     //etablissements-utm
     if (is_page('etablissements-utm')) {
-        if (is_user_logged_in()) {
-            include plugin_dir_path(__FILE__) . 'Modules/SiteRecherche/etablissements-utm.php';
-            exit;
-        }
 
-        wp_redirect(home_url());
+        include plugin_dir_path(__FILE__) . 'Modules/SiteRecherche/etablissements-utm.php';
         exit;
+
+
+
     }
     //ouverture-sur-lenvironnement-utm
     if (is_page('structures-de-recherche-utm')) {
-        if (is_user_logged_in()) {
-            include plugin_dir_path(__FILE__) . 'Modules/SiteRecherche/structures-de-recherche-utm.php';
-            exit;
-        }
 
-        wp_redirect(home_url());
+        include plugin_dir_path(__FILE__) . 'Modules/SiteRecherche/structures-de-recherche-utm.php';
         exit;
+
+
     }
     //ouverture-manifestation-utm
     if (is_page('manifestation-utm')) {
-        if (is_user_logged_in()) {
-            include plugin_dir_path(__FILE__) . 'Modules/SiteRecherche/manifestation-utm.php';
-            exit;
-        }
 
-        wp_redirect(home_url());
+        include plugin_dir_path(__FILE__) . 'Modules/SiteRecherche/manifestation-utm.php';
         exit;
+
+
+
     }
     //ouverture-manifestation-details-utm
     if (is_page('manifestation-details-utm')) {
-        if (is_user_logged_in()) {
-            include plugin_dir_path(__FILE__) . 'Modules/SiteRecherche/manifestation-details-utm.php';
-            exit;
-        }
 
-        wp_redirect(home_url());
+        include plugin_dir_path(__FILE__) . 'Modules/SiteRecherche/manifestation-details-utm.php';
         exit;
+
+
+
     }
 
 
@@ -2507,6 +2507,8 @@ function pm_template_override()
         'publication',
         'ajouter-une-publication',
         'modifier-une-publication',
+        'modifier-partage',
+        'mon-laboratoire',
         'details-publication',
         'etat-d-avancement-des-projets',
         'etat-d-avancement-des-projets-fiche-projet',

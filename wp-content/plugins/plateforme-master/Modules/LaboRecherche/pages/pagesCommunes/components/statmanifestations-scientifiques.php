@@ -123,7 +123,7 @@
     .stat-box .label {
         font-weight: 700;
         font-size: 19px;
-        width: 212px;
+        width: 231px;
         /* height: 40px; */
         text-align: left;
         /* font: normal normal bold 15px / 20px Roboto; */

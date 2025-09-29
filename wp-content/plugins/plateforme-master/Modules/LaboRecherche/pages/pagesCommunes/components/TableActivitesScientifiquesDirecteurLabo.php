@@ -2165,7 +2165,7 @@ async function loadStatsAndChart(year = '') {
     const stats = {
       Colloque: 0,
       Communication: 0,
-      "Encadrement Thèse": 0,
+      "Encadrement": 0,
       Brevet: 0
     };
 
@@ -2173,7 +2173,7 @@ async function loadStatsAndChart(year = '') {
       switch(row.type_libelle) {
         case "Colloque": stats.Colloque++; break;
         case "Communication": stats.Communication++; break;
-        case "Encadrement Thèse": stats["Encadrement Thèse"]++; break;
+        case "Encadrement": stats["Encadrement"]++; break;
         case "Brevet": stats.Brevet++; break;
       }
     });
@@ -2181,7 +2181,7 @@ async function loadStatsAndChart(year = '') {
     // Mise à jour DOM
     document.getElementById("statColloque").textContent = stats.Colloque;
     document.getElementById("statCommunication").textContent = stats.Communication;
-    document.getElementById("statEncadrement").textContent = stats["Encadrement Thèse"];
+    document.getElementById("statEncadrement").textContent = stats["Encadrement"];
     document.getElementById("statBrevet").textContent = stats.Brevet;
 
     // Préparer graph
@@ -2259,7 +2259,30 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 </script>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script>
+document.querySelector('.btn-report').addEventListener('click', () => {
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF('p', 'pt', 'a4');
+  
+  // Sélection de la zone à exporter (par exemple le contenu principal)
+  const element = document.querySelector('.content-wrapper') || document.body;
 
+  html2canvas(element, { scale: 2 }).then(canvas => {
+    const imgData = canvas.toDataURL('image/png');
+    const pageWidth = doc.internal.pageSize.getWidth();
+    const pageHeight = doc.internal.pageSize.getHeight();
+    
+    // Ajustement image à la taille de la page
+    const imgWidth = pageWidth;
+    const imgHeight = canvas.height * imgWidth / canvas.width;
+    
+    doc.addImage(imgData, 'PNG', 0, 0, imgWidth, imgHeight);
+    doc.save("rapport_global.pdf");
+  });
+});
+</script>
 
 
 </body>

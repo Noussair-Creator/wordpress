@@ -331,7 +331,7 @@
                     href="/structures-de-recherche-utm">Structures de recherche</a>
                 <span>›</span> Structures de recherche
             </div>
-            <h1 class="text-start">Biochimie et Biotechnologie</h1>
+                <h1 id="labTitle" class="text-start"></h1>
         </div>
     </section>
 
@@ -345,38 +345,22 @@
 
         <!-- Presentation Content Section -->
         <section class="col-lg-10 mx-auto bg-white p-4 p-md-5 rounded-4 presentation-content-section">
-            <h4 class="fw-bold mb-4" style="color: #2a2916;">Présentation général :</h4>
-            <p class="fs-6" style="line-height: 1.7; font-weight:500;">
-                Le Laboratoire de Biochimie et de Technobiologie, LAB-B-03 (LR 01ES 05), a été créé en décembre 2001
-                sous la direction du Pr Omrane BELHADJ.
-            </p>
-            <p class="fs-6 mt-3" style="line-height: 1.7; font-weight:500;">Le thème principal développé par le
-                laboratoire
-                est le rôle
-                de l'évolution des gènes et des génomes dans l'adaptation des organismes. Ce thème est étudié à travers
-                les axes de recherche suivants :</p>
+            <h4 class="fw-bold mb-4" style="color: #2a2916;">Présentation générale :</h4>
+            
+            <p id="labObjective" class="fs-6" style="line-height:1.7;font-weight:500;"></p>
+            <h6>Axes de recherche</h6>
+            <ul id="labAxes" class="fs-6 mt-2" style="line-height:1.8;font-weight:500;"></ul>
 
-            <div class="fs-6" style="line-height: 1.8; font-weight:500;">
-                <p>1) Un premier axe de santé publique : Mécanismes moléculaires, évolution et dissémination de la
-                    résistance bactérienne aux antibiotiques - Alternatives à l'antibiothérapie.</p>
-                <p>2) Un deuxième axe également de santé publique, développé en collaboration avec l'INSP : la nutrition
-                    et les maladies métaboliques. L'étude porte en particulier sur l'implication de marqueurs
-                    moléculaires dans la physiopathologie de l'obésité et du diabète type 2.</p>
-                <p>3) Un troisième axe relevant de la prévention et la gestion de la résistance aux insecticides :
-                    l'étude de l'impact des éléments transposables sur la résistance aux insecticides et le transfert
-                    horizontal.</p>
-                <p>4) Partenaires microbiens constitutifs des holobiontes comme alternatives à l'antibiothérapie et aux
-                    pesticides.</p>
-            </div>
 
             <div class="chef-structure">
                 <h5 class="fw-bold mb-3" style="color: #2a2916;">Chef de Structure de recherche :</h5>
                 <div class="d-flex align-items-center">
-                    <img src="/wp-content/plugins/plateforme-master/images/SiteRechercheImages/34.png"
-                        alt="Chef de Structure" class="me-3">
-                    <p class="mb-0 text-dark fw-600">Omrane BELHADJ</p>
+                    <img id="directorAvatar" src="/wp-content/plugins/plateforme-master/images/SiteRechercheImages/34.png" ... style="display:none">
+                    <p id="directorName" class="mb-0 text-dark fw-600"></p>
+
                 </div>
             </div>
+            
         </section>
 
         <!-- Ligne de titre -->
@@ -398,7 +382,7 @@
                 </div>
                 <div class="col-md">
                     <select id="domainSelect" class="form-select form-select-lg">
-                        <option value="" selected>Domaine</option>
+                        <option value="" selected>Spécialité</option>
                     </select>
                 </div>
                 <div class="col-auto">
@@ -417,7 +401,7 @@
         <!-- Team Section -->
         <section class="mt-5">
             <div id="teamGrid" class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 g-4">
-                <!-- Profile Card 1 -->
+                <!-- Profile Card 1 
                 <div class="col">
                     <div class="card card-profile-new" data-profile-url="/Coordonnees">
                         <img src="/wp-content/plugins/plateforme-master/images/SiteRechercheImages/Groupe de masques 367.png"
@@ -436,7 +420,6 @@
                         </div>
                     </div>
                 </div>
-                <!-- Profile Card 2 -->
                 <div class="col">
                     <div class="card card-profile-new" data-profile-url="/Coordonnees">
                         <img src="/wp-content/plugins/plateforme-master/images/SiteRechercheImages/34.png"
@@ -455,7 +438,6 @@
                         </div>
                     </div>
                 </div>
-                <!-- Profile Card 3 -->
                 <div class="col">
                     <div class="card card-profile-new" data-profile-url="/Coordonnees">
                         <img src="/wp-content/plugins/plateforme-master/images/SiteRechercheImages/Groupe de masques 367 (1).png"
@@ -474,7 +456,6 @@
                         </div>
                     </div>
                 </div>
-                <!-- Profile Card 4 -->
                 <div class="col">
                     <div class="card card-profile-new" data-profile-url="/Coordonnees">
                         <img src="/wp-content/plugins/plateforme-master/images/SiteRechercheImages/3.png"
@@ -493,7 +474,7 @@
                         </div>
                     </div>
                 </div>
-                <!-- Profile Card 5 -->
+        
                 <div class="col">
                     <div class="card card-profile-new" data-profile-url="/Coordonnees">
                         <img src="/wp-content/plugins/plateforme-master/images/SiteRechercheImages/Groupe de masques 367.png"
@@ -512,7 +493,6 @@
                         </div>
                     </div>
                 </div>
-                <!-- Profile Card 6 -->
                 <div class="col">
                     <div class="card card-profile-new" data-profile-url="/Coordonnees">
                         <img src="/wp-content/plugins/plateforme-master/images/SiteRechercheImages/Groupe de masques 367 (1).png"
@@ -530,7 +510,7 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                </div>-->
 
             </div>
             <div id="noResultsMessage" class="text-center fs-4 mt-5" style="display: none;">
@@ -538,9 +518,9 @@
             </div>
         </section>
 
-        <div class="titre-voir-plus-wrapper">
+        <!--<div class="titre-voir-plus-wrapper">
             <div class="titre-voir-plus-ligne"><a href="#">Voir Plus</a></div>
-        </div>
+        </div>-->
     </main>
 
     <!-- Footer -->
@@ -571,6 +551,7 @@
 
     <!-- Bootstrap 5 JS Bundle -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <!--
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             // Get DOM elements
@@ -659,6 +640,183 @@
             });
         });
     </script>
+    -->
+
+
+
+
+
+    <?php
+    $current_user = wp_get_current_user();
+    $roles = (array) $current_user->roles;
+    $role = $roles[0] ?? '';
+    $user_id = get_current_user_id();
+
+?>
+<script>
+        window.PMSettings = {
+            restUrl: "<?= esc_url(rest_url()) ?>",
+            nonce: "<?= wp_create_nonce('wp_rest') ?>",
+            role: "<?= esc_js($role) ?>",
+            userId: <?= (int) $user_id ?>
+        };
+</script>
+
+
+<script>
+document.addEventListener('DOMContentLoaded', async () => {
+  const $ = (s,ctx=document)=>ctx.querySelector(s);
+  const qp = new URLSearchParams(location.search);
+  const labId = parseInt(qp.get('laboratoireid') || qp.get('laboratoire_id') || '0',10);
+  if(!labId){ console.warn('Param ?laboratoireid manquant'); return; }
+
+  const restBase = (window.PMSettings?.restUrl || '/wp-json/').replace(/\/+$/,'') + '/';
+  const headers  = { 'X-WP-Nonce': (window.PMSettings?.nonce||'') };
+
+  async function fetchJSON(url, opts={}) {
+    const res = await fetch(url, { credentials:'same-origin', headers, ...opts });
+    const txt = await res.text();
+    let data; try{ data = JSON.parse(txt); }catch{ data = { raw: txt }; }
+    if (!res.ok) {
+      console.error(`[REST ${res.status}] ${url}`, data);
+      throw new Error(`${res.status} ${res.statusText}`);
+    }
+    return data;
+  }
+
+  // --- essais de routes pour le labo (path param, puis query ?id=)
+  async function loadLab(id){
+    const tries = [
+      `${restBase}plateforme-recherche/v1/laboratoire/${id}`,
+      `${restBase}plateforme-recherche/v1/laboratoire?id=${id}`
+    ];
+    let lastErr;
+    for (const u of tries){
+      try { return await fetchJSON(u); } catch(e){ lastErr = e; }
+    }
+    throw lastErr || new Error('No route responded');
+  }
+
+  // membres (si ta route diffère, on loguera l’URL en erreur)
+  async function loadMembers(id){
+    const u = `${restBase}plateforme-recherche/v1/membre?laboratoire_id=${id}&with_user=1&per_page=200`;
+    return await fetchJSON(u).then(j => Array.isArray(j) ? j : (j.data||[]));
+  }
+
+  function renderLab(lab){
+    // hero
+    const title = lab.denomination || lab.nom || 'Laboratoire';
+    const objective = (lab.objectif_general||'').trim() || '—';
+    const axes = Array.isArray(lab.axes_recherche) ? lab.axes_recherche
+               : (lab.meta_json ? (JSON.parse(lab.meta_json).axes_recherche||[]) : []);
+    $('#labTitle').textContent = title;
+    $('#labObjective').textContent = objective;
+    const ul = $('#labAxes'); ul.innerHTML = axes?.length ? axes.map(a=>`<li>${a}</li>`).join('') : '<li>—</li>';
+
+    // directeur
+        $('#directorName').textContent = lab.directeur_nom || '—';
+
+        // helper: URL valide ?
+        const hasUrl = v => typeof v === 'string'
+        && (v = v.trim()) !== '' && v.toLowerCase() !== 'null' && v.toLowerCase() !== 'undefined';
+
+        const img = document.getElementById('directorAvatar');
+        const avatar = lab.directeur_avatar || lab.avatar_url || lab.logo_url || '';
+
+        if (hasUrl(avatar)) {
+        img.src = avatar;
+        img.style.display = 'inline-block'; // rendre visible seulement si on a une image
+        // si l’URL est cassée → cacher l'image
+        img.onerror = function () { this.onerror = null; this.style.display = 'none'; };
+        } else {
+        // pas d’image → on laisse caché
+        img.style.display = 'none';
+        }
+
+  }
+const DEFAULT_MEMBER_IMG = "/wp-content/plugins/plateforme-master/images/SiteRechercheImages/Groupe%20de%20masques%20367%20(1).png";
+
+    function memberCardHTML(m){
+    const avatar = (m.avatar_url && m.avatar_url.trim()) ? m.avatar_url : DEFAULT_MEMBER_IMG;
+    const name   = m.user_display_name || m.display_name || '—';
+    const spec   = m.specialite || m.specialite_label || '—';
+
+    return `
+        <div class="col">
+       <!-- <div class="card card-profile-new" data-profile-url="/Coordonnees?user=${m.user_id||''}"> -->
+            <div class="card card-profile-new" data-profile-url="#">
+       <img
+            src="${avatar}"
+            class="card-img-top"
+            alt="${name}"
+            style="background-color:#e9ecef;"
+            onerror="this.onerror=null;this.src='${DEFAULT_MEMBER_IMG}';"
+            >
+            <div class="card-body">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                <h5 class="card-title">${name}</h5>
+                <p class="card-text small mb-0">${spec}</p>
+                </div>
+                <a href="https://www.linkedin.com/" target="_blank" rel="noopener noreferrer" class="linkedin-icon-new">
+                <i class="fa-brands fa-linkedin-in"></i>
+                </a>
+            </div>
+            </div>
+        </div>
+        </div>`;
+    }
+
+
+  function renderMembers(members){
+    const grid = $('#teamGrid');
+    grid.innerHTML = members.map(memberCardHTML).join('');
+    // (ré)attache clic cartes (hors icône LinkedIn)
+    grid.querySelectorAll('.card-profile-new').forEach(card=>{
+      card.addEventListener('click', e=>{
+        if (e.target.closest('.linkedin-icon-new')) return;
+        const url = card.getAttribute('data-profile-url'); if (url) location.href = url;
+      });
+    });
+    // remplit le select des spécialités
+    const sel = $('#domainSelect');
+    sel.innerHTML = '<option value="" selected>Spécialité</option>';
+    [...new Set(members.map(m => (m.specialite||'').trim()).filter(Boolean))]
+      .sort().forEach(s=>{ const o=document.createElement('option'); o.value=s; o.textContent=s; sel.appendChild(o); });
+  }
+
+  function attachFilters(){
+    const searchInput = $('#searchInput'), domainSelect = $('#domainSelect');
+    const applyBtn = $('#applyBtn'), resetBtn = $('#resetBtn'), noRes = $('#noResultsMessage');
+    function filter(){
+      const term=(searchInput.value||'').toLowerCase(), spec=domainSelect.value||'';
+      let n=0;
+      document.querySelectorAll('#teamGrid .col').forEach(col=>{
+        const name=(col.querySelector('.card-title')?.textContent||'').toLowerCase();
+        const s=(col.querySelector('.card-text')?.textContent||'').trim();
+        const show = (!term || name.includes(term)) && (!spec || s===spec);
+        col.style.display = show ? '' : 'none'; if (show) n++;
+      });
+      noRes.style.display = n? 'none':'block';
+    }
+    applyBtn.addEventListener('click', filter);
+    searchInput.addEventListener('keyup', filter);
+    domainSelect.addEventListener('change', filter);
+    resetBtn.addEventListener('click', ()=>{ searchInput.value=''; domainSelect.selectedIndex=0; filter(); });
+  }
+
+  try {
+    const [lab, members] = await Promise.all([loadLab(labId), loadMembers(labId)]);
+    renderLab(lab);
+    renderMembers(members);
+    attachFilters();
+  } catch (e) {
+    console.error('Load error:', e);
+    alert("Impossible de charger les données du laboratoire.\nVoir console pour le détail.");
+  }
+});
+</script>
+
 </body>
 
 </html>

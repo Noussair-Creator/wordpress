@@ -678,27 +678,30 @@ function remove_version() {
 			add_filter('the_generator', 'remove_version');
 
 
-
 add_action('admin_enqueue_scripts', 'enqueue_profil_select_script_for_chercheur');
 function enqueue_profil_select_script_for_chercheur($hook) {
+    // Charger uniquement dans les pages de création/édition utilisateur
     if (!in_array($hook, ['user-edit.php', 'user-new.php'])) return;
 
-    wp_enqueue_script('profil-select-js', get_stylesheet_directory_uri() . '/profil-select.js', ['jquery'], false, true);
+    wp_enqueue_script(
+        'profil-select-js',
+        get_stylesheet_directory_uri() . '/profil-select.js',
+        ['jquery'],
+        false,
+        true
+    );
 
-    $user_id = isset($_GET['user_id']) ? intval($_GET['user_id']) : 0;
+    $user_id   = isset($_GET['user_id']) ? intval($_GET['user_id']) : 0;
     $profil_id = $user_id ? get_user_meta($user_id, 'profil_id', true) : '';
 
     wp_localize_script('profil-select-js', 'profil_ajax', [
-        'ajax_url'   => admin_url('admin-ajax.php'),
-        'nonce'      => wp_create_nonce('get_profils_nonce'),
-        'profil_id'  => (string) $profil_id
+        'ajax_url'  => admin_url('admin-ajax.php'),
+        'nonce'     => wp_create_nonce('get_profils_nonce'),
+        'profil_id' => (string) $profil_id
     ]);
 }
 
-
-
 add_action('wp_ajax_get_profils_list', 'get_profils_list_callback_fn');
-
 function get_profils_list_callback_fn() {
     check_ajax_referer('get_profils_nonce');
 
@@ -707,23 +710,18 @@ function get_profils_list_callback_fn() {
     wp_send_json_success($results);
 }
 
-
 add_action('user_register', 'save_profil_id_from_form', 10, 1);
 add_action('profile_update', 'save_profil_id_from_form', 10, 1);
 
 function save_profil_id_from_form($user_id) {
-    $user = get_userdata($user_id);
+    $user  = get_userdata($user_id);
     $roles = (array) $user->roles;
 
     if (in_array('um_chercheur', $roles)) {
-        // On sauvegarde uniquement si un profil est sélectionné
         if (isset($_POST['profil_id']) && is_numeric($_POST['profil_id'])) {
             update_user_meta($user_id, 'profil_id', intval($_POST['profil_id']));
         }
     } else {
-        // Si ce n'est plus un chercheur, on supprime le profil_id
         delete_user_meta($user_id, 'profil_id');
     }
 }
-
-

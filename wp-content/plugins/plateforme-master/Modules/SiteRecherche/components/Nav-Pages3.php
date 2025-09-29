@@ -196,8 +196,8 @@
         <div class="nav-links-container collapse" id="mainNavbar">
             <ul class="nav-links-list">
                 <li class="nav-link-item"><a href="/presentation-utm">Présentation</a></li>
-                <li class="nav-separator">|</li>
-                <li class="nav-link-item"><a href="/etablissements-utm">Etablissements</a></li>
+                <!--   <li class="nav-separator">|</li>
+               <li class="nav-link-item"><a href="/etablissements-utm">Etablissements</a></li>-->
                 <li class="nav-separator">|</li>
                 <li class="nav-link-item"><a href="/publications-utm">Publications</a></li>
                 <li class="nav-separator">|</li>
@@ -206,8 +206,8 @@
                 <li class="nav-link-item"><a href="/ouverture-sur-lenvironnement-utm">Ouverture sur
                         l'environnement</a></li>
                 <li class="nav-separator">|</li>
-                <li class="nav-link-item"><a href="/annonces-de-soutenances-utm">Annonces de soutenances</a></li>
-                <li class="nav-separator">|</li>
+                <!--<li class="nav-link-item"><a href="/annonces-de-soutenances-utm">Annonces de soutenances</a></li>
+                  <li class="nav-separator">|</li>-->
                 <li class="nav-link-item"><a href="/manifestation-utm">Manifestation</a></li>
             </ul>
         </div>
@@ -256,6 +256,105 @@ document.addEventListener('DOMContentLoaded', () => {
                 // This ensures it will be the active link on the next page load
                 localStorage.setItem('activeNavLink', link.getAttribute('href'));
             }
+        });
+    });
+});
+</script>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const paramKey = 'laboratoireid';
+
+    // 1) Récupérer l'ID
+    const url = new URL(location.href);
+    const qsId = url.searchParams.get(paramKey) || url.searchParams.get('laboratoire_id');
+    const pathMatch = location.pathname.match(new RegExp(`(?:^|/)${paramKey}=(\\d+)(?:/|$)`, 'i'));
+    const pmId = (window.PMSettings && (PMSettings.laboratoireId || PMSettings.laboId)) ? (PMSettings
+        .laboratoireId || PMSettings.laboId) : null;
+    let laboId = qsId || (pathMatch && pathMatch[1]) || pmId || localStorage.getItem(paramKey) || null;
+
+    if (laboId) localStorage.setItem(paramKey, laboId);
+
+    // 2) Plus AUCUNE route en segment (tout en query)
+    const normalizePath = (p) =>
+        p.replace(new RegExp(`/(?:${paramKey}=[^/]+)$`, 'i'), '').replace(/\/+$/, '');
+
+    // 3) Réécrire les href du menu en ?laboratoireid=...
+    const navLinkItems = document.querySelectorAll('.nav-link-item');
+    const anchors = document.querySelectorAll('.nav-links-list a');
+
+    if (laboId) {
+        anchors.forEach(a => {
+            const original = a.getAttribute('href');
+            if (!original) return;
+
+            const u = new URL(original, location.origin);
+
+            // ✨ Nettoyer un ancien segment /laboratoireid=11 s'il existe
+            u.pathname = u.pathname
+                .replace(new RegExp(`/(?:${paramKey}=[^/]+)(?=/|$)`, 'i'), '')
+                .replace(/\/+$/, '/'); // un seul trailing slash
+            if (!/\/$/.test(u.pathname)) u.pathname += '/'; // forcer slash final (style WP)
+
+            // ✨ Forcer le paramètre en query
+            u.searchParams.set(paramKey, laboId);
+
+            a.setAttribute('href', u.pathname + u.search + u.hash);
+        });
+    }
+
+    // 4) Migrer un activeNavLink ancien (segment) vers query si besoin
+    const savedHref0 = localStorage.getItem('activeNavLink');
+    if (savedHref0 && /\/laboratoireid=\d+(?:\/|$)/i.test(savedHref0)) {
+        try {
+            const u = new URL(savedHref0, location.origin);
+            u.pathname = u.pathname
+                .replace(new RegExp(`/(?:${paramKey}=[^/]+)(?=/|$)`, 'i'), '')
+                .replace(/\/+$/, '/');
+            if (!/\/$/.test(u.pathname)) u.pathname += '/';
+            if (laboId) u.searchParams.set(paramKey, laboId);
+            localStorage.setItem('activeNavLink', u.pathname + u.search + u.hash);
+        } catch (e) {}
+    }
+
+    // 5) Gérer l'état actif
+    const savedHref = localStorage.getItem('activeNavLink');
+    let activeSet = false;
+
+    if (savedHref) {
+        navLinkItems.forEach(item => {
+            const link = item.querySelector('a');
+            if (link && link.getAttribute('href') === savedHref) {
+                item.classList.add('active');
+                activeSet = true;
+            } else {
+                item.classList.remove('active');
+            }
+        });
+    }
+
+    if (!activeSet) {
+        const currentPathNormalized = normalizePath(location.pathname);
+        navLinkItems.forEach(item => {
+            const link = item.querySelector('a');
+            if (!link) return;
+            const u = new URL(link.getAttribute('href'), location.origin);
+            if (normalizePath(u.pathname) === currentPathNormalized) {
+                item.classList.add('active');
+                localStorage.setItem('activeNavLink', link.getAttribute('href'));
+                activeSet = true;
+            } else {
+                item.classList.remove('active');
+            }
+        });
+    }
+
+    // 6) Sauvegarder au clic
+    navLinkItems.forEach(item => {
+        item.addEventListener('click', function() {
+            const link = this.querySelector('a');
+            if (!link) return;
+            localStorage.setItem('activeNavLink', link.getAttribute('href'));
+            if (laboId) localStorage.setItem(paramKey, laboId);
         });
     });
 });

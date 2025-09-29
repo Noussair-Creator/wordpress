@@ -85,9 +85,9 @@
                 Valider
             </button>
             <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                <li><a class="dropdown-item" href="#">Approuver</a></li>
+                <li><a class="dropdown-item" href="#">valider</a></li>
                 <li><a class="dropdown-item" href="#">Rejeter</a></li>
-                <li><a class="dropdown-item" href="#">Demander une modification</a></li>
+                <li><a class="dropdown-item" href="#">publier</a></li>
             </ul>
         </div>
     </div>

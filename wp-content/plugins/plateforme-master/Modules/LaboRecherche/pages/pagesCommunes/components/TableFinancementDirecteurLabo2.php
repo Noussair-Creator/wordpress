@@ -421,7 +421,7 @@
                     <th>Reste</th>
                     <th>Dernière MAJ</th>
                     <th>Statut</th>
-                    <th>Actions</th>
+                     <!-- <th>Actions</th>--  >
                 </tr>
             </thead>
             <tbody>

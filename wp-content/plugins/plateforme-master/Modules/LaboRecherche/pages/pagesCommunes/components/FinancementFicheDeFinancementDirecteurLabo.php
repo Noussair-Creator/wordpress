@@ -930,3 +930,96 @@ dragZone.addEventListener('drop', function(e) {
     }
 });
 </script>
+
+
+<?php
+    $current_user = wp_get_current_user();
+    $roles = (array) $current_user->roles;
+    $role  = $roles[0] ?? '';
+    $user_id = get_current_user_id();
+
+?>
+<script>
+    window.PMSettings = {
+        restUrl: "<?= esc_url( rest_url() ) ?>",
+        nonce: "<?= wp_create_nonce('wp_rest') ?>",
+        role: "<?= esc_js( $role ) ?>",
+        userId: <?= (int) $user_id ?>
+    };
+</script>
+
+<script>
+async function loadFinancementSource(idsource) {
+  try {
+    const res = await fetch(`${window.PMSettings.restUrl}plateforme-recherche/v1/financement/source?idsource=${idsource}`, {
+        headers: { 'X-WP-Nonce': window.PMSettings.nonce }
+    });
+    if (!res.ok) throw new Error("Erreur API " + res.status);
+    const data = await res.json();
+
+    // ==== Bloc Informations générales ====
+    const list = document.querySelector('.styled-list');
+    if (list) {
+      list.innerHTML = `
+        <li><strong>Source du financement :</strong> ${data.intitule}</li>
+        <li><strong>Type de source :</strong> ${data.type}</li>
+        <li><strong>Référence de convention :</strong> ${data.description || '-'}</li>
+        <li><strong>Montant total attribué :</strong> ${data.budget_total.toLocaleString()} TND</li>
+        <li><strong>Projets associés :</strong> ${data.projets_associes}</li>
+        <li><strong>Date de début du premier projet :</strong> ${data.date_debut || '-'}</li>
+        <li><strong>Date de fin du dernier projet :</strong> ${data.date_fin || '-'}</li>
+        <li><strong>Montant consommé à ce jour :</strong> ${data.consomme.toLocaleString()} TND</li>
+        <li><strong>Reste à engager :</strong> ${data.reste.toLocaleString()} TND</li>
+        <li><strong>Taux d'exécution budgétaire :</strong> ${data.taux}%</li>
+        <li><strong>Statut du financement :</strong> 
+            <span><i class="fas fa-circle status-active-icon"></i> ${data.statut}</span></li>
+        <li><strong>Dernière mise à jour :</strong> ${data.derniere_depense || '-'}</li>
+      `;
+    }
+
+    // ==== Bloc Pièces justificatives ====
+    const tbody = document.querySelector('.parcours-table tbody');
+    if (tbody && data.pieces_jointes) {
+      tbody.innerHTML = data.pieces_jointes.map((p, idx) => {
+        const icon = p.type_doc === "Budget"
+         // ? "/wp-content/plugins/plateforme-master/images/icons/excel-document.png"
+             ? "/wp-content/plugins/plateforme-master/images/icons/pdf-svgrepo-com (2).png"
+          : "/wp-content/plugins/plateforme-master/images/icons/pdf-svgrepo-com (2).png";
+
+        return `
+          <tr>
+            <td>${String(idx+1).padStart(3,'0')}</td>
+            <td>${p.type_doc} – <em>${p.titre}</em></td>
+            <td>
+              <a href="${p.url}" target="_blank">
+                <img width="20px" class="pdf-icon" src="${icon}" alt="${p.type_doc}">
+                ${p.url.split('/').pop()}
+              </a>
+            </td>
+            <td>${p.date || '-'}</td>
+          </tr>
+        `;
+      }).join('');
+    }
+
+  } catch (e) {
+    console.error("Erreur chargement financement source:", e);
+  }
+}
+
+// Fonction pour extraire un paramètre d'URL
+function getQueryParam(param) {
+  const urlParams = new URLSearchParams(window.location.search);
+  return urlParams.get(param);
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  const idsource = getQueryParam("idsource");
+  if (idsource) {
+    loadFinancementSource(idsource);
+  } else {
+    console.warn("⚠️ Aucun idsource fourni dans l'URL.");
+  }
+});
+
+</script>

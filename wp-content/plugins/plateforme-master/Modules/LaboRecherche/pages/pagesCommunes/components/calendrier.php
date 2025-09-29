@@ -1,3 +1,10 @@
+
+<!-- SweetAlert2 CSS -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+
+<!-- SweetAlert2 JS -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 <style>
 /* All original CSS styles from your code are preserved here. */
 .main-card {
@@ -765,7 +772,6 @@ border-color: #D3CEB4; */
     </div>
 </div>
 
-<!-- New Custom Modal -->
 <div class="modal-overlay" id="newActivityModal" style="display: none;">
     <div class="popup-container" id="popupContainerActivity">
         <div class="popup-header">
@@ -773,23 +779,16 @@ border-color: #D3CEB4; */
             <button class="btn-enregistrer" id="btnSaveActivity">Enregistrer</button>
         </div>
         <form class="popup-form">
-            <!-- Type -->
             <div class="form-group-flex">
                 <label for="activity-type">Type</label>
-                <select id="activity-type">
-                    <option selected>Sélection...</option>
-                    <option value="Colloque">Colloques</option>
-                    <option value="Conférence">Conférences</option>
-                    <option value="Séminaire">Séminaires</option>
-                    <option value="journee-etude">Journées d'étude</option>
+                <select id="typeActivite">
+                   
                 </select>
             </div>
-            <!-- Titre -->
             <div class="form-group-flex">
                 <label for="activity-title">Titre</label>
                 <input type="text" id="activity-title">
             </div>
-            <!-- Date and Time -->
             <div class="form-group-row">
                 <div class="form-group-flex date-input-container">
                     <label for="activity-date">Date</label>
@@ -813,12 +812,10 @@ border-color: #D3CEB4; */
                         alt="Icon-clock">
                 </div>
             </div>
-            <!-- Description -->
             <div class="form-group-flex">
                 <label for="activity-description">Description</label>
                 <textarea id="activity-description" rows="4"></textarea>
             </div>
-            <!-- File Upload -->
             <div class="form-group-flex">
                 <label for="activity-file">Pièces jointe (facultatif)</label>
                 <div class="input-file-wrapper">
@@ -837,6 +834,8 @@ border-color: #D3CEB4; */
     </div>
 </div>
 
+
+
 <!-- Modal for Editing an Activity -->
 <div class="modal-overlay" id="editActivityModal" style="display: none;">
     <div class="popup-container" id="popupContainerEditActivity">
@@ -851,13 +850,9 @@ border-color: #D3CEB4; */
             <input type="hidden" id="edit-activity-id">
             <!-- Type -->
             <div class="form-group-flex">
-                <label for="edit-activity-type">Type</label>
-                <select id="edit-activity-type">
-                    <option selected>Sélection...</option>
-                    <option value="Colloque">Colloques</option>
-                    <option value="Conférence">Conférences</option>
-                    <option value="Séminaire">Séminaires</option>
-                    <option value="journee-etude">Journées d'étude</option>
+                <label for="editTypeActivite">Type</label>
+                <select id="editTypeActivite">
+                   
                 </select>
             </div>
             <!-- Titre -->
@@ -910,206 +905,260 @@ border-color: #D3CEB4; */
 
 
 <script>
-document.addEventListener('DOMContentLoaded', () => {
+
+async function loadActivitesQuotidiennes() {
+  const base = (PMSettings?.restUrl || '/wp-json').replace(/\/$/, '');
+  const url  = `${base}/plateforme-directeurderecherche/v1/activite_quotidienne`;
+
+  try {
+    const data = await wpFetch(url);
+
+    // Map API -> format events[]
+    const events = data.map(row => {
+      /*const startDate = `${row.date}T${row.heure_debut}`;
+      const endDate   = `${row.date}T${row.heure_fin}`;*/
+      const startDate = new Date(`${row.date}T${row.heure_debut}:00`);
+     const endDate   = new Date(`${row.date}T${row.heure_fin}:00`);
+
+
+
+      return {
+        id: parseInt(row.id, 10),
+        date: new Date(startDate),
+        end: new Date(endDate),
+        title: row.titre,
+        type: row.type_libelle || row.type_libelle, // libellé FR si dispo
+        typeid: row.type_activite,
+        textColor: '#fff',
+        description: row.description || '',
+        file: row.piece_jointe_path || null
+      };
+    });
+
+    console.log("✅ Events chargés:", events);
+    return events;
+
+  } catch (e) {
+    console.error("[loadActivitesQuotidiennes] Erreur:", e);
+    return [];
+  }
+}
+
+document.addEventListener('DOMContentLoaded', async () => {
+
+        loadTypesActivite();
+
     // --- NEW --- Color mapping for each event type
-    const typeColors = {
-        'Colloque': '#f59e0b',
-        'Conférence': '#3b82f6',
-        'Séminaire': '#a3a3a3',
-        'journee-etude': '#10b981',
+   const typeColors = {
+    'Lecture scientifique': '#2563eb',       // bleu
+    'Travaux expérimentaux': '#059669',      // vert
+    'Rédaction scientifique': '#9333ea',     // violet
+    "Réunion d'équipe": '#f59e0b',           // orange
+    'Enseignement': '#d97706',               // jaune foncé
+    'Encadrement doctorants/masters': '#db2777', // rose
+    'Tâches administratives': '#6b7280',     // gris
+    'Veille bibliographique': '#0891b2',     // turquoise
+    'Travail collaboratif': '#16a34a',       // vert foncé
+    'Communication scientifique': '#dc2626', // rouge
+    'Séminaire': '#a3a3a3',                  // gris clair
+    'Colloque': '#f97316',                   // orange vif
+    'Atelier': '#3b82f6'                     // bleu clair
     };
 
-    let events = [{
-            id: 1,
-            date: new Date('2025-09-08T09:30:00'),
-            end: new Date('2025-09-08T10:30:00'),
-            title: "Colloque: l'avenir du web",
-            type: 'Colloque',
-            textColor: '#fff',
-            description: 'Un colloque passionnant sur les nouvelles technologies du web.',
-            file: 'presentation_web.pdf'
-        },
-        {
-            id: 2,
-            date: new Date('2025-09-09T12:00:00'),
-            end: new Date('2025-09-09T13:00:00'),
-            title: 'Séminaire sur la gestion de projet',
-            type: 'Séminaire',
-            textColor: '#fff',
-            description: 'Formation intensive sur les méthodes agiles.',
-            file: 'notes_agile.docx'
-        },
-        {
-            id: 3,
-            date: new Date('2025-09-10T14:30:00'),
-            end: new Date('2025-09-10T15:30:00'),
-            title: 'Colloque: FinTech en 2025',
-            type: 'Colloque',
-            textColor: '#fff',
-            description: 'Débat sur les innovations financières à venir.',
-            file: 'rapport_fintech.xlsx'
-        },
-        {
-            id: 4,
-            date: new Date('2025-09-11T15:00:00'),
-            end: new Date('2025-09-11T16:00:00'),
-            title: 'Séminaire: IA pour les débutants',
-            type: 'Séminaire',
-            textColor: '#fff',
-            description: "Apprenez les bases de l'intelligence artificielle.",
-            file: 'intro_ia.pptx'
-        },
-        {
-            id: 5,
-            date: new Date('2025-09-12T13:00:00'),
-            end: new Date('2025-09-12T14:00:00'),
-            title: 'Séminaire: Développement durable',
-            type: 'Séminaire',
-            textColor: '#fff',
-            description: 'Comment intégrer le développement durable dans vos projets.',
-            file: 'guide_dd.pdf'
-        },
-        {
-            id: 6,
-            date: new Date('2025-09-13T12:00:00'),
-            end: new Date('2025-09-13T13:00:00'),
-            title: 'Séminaire: Cybersécurité',
-            type: 'Séminaire',
-            textColor: '#fff',
-            description: 'Protégez vos données et vos systèmes.',
-            file: 'guide_securite.pdf'
-        },
-        {
-            id: 7,
-            date: new Date('2025-09-14T10:00:00'),
-            end: new Date('2025-09-14T11:00:00'),
-            title: "Conférence sur l'IA",
-            type: 'Conférence',
-            textColor: '#fff',
-            description: "Exposé sur les dernières avancées en IA.",
-            file: 'conf_ia.pptx'
-        },
-        {
-            id: 8,
-            date: new Date('2025-09-15T14:00:00'),
-            end: new Date('2025-09-15T15:00:00'),
-            title: "Journée d'étude sur la santé",
-            type: 'journee-etude',
-            textColor: '#fff',
-            description: 'Thèmes variés sur la santé publique et la recherche.',
-            file: 'notes_sante.docx'
-        },
-        {
-            id: 9,
-            date: new Date('2025-09-16T10:00:00'),
-            end: new Date('2025-09-16T11:00:00'),
-            title: 'Conférence sur la blockchain',
-            type: 'Conférence',
-            textColor: '#fff',
-            description: 'Présentation des usages de la blockchain.',
-            file: 'conf_blockchain.pdf'
-        },
-        {
-            id: 10,
-            date: new Date('2025-09-17T09:30:00'),
-            end: new Date('2025-09-17T10:30:00'),
-            title: "Colloque sur l'éthique numérique",
-            type: 'Colloque',
-            textColor: '#fff',
-            description: "Discussion sur les enjeux éthiques de l'ère numérique.",
-            file: 'rapport_ethique.pdf'
-        },
-        {
-            id: 11,
-            date: new Date('2025-09-18T15:00:00'),
-            end: new Date('2025-09-18T16:00:00'),
-            title: "Journée d'étude sur l'éducation",
-            type: 'journee-etude',
-            textColor: '#fff',
-            description: "Les nouvelles méthodes d'enseignement.",
-            file: 'pedagogie_moderne.pdf'
-        },
-        {
-            id: 12,
-            date: new Date('2025-09-19T16:00:00'),
-            end: new Date('2025-09-19T17:00:00'),
-            title: "Conférence: le futur de la robotique",
-            type: 'Conférence',
-            textColor: '#fff',
-            description: "Vue d'ensemble des innovations en robotique.",
-            file: 'conf_robotique.pptx'
-        },
-        {
-            id: 13,
-            date: new Date('2025-02-05T10:00:00'),
-            end: new Date('2025-02-05T11:00:00'),
-            title: 'Séminaire: Marketing digital',
-            type: 'Séminaire',
-            textColor: '#fff',
-            description: 'Stratégies pour le marketing en ligne.',
-            file: 'guide_marketing.docx'
-        },
-        {
-            id: 14,
-            date: new Date('2025-02-12T11:30:00'),
-            end: new Date('2025-02-12T12:30:00'),
-            title: 'Conférence: Big Data et analyse',
-            type: 'Conférence',
-            textColor: '#fff',
-            description: 'Comment exploiter les données massives.',
-            file: 'rapport_bigdata.pdf'
-        },
-        {
-            id: 15,
-            date: new Date('2025-02-20T14:00:00'),
-            end: new Date('2025-02-20T15:00:00'),
-            title: 'Colloque: Écologie et technologie',
-            type: 'Colloque',
-            textColor: '#fff',
-            description: 'Synergie entre solutions technologiques et écologiques.',
-            file: 'etude_eco_tech.pdf'
-        },
-        {
-            id: 16,
-            date: new Date('2025-06-10T09:00:00'),
-            end: new Date('2025-06-10T10:00:00'),
-            title: "Journée d'étude sur l'histoire de l'art",
-            type: 'journee-etude',
-            textColor: '#fff',
-            description: "Parcours des mouvements artistiques majeurs.",
-            file: 'notes_art.docx'
-        },
-        {
-            id: 17,
-            date: new Date('2025-06-15T15:00:00'),
-            end: new Date('2025-06-15T16:00:00'),
-            title: 'Séminaire: Introduction à Python',
-            type: 'Séminaire',
-            textColor: '#fff',
-            description: 'Premier pas dans le langage Python.',
-            file: 'cours_python.pdf'
-        },
-        {
-            id: 18,
-            date: new Date('2025-06-25T11:00:00'),
-            end: new Date('2025-06-25T12:00:00'),
-            title: 'Conférence: Réseaux sociaux et communication',
-            type: 'Conférence',
-            textColor: '#fff',
-            description: 'Impact des réseaux sociaux sur la communication moderne.',
-            file: 'reseaux_sociaux.pptx'
-        },
-        {
-            id: 19,
-            date: new Date('2025-09-10T12:30:00'),
-            end: new Date('2025-09-10T14:30:00'),
-            title: 'Séminaire sur la gestion de projet',
-            type: 'Séminaire',
-            textColor: '#fff',
-            description: 'Formation intensive sur les méthodes agiles.',
-            file: 'notes_agile.docx'
-        }
-    ];
+    /*
+        let events = [{
+                id: 1,
+                date: new Date('2025-09-08T09:30:00'),
+                end: new Date('2025-09-08T10:30:00'),
+                title: "Colloque: l'avenir du web",
+                type: 'Colloque',
+                textColor: '#fff',
+                description: 'Un colloque passionnant sur les nouvelles technologies du web.',
+                file: 'presentation_web.pdf'
+            },
+            {
+                id: 2,
+                date: new Date('2025-09-09T12:00:00'),
+                end: new Date('2025-09-09T13:00:00'),
+                title: 'Séminaire sur la gestion de projet',
+                type: 'Séminaire',
+                textColor: '#fff',
+                description: 'Formation intensive sur les méthodes agiles.',
+                file: 'notes_agile.docx'
+            },
+            {
+                id: 3,
+                date: new Date('2025-09-10T14:30:00'),
+                end: new Date('2025-09-10T15:30:00'),
+                title: 'Colloque: FinTech en 2025',
+                type: 'Colloque',
+                textColor: '#fff',
+                description: 'Débat sur les innovations financières à venir.',
+                file: 'rapport_fintech.xlsx'
+            },
+            {
+                id: 4,
+                date: new Date('2025-09-11T15:00:00'),
+                end: new Date('2025-09-11T16:00:00'),
+                title: 'Séminaire: IA pour les débutants',
+                type: 'Séminaire',
+                textColor: '#fff',
+                description: "Apprenez les bases de l'intelligence artificielle.",
+                file: 'intro_ia.pptx'
+            },
+            {
+                id: 5,
+                date: new Date('2025-09-12T13:00:00'),
+                end: new Date('2025-09-12T14:00:00'),
+                title: 'Séminaire: Développement durable',
+                type: 'Séminaire',
+                textColor: '#fff',
+                description: 'Comment intégrer le développement durable dans vos projets.',
+                file: 'guide_dd.pdf'
+            },
+            {
+                id: 6,
+                date: new Date('2025-09-13T12:00:00'),
+                end: new Date('2025-09-13T13:00:00'),
+                title: 'Séminaire: Cybersécurité',
+                type: 'Séminaire',
+                textColor: '#fff',
+                description: 'Protégez vos données et vos systèmes.',
+                file: 'guide_securite.pdf'
+            },
+            {
+                id: 7,
+                date: new Date('2025-09-14T10:00:00'),
+                end: new Date('2025-09-14T11:00:00'),
+                title: "Conférence sur l'IA",
+                type: 'Conférence',
+                textColor: '#fff',
+                description: "Exposé sur les dernières avancées en IA.",
+                file: 'conf_ia.pptx'
+            },
+            {
+                id: 8,
+                date: new Date('2025-09-15T14:00:00'),
+                end: new Date('2025-09-15T15:00:00'),
+                title: "Journée d'étude sur la santé",
+                type: 'journee-etude',
+                textColor: '#fff',
+                description: 'Thèmes variés sur la santé publique et la recherche.',
+                file: 'notes_sante.docx'
+            },
+            {
+                id: 9,
+                date: new Date('2025-09-16T10:00:00'),
+                end: new Date('2025-09-16T11:00:00'),
+                title: 'Conférence sur la blockchain',
+                type: 'Conférence',
+                textColor: '#fff',
+                description: 'Présentation des usages de la blockchain.',
+                file: 'conf_blockchain.pdf'
+            },
+            {
+                id: 10,
+                date: new Date('2025-09-17T09:30:00'),
+                end: new Date('2025-09-17T10:30:00'),
+                title: "Colloque sur l'éthique numérique",
+                type: 'Colloque',
+                textColor: '#fff',
+                description: "Discussion sur les enjeux éthiques de l'ère numérique.",
+                file: 'rapport_ethique.pdf'
+            },
+            {
+                id: 11,
+                date: new Date('2025-09-18T15:00:00'),
+                end: new Date('2025-09-18T16:00:00'),
+                title: "Journée d'étude sur l'éducation",
+                type: 'journee-etude',
+                textColor: '#fff',
+                description: "Les nouvelles méthodes d'enseignement.",
+                file: 'pedagogie_moderne.pdf'
+            },
+            {
+                id: 12,
+                date: new Date('2025-09-19T16:00:00'),
+                end: new Date('2025-09-19T17:00:00'),
+                title: "Conférence: le futur de la robotique",
+                type: 'Conférence',
+                textColor: '#fff',
+                description: "Vue d'ensemble des innovations en robotique.",
+                file: 'conf_robotique.pptx'
+            },
+            {
+                id: 13,
+                date: new Date('2025-02-05T10:00:00'),
+                end: new Date('2025-02-05T11:00:00'),
+                title: 'Séminaire: Marketing digital',
+                type: 'Séminaire',
+                textColor: '#fff',
+                description: 'Stratégies pour le marketing en ligne.',
+                file: 'guide_marketing.docx'
+            },
+            {
+                id: 14,
+                date: new Date('2025-02-12T11:30:00'),
+                end: new Date('2025-02-12T12:30:00'),
+                title: 'Conférence: Big Data et analyse',
+                type: 'Conférence',
+                textColor: '#fff',
+                description: 'Comment exploiter les données massives.',
+                file: 'rapport_bigdata.pdf'
+            },
+            {
+                id: 15,
+                date: new Date('2025-02-20T14:00:00'),
+                end: new Date('2025-02-20T15:00:00'),
+                title: 'Colloque: Écologie et technologie',
+                type: 'Colloque',
+                textColor: '#fff',
+                description: 'Synergie entre solutions technologiques et écologiques.',
+                file: 'etude_eco_tech.pdf'
+            },
+            {
+                id: 16,
+                date: new Date('2025-06-10T09:00:00'),
+                end: new Date('2025-06-10T10:00:00'),
+                title: "Journée d'étude sur l'histoire de l'art",
+                type: 'journee-etude',
+                textColor: '#fff',
+                description: "Parcours des mouvements artistiques majeurs.",
+                file: 'notes_art.docx'
+            },
+            {
+                id: 17,
+                date: new Date('2025-06-15T15:00:00'),
+                end: new Date('2025-06-15T16:00:00'),
+                title: 'Séminaire: Introduction à Python',
+                type: 'Séminaire',
+                textColor: '#fff',
+                description: 'Premier pas dans le langage Python.',
+                file: 'cours_python.pdf'
+            },
+            {
+                id: 18,
+                date: new Date('2025-06-25T11:00:00'),
+                end: new Date('2025-06-25T12:00:00'),
+                title: 'Conférence: Réseaux sociaux et communication',
+                type: 'Conférence',
+                textColor: '#fff',
+                description: 'Impact des réseaux sociaux sur la communication moderne.',
+                file: 'reseaux_sociaux.pptx'
+            },
+            {
+                id: 19,
+                date: new Date('2025-09-10T12:30:00'),
+                end: new Date('2025-09-10T14:30:00'),
+                title: 'Séminaire sur la gestion de projet',
+                type: 'Séminaire',
+                textColor: '#fff',
+                description: 'Formation intensive sur les méthodes agiles.',
+                file: 'notes_agile.docx'
+            }
+        ];
+    */
+  let events = await loadActivitesQuotidiennes();
 
     const gridContainer = document.querySelector('.calendar-grid');
     const searchInput = document.getElementById('searchInput');
@@ -1213,12 +1262,15 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
 
-    const getStartOfWeek = (date) => {
-        const d = new Date(date);
-        const day = d.getDay();
-        const diff = d.getDate() - day + (day === 0 ? -6 : 1);
-        return new Date(d.setDate(diff));
-    };
+    function getStartOfWeek(date) {
+        const d = new Date(date); // copie
+        const day = d.getDay();   // 0 = dimanche, 1 = lundi, ...
+        const diff = (day === 0 ? -6 : 1) - day; 
+        d.setDate(d.getDate() + diff);
+        d.setHours(0, 0, 0, 0);   // début de journée
+        return d;
+    }
+
 
     const formatTime = (date) => {
         const hours = date.getHours();
@@ -1264,7 +1316,40 @@ document.addEventListener('DOMContentLoaded', () => {
 
     let currentWeekStart = getStartOfWeek(new Date());
     let selectedMonthFilter = null;
+    
+    /*
+     if (e.target.classList.contains('filter-type')) {
+        e.preventDefault();
 
+        const selectedText = e.target.textContent;
+        const selectedType = e.target.dataset.type;
+
+        const filterTypeButton = document.getElementById('filterTypeButton');
+        filterTypeButton.dataset.type = selectedType;
+        filterTypeButton.querySelector('span').textContent = selectedText; // ✅ maj label
+
+        renderCalendar();
+    }*/
+    const filterMenu = filterTypeButton.nextElementSibling; // ul.dropdown-menu
+
+    // Attacher l’événement sur chaque lien
+    filterMenu.querySelectorAll('.filter-type').forEach(link => {
+        link.addEventListener('click', function (e) {
+            e.preventDefault();
+
+            const selectedText = this.textContent;
+            const selectedType = this.dataset.type;
+
+            filterTypeButton.dataset.type = selectedType;
+            filterTypeButton.querySelector('span').textContent = selectedText;
+
+            renderCalendar();
+        });
+    });
+    
+
+
+    /*
     const filterEvents = () => {
         const startOfWeek = getStartOfWeek(currentWeekStart);
         const endOfWeek = new Date(startOfWeek.getTime());
@@ -1284,7 +1369,78 @@ document.addEventListener('DOMContentLoaded', () => {
 
             return matchesSearch && matchesType && matchesWeek && matchesMonth;
         });
-    };
+    };*/
+    /*
+    const filterEvents = () => {
+            const startOfWeek = getStartOfWeek(currentWeekStart);
+            const endOfWeek = new Date(startOfWeek);
+            endOfWeek.setDate(startOfWeek.getDate() + 7);
+
+            const searchTerm = searchInput.value.toLowerCase();
+            const selectedType = filterTypeButton.dataset.type;
+
+            return events.filter(event => {
+                const eventDate = event.date;
+
+                const matchesSearch =
+                    event.title.toLowerCase().includes(searchTerm) ||
+                    (event.description || '').toLowerCase().includes(searchTerm);
+
+                const matchesType = selectedType === 'all' || event.type === selectedType;
+
+                // ✅ on compare bien dans l’intervalle [début semaine, fin semaine)
+                const matchesWeek = eventDate >= startOfWeek && eventDate < endOfWeek;
+
+                return matchesSearch && matchesType && matchesWeek;
+            });
+        };
+*/
+       /* const filterEvents = () => {
+        const startOfWeek = getStartOfWeek(currentWeekStart);
+        const endOfWeek = new Date(startOfWeek);
+        endOfWeek.setDate(startOfWeek.getDate() + 7);
+
+        return events.filter(event => {
+            const eventDate = event.date;
+            return eventDate >= startOfWeek && eventDate < endOfWeek;
+        });
+        };*/
+        function filterEvents() {
+            const startOfWeek = getStartOfWeek(currentWeekStart);
+            const endOfWeek = new Date(startOfWeek);
+            endOfWeek.setDate(startOfWeek.getDate() + 7);
+
+            // Valeurs des filtres
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase().trim();
+            const selectedType = document.getElementById('filterTypeButton').dataset.type;
+
+            console.log("selectedType");
+            console.log(selectedType);
+
+            return events.filter(event => {
+                const eventDate = event.date;
+
+                // Recherche dans titre + description
+                const matchesSearch =
+                event.title.toLowerCase().includes(searchTerm) ||
+                (event.description || '').toLowerCase().includes(searchTerm);
+
+                // Vérifie type sélectionné
+                const matchesType = selectedType === 'all' || event.type === selectedType;
+
+
+                console.log("event.type");
+                console.log(event.type);
+
+                // Vérifie semaine courante
+                const matchesWeek = eventDate >= startOfWeek && eventDate < endOfWeek;
+
+                return matchesSearch && matchesType && matchesWeek;
+            });
+        }
+
+      
+
 
     const renderCalendar = () => {
         const startOfWeek = getStartOfWeek(currentWeekStart);
@@ -1300,6 +1456,7 @@ document.addEventListener('DOMContentLoaded', () => {
             dayHeaders[i].textContent =
                 `${dayDate.getDate()} ${dayDate.toLocaleString('fr-FR', { month: 'short' })}`;
         }
+
 
         const filteredEvents = filterEvents();
 
@@ -1342,9 +1499,13 @@ document.addEventListener('DOMContentLoaded', () => {
 <li><a class="dropdown-item edit-event-btn" href="#" data-id="${event.id}">
 <i class="fa-solid fa-pen-to-square"></i> Modifier
 </a></li>
-<li><a class="dropdown-item view-event-btn" href="/calendrier-detais" data-id="${event.id}">
-<i class="fa-solid fa-eye"></i> Voir détails
-</a></li>
+<li>
+  <a class="dropdown-item view-event-btn" 
+     href="/activites-quotidiennes-details/?id=${event.id}" 
+     data-id="${event.id}">
+     <i class="fa-solid fa-eye"></i> Voir détails
+  </a>
+</li>
 <li><hr class="dropdown-divider"></li>
 <li><a class="dropdown-item text-danger delete-event-btn" href="#" data-id="${event.id}">
 <i class="fa-solid fa-trash-can"></i> Supprimer
@@ -1366,27 +1527,83 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         });
 
+       
         document.querySelectorAll('.delete-event-btn').forEach(button => {
             button.addEventListener('click', (e) => {
                 e.preventDefault();
                 const eventId = parseInt(e.currentTarget.dataset.id, 10);
-                events = events.filter(ev => ev.id !== eventId);
-                renderCalendar();
+
+                 
+
+                Swal.fire({
+                title: 'Êtes-vous sûr ?',
+                text: "Vous ne pourrez pas revenir en arrière !",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#c80000',
+                cancelButtonColor: '#6e7881',
+                confirmButtonText: 'Oui, supprimer !',
+                cancelButtonText: 'Annuler'
+                }).then((result) => {
+                if (result.isConfirmed) {
+                    // 🔄 Appel API pour supprimer
+                    deleteActiviteQuotidienne(eventId);
+                    events = events.filter(ev => ev.id !== eventId); 
+                    renderCalendar();
+                }
+                });
             });
         });
+
+
     };
+
+    async function deleteActiviteQuotidienne(id){
+        const base = (PMSettings?.restUrl || '/wp-json').replace(/\/$/,'');
+        const url  = `${base}/plateforme-directeurderecherche/v1/activite_quotidienne/${id}`;
+
+        try {
+            const res = await fetch(url,{
+            method:'DELETE',
+            credentials:'include',
+            headers:{ 'X-WP-Nonce': PMSettings.nonce }
+            });
+
+            if(res.ok){
+            Swal.fire('Supprimé !','L\'activité a été supprimée.','success');
+            }else{
+            const errText = await res.text();
+            throw new Error(errText || 'Erreur API');
+            }
+        } catch(e){
+            console.error('[deleteActiviteQuotidienne]', e);
+            Swal.fire('Erreur','Impossible de supprimer l\'activité.','error');
+        }
+    }
 
     const openEditModal = (event) => {
         document.getElementById('edit-activity-id').value = event.id;
-        document.getElementById('edit-activity-type').value = event.type;
+        document.getElementById('editTypeActivite').value = event.typeid; // ⚠️ ne marche pas si value != libellé
         document.getElementById('edit-activity-title').value = event.title;
         editDateInput._flatpickr.setDate(event.date, true, "Y-m-d");
         editTimeInput._flatpickr.setDate(event.date, true, "H:i");
         editTimeInputEnd._flatpickr.setDate(event.end, true, "H:i");
         document.getElementById('edit-activity-description').value = event.description;
-        document.getElementById('edit-file-name').value = event.file || '';
+       // document.getElementById('edit-file-name').value = event.file || '';
+      
+       if (event.file) {
+        const filename = event.file.split('/').pop(); 
+        document.getElementById('edit-file-name').value = filename;
+        } else {
+        document.getElementById('edit-file-name').value = '';
+        }
+
         editActivityModal.style.display = 'flex';
     };
+
+
+    
+
 
     openActivityModalBtn.addEventListener('click', () => {
         newActivityModal.style.display = 'flex';
@@ -1414,49 +1631,117 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     const btnSaveActivity = document.getElementById('btnSaveActivity');
-    btnSaveActivity.addEventListener('click', (e) => {
+    btnSaveActivity.addEventListener('click', async (e) => {
         e.preventDefault();
-        const type = document.getElementById('activity-type').value;
+        const type = document.getElementById('typeActivite').value;
         const title = document.getElementById('activity-title').value;
         const date = newDateInput.value;
         const time = newTimeInput.value;
         const timeEnd = newTimeInputEnd.value;
 
-        if (!type || !title || !date || !time || !timeEnd || type === "Sélection...") {
+        if (!type || !title || !date || !time || !timeEnd) {
             alert("Veuillez remplir tous les champs obligatoires.");
             return;
         }
 
-        const datetime = new Date(`${date}T${time}:00`);
-        const datetimeEnd = new Date(`${date}T${timeEnd}:00`);
-        const description = document.getElementById('activity-description').value;
-        const file = fileInputNew.files.length > 0 ? fileInputNew.files[0].name : null;
+        const formData = new FormData();
+        formData.append('date', date);
+        formData.append('heure_debut', time);
+        formData.append('heure_fin', timeEnd);
+        formData.append('titre', title);
+        formData.append('type_activite', type);
+        formData.append('description', document.getElementById('activity-description').value);
+        if (fileInputNew.files.length > 0) {
+            formData.append('piece_jointe', fileInputNew.files[0]);
+        }
 
-        const newId = events.length > 0 ? Math.max(...events.map(ev => ev.id)) + 1 : 1;
+        try {
+            // 🔄 Appel API pour insérer
+            const base = (PMSettings?.restUrl || '/wp-json').replace(/\/$/,'');
+            const url  = `${base}/plateforme-directeurderecherche/v1/activite_quotidienne`;
 
-        const newEvent = {
-            id: newId,
-            date: datetime,
-            end: datetimeEnd,
-            title: title,
-            type: type,
-            textColor: '#fff',
-            description: description,
-            file: file,
-        };
+            await fetch(url, {
+                method: 'POST',
+                credentials: 'include',
+                headers: { 'X-WP-Nonce': PMSettings.nonce },
+                body: formData
+            });
 
-        events.push(newEvent);
-        renderCalendar();
-        newActivityModal.style.display = 'none';
-        document.querySelector('#newActivityModal form').reset();
-        fileNameDisplayNew.value = "";
+            // ✅ Rafraîchir calendrier
+            events = await loadActivitesQuotidiennes();
+            renderCalendar();
+
+            // ✅ Fermer modal + reset
+            newActivityModal.style.display = 'none';
+            document.querySelector('#newActivityModal form').reset();
+            fileNameDisplayNew.value = "";
+
+        } catch (err) {
+            console.error("Erreur ajout activité:", err);
+            alert("Impossible d'ajouter l'activité.");
+        }
     });
+
+     // 🔽 AJOUTE ICI ta nouvelle fonction de sauvegarde édition
+   $('#btnSaveEditActivity').on('click', async function(e) {
+       e.preventDefault();
+
+       const id = $('#edit-activity-id').val();
+       const base = (PMSettings?.restUrl || '/wp-json').replace(/\/$/,'');
+       const url  = `${base}/plateforme-directeurderecherche/v1/activite_quotidienne/${id}`;
+
+       const formData = new FormData();
+       formData.append('date', $('#edit-activity-date').val());
+       formData.append('heure_debut', $('#edit-activity-time').val());
+       formData.append('heure_fin', $('#edit-activity-time-end').val());
+       formData.append('type_activite', $('#editTypeActivite').val());
+       formData.append('titre', $('#edit-activity-title').val());
+       formData.append('description', $('#edit-activity-description').val());
+
+       let statut = ($('#editStatutActivite').val() || '').trim();
+       if (!['Terminé','Prévu','En cours'].includes(statut)) {
+           statut = 'Prévu';
+       }
+       formData.append('statut', statut);
+
+       if($('#edit-activity-file')[0].files.length > 0){
+           formData.append('piece_jointe', $('#edit-activity-file')[0].files[0]);
+       }
+
+       try {
+           const res = await fetch(url, {
+               method: 'POST', // si ton endpoint accepte POST + _method=PATCH
+               credentials:'include',
+               headers:{ 'X-WP-Nonce': PMSettings.nonce },
+               body: formData
+           });
+           if(!res.ok) throw new Error('Erreur API');
+
+           Swal.fire('Succès','Activité mise à jour.','success');
+           $('#editActivityModal').hide();
+
+           // recharge calendrier
+           events = await loadActivitesQuotidiennes();
+           renderCalendar();
+
+           // recharge stats si dispo
+           if (typeof loadStatsActiviteQuotidienne === 'function') {
+             loadStatsActiviteQuotidienne();
+           }
+
+       } catch (err) {
+           console.error(err);
+           Swal.fire('Erreur','Impossible de mettre à jour l\'activité.','error');
+       }
+   });
+
+
 
     const btnSaveEditActivity = document.getElementById('btnSaveEditActivity');
     btnSaveEditActivity.addEventListener('click', (e) => {
         e.preventDefault();
         const id = document.getElementById('edit-activity-id').value;
-        const type = document.getElementById('edit-activity-type').value;
+        const type = document.getElementById('editTypeActivite').value;
         const title = document.getElementById('edit-activity-title').value;
         const date = editDateInput.value;
         const time = editTimeInput.value;
@@ -1485,6 +1770,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     searchInput.addEventListener('input', renderCalendar);
+    /*
     filterTypeLinks.forEach(link => {
         link.addEventListener('click', (e) => {
             e.preventDefault();
@@ -1493,7 +1779,23 @@ document.addEventListener('DOMContentLoaded', () => {
                 `<span>${e.target.textContent}</span><i class="fa-solid fa-chevron-down"></i>`;
             renderCalendar();
         });
+    });*/
+    filterTypeLinks.forEach(link => {
+        link.addEventListener('click', (e) => {
+            e.preventDefault();
+
+            const selectedText = e.target.textContent;
+            const selectedType = e.target.dataset.type;
+
+            const filterTypeButton = document.getElementById('filterTypeButton');
+            filterTypeButton.dataset.type = selectedType;
+            filterTypeButton.querySelector('span').textContent = selectedText; // ✅ maj label
+
+            renderCalendar(); // relance le rendu du calendrier
+        });
     });
+
+    
 
     filterMonthLinks.forEach(link => {
         link.addEventListener('click', (e) => {
@@ -1547,5 +1849,203 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     renderCalendar();
+
 });
+</script>
+
+<?php
+    $current_user = wp_get_current_user();
+    $roles = (array) $current_user->roles;
+    $role  = $roles[0] ?? '';
+    $user_id = get_current_user_id();
+
+    ?>
+    <script>
+    window.PMSettings = {
+        restUrl: "<?= esc_url( rest_url() ) ?>",
+        nonce: "<?= wp_create_nonce('wp_rest') ?>",
+        role: "<?= esc_js( $role ) ?>",
+        userId: <?= (int) $user_id ?>
+    };
+    </script>
+
+
+<script>
+
+async function wpFetch(url, options = {}) {
+  const headers = { 'Accept': 'application/json', ...(options.headers||{}) };
+  if (window.PMSettings?.nonce) headers['X-WP-Nonce'] = PMSettings.nonce;
+  const res = await fetch(url, { ...options, headers, credentials:'include' });
+  if (!res.ok) {
+    let msg = `Erreur API (${res.status})`;
+    try { const j = await res.json(); if (j?.message) msg=j.message; }catch(e){}
+    throw new Error(msg);
+  }
+  return res.json();
+}
+
+async function loadTypesActivite(){
+  const base = (PMSettings?.restUrl || '/wp-json').replace(/\/$/,'');
+  const url  = `${base}/plateforme-directeurderecherche/v1/types-activite-quotidienne`;
+
+  try {
+    const data = await wpFetch(url);
+
+    // === Remplir les SELECTS ===
+    const selects = [
+      document.getElementById('typeActivite'),
+      document.getElementById('editTypeActivite')
+    ];
+
+    selects.forEach(sel => {
+      if (!sel) return;
+      sel.innerHTML = ''; // reset options
+      const def = document.createElement('option');
+      def.value = '';
+      def.textContent = 'Sélection..';
+      def.selected = true;
+      sel.appendChild(def);
+
+      data.forEach(row => {
+        const opt = document.createElement('option');
+        opt.value = row.id;              // id de la BDD
+        opt.textContent = row.libelle_fr; // texte FR
+        sel.appendChild(opt);
+      });
+    });
+
+    // === Remplir le DROPDOWN Bootstrap ===
+    const filterBtn  = document.getElementById('filterTypeButton');
+    const dropdown   = filterBtn ? filterBtn.nextElementSibling : null;
+
+    if (filterBtn && dropdown) {
+      dropdown.innerHTML = ''; // reset
+
+      // Ajouter option "Tous"
+      const liAll = document.createElement('li');
+      liAll.innerHTML = `<a class="dropdown-item filter-type" href="#" data-type="all">Tous</a>`;
+      dropdown.appendChild(liAll);
+
+      // Injecter options dynamiques
+      data.forEach(row => {
+        const li = document.createElement('li');
+        li.innerHTML = `<a class="dropdown-item filter-type" href="#" data-type="${row.libelle_fr}">${row.libelle_fr}</a>`;
+        dropdown.appendChild(li);
+      });
+
+      // Reset bouton
+      filterBtn.dataset.type = 'all';
+      filterBtn.querySelector('span').textContent = 'Type';
+    }
+
+  } catch(e){
+    console.error('[loadTypesActivite]', e);
+  }
+}
+
+/*
+document.addEventListener("DOMContentLoaded", () => {
+
+  $('#btnSaveObjectifs').on('click', async function(event) {
+    event.preventDefault();
+
+    if (!$('#activiteDate').val() || !$('#typeActivite').val() || !$('#statutActivite').val()) {
+        Swal.fire('Erreur', 'Veuillez remplir tous les champs obligatoires.', 'error');
+        return;
+    }
+
+    const base = (PMSettings?.restUrl || '/wp-json').replace(/\/$/,'');
+    const url  = `${base}/plateforme-directeurderecherche/v1/activite_quotidienne`;
+
+    const formData = new FormData();
+    formData.append('date', $('#activiteDate').val());
+    formData.append('heure_debut', $('#activiteHeureDebut').val());
+    formData.append('heure_fin', $('#activiteHeureFin').val());
+    formData.append('titre', $('#activity-title').val());
+    formData.append('type_activite', $('#typeActivite').val());
+    formData.append('statut', $('#statutActivite').val());
+    formData.append('description', $('#descriptionDetaillee').val());
+    if ($('#fileUpload')[0].files.length > 0) {
+        formData.append('piece_jointe', $('#fileUpload')[0].files[0]);
+    }
+
+    try {
+        // 🟢 Afficher loader
+        Swal.fire({
+        title: 'Enregistrement en cours...',
+        allowOutsideClick: false,
+        didOpen: () => { Swal.showLoading(); }
+        });
+
+        await fetch(url, {
+        method: 'POST',
+        credentials: 'include',
+        headers: { 'X-WP-Nonce': PMSettings.nonce },
+        body: formData
+        });
+
+        // succès → fermer modal et recharger table + stats
+        closeModalObjectifs();
+        Swal.fire('Succès', 'Activité enregistrée.', 'success');
+
+        // 🟢 Recharger les données
+        loadActivitesQuotidiennes();
+        loadStatsActiviteQuotidienne();
+
+        // 🟢 Vider le formulaire
+        $('#activiteDate').val('');
+        $('#activiteHeureDebut').val('');
+        $('#activiteHeureFin').val('');
+        $('#descriptionDetaillee').val('');
+        $('#typeActivite').val('');
+        $('#statutActivite').val('');
+        $('#fileUpload').val('');
+        $('.input-file-text').val('Aucun fichier choisi');
+
+    } catch (e) {
+        console.error(e);
+        Swal.fire('Erreur', 'Impossible d\'enregistrer l\'activité.', 'error');
+    }
+    });
+
+});*/
+
+// Appel initial
+
+/*
+document.addEventListener('click', (e) => {
+  if (e.target.classList.contains('filter-type')) {
+    e.preventDefault();
+
+    const selectedText = e.target.textContent;
+    const selectedType = e.target.dataset.type;
+
+    const filterTypeButton = document.getElementById('filterTypeButton');
+    filterTypeButton.dataset.type = selectedType;
+    filterTypeButton.querySelector('span').textContent = selectedText; // ✅ maj label
+
+   // renderCalendar();
+  }
+});
+*/
+
+
+/*
+  // Quand on choisit un type dans le dropdown
+document.querySelectorAll('.filter-type').forEach(link => {
+        link.addEventListener('click', (e) => {
+            e.preventDefault();
+            const selectedText = e.target.textContent;
+            const selectedType = e.target.dataset.type;
+
+            const filterTypeButton = document.getElementById('filterTypeButton');
+            filterTypeButton.dataset.type = selectedType;
+            filterTypeButton.querySelector('span').textContent = selectedText;
+
+            renderCalendar();
+
+        });
+});*/
+
+
 </script>

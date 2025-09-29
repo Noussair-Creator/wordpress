@@ -41,7 +41,7 @@ require_once 'wp-content/plugins/plateforme-master/pages/config/roles.php';
     <!-- Header -->
     <?php include 'components/header.php'; ?>
 
-    <?php include 'components/Nav-Pages3.php'; ?>
+    <?php include 'components/Nav-Pages2.php'; ?>
 
     <?php include 'components/etablissements-utm.php'; ?>
 

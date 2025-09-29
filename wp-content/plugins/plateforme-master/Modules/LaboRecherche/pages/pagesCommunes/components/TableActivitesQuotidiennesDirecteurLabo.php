@@ -1398,11 +1398,8 @@ border: none;
                 <!-- Type Select -->
                 <div class="input-with-icon">
                     <select id="typeFilter" class="filter-select">
-                        <option value="" selected>Type</option>
-                        <option>Réunion</option>
-                        <option>Expérimentation</option>
-                        <option>Développement</option>
-                        <option>Rédaction</option>
+                        <option value="" selected  >Type</option>
+                       
                     </select>
                     <i class="fas fa-chevron-down icon right-icon"></i>
                 </div>
@@ -1435,8 +1432,8 @@ border: none;
             <thead>
                 <tr>
                     <th><input type="checkbox" id="checkAll"></th>
+                    <th>Date</th>
                     <th>Heure</th>
-                    <th>Membre</th>
                     <th>Activité réalisée</th>
                     <th>Type</th>
                     <th>Fichier</th>
@@ -1445,10 +1442,9 @@ border: none;
                 </tr>
             </thead>
             <tbody>
-                <tr>
+              <!--  <tr>
                     <td><input type="checkbox"></td>
                     <td>08:30 – 10:00</td>
-                    <td>Houssem Lahmar</td>
                     <td>Réunion D’avancement Avec Doctorants</td>
                     <td>Réunion</td>
                     <td>_</td>
@@ -1469,7 +1465,6 @@ border: none;
                 <tr>
                     <td><input type="checkbox"></td>
                     <td>10:00 – 11:30</td>
-                    <td>Dr. M. Abdelkefi</td>
                     <td>Prétraitement EEG Patient #4</td>
                     <td>Expérimentation</td>
                     <td>session4.csv</td>
@@ -1489,7 +1484,6 @@ border: none;
                 <tr>
                     <td><input type="checkbox"></td>
                     <td>11:30 – 12:30</td>
-                    <td>Dr. C. Hadj Kacem</td>
                     <td>Test Module D'acquisition Embarqué</td>
                     <td>Développement</td>
                     <td>log_v2.txt</td>
@@ -1509,7 +1503,6 @@ border: none;
                 <tr>
                     <td><input type="checkbox"></td>
                     <td>13:30 – 15:00</td>
-                    <td>Dr. M. Zghari</td>
                     <td>Rédaction Article Section 2.3</td>
                     <td>Rédaction</td>
                     <td>article_draft.pdf</td>
@@ -1529,7 +1522,6 @@ border: none;
                 <tr>
                     <td><input type="checkbox"></td>
                     <td>15:00 – 16:30</td>
-                    <td>Marwa Trabelsi</td>
                     <td>Réunion Coordination Projet AR-UTM</td>
                     <td>Réunion</td>
                     <td>_</td>
@@ -1545,7 +1537,7 @@ border: none;
                             </div>
                         </div>
                     </td>
-                </tr>
+                </tr>-->
             </tbody>
         </table>
     </div>
@@ -1555,11 +1547,11 @@ border: none;
         <div class="popup-container" id="popupContainerObjectifs">
             <div class="popup-header">
                 <h2>Ajouter une activité</h2>
-                <button class="btn-close-x" id="btnCloseModal">&times;</button>
+                <!--<button class="btn-close-x" id="btnCloseModal">&times;</button>-->
                 <button class="btn-enregistrer" id="btnSaveObjectifs">Enregistrer</button>
             </div>
             <form class="popup-form">
-                <div class="form-group">
+                <!--<div class="form-group">
                     <label for="membreConcerne">Membre Concerné</label>
                     <div class="input-with-icon">
                         <select id="membreConcerne">
@@ -1572,8 +1564,13 @@ border: none;
                         </select>
                         <i class="fas fa-chevron-down icon right-icon"></i>
                     </div>
-                </div>
+                </div> -->
 
+             
+                <div class="form-group">
+                    <label for="activity-title">Titre</label>
+                    <input type="text" id="activity-title">
+                </div>
                 <div class="form-group">
                     <label for="activiteDate">Date</label>
                     <div class="input-with-icon">
@@ -1600,13 +1597,9 @@ border: none;
                     <label for="typeActivite">Type D'activité</label>
                     <div class="input-with-icon">
                         <select id="typeActivite">
-                            <option value="">Sélection..</option>
-                            <option value="Réunion">Réunion</option>
-                            <option value="Expérimentation">Expérimentation</option>
-                            <option value="Développement">Développement</option>
-                            <option value="Rédaction">Rédaction</option>
+                            <option value="">Sélection</option>
+                            <i class="fas fa-chevron-down icon right-icon"></i>
                         </select>
-                        <i class="fas fa-chevron-down icon right-icon"></i>
                     </div>
                 </div>
 
@@ -1650,11 +1643,10 @@ border: none;
         <div class="popup-container" id="popupContainerModifier">
             <div class="popup-header">
                 <h2>Modifier une activité</h2>
-                <button class="btn-close-x" id="btnCloseEditModal">&times;</button>
                 <button class="btn-enregistrer" id="btnSaveModifier">Modifier</button>
             </div>
             <form class="popup-form">
-                <div class="form-group">
+                <!--<div class="form-group">
                     <label for="editMembreConcerne">Membre Concerné</label>
                     <div class="input-with-icon">
                         <select id="editMembreConcerne">
@@ -1667,6 +1659,10 @@ border: none;
                         </select>
                         <i class="fas fa-chevron-down icon right-icon"></i>
                     </div>
+                </div>-->
+                 <div class="form-group">
+                    <label for="editAactivity-title">Titre</label>
+                    <input type="text" id="editAactivity-title">
                 </div>
 
                 <div class="form-group">
@@ -1695,11 +1691,7 @@ border: none;
                     <label for="editTypeActivite">Type D'activité</label>
                     <div class="input-with-icon">
                         <select id="editTypeActivite">
-                            <option value="">Sélection..</option>
-                            <option value="Réunion">Réunion</option>
-                            <option value="Expérimentation">Expérimentation</option>
-                            <option value="Développement">Développement</option>
-                            <option value="Rédaction">Rédaction</option>
+                            
                         </select>
                         <i class="fas fa-chevron-down icon right-icon"></i>
                     </div>
@@ -1832,7 +1824,7 @@ border: none;
         });
 
 
-        // Initialize DataTable
+        /*// Initialize DataTable
         const table = $('#candidaturesTable').DataTable({
             paging: true,
             searching: true, // Enable search for the filter to work
@@ -1849,7 +1841,7 @@ border: none;
                 emptyTable: "Aucune donnée disponible",
                 zeroRecords: "Aucun enregistrement correspondant trouvé"
             }
-        });
+        });*/
 
         // --- Action Buttons (Dropdown Menu) ---
         // Use event delegation on the table body for dynamically added rows
@@ -1861,7 +1853,7 @@ border: none;
             $(this).next('.dropdown-menu').toggle();
         });
 
-        // Handle clicks on the dropdown menu items
+    /*    // Handle clicks on the dropdown menu items
         $('#candidaturesTable tbody').on('click', '.dropdown-menu a', function(e) {
             e.stopPropagation(); // Stop it from closing the menu immediately
             const action = $(this).data('action');
@@ -1872,9 +1864,9 @@ border: none;
                 e.preventDefault();
                 const rowData = table.row(row).data();
 
-                if (action === 'Modifier') {
-                    console.log('Action Modifier triggered for:', rowData);
-                    openEditModal(row); // Pass the entire row element
+               if (action === 'Modifier') {
+                const id = $(this).data('id');
+                openEditModal(id);
                 } else if (action === 'Supprimer') {
                     console.log('Action Supprimer triggered for:', rowData);
                     Swal.fire({
@@ -1888,12 +1880,7 @@ border: none;
                         cancelButtonText: 'Annuler'
                     }).then((result) => {
                         if (result.isConfirmed) {
-                            table.row(row).remove().draw();
-                            Swal.fire(
-                                'Supprimé!',
-                                'L\'activité a été supprimée.',
-                                'success'
-                            );
+                        deleteActiviteQuotidienne($(this).data('id'));
                         }
                     });
                 }
@@ -1903,7 +1890,7 @@ border: none;
 
             // Hide the dropdown after action
             $(this).closest('.dropdown-menu').hide();
-        });
+        });*/
 
 
         // Close dropdowns when clicking anywhere else on the page
@@ -1974,17 +1961,19 @@ border: none;
         }
 
         function closeModalObjectifs() {
+            const modalObjectifs = document.getElementById("modalObjectifs");
             if (modalObjectifs) modalObjectifs.style.display = "none";
         }
+
 
         $('.add-project-btn').on('click', openmodalObjectifs);
         btnCloseModal.addEventListener('click', closeModalObjectifs);
 
-
+/*
         $('#btnSaveObjectifs').on('click', function(event) {
             event.preventDefault();
             // Simple validation
-            if (!$('#membreConcerne').val() || !$('#typeActivite').val() || !$('#statutActivite')
+            if (!$('#activiteDate').val() || !$('#typeActivite').val() || !$('#statutActivite')
                 .val()) {
                 Swal.fire('Erreur', 'Veuillez remplir tous les champs obligatoires.', 'error');
                 return;
@@ -2012,7 +2001,7 @@ border: none;
             closeModalObjectifs();
             $('form.popup-form')[0].reset(); // Reset the form
         });
-
+*/
         // Close modal if clicking outside the popup
         if (modalObjectifs && popupObjectifs) {
             modalObjectifs.addEventListener("click", function(e) {
@@ -2022,6 +2011,7 @@ border: none;
             });
         }
 
+        /*
         // --- EDIT MODAL Logic ---
         const modalModifier = document.getElementById("modalModifier");
         const popupModifier = document.getElementById("popupContainerModifier");
@@ -2087,18 +2077,663 @@ border: none;
             });
         }
 
-        // --- File Upload Text Display ---
-        $('#fileUpload').on('change', function() {
-            const fileName = this.files.length > 0 ? this.files[0].name : 'Aucun fichier choisi';
-            $(this).siblings('.input-file-text').val(fileName);
-        });
 
         $('#editFileUpload').on('change', function() {
             const fileName = this.files.length > 0 ? this.files[0].name : 'Aucun fichier choisi';
             $('#editFileText').val(fileName);
         });
+        */
+
+
+        
+        
     });
     </script>
+
+<?php
+    $current_user = wp_get_current_user();
+    $roles = (array) $current_user->roles;
+    $role  = $roles[0] ?? '';
+    $user_id = get_current_user_id();
+
+    ?>
+    <script>
+    window.PMSettings = {
+        restUrl: "<?= esc_url( rest_url() ) ?>",
+        nonce: "<?= wp_create_nonce('wp_rest') ?>",
+        role: "<?= esc_js( $role ) ?>",
+        userId: <?= (int) $user_id ?>
+    };
+    </script>
+
+<script>
+  // Utilitaire fetch WordPress
+async function wpFetch(url, options = {}) {
+  const headers = { 'Accept': 'application/json', ...(options.headers||{}) };
+  if (window.PMSettings?.nonce) headers['X-WP-Nonce'] = PMSettings.nonce;
+  const res = await fetch(url, { ...options, headers, credentials:'include' });
+  if (!res.ok) {
+    let msg = `Erreur API (${res.status})`;
+    try { const j = await res.json(); if (j?.message) msg=j.message; }catch(e){}
+    throw new Error(msg);
+  }
+  return res.json();
+}
+
+
+// Function to generate the correct badge HTML
+function getBadgeHtml(status) {
+            let badgeClass = '';
+            let iconHtml = '';
+            let iconColor = '';
+            switch (status) {
+                case 'Terminé':
+                    badgeClass = 'badge-success';
+                    iconHtml = '<i class="fa-regular fa-circle-check"></i>';
+                    iconColor = '#0E962D';
+                    break;
+                case 'Prévu':
+                    badgeClass = 'badge-secondary';
+                    iconHtml = '<i class="fa-solid fa-arrows-rotate"></i>';
+                    iconColor = '#A6A485';
+                    break;
+                case 'En cours':
+                    badgeClass = 'badge-warning';
+                    iconHtml = '<i class="fa-regular fa-clock"></i>';
+                    iconColor = '#FFD43B';
+                    break;
+                default:
+                    badgeClass = 'badge-secondary';
+                    break;
+            }
+            return `<span class="badge ${badgeClass}">${iconHtml}<span style="padding-left: 5px; color: ${iconColor};">${status}</span></span>`;
+}
+
+
+// Charger le tableau des activités
+async function loadActivitesQuotidiennes(){
+  const base = (PMSettings?.restUrl || '/wp-json').replace(/\/$/,'');
+  const url  = `${base}/plateforme-directeurderecherche/v1/activite_quotidienne`;
+  try {
+    const data = await wpFetch(url);
+
+    // Si DataTable déjà initialisé → destroy
+    if ($.fn.DataTable.isDataTable('#candidaturesTable')) {
+      $('#candidaturesTable').DataTable().clear().destroy();
+    }
+
+    const tbody = document.querySelector('#candidaturesTable tbody');
+    tbody.innerHTML = '';
+
+    (data||[]).forEach(row => {
+      const statut = row.statut || row.Statut;
+      const badge  = getBadgeHtml(statut);
+      const pj     = row.piece_jointe_path 
+        ? `<a href="${row.piece_jointe_path}" target="_blank"><i class="fa fa-file"></i></a>` 
+        : '_';
+
+      // Définir les actions statut dynamiques
+      let statutActions = '';
+      if (statut === 'Prévu') {
+        statutActions = `
+          <a href="#" class="set-status" data-id="${row.id}" data-status="En cours">Marquer comme En cours</a>
+          <a href="#" class="set-status" data-id="${row.id}" data-status="Terminé">Marquer comme Terminé</a>
+        `;
+      } else if (statut === 'En cours') {
+        statutActions = `
+          <a href="#" class="set-status" data-id="${row.id}" data-status="Prévu">Repasser en Prévu</a>
+          <a href="#" class="set-status" data-id="${row.id}" data-status="Terminé">Marquer comme Terminé</a>
+        `;
+      } else if (statut === 'Terminé') {
+        statutActions = `
+          <a href="#" class="set-status" data-id="${row.id}" data-status="En cours">Repasser en En cours</a>
+          <a href="#" class="set-status" data-id="${row.id}" data-status="Prévu">Repasser en Prévu</a>
+        `;
+      }
+
+      const tr = `
+        <tr 
+            data-id="${row.id}"
+            data-date="${row.date || ''}"
+            data-heure-debut="${row.heure_debut || ''}"
+            data-heure-fin="${row.heure_fin || ''}"
+            data-titre="${row.titre || ''}"
+            data-type="${row.type_activite || ''}"
+            data-type-libelle="${row.type_libelle || ''}"
+            data-statut="${statut || ''}"
+            data-description="${row.description || ''}"
+            data-piece="${row.piece_jointe_path || ''}">
+            
+            <td><input type="checkbox" value="${row.id}"></td>
+            <td>${row.date || ''}</td>
+            <td>${row.heure_debut} – ${row.heure_fin}</td>
+            <td>${row.titre || ''}</td>
+            <td>${row.type_libelle || ''}</td>
+            <td>${pj}</td>
+            <td>${badge}</td>
+            <td>
+            <div class="actions">
+                <button class="action-btn">...</button>
+                <div class="dropdown-menu">
+                <a href="#" class="edit-link" data-action="Modifier" data-id="${row.id}">Modifier</a>
+                <a href="/activites-quotidiennes-details?id=${row.id}" target="_blank">Fiche d’activité</a>
+                <a href="#" class="delete-link" data-action="Supprimer" data-id="${row.id}">Supprimer</a>
+                ${statutActions}
+                </div>
+            </div>
+            </td>
+        </tr>`;
+
+      tbody.insertAdjacentHTML('beforeend', tr);
+    });
+
+    // Réinitialiser DataTable
+    $('#candidaturesTable').DataTable({
+      paging: true,
+      searching: true,
+      ordering: false,
+      info: false,
+      pageLength: 5,
+      lengthChange: false,  
+      language: {
+        paginate: {
+          previous: "<i class='fa fa-chevron-left'></i>",
+          next: "<i class='fa fa-chevron-right'></i>"
+        },
+        emptyTable: "Aucune donnée disponible",
+        zeroRecords: "Aucun enregistrement trouvé"
+      }
+    });
+
+    // Gestion clic sur action statut (event delegation)
+    $('#candidaturesTable tbody').off('click', '.set-status').on('click', '.set-status', async function(e){
+        e.preventDefault();
+        e.stopPropagation(); // évite que le menu dropdown se ferme avant
+
+        const id     = $(this).data('id');
+        const status = $(this).data('status');
+        console.log("Click set-status:", id, status);
+
+        try {
+            const updateUrl = `${(PMSettings?.restUrl || '/wp-json').replace(/\/$/,'')}/plateforme-directeurderecherche/v1/activite_quotidienne/${id}`;
+            const formData  = new FormData();
+            formData.append('_method','PATCH');
+            formData.append('statut', status);
+
+            await fetch(updateUrl, {
+            method: 'POST',
+            credentials: 'include',
+            headers: { 'X-WP-Nonce': PMSettings.nonce },
+            body: formData
+            });
+
+            Swal.fire('Succès', `Activité mise à jour: ${status}`, 'success');
+            loadActivitesQuotidiennes();
+            loadStatsActiviteQuotidienne();
+        } catch(err){
+            console.error('[set-status]', err);
+            Swal.fire('Erreur', 'Impossible de mettre à jour le statut.', 'error');
+        }
+    });
+
+
+    // --- Gestion des actions sur les lignes ---
+    $('#candidaturesTable tbody').off('click', '.dropdown-menu a').on('click', '.dropdown-menu a', function(e) {
+        e.stopPropagation(); // empêche le menu de se refermer avant traitement
+        const action = $(this).data('action');
+        const row = $(this).closest('tr');
+
+        if (action) {
+            e.preventDefault();
+            const table = $('#candidaturesTable').DataTable();
+            const rowData = table.row(row).data();
+
+            if (action === 'Modifier') {
+                const id = $(this).data('id');
+                openEditModal(id); // fonction à définir pour pré-remplir ton modal
+            } 
+            else if (action === 'Supprimer') {
+                  const id = $(this).data('id');
+                Swal.fire({
+                    title: 'Êtes-vous sûr ?',
+                    text: "Vous ne pourrez pas revenir en arrière !",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#c80000',
+                    cancelButtonColor: '#6e7881',
+                    confirmButtonText: 'Oui, supprimer !',
+                    cancelButtonText: 'Annuler'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        deleteActiviteQuotidienne(id); // ✅ appelle ta fonction API
+                    }
+                });
+            }
+        }
+    });
+
+
+
+  } catch (e) {
+    console.error('[loadActivitesQuotidiennes]', e);
+  }
+}
+async function openEditModal(id) {
+  const base = (PMSettings?.restUrl || '/wp-json').replace(/\/$/,'');
+  const url  = `${base}/plateforme-directeurderecherche/v1/activite_quotidienne/${id}`;
+
+  try {
+    const row = await wpFetch(url); // API retourne l’activité complète
+
+    $('#editAactivity-title').val(row.titre);
+    $('#editActiviteDate').val(row.date);
+    $('#editActiviteHeureDebut').val(row.heure_debut);
+    $('#editActiviteHeureFin').val(row.heure_fin);
+    $('#editTypeActivite').val(row.type_activite);
+    $('#editDescriptionDetaillee').val(row.description || row.titre);
+   // $('#editStatutActivite').val(row.statut);
+   let statut = (row.Statut || '').trim();
+    if (!['Terminé','Prévu','En cours'].includes(statut)) {
+    statut = 'Prévu'; // valeur par défaut
+    }
+    $('#editStatutActivite').val(statut);
+
+    $('#editFileText').val(row.piece_jointe_path ? row.piece_jointe_path.split('/').pop() : '');
+
+    $('#modalModifier').data('id', id).css('display','flex');
+  } catch (e) {
+    console.error(e);
+    Swal.fire('Erreur','Impossible de charger l’activité.','error');
+  }
+}
+
+
+
+// Charger les stats
+async function loadStatsActiviteQuotidienne(){
+  const base = (PMSettings?.restUrl || '/wp-json').replace(/\/$/,'');
+  const url  = `${base}/plateforme-directeurderecherche/v1/stats-activites-quotidiennes`;
+
+  try {
+    const data = await wpFetch(url);
+
+    // 🟢 Mettre à jour les valeurs gauche
+    document.querySelector('.stat-box:nth-child(1) .value').textContent = data.today;
+    document.querySelector('.stat-box:nth-child(2) .value').textContent = data.tomorrow;
+
+    // 🟢 Préparer données chart
+    const labels = data.types.map(r => r.type_libelle || 'Autre');
+    const values = data.types.map(r => r.total);
+    const colors = ['#808066','#b1342f','#dabebe','#4CAF50','#2196F3'];
+
+    // 🟢 Détruire ancien graphique si existe
+    if (window.pieChart && typeof window.pieChart.destroy === 'function') {
+      window.pieChart.destroy();
+    }
+
+    // 🟢 Recréer graphique
+    const ctx = document.getElementById('pieChart').getContext('2d');
+    window.pieChart = new Chart(ctx, {
+      type: 'pie',
+      data: {
+        labels: labels,
+        datasets: [{
+          data: values,
+          backgroundColor: colors
+        }]
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          legend: { display: false },
+          datalabels: {
+            color: '#fff',
+            font: { weight: 'bold', size: 13 },
+            formatter: (value) => value
+          }
+        }
+      },
+      plugins: [ChartDataLabels]
+    });
+
+    // 🟢 Légende dynamique
+    const legendContainer = document.getElementById('chartLegend');
+    legendContainer.innerHTML = '';
+    labels.forEach((label, i) => {
+      const item = document.createElement('div');
+      item.className = 'legend-item';
+      item.innerHTML = `<span class="legend-dot" style="background-color:${colors[i]}"></span>${label} (${values[i]})`;
+      legendContainer.appendChild(item);
+    });
+
+  } catch(e){
+    console.error('[loadStatsActiviteQuotidienne]', e);
+  }
+}
+
+
+// Initialisation
+document.addEventListener('DOMContentLoaded', () => {
+  loadStatsActiviteQuotidienne();
+});
+
+/*
+// CRUD → après succès, recharger tableau + stats
+async function createActiviteQuotidienne(){ 
+  // ... ton FormData ...
+  await fetch(url,{method:'POST',credentials:'include',headers:{'X-WP-Nonce':PMSettings.nonce},body:formData});
+  document.getElementById('modalObjectifs').style.display='none';
+  loadActivitesQuotidiennes();
+  loadStatsActiviteQuotidienne();
+}*/
+
+async function updateActiviteQuotidienne(id){
+  // ... ton FormData ...
+  await fetch(url,{method:'POST',credentials:'include',headers:{'X-WP-Nonce':PMSettings.nonce},body:formData});
+  document.getElementById('modalModifier').style.display='none';
+  loadActivitesQuotidiennes();
+  loadStatsActiviteQuotidienne();
+}
+
+async function deleteActiviteQuotidienne(id){
+  const base = (PMSettings?.restUrl || '/wp-json').replace(/\/$/,'');
+  const url  = `${base}/plateforme-directeurderecherche/v1/activite_quotidienne/${id}`;
+
+  try {
+    const res = await fetch(url,{
+      method:'DELETE',
+      credentials:'include',
+      headers:{ 'X-WP-Nonce': PMSettings.nonce }
+    });
+
+    if(res.ok){
+      Swal.fire('Supprimé !','L\'activité a été supprimée.','success');
+      loadActivitesQuotidiennes();
+      loadStatsActiviteQuotidienne();
+    }else{
+      const errText = await res.text();
+      throw new Error(errText || 'Erreur API');
+    }
+  } catch(e){
+    console.error('[deleteActiviteQuotidienne]', e);
+    Swal.fire('Erreur','Impossible de supprimer l\'activité.','error');
+  }
+}
+
+function closeModalObjectifs() {
+     const modalObjectifs = document.getElementById("modalObjectifs");
+    if (modalObjectifs) modalObjectifs.style.display = "none";
+}
+// Initialisation au chargement
+document.addEventListener("DOMContentLoaded", () => {
+  loadActivitesQuotidiennes();
+  loadStatsActiviteQuotidienne();
+  document.querySelector('.btn-report')?.addEventListener('click', ()=> window.print());
+
+
+    // --- File Upload Text Display ---
+    $('#fileUpload').on('change', function() {
+    const fileName = this.files.length > 0 ? this.files[0].name : 'Aucun fichier choisi';
+    $(this).siblings('.input-file-text').val(fileName);
+    });
+
+  $('#btnSaveObjectifs').on('click', async function(event) {
+    event.preventDefault();
+
+    if (!$('#activiteDate').val() || !$('#typeActivite').val() || !$('#statutActivite').val()) {
+        Swal.fire('Erreur', 'Veuillez remplir tous les champs obligatoires.', 'error');
+        return;
+    }
+
+    const base = (PMSettings?.restUrl || '/wp-json').replace(/\/$/,'');
+    const url  = `${base}/plateforme-directeurderecherche/v1/activite_quotidienne`;
+
+    const formData = new FormData();
+    formData.append('date', $('#activiteDate').val());
+    formData.append('heure_debut', $('#activiteHeureDebut').val());
+    formData.append('heure_fin', $('#activiteHeureFin').val());
+    formData.append('titre', $('#activity-title').val());
+    formData.append('type_activite', $('#typeActivite').val());
+    formData.append('statut', $('#statutActivite').val());
+    formData.append('description', $('#descriptionDetaillee').val());
+    if ($('#fileUpload')[0].files.length > 0) {
+        formData.append('piece_jointe', $('#fileUpload')[0].files[0]);
+    }
+
+    try {
+        // 🟢 Afficher loader
+        Swal.fire({
+        title: 'Enregistrement en cours...',
+        allowOutsideClick: false,
+        didOpen: () => { Swal.showLoading(); }
+        });
+
+        await fetch(url, {
+        method: 'POST',
+        credentials: 'include',
+        headers: { 'X-WP-Nonce': PMSettings.nonce },
+        body: formData
+        });
+
+        // succès → fermer modal et recharger table + stats
+        closeModalObjectifs();
+        Swal.fire('Succès', 'Activité enregistrée.', 'success');
+
+        // 🟢 Recharger les données
+        loadActivitesQuotidiennes();
+        loadStatsActiviteQuotidienne();
+
+        // 🟢 Vider le formulaire
+        $('#activiteDate').val('');
+        $('#activiteHeureDebut').val('');
+        $('#activiteHeureFin').val('');
+        $('#descriptionDetaillee').val('');
+        $('#typeActivite').val('');
+        $('#statutActivite').val('');
+        $('#fileUpload').val('');
+        $('.input-file-text').val('Aucun fichier choisi');
+
+    } catch (e) {
+        console.error(e);
+        Swal.fire('Erreur', 'Impossible d\'enregistrer l\'activité.', 'error');
+    }
+    });
+
+    
+        $('#btnSaveModifier').on('click', async function(e){
+            e.preventDefault();
+            const id = $('#modalModifier').data('id');
+            const base = (PMSettings?.restUrl || '/wp-json').replace(/\/$/,'');
+            const url  = `${base}/plateforme-directeurderecherche/v1/activite_quotidienne/${id}`;
+
+            const formData = new FormData();
+            formData.append('date', $('#editActiviteDate').val());
+            formData.append('heure_debut', $('#editActiviteHeureDebut').val());
+            formData.append('heure_fin', $('#editActiviteHeureFin').val());
+            formData.append('type_activite', $('#editTypeActivite').val());
+                formData.append('titre', $('#editAactivity-title').val());
+            formData.append('description', $('#editDescriptionDetaillee').val());
+            formData.append('statut', $('#editStatutActivite').val());
+            if($('#editFileUpload')[0].files.length > 0){
+                formData.append('piece_jointe', $('#editFileUpload')[0].files[0]);
+            }
+
+            try {
+                const res = await fetch(url,{
+                method:'POST', // ⚠️ ton endpoint accepte POST + _method PATCH
+                credentials:'include',
+                headers:{ 'X-WP-Nonce': PMSettings.nonce },
+                body: formData
+                });
+                if(!res.ok) throw new Error('Erreur API');
+
+                Swal.fire('Succès','Activité mise à jour.','success');
+                $('#modalModifier').hide();
+                loadActivitesQuotidiennes();
+                loadStatsActiviteQuotidienne();
+            }catch(err){
+                console.error(err);
+                Swal.fire('Erreur','Impossible de mettre à jour l\'activité.','error');
+            }
+            });
+
+            const modalModifier = document.getElementById("modalModifier");
+            const popupModifier = document.getElementById("popupContainerModifier");
+            modalModifier.addEventListener('click', function(e) {
+            if (!popupModifier.contains(e.target)) {
+                modalModifier.style.display = "none";
+            }
+            });
+
+/*
+    // --- EDIT MODAL Logic ---
+        const modalModifier = document.getElementById("modalModifier");
+        const popupModifier = document.getElementById("popupContainerModifier");
+        const btnCloseEditModal = document.getElementById("btnCloseEditModal");
+
+        let editingRow = null; // Variable to store the row being edited
+
+        function openEditModal(row) {
+            editingRow = row; // Store the row
+            const rowData = table.row(row).data();
+            if (modalModifier) {
+                $('#editMembreConcerne').val(rowData[2]);
+
+                // Split the time string and populate the two time inputs
+                const timeRange = rowData[1].split(' – ');
+                $('#editActiviteHeureDebut').val(timeRange[0]);
+                $('#editActiviteHeureFin').val(timeRange[1]);
+
+                $('#editTypeActivite').val(rowData[4].trim());
+                $('#editDescriptionDetaillee').val(rowData[3]);
+
+                const statutText = $('<div>').html(rowData[6]).text().trim();
+                $('#editStatutActivite').val(statutText);
+
+                $('#editFileText').val(rowData[5]);
+
+                modalModifier.style.display = "flex";
+            }
+        }
+
+        function closeModalModifier() {
+            if (modalModifier) modalModifier.style.display = "none";
+            editingRow = null; // Clear the editing row
+        }
+
+        btnCloseEditModal.addEventListener('click', closeModalModifier);
+
+
+        $('#btnSaveModifier').on('click', function(event) {
+            event.preventDefault();
+            if (editingRow) {
+                const updatedData = [
+                    table.cell(editingRow, 0).data(), // Keep checkbox state
+                    `${$('#editActiviteHeureDebut').val()} – ${$('#editActiviteHeureFin').val()}`,
+                    $('#editMembreConcerne').val(),
+                    $('#editDescriptionDetaillee').val(),
+                    $('#editTypeActivite').val(),
+                    $('#editFileUpload')[0].files[0] ? $('#editFileUpload')[0].files[0].name : $(
+                        '#editFileText').val(),
+                    getBadgeHtml($('#editStatutActivite').val()),
+                    table.cell(editingRow, 7).data() // Keep actions HTML
+                ];
+                table.row(editingRow).data(updatedData).draw();
+            }
+            closeModalModifier();
+        });
+
+        if (modalModifier && popupModifier) {
+            modalModifier.addEventListener("click", function(e) {
+                if (!popupModifier.contains(e.target) && e.target !== btnCloseEditModal) {
+                    closeModalModifier();
+                }
+            });
+        }
+
+
+        $('#editFileUpload').on('change', function() {
+            const fileName = this.files.length > 0 ? this.files[0].name : 'Aucun fichier choisi';
+            $('#editFileText').val(fileName);
+        });
+*/
+    
+});
+
+
+
+async function loadTypesActivite(){
+  const base = (PMSettings?.restUrl || '/wp-json').replace(/\/$/,'');
+  const url  = `${base}/plateforme-directeurderecherche/v1/types-activite-quotidienne`;
+  try {
+    const data = await wpFetch(url);
+
+    const selects = [
+      document.getElementById('typeActivite'),
+      document.getElementById('editTypeActivite'),
+      document.getElementById('typeFilter')
+    ];
+
+    selects.forEach(sel => {
+      if (!sel) return;
+      sel.innerHTML = ''; // reset options
+      // option par défaut
+      const def = document.createElement('option');
+      def.value = '';
+      def.textContent = sel.id === 'typeFilter' ? 'Type' : 'Sélection..';
+      def.selected = true;
+      sel.appendChild(def);
+
+      // injecter options
+      data.forEach(row => {
+        const opt = document.createElement('option');
+        opt.value = row.id;
+        opt.textContent = row.libelle_fr;
+        sel.appendChild(opt);
+      });
+    });
+
+  } catch(e){
+    console.error('[loadTypesActivite]', e);
+  }
+}
+
+// Appel initial
+document.addEventListener("DOMContentLoaded", ()=>{
+  loadTypesActivite();
+});
+
+
+const modalObjectifs = document.getElementById("modalObjectifs");
+const popupContainerObjectifs = document.getElementById("popupContainerObjectifs");
+
+const modalModifier = document.getElementById("modalModifier");
+const popupContainerModifier = document.getElementById("popupContainerModifier");
+
+
+// Fermer si clic à l’extérieur
+modalObjectifs.addEventListener('click', function(e) {
+  if (!popupContainerObjectifs.contains(e.target)) {
+    closeModalObjectifs();
+  }
+});
+
+function closeModalModifier() {
+    if (modalModifier) modalModifier.style.display = "none";
+}
+
+// Fermer si clic à l’extérieur
+modalModifier.addEventListener('click', function(e) {
+  if (!popupContainerModifier .contains(e.target)) {
+    closeModalModifier();
+  }
+});
+
+
+
+</script>
+
+
 </body>
 
 </html>

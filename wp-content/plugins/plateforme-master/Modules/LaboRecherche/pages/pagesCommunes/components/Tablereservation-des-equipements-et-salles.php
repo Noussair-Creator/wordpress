@@ -697,678 +697,562 @@
 
 <body>
 
-    <div class="content-block">
-        <div class="accordion-container">
-            <!-- Tabs -->
-            <div class="accordion-tabs">
-                <button class="tab-btn active" data-tab="tab1">
-                    <img src="/wp-content/plugins/plateforme-master/imagesED/7050930.png" alt="Icon">
-                    Tableau Des Réservations
-                </button>
-                <button class="tab-btn" data-tab="tab2">
-                    <img src="/wp-content/plugins/plateforme-master/imagesED/10550857.png" alt="Icon">
-                    Mes Equipements
-                </button>
-            </div>
+<?php
+  // URL de la page "mon-labo" (adapter le slug si besoin)
+  $mon_labo_url = esc_url( site_url('/mon-labo') );
+?>
 
-            <div class="accordion-content">
-
-                <!-- Tab 1: Reservations -->
-                <div class="tab-panel active" id="tab1">
-                    <div class="table-controls">
-                        <div class="filter-selectgb">
-                            <div class="search-box">
-                                <i class="fa fa-search"></i>
-                                <input type="text" class="filter-input" id="reservationsSearch"
-                                    placeholder="Recherchez...">
-                            </div>
-                            <select class="filter-select" id="statusFilter">
-                                <option value="">Statut</option>
-                                <option value="Validée">Validée</option>
-                                <option value="Refusée">Refusée</option>
-                                <option value="En attente">En attente</option>
-                            </select>
-                            <div class="date-input-container">
-                                <input type="text" id="dateFilter" class="date-input" placeholder="Filter by date...">
-                                <img width="20px"
-                                    src="/wp-content/plugins/plateforme-master/images/icons/27) Icon-calendar.png"
-                                    alt="Icon-calendar">
-                                <!-- <i class="fa fa-calendar"></i> -->
-                            </div>
-                        </div>
-                        <div class="filter-actions">
-                            <button class="btn-statut" id="openReservationModal">Nouvelle réservation</button>
-                            <button class="icon-btn">
-                                <img width="20px"
-                                    src="/wp-content/plugins/plateforme-master/images/icons/27) Icon-funnel.png"
-                                    alt="Icon-funnel">
-                                <!-- <i class="fa fa-filter"></i> -->
-                            </button>
-                            <button class="icon-btn">
-                                <img width="20px"
-                                    src="/wp-content/plugins/plateforme-master/images/icons/Groupe 152.png"
-                                    alt="upload-red.png">
-                                <!-- <i class="fa fa-download"></i> -->
-                            </button>
-                        </div>
-                    </div>
-
-                    <table class="styled-table" id="reservationsTable">
-                        <thead>
-                            <tr style="margin:100px;">
-                                <th><input type="checkbox" id="checkAllReservations"></th>
-                                <th>Catégorie</th>
-                                <th>Nom</th>
-                                <th>Réservé par</th>
-                                <th>Date</th>
-                                <th>Heure</th>
-                                <th>Statut</th>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td><input type="checkbox"></td>
-                                <td>Salle</td>
-                                <td>Salle Réunion 1</td>
-                                <td>Dr. A. Mejri</td>
-                                <td>20/06/2025</td>
-                                <td>10:00 - 12:00</td>
-                                <td><span class="badge badge-success"> <i class="fa-regular fa-circle-check"
-                                            style="color: #198754;"></i>Validée</span></td>
-                                <td>
-                                    <div class="actions">
-                                        <button class="action-btn">...</button>
-                                        <div class="dropdown-menu">
-                                            <a href="#" class="openModifierModal">Modifier</a>
-                                            <a href="#">Voir</a>
-                                            <a href="#">Annuler</a>
-                                        </div>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td><input type="checkbox"></td>
-                                <td>Équipement</td>
-                                <td>Microscope Électronique</td>
-                                <td>Y. Ben Salem</td>
-                                <td>15/07/2025</td>
-                                <td>13:30 - 14:00</td>
-                                <td><span class="badge badge-danger"> <i class="fa-regular fa-circle-stop"
-                                            style="color: #d71920;"></i>Refusée</span></td>
-                                <td>
-                                    <div class="actions">
-                                        <button class="action-btn">...</button>
-                                        <div class="dropdown-menu">
-                                            <a href="#" class="openModifierModal">Modifier</a>
-                                            <a href="#">Voir</a>
-                                            <a href="#">Annuler</a>
-                                        </div>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td><input type="checkbox"></td>
-                                <td>Équipement</td>
-                                <td>Spectrophotomètre UV</td>
-                                <td>Dr. Leila Romdhane</td>
-                                <td>01/05/2025</td>
-                                <td>13:30 - 14:00</td>
-                                <td><span class="badge badge-warning"> <i class="fa-regular fa-clock"
-                                            style="color: #d89e00;"></i>En attente</span></td>
-                                <td>
-                                    <div class="actions">
-                                        <button class="action-btn">...</button>
-                                        <div class="dropdown-menu">
-                                            <a href="#" class="openModifierModal">Modifier</a>
-                                            <a href="#">Voir</a>
-                                            <a href="#">Annuler</a>
-                                        </div>
-                                    </div>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-
-                <!-- Tab 2: Equipments -->
-                <div class="tab-panel" id="tab2">
-                    <div class="table-controls">
-                        <div class="filter-selectgb">
-                            <select class="filter-select" id="categoryFilter">
-                            </select>
-                            <div class="filter-buttons">
-                                <button class="filter-btn active">Tous</button>
-                                <button class="filter-btn">Disponible</button>
-                                <button class="filter-btn">Non Disponible</button>
-                            </div>
-                        </div>
-                        <div class="filter-actions">
-                            <button class="btn-statut" id="openEquipementModal">Ajouter équipement</button>
-                            <button class="icon-btn">
-                                <!-- <i class="fa fa-filter"></i> -->
-                                <img width="20px"
-                                    src="/wp-content/plugins/plateforme-master/images/icons/27) Icon-funnel.png"
-                                    alt="Icon-funnel">
-                            </button>
-                            <button class="icon-btn">
-                                <img width="20px"
-                                    src="/wp-content/plugins/plateforme-master/images/icons/Groupe 152.png"
-                                    alt="upload-red.png">
-                                <!-- <i class="fa fa-download"></i> -->
-                            </button>
-                        </div>
-                    </div>
-
-                    <table class="styled-table" id="equipementsTable">
-                        <thead>
-                            <tr>
-                                <th><input type="checkbox" id="checkAllEquipements"></th>
-                                <th>Nom</th>
-                                <th>Catégorie</th>
-                                <th>Statut</th>
-                                <th>Disponibilité</th>
-                                <th>Dernier entretien</th>
-                                <th>Details</th>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                          <!--  <tr>
-                                <td><input type="checkbox"></td>
-                                <td>Microscope X</td>
-                                <td>MX2000</td>
-                                <td class="status-icon"><i class="fa-solid fa-triangle-exclamation"
-                                        style="color: #BF0404;"></i></td>
-                                <td>-</td>
-                                <td>12-09-2025</td>
-                                <td class="details-icon openDetailsModal"><i class="fa fa-eye"></i></td>
-                                <td>
-                                    <div class="actions">
-                                        <button class="action-btn">...</button>
-                                        <div class="dropdown-menu">
-                                            <a href="#"><i class="fa fa-file-alt"></i> Protocole d'utilisation</a>
-                                            <a href="#" class="openModifierEquipementModal"><i class="fa fa-edit"></i>
-                                                Modifier</a>
-                                            <a href="#" class="openMaintenanceModal"><i class="fa fa-wrench"></i>
-                                                Demande de maintenance</a>
-                                            <a href="#" style="color:#BF0404;"><i class="fa fa-trash"></i> Supprimer</a>
-                                        </div>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td><input type="checkbox"></td>
-                                <td>Centrifugeuse</td>
-                                <td>Eppendorf 5702</td>
-                                <td class="status-icon"><i class="fa fa-check-circle" style="color: #A6A485;"></i></td>
-                                <td>Réservé</td>
-                                <td>12-09-2025</td>
-                                <td class="details-icon openDetailsModal"><i class="fa fa-eye"></i></td>
-                                <td>
-                                    <div class="actions">
-                                        <button class="action-btn">...</button>
-                                        <div class="dropdown-menu">
-                                            <a href="#"><i class="fa fa-file-alt"></i> Protocole d'utilisation</a>
-                                            <a href="#" class="openModifierEquipementModal"><i class="fa fa-edit"></i>
-                                                Modifier</a>
-                                            <a href="#" class="openMaintenanceModal"><i class="fa fa-wrench"></i>
-                                                Demande de maintenance</a>
-                                            <a href="#" style="color:#BF0404;"><i class="fa fa-trash"></i> Supprimer</a>
-                                        </div>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td><input type="checkbox"></td>
-                                <td>Spectrophotomètre</td>
-                                <td>UV-Vis Thermo Scientific</td>
-                                <td class="status-icon"><i class="fa fa-check-circle" style="color: #A6A485;"></i></td>
-                                <td>Disponible</td>
-                                <td>12-09-2025</td>
-                                <td class="details-icon openDetailsModal"><i class="fa fa-eye"></i></td>
-                                <td>
-                                    <div class="actions">
-                                        <button class="action-btn">...</button>
-                                        <div class="dropdown-menu">
-                                            <a href="#"><i class="fa fa-file-alt"></i> Protocole d'utilisation</a>
-                                            <a href="#" class="openModifierEquipementModal"><i class="fa fa-edit"></i>
-                                                Modifier</a>
-                                            <a href="#" class="openMaintenanceModal"><i class="fa fa-wrench"></i>
-                                                Demande de maintenance</a>
-                                            <a href="#" style="color:#BF0404;"><i class="fa fa-trash"></i> Supprimer</a>
-                                        </div>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td><input type="checkbox"></td>
-                                <td>Bain-Marie</td>
-                                <td>Julabo TW12</td>
-                                <td class="status-icon"><i class="fa-solid fa-screwdriver-wrench"
-                                        style="color: #DDACA7;"></i></td>
-                                <td>-</td>
-                                <td>12-09-2025</td>
-                                <td class="details-icon openDetailsModal"><i class="fa fa-eye"></i></td>
-                                <td>
-                                    <div class="actions">
-                                        <button class="action-btn">...</button>
-                                        <div class="dropdown-menu">
-                                            <a href="#"><i class="fa fa-file-alt"></i> Protocole d'utilisation</a>
-                                            <a href="#" class="openModifierEquipementModal"><i class="fa fa-edit"></i>
-                                                Modifier</a>
-                                            <a href="#" class="openMaintenanceModal"><i class="fa fa-wrench"></i>
-                                                Demande de maintenance</a>
-                                            <a href="#" style="color:#BF0404;"><i class="fa fa-trash"></i> Supprimer</a>
-                                        </div>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td><input type="checkbox"></td>
-                                <td>Four de Laboratoire</td>
-                                <td>Memmert UF110</td>
-                                <td class="status-icon"><i class="fa-solid fa-screwdriver-wrench"
-                                        style="color: #DDACA7;"></i></td>
-                                <td>-</td>
-                                <td>12-09-2025</td>
-                                <td class="details-icon openDetailsModal"><i class="fa fa-eye"></i></td>
-                                <td>
-                                    <div class="actions">
-                                        <button class="action-btn">...</button>
-                                        <div class="dropdown-menu">
-                                            <a href="#"><i class="fa fa-file-alt"></i> Protocole d'utilisation</a>
-                                            <a href="#" class="openModifierEquipementModal"><i class="fa fa-edit"></i>
-                                                Modifier</a>
-                                            <a href="#" class="openMaintenanceModal"><i class="fa fa-wrench"></i>
-                                                Demande de maintenance</a>
-                                            <a href="#" style="color:#BF0404;"><i class="fa fa-trash"></i> Supprimer</a>
-                                        </div>
-                                    </div>
-                                </td>
-                            </tr>-->
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
+<div class="content-block">
+  <div class="accordion-container">
+    <!-- Tabs -->
+    <div class="accordion-tabs">
+      <button class="tab-btn active" data-tab="tab1">
+        <img src="/wp-content/plugins/plateforme-master/imagesED/7050930.png" alt="Icon">
+        <?php if (!in_array('um_chercheur', $roles)) { ?>
+          Tableau Des Réservations  
+        <?php } else { ?>
+          Mes Réservations
+        <?php } ?>
+      </button>
+      <?php if (!in_array('um_chercheur', $roles)) { ?>
+        <button class="tab-btn" data-tab="tab2">
+          <img src="/wp-content/plugins/plateforme-master/imagesED/10550857.png" alt="Icon">
+          Mes Equipements
+        </button>
+      <?php } ?>
     </div>
 
-    <!-- Modal for Nouveau Reservation -->
-    <div class="modal-overlay" id="modalObjectifs" style="display: none;">
-        <div class="popup-container" id="popupContainerObjectifs">
-            <div class="popup-header">
-                <h2>Nouvelle réservation</h2>
-                <button class="btn-enregistrer" id="btnSaveObjectifs">Enregistrer</button>
+    <div class="accordion-content">
+      <!-- Tab 1: Reservations -->
+      <div class="tab-panel active" id="tab1">
+        <div class="table-controls">
+          <div class="filter-selectgb">
+            <div class="search-box">
+              <i class="fa fa-search"></i>
+              <input type="text" class="filter-input" id="reservationsSearch" placeholder="Recherchez...">
             </div>
-            <form class="popup-form">
-                <div class="form-group">
-                    <label for="nom-equipement">Nom De L'équipement/Salle</label>
-                    <select id="nom-equipement">
-                        <option>Spectrophotomètre UV</option>
-                        <option>Microscope X</option>
-                        <option>Salle Réunion 1</option>
-                    </select>
-                </div>
-                <div class="date-time-group">
-                    <div class="form-group">
-                        <label for="date-reservation">Date</label>
-                        <div class="input-with-icon">
-                            <input type="text" id="date-reservation" value="" placeholder="11/01/2025">
-                            <img width="20px"
-                                src="/wp-content/plugins/plateforme-master/images/icons/27) Icon-calendar.png"
-                                alt="Icon-calendar">
-                            <!-- <i class="fa fa-calendar"></i> -->
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="heure-reservation">Heure De Début / Fin</label>
-                        <div class="input-with-icon">
-                            <input type="text" id="heure-reservation" placeholder="10:00 - 11:00">
-                            <i class="fa fa-clock"></i>
-                        </div>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for="objectif-reservation">Objectif / motif de la réservation</label>
-                    <textarea id="objectif-reservation" placeholder="Objectif"></textarea>
-                </div>
-            </form>
+            <select class="filter-select" id="statusFilter">
+              <option value="">Statut</option>
+              <option value="Validée">Validée</option>
+              <option value="Refusée">Refusée</option>
+              <option value="En attente">En attente</option>
+            </select>
+            <div class="date-input-container">
+              <input type="text" id="dateFilter" class="date-input" placeholder="Filter by date...">
+              <img width="20px" src="/wp-content/plugins/plateforme-master/images/icons/27) Icon-calendar.png" alt="Icon-calendar">
+            </div>
+          </div>
+          <div class="filter-actions">
+            <button class="btn-statut" id="openReservationModal">Nouvelle réservation</button>
+            <button class="icon-btn">
+              <img width="20px" src="/wp-content/plugins/plateforme-master/images/icons/27) Icon-funnel.png" alt="Icon-funnel">
+            </button>
+            <button class="icon-btn">
+              <img width="20px" src="/wp-content/plugins/plateforme-master/images/icons/Groupe 152.png" alt="upload-red.png">
+            </button>
+          </div>
         </div>
-    </div>
 
-    <!-- MODAL FOR MODIFIER (EDIT) RESERVATION -->
-    <div class="modal-overlay" id="modalModifierReservation" style="display: none;">
-    <div class="popup-container">
-        <div class="popup-header">
-        <h2>Modifier la Réservation</h2>
-        <button id="btnSaveReservationEdit" type="button" class="btn-enregistrer">Enregistrer</button>
+        <table class="styled-table" id="reservationsTable">
+          <thead>
+            <tr>
+              <th><input type="checkbox" id="checkAllReservations"></th>
+              <th>Catégorie</th>
+              <th>Nom</th>
+              <th>Réservé par</th>
+              <th>Date</th>
+              <th>Heure</th>
+              <th>Statut</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><input type="checkbox"></td>
+              <td>Salle</td>
+              <td>Salle Réunion 1</td>
+              <td>Dr. A. Mejri</td>
+              <td>20/06/2025</td>
+              <td>10:00 - 12:00</td>
+              <td><span class="badge badge-success"><i class="fa-regular fa-circle-check" style="color: #198754;"></i>Validée</span></td>
+              <td>
+                <div class="actions">
+                  <button class="action-btn">...</button>
+                  <div class="dropdown-menu">
+                    <a href="#" class="openModifierModal">Modifier</a>
+                    <a href="#">Voir</a>
+                    <a href="#">Annuler</a>
+                  </div>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td><input type="checkbox"></td>
+              <td>Équipement</td>
+              <td>Microscope Électronique</td>
+              <td>Y. Ben Salem</td>
+              <td>15/07/2025</td>
+              <td>13:30 - 14:00</td>
+              <td><span class="badge badge-danger"><i class="fa-regular fa-circle-stop" style="color: #d71920;"></i>Refusée</span></td>
+              <td>
+                <div class="actions">
+                  <button class="action-btn">...</button>
+                  <div class="dropdown-menu">
+                    <a href="#" class="openModifierModal">Modifier</a>
+                    <a href="#">Voir</a>
+                    <a href="#">Annuler</a>
+                  </div>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td><input type="checkbox"></td>
+              <td>Équipement</td>
+              <td>Spectrophotomètre UV</td>
+              <td>Dr. Leila Romdhane</td>
+              <td>01/05/2025</td>
+              <td>13:30 - 14:00</td>
+              <td><span class="badge badge-warning"><i class="fa-regular fa-clock" style="color: #d89e00;"></i>En attente</span></td>
+              <td>
+                <div class="actions">
+                  <button class="action-btn">...</button>
+                  <div class="dropdown-menu">
+                    <a href="#" class="openModifierModal">Modifier</a>
+                    <a href="#">Voir</a>
+                    <a href="#">Annuler</a>
+                  </div>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Tab 2: Equipments -->
+      <div class="tab-panel" id="tab2">
+        <div class="table-controls">
+          <div class="filter-selectgb">
+            <select class="filter-select" id="categoryFilter"></select>
+            <div class="filter-buttons">
+              <button class="filter-btn active">Tous</button>
+              <button class="filter-btn">Disponible</button>
+              <button class="filter-btn">Non Disponible</button>
+            </div>
+          </div>
+          <div class="filter-actions">
+            <?php if (!in_array('um_chercheur', $roles)) { ?>
+              <button class="btn-statut" id="openEquipementModal">Ajouter équipement</button>
+            <?php } ?>
+            <button class="icon-btn">
+              <img width="20px" src="/wp-content/plugins/plateforme-master/images/icons/27) Icon-funnel.png" alt="Icon-funnel">
+            </button>
+            <button class="icon-btn">
+              <img width="20px" src="/wp-content/plugins/plateforme-master/images/icons/Groupe 152.png" alt="upload-red.png">
+            </button>
+          </div>
         </div>
-        <form class="popup-form">
+
+        <!--
+          NOTE IMPORTANTE :
+          On ajoute l'attribut data-details-url pour donner au JS l'URL de base de redirection.
+          Le JS remplacera l'ancienne icône (qui ouvrait une modale) par un lien <a> vers mon-labo.
+        -->
+        <table
+          class="styled-table"
+          id="equipementsTable"
+          data-details-url="<?= $mon_labo_url ?>">
+          <thead>
+            <tr>
+              <th><input type="checkbox" id="checkAllEquipements"></th>
+              <th>Nom</th>
+              <th>Catégorie</th>
+              <th>Statut</th>
+              <th>Disponibilité</th>
+              <th>Dernier entretien</th>
+              <th>Details</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!--
+              Le rendu attendu pour la colonne "Details" d'une ligne avec ID = 42 :
+
+              <a class="details-icon" href="<?= $mon_labo_url ?>?equipement_id=42" title="Voir les détails">
+                <i class="fa fa-eye"></i>
+              </a>
+
+              (Le JS se chargera d'insérer ce <a> dynamiquement pour chaque ligne.)
+            -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal for Nouvelle Reservation -->
+<div class="modal-overlay" id="modalObjectifs" style="display: none;">
+  <div class="popup-container" id="popupContainerObjectifs">
+    <div class="popup-header">
+      <h2>Nouvelle réservation</h2>
+      <button class="btn-enregistrer" id="btnSaveObjectifs">Enregistrer</button>
+    </div>
+    <form class="popup-form">
+      <div class="form-group">
+        <label for="nom-equipement">Nom De L'équipement/Salle</label>
+        <select id="nom-equipement">
+          <option>Spectrophotomètre UV</option>
+          <option>Microscope X</option>
+          <option>Salle Réunion 1</option>
+        </select>
+      </div>
+      <div class="date-time-group">
         <div class="form-group">
-            <label for="modifier-nom-equipement">Nom De L'équipement/Salle</label>
-            <input type="text" id="modifier-nom-equipement" readonly style="background-color: #f0f0f0;">
+          <label for="date-reservation">Date</label>
+          <div class="input-with-icon">
+            <input type="text" id="date-reservation" value="" placeholder="11/01/2025">
+            <img width="20px" src="/wp-content/plugins/plateforme-master/images/icons/27) Icon-calendar.png" alt="Icon-calendar">
+          </div>
         </div>
-
-        <div class="date-time-group">
-            <div class="form-group">
-            <label for="modifier-date-reservation">Date</label>
-            <div class="input-with-icon">
-                <input type="text" id="modifier-date-reservation" placeholder="jj/mm/aaaa">
-                <img width="20" src="/wp-content/plugins/plateforme-master/images/icons/27) Icon-calendar.png" alt="Icon-calendar">
-            </div>
-            </div>
-            <div class="form-group">
-            <label for="modifier-heure-reservation">Heure De Début / Fin</label>
-            <div class="input-with-icon">
-                <input type="text" id="modifier-heure-reservation" placeholder="10:00 - 11:00">
-                <i class="fa fa-clock"></i>
-            </div>
-            </div>
-        </div>
-
         <div class="form-group">
-            <label for="modifier-objectif-reservation">Objectif / motif de la réservation</label>
-            <textarea id="modifier-objectif-reservation" placeholder="Objectif"></textarea>
+          <label for="heure-reservation">Heure De Début / Fin</label>
+          <div class="input-with-icon">
+            <input type="text" id="heure-reservation" placeholder="10:00 - 11:00">
+            <i class="fa fa-clock"></i>
+          </div>
         </div>
-        </form>
+      </div>
+      <div class="form-group">
+        <label for="objectif-reservation">Objectif / motif de la réservation</label>
+        <textarea id="objectif-reservation" placeholder="Objectif"></textarea>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- MODAL FOR MODIFIER (EDIT) RESERVATION -->
+<div class="modal-overlay" id="modalModifierReservation" style="display: none;">
+  <div class="popup-container">
+    <div class="popup-header">
+      <h2>Modifier la Réservation</h2>
+      <button id="btnSaveReservationEdit" type="button" class="btn-enregistrer">Enregistrer</button>
     </div>
-    </div>
-
-
-
-    <div class="modal-overlay" id="modalAjouterEquipement" style="display: none;">
-        <div class="popup-container" id="popupContainerEquipement">
-            <div class="popup-header">
-                <h2>Ajouter appareil</h2>
-                <button class="btn-enregistrer" id="AddAppareil">Enregistrer</button>
-            </div>
-            <form class="popup-form">
-                <div class="form-group">
-                    <label>Catégorie Des Equipements</label>
-                    <select id="categorie_id" name="categorie_id">
-                        <option value="">Catégorie Des Equipements</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label>Nom de l'appareil</label>
-                    <input type="text" placeholder="Nom de l'appareil">
-                </div>
-                <div class="form-group">
-                    <label>Modèle</label>
-                    <input type="text" placeholder="Modèle">
-                </div>
-                <div class="form-group">
-                    <label>Spécification technique</label>
-                    <textarea></textarea>
-                </div>
-                <div class="form-group">
-                    <label>Statut</label>
-                    <select id="statut" name="statut">
-                        <option value="">Statut</option>
-                        <option value="fonctionnel">Fonctionnel</option>
-                        <option value="en_panne">En panne</option>
-                        <option value="en_maintenance">En maintenance</option>
-                        <option value="hors_service">Hors service</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label>Disponibilité</label>
-                    <select id="disponibilite_id" name="disponibilite_id">
-                     <option value="">Disponibilité</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label>Protocole d'utilisation</label>
-                    <div class="input-file-wrapper">
-                        <input type="text" class="input-file-text" placeholder="Protocole d'utilisation" readonly>
-                        <label class="btn-importer"><i class="fa fa-upload"></i> Importer <input type="file"
-                                style="display: none;"></label>
-                    </div>
-                </div>
-                <hr style="border: none; border-top: 1px solid #eee; margin: 20px 0;">
-                <div class="form-group">
-                    <label style="font-weight: bold; color: #333;">Conditions d'entretien :</label>
-                </div>
-                <div class="form-group">
-                    <label>Contrat</label>
-                    <div class="input-file-wrapper">
-                        <input type="text" class="input-file-text" placeholder="Contrat" readonly>
-                        <label class="btn-importer"><i class="fa fa-upload"></i> Importer <input type="file"
-                                style="display: none;"></label>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label>Périodicité</label>
-                   <select id="periodicite" name="periodicite">
-                    <option value="">Périodicité</option>
-                    <option value="mensuelle">Mensuelle</option>
-                    <option value="trimestrielle">Trimestrielle</option>
-                    <option value="semestrielle">Semestrielle</option>
-                    <option value="annuelle">Annuelle</option>
-                    <option value="a_la_demande">À la demande</option>
-                </select>
-                </div>
-                <div class="form-group">
-                    <label>Consignes</label>
-                    <input type="text" placeholder="Consignes">
-                </div>
-            </form>
+    <form class="popup-form">
+      <div class="form-group">
+        <label for="modifier-nom-equipement">Nom De L'équipement/Salle</label>
+        <input type="text" id="modifier-nom-equipement" readonly style="background-color: #f0f0f0;">
+      </div>
+      <div class="date-time-group">
+        <div class="form-group">
+          <label for="modifier-date-reservation">Date</label>
+          <div class="input-with-icon">
+            <input type="text" id="modifier-date-reservation" placeholder="jj/mm/aaaa">
+            <img width="20" src="/wp-content/plugins/plateforme-master/images/icons/27) Icon-calendar.png" alt="Icon-calendar">
+          </div>
         </div>
-    </div>
-
-    <!-- MODAL FOR MODIFIER (EDIT) EQUIPEMENT -->
-    <div class="modal-overlay" id="modalModifierEquipement" style="display: none;">
-        <div class="popup-container" id="popupContainerModifierEquipement">
-            <div class="popup-header">
-                <h2>Modifier l'équipement</h2>
-                <button class="btn-enregistrer">Enregistrer</button>
-            </div>
-            <form class="popup-form">
-                <div class="form-group">
-                    <label for="modifier-categorie-equipement">Catégorie Des Equipements</label>
-                    <select id="modifier-categorie-equipement">
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="modifier-nom-appareil">Nom de l'appareil</label>
-                    <input type="text" id="modifier-nom-appareil" placeholder="Nom de l'appareil">
-                </div>
-                <div class="form-group">
-                    <label for="modifier-modele-appareil">Modèle</label>
-                    <input type="text" id="modifier-modele-appareil" placeholder="Modèle">
-                </div>
-                <div class="form-group">
-                    <label for="modifier-spec-tech">Spécification technique</label>
-                    <textarea id="modifier-spec-tech"></textarea>
-                </div>
-                <div class="form-group">
-                    <label for="modifier-statut-appareil">Statut</label>
-                    <select id="modifier-statut-appareil">
-                        <option value="">Statut</option>
-                        <option value="fonctionnel">Fonctionnel</option>
-                        <option value="en_panne">En panne</option>
-                        <option value="en_maintenance">En maintenance</option>
-                        <option value="hors_service">Hors service</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="modifier-disponibilite-appareil">Disponibilité</label>
-                    <select id="modifier-disponibilite-appareil">
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label>Protocole d'utilisation</label>
-                    <div class="input-file-wrapper">
-                        <input type="text" class="input-file-text" placeholder="Protocole d'utilisation" readonly>
-                        <label class="btn-importer"><i class="fa fa-upload"></i> Importer <input type="file"
-                                style="display: none;"></label>
-                    </div>
-                </div>
-                <hr style="border: none; border-top: 1px solid #eee; margin: 20px 0;">
-                <div class="form-group">
-                    <label style="font-weight: bold; color: #333;">Conditions d'entretien :</label>
-                </div>
-                <div class="form-group">
-                    <label>Contrat</label>
-                    <div class="input-file-wrapper">
-                        <input type="text" class="input-file-text" placeholder="Contrat" readonly>
-                        <label class="btn-importer"><i class="fa fa-upload"></i> Importer <input type="file"
-                                style="display: none;"></label>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for="modifier-periodicite">Périodicité</label>
-                    <select id="modifier-periodicite">
-                         <option value="">Périodicité</option>
-                        <option value="mensuelle">Mensuelle</option>
-                        <option value="trimestrielle">Trimestrielle</option>
-                        <option value="semestrielle">Semestrielle</option>
-                        <option value="annuelle">Annuelle</option>
-                        <option value="a_la_demande">À la demande</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="modifier-consignes">Consignes</label>
-                    <input type="text" id="modifier-consignes" placeholder="Consignes">
-                </div>
-            </form>
+        <div class="form-group">
+          <label for="modifier-heure-reservation">Heure De Début / Fin</label>
+          <div class="input-with-icon">
+            <input type="text" id="modifier-heure-reservation" placeholder="10:00 - 11:00">
+            <i class="fa fa-clock"></i>
+          </div>
         </div>
+      </div>
+      <div class="form-group">
+        <label for="modifier-objectif-reservation">Objectif / motif de la réservation</label>
+        <textarea id="modifier-objectif-reservation" placeholder="Objectif"></textarea>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- MODAL FOR AJOUTER EQUIPEMENT -->
+<div class="modal-overlay" id="modalAjouterEquipement" style="display: none;">
+  <div class="popup-container" id="popupContainerEquipement">
+    <div class="popup-header">
+      <h2>Ajouter appareil</h2>
+      <button class="btn-enregistrer" id="AddAppareil">Enregistrer</button>
     </div>
-
-
-    <div class="modal-overlay" id="modalMaintenance" style="display: none;">
-        <div class="popup-container" id="popupContainerMaintenance">
-            <div class="popup-header">
-                <h2>Demande de maintenance</h2>
-                <button class="btn-enregistrer">Enregistrer</button>
-            </div>
-            <form class="popup-form">
-                <div class="form-group">
-                    <label>Équipement</label>
-                    <input type="text" placeholder="Spectrophotomètre UV" readonly style="background-color: #f0f0f0;">
-                </div>
-                <div class="form-group">
-                    <label>Type De Maintenance</label>
-                    <select>
-                        <option>Type</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label>Motif</label>
-                    <textarea></textarea>
-                </div>
-                <div class="form-group">
-                    <label>Motif</label>
-                    <div class="input-file-wrapper">
-                        <input type="text" class="input-file-text" placeholder="Fiche attaché" readonly>
-                        <label class="btn-importer"><i class="fa fa-upload"></i> Importer <input type="file"
-                                style="display: none;"></label>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label>Photo de l'équipement</label>
-                    <div class="input-file-wrapper">
-                        <input type="text" class="input-file-text" placeholder="importer les photos..." readonly>
-                        <label class="btn-importer"><i class="fa fa-upload"></i> Importer <input type="file"
-                                style="display: none;"></label>
-                    </div>
-                </div>
-            </form>
+    <form class="popup-form">
+      <div class="form-group">
+        <label>Catégorie Des Equipements</label>
+        <select id="categorie_id" name="categorie_id">
+          <option value="">Catégorie Des Equipements</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Nom de l'appareil</label>
+        <input type="text" placeholder="Nom de l'appareil">
+      </div>
+      <div class="form-group">
+        <label>Lieu</label>
+        <input type="text" id="lieu" name="lieu" placeholder="Lieu de l'appareil">
+      </div>
+      <div class="form-group">
+        <label>Images</label>
+        <div class="input-file-wrapper">
+          <input type="text" class="input-file-text" placeholder="Importer des images..." readonly>
+          <label class="btn-importer"><i class="fa fa-upload"></i> Importer <input type="file" multiple accept="image/*" style="display: none;"></label>
         </div>
-    </div>
-
-    <div class="modal-overlay" id="modalDetailsAppareil" style="display: none;">
-        <div class="popup-container" id="popupContainerDetailsAppareil">
-            <div class="popup-header">
-                <h2>Details appareil</h2>
-                <button class="btn-close-x">X</button>
-            </div>
-            <div class="details-modal-content">
-                <div class="detail-item">
-                    <label>Categorie :</label>
-                </div>
-                <div class="detail-item">
-                    <label>Nom de l'appareil :</label>
-                </div>
-                <div class="detail-item">
-                    <label>Modèle :</label>
-                </div>
-                <div class="detail-item">
-                    <label>Spécification technique :</label>
-                   
-                </div>
-                <hr style="border: none; border-top: 1px solid #eee; margin: 20px 0;">
-                <div class="detail-item">
-                    <label>Conditions d'entretien :</label>
-                </div>
-                <div class="detail-item">
-                    <label>Statut :</label>
-                </div>
-                <div class="detail-item">
-                    <label>Disponibilité :</label>
-                </div>
-                <div class="detail-item">
-                    <label>Protocole d'utilisation :</label>
-                    <div class="file-download-link">
-                        <span><i class="fa fa-file-pdf"></i> Protocole.Pdf</span>
-                        <img width="20px" class="download-icon"
-                            src="/wp-content/plugins/plateforme-master/images/icons/Groupe 152.png"
-                            alt="upload-red.png">
-                        <!-- <i class="fa fa-download download-icon"></i> -->
-                    </div>
-                </div>
-                <div class="detail-item">
-                    <label>Contrat :</label>
-                    <div class="file-download-link">
-                        <span><i class="fa fa-file-pdf"></i> Contrat.Pdf</span>
-                        <img width="20px" class="download-icon"
-                            src="/wp-content/plugins/plateforme-master/images/icons/Groupe 152.png"
-                            alt="upload-red.png">
-                        <!-- <i class="fa fa-download download-icon"></i> -->
-                    </div>
-                </div>
-                <div class="detail-item">
-                    <label>Périodicité :</label>
-                </div>
-                <div class="detail-item">
-                    <label>Consignes :</label>
-                </div>
-            </div>
-            <div class="details-modal-footer">
-                <button class="btn-history openHistoryModal"><i class="fa fa-wrench"></i> Historique des
-                    maintenances</button>
-            </div>
+      </div>
+      <div class="form-group">
+        <label>Modèle</label>
+        <input type="text" placeholder="Modèle">
+      </div>
+      <div class="form-group">
+        <label>Spécification technique</label>
+        <textarea></textarea>
+      </div>
+      <div class="form-group">
+        <label>Statut</label>
+        <select id="statut" name="statut">
+          <option value="">Statut</option>
+          <option value="fonctionnel">Fonctionnel</option>
+          <option value="en_panne">En panne</option>
+          <option value="en_maintenance">En maintenance</option>
+          <option value="hors_service">Hors service</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Disponibilité</label>
+        <select id="disponibilite_id" name="disponibilite_id">
+          <option value="">Disponibilité</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Protocole d'utilisation</label>
+        <div class="input-file-wrapper">
+          <input type="text" class="input-file-text" placeholder="Protocole d'utilisation" readonly>
+          <label class="btn-importer"><i class="fa fa-upload"></i> Importer <input type="file" style="display: none;"></label>
         </div>
-    </div>
-
-    <div class="modal-overlay" id="modalHistorique" style="display: none;">
-        <div class="popup-container" id="popupContainerHistorique">
-            <div class="popup-header">
-                <h2><i class="fa fa-arrow-left" style="cursor: pointer; margin-right: 15px;"></i>Historique des
-                    maintenances</h2>
-                <button class="btn-close-x">X</button>
-            </div>
-            <div class="details-modal-content">
-               <!-- <div class="maintenance-history-item">
-                    <span>14/02/2023</span>
-                    <button class="btn-download-report">Télécharger Le Rapport</button>
-                </div>
-                <div class="maintenance-history-item">
-                    <span>19/03/2023</span>
-                    <button class="btn-download-report">Télécharger Le Rapport</button>
-                </div>
-                <div class="maintenance-history-item">
-                    <span>14/05/2023</span>
-                    <button class="btn-download-report">Télécharger Le Rapport</button>
-                </div>
-                <div class="maintenance-history-item">
-                    <span>04/08/2023</span>
-                    <button class="btn-download-report">Télécharger Le Rapport</button>
-                </div>-->
-            </div>
+      </div>
+      <hr style="border: none; border-top: 1px solid #eee; margin: 20px 0;">
+      <div class="form-group">
+        <label style="font-weight: bold; color: #333;">Conditions d'entretien :</label>
+      </div>
+      <div class="form-group">
+        <label>Contrat</label>
+        <div class="input-file-wrapper">
+          <input type="text" class="input-file-text" placeholder="Contrat" readonly>
+          <label class="btn-importer"><i class="fa fa-upload"></i> Importer <input type="file" style="display: none;"></label>
         </div>
+      </div>
+      <div class="form-group">
+        <label>Périodicité</label>
+        <select id="periodicite" name="periodicite">
+          <option value="">Périodicité</option>
+          <option value="mensuelle">Mensuelle</option>
+          <option value="trimestrielle">Trimestrielle</option>
+          <option value="semestrielle">Semestrielle</option>
+          <option value="annuelle">Annuelle</option>
+          <option value="a_la_demande">À la demande</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Consignes</label>
+        <input type="text" placeholder="Consignes">
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- MODAL FOR MODIFIER (EDIT) EQUIPEMENT -->
+<div class="modal-overlay" id="modalModifierEquipement" style="display: none;">
+  <div class="popup-container" id="popupContainerModifierEquipement">
+    <div class="popup-header">
+      <h2>Modifier l'équipement</h2>
+      <button class="btn-enregistrer">Enregistrer</button>
     </div>
+    <form class="popup-form">
+      <div class="form-group">
+        <label for="modifier-categorie-equipement">Catégorie Des Equipements</label>
+        <select id="modifier-categorie-equipement"></select>
+      </div>
+      <div class="form-group">
+        <label for="modifier-nom-appareil">Nom de l'appareil</label>
+        <input type="text" id="modifier-nom-appareil" placeholder="Nom de l'appareil">
+      </div>
+      <div class="form-group">
+        <label for="modifier-lieu">Lieu</label>
+        <input type="text" id="modifier-lieu" placeholder="Lieu de l'appareil">
+      </div>
+      <div class="form-group">
+        <label>Images</label>
+        <div class="input-file-wrapper">
+          <input type="text" class="input-file-text" placeholder="Importer des images..." readonly>
+          <label class="btn-importer"><i class="fa fa-upload"></i> Importer <input type="file" multiple accept="image/*" style="display: none;"></label>
+        </div>
+        <div class="existing-images" style="margin-top: 10px; display: flex; flex-wrap: wrap; gap: 10px;"></div>
+      </div>
+      <div class="form-group">
+        <label for="modifier-modele-appareil">Modèle</label>
+        <input type="text" id="modifier-modele-appareil" placeholder="Modèle">
+      </div>
+      <div class="form-group">
+        <label for="modifier-spec-tech">Spécification technique</label>
+        <textarea id="modifier-spec-tech"></textarea>
+      </div>
+      <div class="form-group">
+        <label for="modifier-statut-appareil">Statut</label>
+        <select id="modifier-statut-appareil">
+          <option value="">Statut</option>
+          <option value="fonctionnel">Fonctionnel</option>
+          <option value="en_panne">En panne</option>
+          <option value="en_maintenance">En maintenance</option>
+          <option value="hors_service">Hors service</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="modifier-disponibilite-appareil">Disponibilité</label>
+        <select id="modifier-disponibilite-appareil"></select>
+      </div>
+      <div class="form-group">
+        <label>Protocole d'utilisation</label>
+        <div class="input-file-wrapper">
+          <input type="text" class="input-file-text" placeholder="Protocole d'utilisation" readonly>
+          <label class="btn-importer"><i class="fa fa-upload"></i> Importer <input type="file" style="display: none;"></label>
+        </div>
+      </div>
+      <hr style="border: none; border-top: 1px solid #eee; margin: 20px 0;">
+      <div class="form-group">
+        <label style="font-weight: bold; color: #333;">Conditions d'entretien :</label>
+      </div>
+      <div class="form-group">
+        <label>Contrat</label>
+        <div class="input-file-wrapper">
+          <input type="text" class="input-file-text" placeholder="Contrat" readonly>
+          <label class="btn-importer"><i class="fa fa-upload"></i> Importer <input type="file" style="display: none;"></label>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="modifier-periodicite">Périodicité</label>
+        <select id="modifier-periodicite">
+          <option value="">Périodicité</option>
+          <option value="mensuelle">Mensuelle</option>
+          <option value="trimestrielle">Trimestrielle</option>
+          <option value="semestrielle">Semestrielle</option>
+          <option value="annuelle">Annuelle</option>
+          <option value="a_la_demande">À la demande</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="modifier-consignes">Consignes</label>
+        <input type="text" id="modifier-consignes" placeholder="Consignes">
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- MODAL FOR MAINTENANCE -->
+<div class="modal-overlay" id="modalMaintenance" style="display: none;">
+  <div class="popup-container" id="popupContainerMaintenance">
+    <div class="popup-header">
+      <h2>Demande de maintenance</h2>
+      <button class="btn-enregistrer">Enregistrer</button>
+    </div>
+    <form class="popup-form">
+      <div class="form-group">
+        <label>Équipement</label>
+        <input type="text" placeholder="Spectrophotomètre UV" readonly style="background-color: #f0f0f0;">
+      </div>
+      <div class="form-group">
+        <label>Type De Maintenance</label>
+        <select>
+          <option>Type</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Motif</label>
+        <textarea></textarea>
+      </div>
+      <div class="form-group">
+        <label>Motif</label>
+        <div class="input-file-wrapper">
+          <input type="text" class="input-file-text" placeholder="Fiche attaché" readonly>
+          <label class="btn-importer"><i class="fa fa-upload"></i> Importer <input type="file" style="display: none;"></label>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Photo de l'équipement</label>
+        <div class="input-file-wrapper">
+          <input type="text" class="input-file-text" placeholder="Importer les photos..." readonly>
+          <label class="btn-importer"><i class="fa fa-upload"></i> Importer <input type="file" style="display: none;"></label>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- MODAL FOR DETAILS APPAREIL -->
+<div class="modal-overlay" id="modalDetailsAppareil" style="display: none;">
+  <div class="popup-container" id="popupContainerDetailsAppareil">
+    <div class="popup-header">
+      <h2>Details appareil</h2>
+      <button class="btn-close-x">X</button>
+    </div>
+    <div class="details-modal-content">
+      <div class="detail-item">
+        <label>Categorie :</label>
+      </div>
+      <div class="detail-item">
+        <label>Nom de l'appareil :</label>
+      </div>
+      <div class="detail-item">
+        <label>Modèle :</label>
+      </div>
+      <div class="detail-item">
+        <label>Spécification technique :</label>
+      </div>
+      <hr style="border: none; border-top: 1px solid #eee; margin: 20px 0;">
+      <div class="detail-item">
+        <label>Conditions d'entretien :</label>
+      </div>
+      <div class="detail-item">
+        <label>Statut :</label>
+      </div>
+      <div class="detail-item">
+        <label>Disponibilité :</label>
+      </div>
+      <div class="detail-item">
+        <label>Protocole d'utilisation :</label>
+        <div class="file-download-link">
+          <span><i class="fa fa-file-pdf"></i> Protocole.Pdf</span>
+          <img width="20px" class="download-icon" src="/wp-content/plugins/plateforme-master/images/icons/Groupe 152.png" alt="upload-red.png">
+        </div>
+      </div>
+      <div class="detail-item">
+        <label>Contrat :</label>
+        <div class="file-download-link">
+          <span><i class="fa fa-file-pdf"></i> Contrat.Pdf</span>
+          <img width="20px" class="download-icon" src="/wp-content/plugins/plateforme-master/images/icons/Groupe 152.png" alt="upload-red.png">
+        </div>
+      </div>
+      <div class="detail-item">
+        <label>Périodicité :</label>
+      </div>
+      <div class="detail-item">
+        <label>Consignes :</label>
+      </div>
+    </div>
+    <div class="details-modal-footer">
+      <button class="btn-history openHistoryModal"><i class="fa fa-wrench"></i> Historique des maintenances</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL FOR HISTORIQUE -->
+<div class="modal-overlay" id="modalHistorique" style="display: none;">
+  <div class="popup-container" id="popupContainerHistorique">
+    <div class="popup-header">
+      <h2><i class="fa fa-arrow-left" style="cursor: pointer; margin-right: 15px;"></i>Historique des maintenances</h2>
+      <button class="btn-close-x">X</button>
+    </div>
+    <div class="details-modal-content">
+      <!-- Maintenance history items to be populated dynamically -->
+    </div>
+  </div>
+</div>
+
 
 
     <!-- jQuery + DataTables JS -->
@@ -1752,48 +1636,56 @@ $(document)
                 }
             });
 
-            async function openModifierEquipementModal(id){
-                // 1) Assurer les listes (catégories + disponibilités) puis injecter dans les selects de la modale
-                await loadEquipementLookups();
+       async function openModifierEquipementModal(id){
+    // 1) Assurer les listes (catégories + disponibilités) puis injecter dans les selects de la modale
+    await loadEquipementLookups();
 
-                // 2) Charger toutes les données de l'équipement
-                const equip = await fetchEquipementById(id);
-                const [protoUrl, entretien] = await Promise.all([
-                    fetchProtocoleByEquip(id).catch(()=>''),     // URL dernier protocole
-                    fetchEntretienByEquip(id).catch(()=>null)    // { periodicite, consignes, fichier_contrat }
-                ]);
+    // 2) Charger toutes les données de l'équipement
+    const equip = await fetchEquipementById(id);
+    const [protoUrl, entretien] = await Promise.all([
+        fetchProtocoleByEquip(id).catch(()=>''),     // URL dernier protocole
+        fetchEntretienByEquip(id).catch(()=>null)    // { periodicite, consignes, fichier_contrat }
+    ]);
 
-                const $m = $('#modalModifierEquipement').data('equip-id', id);
+    const $m = $('#modalModifierEquipement').data('equip-id', id);
 
-                // 3) Préremplir TOUS les champs (par ID, pas par texte)
-                $('#modifier-categorie-equipement').val(String(equip.categorie_id || ''));
-                $('#modifier-nom-appareil').val(equip.nom_appareil || '');
-                $('#modifier-modele-appareil').val(equip.modele || '');
-                $('#modifier-spec-tech').val(equip.spcification_technique || '');
-                $('#modifier-statut-appareil').val(equip.statut || '');
-                $('#modifier-disponibilite-appareil').val(String(equip.disponibilite_id || ''));
+    // 3) Préremplir TOUS les champs (par ID, pas par texte)
+    $('#modifier-categorie-equipement').val(String(equip.categorie_id || ''));
+    $('#modifier-nom-appareil').val(equip.nom_appareil || '');
+    $('#modifier-modele-appareil').val(equip.modele || '');
+    $('#modifier-spec-tech').val(equip.spcification_technique || '');
+    $('#modifier-statut-appareil').val(equip.statut || '');
+    $('#modifier-disponibilite-appareil').val(String(equip.disponibilite_id || ''));
 
-                // Conditions d’entretien
-                $('#modifier-periodicite').val(entretien?.periodicite || '');
-                $('#modifier-consignes').val(entretien?.consignes || '');
+    // 4) Miroirs des fichiers existants (afficher le nom)
+    const basename = (url)=>{ try{ return decodeURIComponent(new URL(url, location.origin).pathname.split('/').pop()||''); }catch{return (url||'').split('/').pop()||'';} };
+    const $protoText = $m.find('.input-file-text[placeholder="Protocole d\'utilisation"]');
+    const $contrText = $m.find('.input-file-text[placeholder="Contrat"]');
+    $protoText.val(protoUrl ? basename(protoUrl) : '');
+    $contrText.val(entretien?.fichier_contrat ? basename(entretien.fichier_contrat) : '');
 
-                // 4) Miroirs des fichiers existants (afficher le nom)
-                const basename = (url)=>{ try{ return decodeURIComponent(new URL(url, location.origin).pathname.split('/').pop()||''); }catch{return (url||'').split('/').pop()||'';} };
-                const $protoText = $m.find('.input-file-text[placeholder="Protocole d\'utilisation"]');
-                const $contrText = $m.find('.input-file-text[placeholder="Contrat"]');
-                $protoText.val(protoUrl ? basename(protoUrl) : '');
-                $contrText.val(entretien?.fichier_contrat ? basename(entretien.fichier_contrat) : '');
+    // Préremplir lieu
+    $('#modifier-lieu').val(equip.lieu || ''); // Si lieu existe dans equip (après ajout backend)
 
-                // 5) Miroir en cas de nouveau fichier choisi
-                $m.find('.input-file-wrapper input[type="file"]').off('change.mirror').on('change.mirror', function(){
-                    const name = this.files?.[0]?.name || '';
-                    $(this).closest('.input-file-wrapper').find('.input-file-text').val(name);
-                });
+    // Images existantes (commenté car pas de table images encore ; assume equip.images = ["url1", "url2"])
+    /*
+    const $existing = $('#modalModifierEquipement .existing-images');
+    $existing.empty();
+    (equip.images || []).forEach(url => {
+        const img = `<img src="${escAttr(url)}" alt="Image existante" style="width: 80px; height: 80px; object-fit: cover; cursor: pointer;" onclick="window.open('${escAttr(url)}', '_blank')">`;
+        $existing.append(img);
+    });
+    */
 
-                // 6) Ouvrir la modale
-                $m.css('display','flex');
+    // 5) Miroir en cas de nouveau fichier choisi
+    $m.find('.input-file-wrapper input[type="file"]').off('change.mirror').on('change.mirror', function(){
+        const name = this.files?.[0]?.name || '';
+        $(this).closest('.input-file-wrapper').find('.input-file-text').val(name);
+    });
+
+    // 6) Ouvrir la modale
+    $m.css('display','flex');
 }
-
 
 
 
@@ -2077,39 +1969,48 @@ function closeModalAjouterEquipement() {
 
 // Récupération des valeurs du formulaire (par placeholders/id)
 function getEquipementFormValues() {
-  const form = document.querySelector('#modalAjouterEquipement .popup-form');
-  if (!form) throw new Error('Formulaire introuvable');
+    const form = document.querySelector('#modalAjouterEquipement .popup-form');
+    if (!form) throw new Error('Formulaire introuvable');
 
-  const categorie_id     = parseInt(document.getElementById('categorie_id')?.value || '', 10) || 0;
-  const disponibilite_id = parseInt(document.getElementById('disponibilite_id')?.value || '', 10) || 0;
-  const statut           = document.getElementById('statut')?.value || '';
+    const categorie_id     = parseInt(document.getElementById('categorie_id')?.value || '', 10) || 0;
+    const disponibilite_id = parseInt(document.getElementById('disponibilite_id')?.value || '', 10) || 0;
+    const statut           = document.getElementById('statut')?.value || '';
 
-  const nom_appareil = form.querySelector('input[placeholder="Nom de l\'appareil"]')?.value?.trim() || '';
-  const modele       = form.querySelector('input[placeholder="Modèle"]')?.value?.trim() || '';
-  const spcification_technique = form.querySelector('textarea')?.value?.trim() || '';
+    const nom_appareil = form.querySelector('input[placeholder="Nom de l\'appareil"]')?.value?.trim() || '';
+    const modele       = form.querySelector('input[placeholder="Modèle"]')?.value?.trim() || '';
+    const spcification_technique = form.querySelector('textarea')?.value?.trim() || '';
 
-  // Files (depuis le champ texte miroir)
-  const protoText = form.querySelector('.input-file-text[placeholder="Protocole d\'utilisation"]');
-  const protocoleFile = protoText
-    ? protoText.closest('.input-file-wrapper')?.querySelector('label input[type="file"]')?.files?.[0] || null
-    : null;
+    // Files (depuis le champ texte miroir)
+    const protoText = form.querySelector('.input-file-text[placeholder="Protocole d\'utilisation"]');
+    const protocoleFile = protoText
+        ? protoText.closest('.input-file-wrapper')?.querySelector('label input[type="file"]')?.files?.[0] || null
+        : null;
 
-  const contratText = form.querySelector('.input-file-text[placeholder="Contrat"]');
-  const contratFile = contratText
-    ? contratText.closest('.input-file-wrapper')?.querySelector('label input[type="file"]')?.files?.[0] || null
-    : null;
+    const contratText = form.querySelector('.input-file-text[placeholder="Contrat"]');
+    const contratFile = contratText
+        ? contratText.closest('.input-file-wrapper')?.querySelector('label input[type="file"]')?.files?.[0] || null
+        : null;
 
-  const periodicite = document.getElementById('periodicite')?.value || '';
-  const consignes   = form.querySelector('input[placeholder="Consignes"]')?.value?.trim() || '';
+    const periodicite = document.getElementById('periodicite')?.value || '';
+    const consignes   = form.querySelector('input[placeholder="Consignes"]')?.value?.trim() || '';
 
-  return {
-    categorie_id, disponibilite_id, statut,
-    nom_appareil, modele, spcification_technique,
-    protocoleFile, contratFile,
-    periodicite, consignes
-  };
+    const lieu = form.querySelector('input[placeholder="Lieu de l\'appareil"]')?.value?.trim() || '';
+
+    // Images multiples
+    const imagesText = form.querySelector('.input-file-text[placeholder="Importer des images..."]');
+    const imagesFiles = imagesText
+        ? imagesText.closest('.input-file-wrapper')?.querySelector('label input[type="file"][multiple]')?.files || []
+        : [];
+
+    return {
+        categorie_id, disponibilite_id, statut,
+        nom_appareil, modele, spcification_technique,
+        protocoleFile, contratFile,
+        periodicite, consignes,
+        lieu,
+        imagesFiles: Array.from(imagesFiles) // Convertir en array pour boucle
+    };
 }
-
 function validateEquipement(v) {
   const errors = [];
   if (!v.categorie_id) errors.push('Catégorie');
@@ -2122,57 +2023,67 @@ function validateEquipement(v) {
 
 // ---------------------- CREATE FLOW ----------------------
 async function createEquipement() {
-  const btn = document.querySelector('#popupContainerEquipement .btn-enregistrer');
-  const loaderOn  = () => { if (btn) { btn.disabled = true; btn.dataset._txt = btn.textContent; btn.textContent = 'Enregistrement…'; } };
-  const loaderOff = () => { if (btn) { btn.disabled = false; btn.textContent = btn.dataset._txt || 'Enregistrer'; } };
+    const btn = document.querySelector('#popupContainerEquipement .btn-enregistrer');
+    const loaderOn  = () => { if (btn) { btn.disabled = true; btn.dataset._txt = btn.textContent; btn.textContent = 'Enregistrement…'; } };
+    const loaderOff = () => { if (btn) { btn.disabled = false; btn.textContent = btn.dataset._txt || 'Enregistrer'; } };
 
-  try {
-    const v = getEquipementFormValues();
-    const errors = validateEquipement(v);
-    if (errors.length) throw new Error('Champs requis : ' + errors.join(', '));
+    try {
+        const v = getEquipementFormValues();
+        const errors = validateEquipement(v);
+        if (errors.length) throw new Error('Champs requis : ' + errors.join(', '));
 
-    loaderOn();
+        loaderOn();
 
-    // 1) Upload des fichiers si fournis
-    const protocole_url = await uploadMedia(v.protocoleFile, `Protocole - ${v.nom_appareil}`).catch(e => {
-      console.error('Upload protocole échoué:', e); return '';
-    });
-    const contrat_url   = await uploadMedia(v.contratFile, `Contrat - ${v.nom_appareil}`).catch(e => {
-      console.error('Upload contrat échoué:', e); return '';
-    });
+        // 1) Upload des fichiers si fournis
+        const protocole_url = await uploadMedia(v.protocoleFile, `Protocole - ${v.nom_appareil}`).catch(e => {
+            console.error('Upload protocole échoué:', e); return '';
+        });
+        const contrat_url   = await uploadMedia(v.contratFile, `Contrat - ${v.nom_appareil}`).catch(e => {
+            console.error('Upload contrat échoué:', e); return '';
+        });
 
-    // 2) Création de l’équipement + champs liés
-    const payload = {
-      categorie_id: v.categorie_id,
-      disponibilite_id: v.disponibilite_id,
-      modele: v.modele,
-      nom_appareil: v.nom_appareil,
-      statut: v.statut,
-      spcification_technique: v.spcification_technique,
-      protocole_fichier: protocole_url,
-      contrat_fichier:   contrat_url,
-      periodicite:       v.periodicite,
-      consignes:         v.consignes
-    };
+        // Upload des images multiples
+        const imagesUrls = [];
+        for (const file of v.imagesFiles) {
+            const url = await uploadMedia(file, `Image - ${v.nom_appareil || 'Equipement'}`).catch(e => {
+                console.error('Upload image échoué:', e); return '';
+            });
+            if (url) imagesUrls.push(url);
+        }
 
-    const created = await postJSON('/plateforme-directeurderecherche/v1/equipement', payload);
+        // 2) Création de l’équipement + champs liés
+        const payload = {
+            categorie_id: v.categorie_id,
+            disponibilite_id: v.disponibilite_id,
+            modele: v.modele,
+            nom_appareil: v.nom_appareil,
+            statut: v.statut,
+            spcification_technique: v.spcification_technique,
+            protocole_fichier: protocole_url,
+            contrat_fichier:   contrat_url,
+            periodicite:       v.periodicite,
+            consignes:         v.consignes,
+            lieu: v.lieu,
+            images: imagesUrls
+        };
 
-    // ✅ Succès : toast + reset + fermeture + refresh liste si dispo
-    window.toast?.('Appareil créé avec succès', false) || alert('Appareil créé');
-    resetEquipementForm();
-    closeModalAjouterEquipement();
-    if (typeof window.reloadEquipements === 'function') window.reloadEquipements();
+        const created = await postJSON('/plateforme-directeurderecherche/v1/equipement', payload);
 
-    return created;
-  } catch (e) {
-    console.error('[createEquipement]', e);
-    window.toast?.(e.message || 'Échec création', true) || alert(e.message || 'Échec création');
-    throw e;
-  } finally {
-    loaderOff();
-  }
+        // ✅ Succès : toast + reset + fermeture + refresh liste si dispo
+        window.toast?.('Appareil créé avec succès', false) || alert('Appareil créé');
+        resetEquipementForm();
+        closeModalAjouterEquipement();
+        if (typeof window.reloadEquipements === 'function') window.reloadEquipements();
+
+        return created;
+    } catch (e) {
+        console.error('[createEquipement]', e);
+        window.toast?.(e.message || 'Échec création', true) || alert(e.message || 'Échec création');
+        throw e;
+    } finally {
+        loaderOff();
+    }
 }
-
 // ---------------------- UI BINDINGS ----------------------
 document.addEventListener('DOMContentLoaded', () => {
   // Bouton Enregistrer
@@ -2188,7 +2099,20 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 });
-
+// Miroir pour le champ Images (multiple) dans AJOUT et ÉDITION
+$(document).on('change', '.input-file-wrapper input[type="file"][multiple]', function() {
+    const files = this.files;
+    const $text = $(this).closest('.input-file-wrapper').find('.input-file-text');
+    if (files && files.length > 0) {
+        if (files.length === 1) {
+            $text.val(files[0].name); // Nom du fichier si un seul
+        } else {
+            $text.val(`${files.length} images sélectionnées`); // Compteur si multiple
+        }
+    } else {
+        $text.val('');
+    }
+});
 
 // ========== CONFIG ==========
 const AUTH_HEADERS = {                         // <- manquant chez toi
@@ -2303,6 +2227,8 @@ function actionMenuHtml(id, protoUrl='') {
     </div>
   `;
 }
+// URL de redirection "mon-labo" (vient de l'attribut data-details-url du <table>)
+const DETAILS_BASE_URL = ($('#equipementsTable').data('details-url') || '/mon-labo').toString();
 
 function buildRows(items){
   return (items || []).map(e => ([
@@ -2312,8 +2238,9 @@ function buildRows(items){
     `<span class="status-icon">${statutIconHTML(e.statut)}</span>`,
     esc(e.disponibilite_label || e.disponibilite || '—'),
     `<span class="last-maint">—</span>`,
-    `<span class="details-icon openDetailsModal" data-id="${e.id}" title="Voir les détails"><i class="fa fa-eye"></i></span>`,
-    actionMenuHtml(e.id, e.protocole_fichier || '')   // ← ICI
+`<a class="details-icon" href="${escAttr(DETAILS_BASE_URL)}?equipement_id=${escAttr(e.id)}" title="Voir les détails">
+       <i class="fa fa-eye"></i>
+     </a>`,    actionMenuHtml(e.id, e.protocole_fichier || '')   // ← ICI
   ]));
 }
 
@@ -2638,72 +2565,86 @@ window.openModifierEquipementModal = async function(id){
 // SAVE (PATCH)
 // ---- SAUVEGARDE EDIT (PATCH + liens protocole/entretien) ----
 async function updateEquipementFromEditModal(){
+    const $m = $modalEdit();
+    const id = $m.data('equip-id');
+    if (!id) return;
 
+    // payload PATCH
+    const payload = {
+        categorie_id: parseInt($('#modifier-categorie-equipement').val()||0,10) || undefined,
+        nom_appareil: ($('#modifier-nom-appareil').val()||'').trim(),
+        modele: ($('#modifier-modele-appareil').val()||'').trim(),
+        spcification_technique: ($('#modifier-spec-tech').val()||'').trim(),
+        statut: ($('#modifier-statut-appareil').val()||'').trim(),
+        disponibilite_id: parseInt($('#modifier-disponibilite-appareil').val()||0,10) || undefined
+    };
+    Object.keys(payload).forEach(k => (payload[k]===undefined) && delete payload[k]);
 
-  const $m = $modalEdit();
-  const id = $m.data('equip-id');
-  if (!id) return;
+    // entretien
+    const periodicite = ($('#modifier-periodicite').val()||'').trim();
+    const consignes   = ($('#modifier-consignes').val()||'').trim();
 
-  // payload PATCH
-  const payload = {
-    categorie_id: parseInt($('#modifier-categorie-equipement').val()||0,10) || undefined,
-    nom_appareil: ($('#modifier-nom-appareil').val()||'').trim(),
-    modele: ($('#modifier-modele-appareil').val()||'').trim(),
-    spcification_technique: ($('#modifier-spec-tech').val()||'').trim(),
-    statut: ($('#modifier-statut-appareil').val()||'').trim(),
-    disponibilite_id: parseInt($('#modifier-disponibilite-appareil').val()||0,10) || undefined
-  };
-  Object.keys(payload).forEach(k => (payload[k]===undefined) && delete payload[k]);
+    // fichiers choisis
+    const protoFile = $m.find('.input-file-text[placeholder="Protocole d\'utilisation"]').closest('.input-file-wrapper').find('input[type="file"]')[0]?.files?.[0] || null;
+    const contrFile = $m.find('.input-file-text[placeholder="Contrat"]').closest('.input-file-wrapper').find('input[type="file"]')[0]?.files?.[0] || null;
 
-  // entretien
-  const periodicite = ($('#modifier-periodicite').val()||'').trim();
-  const consignes   = ($('#modifier-consignes').val()||'').trim();
+    const lieu = ($('#modifier-lieu').val()||'').trim();
 
-  // fichiers choisis
-  const protoFile = $m.find('.input-file-text[placeholder="Protocole d\'utilisation"]').closest('.input-file-wrapper').find('input[type="file"]')[0]?.files?.[0] || null;
-  const contrFile = $m.find('.input-file-text[placeholder="Contrat"]').closest('.input-file-wrapper').find('input[type="file"]')[0]?.files?.[0] || null;
-
-  if (!payload.nom_appareil || !payload.modele){
-    window.toast?.('Nom et Modèle sont requis', true) || alert('Nom et Modèle sont requis');
-    return;
-  }
-
-  const $btn = $m.find('.btn-enregistrer'); const txt = $btn.text();
-  $btn.prop('disabled', true).text('Enregistrement…');
-
-  try{
-    // PATCH équipement
-    await patchJSON(`/plateforme-directeurderecherche/v1/equipement/${encodeURIComponent(id)}`, payload);
-
-    // Uploads + liaisons si fournis
-    if (protoFile) {
-      const protoUrl = await uploadMedia(protoFile, `Protocole - ${payload.nom_appareil || 'Equipement'}`);
-      if (protoUrl) await postEquipementProtocole(id, protoUrl);
-    }
-    let contrUrl = '';
-    if (contrFile) contrUrl = await uploadMedia(contrFile, `Contrat - ${payload.nom_appareil || 'Equipement'}`);
-
-    // Upsert entretien si données présentes
-    if (periodicite || consignes || contrUrl) {
-      await postConditionsEntretien(id, {
-        periodicite,
-        consignes,
-        fichier_contrat: contrUrl || undefined
-      });
+    // Images NOUVELLES (ajoutées)
+    const $imagesWrap = $('#modalModifierEquipement .input-file-wrapper:has(input[placeholder="Importer des images..."])');
+    const newImagesFiles = $imagesWrap.find('input[type="file"][multiple]')[0]?.files || [];
+    const newImagesUrls = [];
+    for (const file of Array.from(newImagesFiles)) {
+        const url = await uploadMedia(file, `Image - ${payload.nom_appareil || 'Equipement'}`).catch(e => {
+            console.error('Upload image échoué:', e); return '';
+        });
+        if (url) newImagesUrls.push(url);
     }
 
-    window.toast?.('Équipement mis à jour', false) || alert('Équipement mis à jour');
-    $m.hide();
-    window.reloadEquipements?.();
+    if (!payload.nom_appareil || !payload.modele){
+        window.toast?.('Nom et Modèle sont requis', true) || alert('Nom et Modèle sont requis');
+        return;
+    }
 
-  } catch(e){
-    console.error('[updateEquipementFromEditModal]', e);
-    window.toast?.('Échec mise à jour', true) || alert('Échec mise à jour');
-  } finally {
-    $btn.prop('disabled', false).text(txt);
-  }
+    const $btn = $m.find('.btn-enregistrer'); const txt = $btn.text();
+    $btn.prop('disabled', true).text('Enregistrement…');
+
+    try{
+        // PATCH équipement
+        await patchJSON(`/plateforme-directeurderecherche/v1/equipement/${encodeURIComponent(id)}`, payload);
+
+        // Uploads + liaisons si fournis
+        if (protoFile) {
+            const protoUrl = await uploadMedia(protoFile, `Protocole - ${payload.nom_appareil || 'Equipement'}`);
+            if (protoUrl) await postEquipementProtocole(id, protoUrl);
+        }
+        let contrUrl = '';
+        if (contrFile) contrUrl = await uploadMedia(contrFile, `Contrat - ${payload.nom_appareil || 'Equipement'}`);
+
+        // Upsert entretien si données présentes
+        if (periodicite || consignes || contrUrl) {
+            await postConditionsEntretien(id, {
+                periodicite,
+                consignes,
+                fichier_contrat: contrUrl || undefined
+            });
+        }
+
+        // Ajoute au payload (commenté car backend non prêt)
+        // payload.lieu = lieu;
+        // payload.new_images = newImagesUrls; // Array d'URLs nouvelles à ajouter au backend
+
+        window.toast?.('Équipement mis à jour', false) || alert('Équipement mis à jour');
+        $m.hide();
+        window.reloadEquipements?.();
+
+    } catch(e){
+        console.error('[updateEquipementFromEditModal]', e);
+        window.toast?.('Échec mise à jour', true) || alert('Échec mise à jour');
+    } finally {
+        $btn.prop('disabled', false).text(txt);
+    }
 }
-
 // bouton Enregistrer (modale edit)
 $('#modalModifierEquipement .btn-enregistrer')
   .off('click.saveEdit')

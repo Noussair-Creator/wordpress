@@ -686,7 +686,7 @@
     <!-- Header -->
     <div class="header">
         <span class="icon" aria-hidden="true"></span>
-        <div class="title">Génération Automatisée des Rapports</div>
+        <div class="title">Génération Automatique des Rapports</div>
     </div>
 
     <!-- Toolbar -->
@@ -714,7 +714,7 @@
                     <th>Code</th>
                     <th>Type de rapport</th>
                     <th>Fréquence</th>
-                    <th>date de generation</th>
+                    <th>date de génération</th>
                     <th>Télécharger</th>
                     <th>Action</th>
                 </tr>
@@ -969,5 +969,106 @@
         filterAndRender();
 
     })();
+    </script>
+    <?php
+    $current_user = wp_get_current_user();
+    $roles = (array) $current_user->roles;
+    $role = $roles[0] ?? '';
+    $user_id = get_current_user_id();
+
+    ?>
+    <script>
+    window.PMSettings = {
+        restUrl: "<?= esc_url(rest_url()) ?>",
+        nonce: "<?= wp_create_nonce('wp_rest') ?>",
+        role: "<?= esc_js($role) ?>",
+        userId: <?= (int) $user_id ?>
+    };
+    </script>
+    <script>
+    async function apiGetReports() {
+        const res = await fetch(`${window.PMSettings.restUrl}plateforme-rapport/v1/list`, {
+            headers: {
+                "X-WP-Nonce": window.PMSettings.nonce
+            }
+        });
+        return res.json();
+    }
+
+    async function apiCreateReport(payload) {
+        const res = await fetch(`${window.PMSettings.restUrl}plateforme-rapport/v1/create`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "X-WP-Nonce": window.PMSettings.nonce
+            },
+            body: JSON.stringify(payload)
+        });
+        return res.json();
+    }
+
+    async function apiDeleteReport(id) {
+        const res = await fetch(`${window.PMSettings.restUrl}plateforme-rapport/v1/delete/${id}`, {
+            method: "DELETE",
+            headers: {
+                "X-WP-Nonce": window.PMSettings.nonce
+            }
+        });
+        return res.json();
+    }
+    async function renderReports() {
+        const tbody = document.getElementById("sujets-tbody");
+        tbody.innerHTML = "<tr><td colspan='7'>Chargement…</td></tr>";
+
+        const data = await apiGetReports();
+        tbody.innerHTML = "";
+
+        if (!data.length) {
+            document.getElementById("no-results-message").classList.remove("hidden");
+            return;
+        }
+
+        data.forEach(rep => {
+            const tr = document.createElement("tr");
+            tr.innerHTML = `
+      <td><input type="checkbox" class="chk"></td>
+      <td>${rep.code}</td>
+      <td>${rep.type_rapport}</td>
+      <td>${rep.frequence}</td>
+      <td>${rep.date_generation}</td>
+      <td>
+        ${rep.fichier_url ? `<a href="${rep.fichier_url}" target="_blank">
+          <img src="/wp-content/plugins/plateforme-master/images/icons/pdf-svgrepo-com (2).png" alt="PDF"></a>` : ''}
+      </td>
+      <td>
+        <img src="/wp-content/plugins/plateforme-master/images/icons/27) Icon-trash-2.png"
+             alt="delete" style="cursor:pointer" onclick="deleteReport(${rep.id})">
+      </td>
+    `;
+            tbody.appendChild(tr);
+        });
+    }
+
+    async function deleteReport(id) {
+        if (!confirm("Supprimer ce rapport ?")) return;
+        await apiDeleteReport(id);
+        renderReports();
+    }
+
+    // Hook du bouton "Générer"
+    document.getElementById("sbSave").addEventListener("click", async () => {
+        const payload = {
+            code: Date.now().toString().slice(-5),
+            type_rapport: document.getElementById("rep-type").value,
+            frequence: document.getElementById("rep-freq").value,
+            date_generation: document.getElementById("rep-date").value,
+            service: "Labo"
+        };
+        await apiCreateReport(payload);
+        renderReports();
+    });
+
+    // Charger au démarrage
+    renderReports();
     </script>
 </section>

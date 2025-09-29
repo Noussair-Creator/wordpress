@@ -249,6 +249,199 @@
 
     <!-- Bootstrap 5 JS Bundle -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+
+    <?php
+    $current_user = wp_get_current_user();
+    $roles = (array) $current_user->roles;
+    $role = $roles[0] ?? '';
+    $user_id = get_current_user_id();
+
+?>
+<script>
+        window.PMSettings = {
+            restUrl: "<?= esc_url(rest_url()) ?>",
+            nonce: "<?= wp_create_nonce('wp_rest') ?>",
+            role: "<?= esc_js($role) ?>",
+            userId: <?= (int) $user_id ?>
+        };
+</script>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  // ===== Helpers REST =====
+  const REST_BASE = (window.PMSettings?.restUrl || '/wp-json/').replace(/\/+$/,'/');
+  const API_NS    = 'plateforme-recherche/v1';
+  const ICONS     = '/wp-content/plugins/plateforme-master/images/SiteRechercheImages/';
+  const $ = (sel) => document.querySelector(sel);
+
+  const params = new URL(location.href).searchParams;
+  const PUB_ID = params.get('publication_id') || params.get('id');
+  const LAB_ID = params.get('laboratoireid') || params.get('laboratoire_id') || localStorage.getItem('laboratoireid') || '';
+
+  if (LAB_ID) localStorage.setItem('laboratoireid', LAB_ID);
+
+  // Cibles DOM
+  const detailsCard = document.querySelector('.details-card');
+  const summaryCard = document.querySelector('.summary-card');
+  const breadcrumbPublications = document.querySelector('.breadcrumb-custom a[href="/publications-utm"]');
+
+  // Loader simple
+  function setLoading(on=true){
+    if (on) {
+      detailsCard.innerHTML = `<div class="text-center py-4">Chargement…</div>`;
+      summaryCard.innerHTML = '';
+    }
+  }
+
+  function esc(s){ return (''+ (s??'')).replace(/[&<>"]/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[m])); }
+  function escAttr(s){ return esc(s).replace(/"/g,'&quot;'); }
+  function formatDateFR(iso){
+    const d = new Date(iso);
+    return isNaN(d) ? (iso || '—') : d.toLocaleDateString('fr-FR', {day:'2-digit', month:'2-digit', year:'numeric'});
+  }
+
+  // Parse fichiers: accepte string ou JSON (array strings/obj {url, label})
+  function parseFiles(fichier_url){
+    if (!fichier_url) return [];
+    try {
+      const v = typeof fichier_url === 'string' ? JSON.parse(fichier_url) : fichier_url;
+      if (Array.isArray(v)) {
+        return v.map(x => {
+          if (typeof x === 'string') return { url: x, label: x.split('/').pop() };
+          if (x && typeof x === 'object') return { url: x.url || x.path || '', label: x.label || x.name || (x.url? x.url.split('/').pop() : '') };
+          return null;
+        }).filter(Boolean);
+      }
+    } catch(e){}
+    // fallback: string simple éventuellement séparé par |
+    if (typeof fichier_url === 'string') {
+      return fichier_url.split('|').map(s => s.trim()).filter(Boolean).map(u => ({ url: u, label: u.split('/').pop() }));
+    }
+    return [];
+  }
+
+  // Rendu Details (titre + meta)
+  function renderDetails(pub){
+    const title = esc(pub.titre || 'Publication');
+    const auteur = esc(pub.auteur_display || pub.display_name || pub.user_login || 'Auteur inconnu');
+    const date = formatDateFR(pub.date_publication || pub.date);
+
+    // Breadcrumb "Publications" avec labo
+    if (breadcrumbPublications && LAB_ID) {
+      breadcrumbPublications.setAttribute('href', `/publications-utm/?laboratoireid=${encodeURIComponent(LAB_ID)}`);
+    }
+
+    document.title = `${title} – Publications`;
+
+    detailsCard.innerHTML = `
+      <h2 class="fw-bold mb-4" style="font-size: 2rem;">${title}</h2>
+      <div class="d-flex flex-wrap publication-meta">
+        <div class="me-4 d-flex align-items-center mb-2">
+          <img class="me-2" width="20" src="${ICONS}27) Icon-person.png" alt="">
+          <span>${auteur}${pub.revue ? ' ('+esc(pub.revue)+')' : ''}</span>
+        </div>
+        <div class="d-flex align-items-center mb-2">
+          <img class="me-2" width="20" src="${ICONS}27) Icon-calendar.png" alt="">
+          <span>${date}</span>
+        </div>
+      </div>
+    `;
+  }
+
+  // Rendu Résumé + tags + fichiers
+  function renderSummary(pub){
+    const resume = (pub.resume ? esc(pub.resume) : '—');
+    const tags = collectTags(pub);  // type, revue, doi, isbn + mots_cles si dispo
+    const files = parseFiles(pub.fichier_url || pub.fichiers || pub.piece_jointe_path);
+
+    const tagsHTML = tags.map(t => `<a href="#" class="keyword-tag">${esc(t)}</a>`).join('');
+
+    const filesHTML = files.length
+      ? files.map(f => `
+          <li>
+            <a href="${escAttr(f.url)}" target="_blank" rel="noopener">
+              <img src="${ICONS}pdf-svgrepo-com (2).png" alt="PDF">
+              <span>${esc(f.label || 'Fichier')}</span>
+            </a>
+          </li>`).join('')
+      : `<li><a href="#"><img src="${ICONS}pdf-svgrepo-com (2).png" alt=""><span>Aucun fichier</span></a></li>`;
+
+    summaryCard.innerHTML = `
+      <h3>Résumé</h3>
+      <p>${resume}</p>
+
+      ${tags.length ? `<h4>Mots clés :</h4><div>${tagsHTML}</div>` : ''}
+
+      <h4>Fichiers à télécharger :</h4>
+      <ul class="file-download-list">
+        ${filesHTML}
+      </ul>
+    `;
+  }
+
+  function collectTags(pub){
+    const out = [];
+    if (pub.type) out.push(pub.type);
+    if (pub.revue) out.push(pub.revue);
+    if (pub.doi) out.push(`DOI: ${pub.doi}`);
+    if (pub.isbn) out.push(`ISBN: ${pub.isbn}`);
+    // Si le backend expose "mots_cles" (csv ou array)
+    const mk = pub.mots_cles || pub.keywords;
+    if (mk) {
+      if (Array.isArray(mk)) out.push(...mk.filter(Boolean));
+      else if (typeof mk === 'string') out.push(...mk.split(',').map(s=>s.trim()).filter(Boolean));
+    }
+    return out;
+  }
+
+  async function fetchJSON(u){
+    const headers = {};
+    if (window.PMSettings?.nonce) headers['X-WP-Nonce'] = PMSettings.nonce;
+    const r = await fetch(u, { headers, credentials: 'same-origin' });
+    if (!r.ok) throw new Error('HTTP '+r.status);
+    return r.json();
+  }
+
+  async function loadPublicationById(id){
+    // 1) Essaye /publications/{id}
+    try {
+      const url = `${REST_BASE}${API_NS}/publications/${encodeURIComponent(id)}`;
+      return await fetchJSON(url);
+    } catch (e) {
+      // 2) Fallback: /publications/by-lab?laboratoire_id=... puis .find(id)
+      if (!LAB_ID) throw e;
+      const url2 = new URL(`${REST_BASE}${API_NS}/publications/by-lab`, location.origin);
+      url2.searchParams.set('laboratoire_id', LAB_ID);
+      url2.searchParams.set('per_page', '200');
+      const rows = await fetchJSON(url2.toString());
+      const found = Array.isArray(rows) ? rows.find(x => String(x.id) === String(id)) : null;
+      if (!found) throw e;
+      return found;
+    }
+  }
+
+  async function main(){
+    if (!PUB_ID) {
+      detailsCard.innerHTML = `<div class="text-center text-danger">Paramètre <code>publication_id</code> manquant.</div>`;
+      return;
+    }
+    setLoading(true);
+    try {
+      const pub = await loadPublicationById(PUB_ID);
+      renderDetails(pub);
+      renderSummary(pub);
+    } catch (err) {
+      console.error(err);
+      detailsCard.innerHTML = `<div class="text-center text-danger">Impossible de charger cette publication.</div>`;
+      summaryCard.innerHTML = '';
+    }
+  }
+
+  main();
+});
+</script>
+
 </body>
 
 </html>

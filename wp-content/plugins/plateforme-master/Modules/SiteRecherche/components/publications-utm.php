@@ -274,7 +274,7 @@
                         <!-- Input fields column -->
                         <div class="col-lg-9">
                             <div class="row g-3">
-                                <div class="col-md-6">
+                                <div class="col-md-6"  style="display:none">
                                     <select id="domainSelect" class="form-select">
                                         <option value="" selected>Domaine</option>
                                     </select>
@@ -289,7 +289,7 @@
                                         <option value="" selected>Type</option>
                                     </select>
                                 </div>
-                                <div class="col-md-6">
+                                <div class="col-md-6" style="display:none">
                                     <div class="input-group year-input-group">
                                         <input type="text" id="yearInput" class="form-control"
                                             placeholder="Année (ex: 2023 ou 2020-2024)">
@@ -302,10 +302,8 @@
                         </div>
                         <!-- Buttons column -->
                         <div class="col-lg-3">
-                            <div class="d-grid gap-3">
                                 <button type="reset" class="btn btn-reinitialiser">Réinitialiser</button>
                                 <button type="submit" class="btn btn-rechercher">Rechercher</button>
-                            </div>
                         </div>
                     </div>
                 </form>
@@ -335,87 +333,7 @@
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             // --- MOCK DATA ---
-            const allPublications = [{
-                title: "Deep Learning for Brain-Computer Interface Systems",
-                description: "Cet article explore l'utilisation des réseaux de neurones convolutifs et des modèles Transformer pour améliorer la précision des systèmes d'interfaces cerveau-machine (BCI).",
-                author: "Dr. Sarra Messaoudi",
-                authorInfo: "Maître-Assistant, Labo IA & Signal - FDST",
-                date: "2025-08-05", // YYYY-MM-DD
-                domain: "Informatique",
-                type: "Article",
-                link: "/publications-utm-details"
-            },
-            {
-                title: "Quantum Computing Algorithms for Cryptography",
-                description: "Analyse des algorithmes quantiques et de leur impact potentiel sur la cryptographie moderne, en se concentrant sur les défis de la sécurité à l'ère post-quantique.",
-                author: "Dr. Ahmed Ben Ali",
-                authorInfo: "Professeur, Labo de Physique Théorique - FST",
-                date: "2024-11-20",
-                domain: "Physique",
-                type: "Article",
-                link: "/publications-utm-details"
-            },
-            {
-                title: "Impact of Climate Change on Mediterranean Biodiversity",
-                description: "Cette étude examine les effets du changement climatique sur les écosystèmes marins et terrestres en Méditerranée, proposant des stratégies d'atténuation.",
-                author: "Dr. Fatima Zahra",
-                authorInfo: "Chercheuse, Institut de Biologie - FSM",
-                date: "2023-06-15",
-                domain: "Biologie",
-                type: "Rapport",
-                link: "/publications-utm-details"
-            },
-            {
-                title: "Advances in Nanomaterials for Solar Energy",
-                description: "Revue complète des derniers développements dans les nanomatériaux pour les cellules solaires, améliorant l'efficacité et la durabilité.",
-                author: "Dr. Youssef Trabelsi",
-                authorInfo: "Maître de Conférences, Labo de Chimie - FST",
-                date: "2023-09-01",
-                domain: "Chimie",
-                type: "Livre",
-                link: "/publications-utm-details"
-            },
-            {
-                title: "Natural Language Processing for Tunisian Dialect",
-                description: "Développement d'un modèle de traitement du langage naturel spécifiquement entraîné pour comprendre et générer le dialecte tunisien.",
-                author: "Dr. Sarra Messaoudi",
-                authorInfo: "Maître-Assistant, Labo IA & Signal - FDST",
-                date: "2022-05-30",
-                domain: "Informatique",
-                type: "Conférence",
-                link: "/publications-utm-details"
-            },
-            {
-                title: "Economic Models of Post-Revolution Tunisia",
-                description: "Une analyse des modèles économiques adoptés en Tunisie après 2011, évaluant leur succès et les défis persistants.",
-                author: "Dr. Karim Jouini",
-                authorInfo: "Professeur, Faculté de Droit et des Sciences Économiques",
-                date: "2021-02-18",
-                domain: "Économie",
-                type: "Livre",
-                link: "/publications-utm-details"
-            },
-            {
-                title: "Genetic Markers for Hereditary Diseases in North Africa",
-                description: "Identification de marqueurs génétiques clés pour les maladies héréditaires prévalentes dans la population nord-africaine.",
-                author: "Dr. Fatima Zahra",
-                authorInfo: "Chercheuse, Institut de Biologie - FSM",
-                date: "2020-07-22",
-                domain: "Biologie",
-                type: "Article",
-                link: "/publications-utm-details"
-            },
-            {
-                title: "Catalytic Converters using novel metal alloys",
-                description: "Exploration de nouveaux alliages métalliques pour améliorer l'efficacité des convertisseurs catalytiques et réduire les émissions polluantes des véhicules.",
-                author: "Dr. Youssef Trabelsi",
-                authorInfo: "Maître de Conférences, Labo de Chimie - FST",
-                date: "2019-12-10",
-                domain: "Chimie",
-                type: "Rapport",
-                link: "/publications-utm-details"
-            }
-            ];
+            const allPublications = [];
 
             // --- ELEMENTS ---
             const publicationsGrid = document.getElementById('publicationsGrid');
@@ -565,6 +483,298 @@
             renderPublications(currentPublications);
         });
     </script>
+
+    
+<?php
+    $current_user = wp_get_current_user();
+    $roles = (array) $current_user->roles;
+    $role = $roles[0] ?? '';
+    $user_id = get_current_user_id();
+
+?>
+<script>
+        window.PMSettings = {
+            restUrl: "<?= esc_url(rest_url()) ?>",
+            nonce: "<?= wp_create_nonce('wp_rest') ?>",
+            role: "<?= esc_js($role) ?>",
+            userId: <?= (int) $user_id ?>
+        };
+</script>
+
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  // ========= CONFIG =========
+  const API_NS   = 'plateforme-recherche/v1';
+  const API_BASE = (window.PMSettings && PMSettings.restUrl) ? PMSettings.restUrl.replace(/\/+$/,'/') : '/wp-json/';
+  const PAGE_SIZE_REMOTE = 200;  // on charge jusqu'à 200 en une fois pour filtrer côté client
+  const CHUNK_CLIENT     = 4;    // "Voir plus" par pas de 4
+
+  // ========= UI ELTS =========
+  const publicationsGrid  = document.getElementById('publicationsGrid');
+  const domainSelect      = document.getElementById('domainSelect'); // Domaine = Revue
+  const authorSelect      = document.getElementById('authorSelect');
+  const typeSelect        = document.getElementById('typeSelect');
+  const yearInput         = document.getElementById('yearInput');
+  const searchForm        = document.getElementById('searchForm');
+  const loadMoreBtn       = document.getElementById('loadMoreBtn');
+  const noResultsMessage  = document.getElementById('noResultsMessage');
+
+  // ========= STATE =========
+  let LAB_ID = resolveLaboratoireId();
+  let SCOPE  = resolveScope(); // all | director | members
+  let ALL_ITEMS = [];          // items bruts du backend
+  let FILTERED  = [];          // items après filtres UI
+  let visibleCount = CHUNK_CLIENT;
+
+  // ========= INIT =========
+  boot();
+
+  // ========= MAIN =========
+  async function boot() {
+    try {
+      const items = await fetchPublications({ laboratoire_id: LAB_ID, scope: SCOPE, page: 1, per_page: PAGE_SIZE_REMOTE });
+      ALL_ITEMS = normalizeItems(items);
+      populateFilters(ALL_ITEMS);
+      applyFiltersAndRender();
+    } catch (e) {
+      console.error('Erreur de chargement publications:', e);
+      publicationsGrid.innerHTML = `<div class="col"><div class="alert alert-danger">Impossible de charger les publications.</div></div>`;
+    }
+  }
+
+  // ========= FETCH =========
+  function endpointForScope(scope) {
+    switch (scope) {
+      case 'director': return 'publications/by-director';
+      case 'members':  return 'publications/by-members';
+      default:         return 'publications/by-lab';
+    }
+  }
+
+  async function fetchPublications({ laboratoire_id, scope='all', page=1, per_page=20, type='' }) {
+    const ep  = endpointForScope(scope);
+    const u   = new URL(`${API_BASE}${API_NS}/${ep}`);
+    if (laboratoire_id) u.searchParams.set('laboratoire_id', laboratoire_id);
+    u.searchParams.set('page', page);
+    u.searchParams.set('per_page', per_page);
+    // On ne passe le type au backend que si l'utilisateur l'a sélectionné.
+    if (type) u.searchParams.set('type', type);
+
+    const headers = {};
+    if (window.PMSettings && PMSettings.nonce) headers['X-WP-Nonce'] = PMSettings.nonce;
+
+    const resp = await fetch(u.toString(), { headers });
+    if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+    const data = await resp.json();
+    return Array.isArray(data) ? data : [];
+  }
+
+  // ========= NORMALISATION =========
+  function normalizeItems(rows) {
+    return rows.map(r => {
+      // Back: date_publication, titre, type, revue, auteur_display, id, fichier_url, resume, etc.
+      const d = r.date_publication || r.date || '';
+      return {
+        id: r.id,
+        title: r.titre || '(Sans titre)',
+        description: stripHTML(r.resume || '').slice(0, 240),
+        author: r.auteur_display || r.display_name || r.user_login || 'Auteur inconnu',
+        authorInfo: r.revue ? `Revue : ${r.revue}` : '',     // On utilise la revue comme info secondaire
+        date: d,
+        domain: r.revue || '',                               // "Domaine" = Revue côté UI
+        type: r.type || '',
+        link: buildDetailLink(r.id),
+      };
+    });
+  }
+
+  function buildDetailLink(id) {
+    const u = new URL(location.origin + '/publications-utm-details');
+    u.searchParams.set('publication_id', id);
+    if (LAB_ID) u.searchParams.set('laboratoireid', LAB_ID);
+    return u.pathname + u.search;
+  }
+
+  function stripHTML(html) {
+    const tmp = document.createElement('div');
+    tmp.innerHTML = html || '';
+    return (tmp.textContent || tmp.innerText || '').trim().replace(/\s+/g,' ');
+  }
+
+  // ========= FILTERS =========
+  function populateFilters(items) {
+    // Récupérer valeurs uniques
+    const authors = uniq(items.map(x => x.author).filter(Boolean)).sort(alpha);
+    const types   = uniq(items.map(x => x.type).filter(Boolean)).sort(alpha);
+    const revues  = uniq(items.map(x => x.domain).filter(Boolean)).sort(alpha);
+
+    // Reset
+    domainSelect.length = 1; // garder l'option "Domaine"
+    authorSelect.length = 1; // garder l'option "Auteur"
+    typeSelect.length   = 1; // garder l'option "Type"
+
+    // Inject
+    revues.forEach(v   => domainSelect.insertAdjacentHTML('beforeend', `<option value="${esc(v)}">${esc(v)}</option>`));
+    authors.forEach(a  => authorSelect.insertAdjacentHTML('beforeend', `<option value="${esc(a)}">${esc(a)}</option>`));
+    types.forEach(t    => typeSelect.insertAdjacentHTML('beforeend',   `<option value="${esc(t)}">${esc(t)}</option>`));
+  }
+
+  function applyFiltersAndRender() {
+    const selDomain = domainSelect.value || '';
+    const selAuthor = authorSelect.value || '';
+    const selType   = typeSelect.value   || '';
+    const yearValue = (yearInput.value || '').trim();
+
+    // Filtre "Type" : on peut le demander au backend pour réduire le volume
+    // => Si l'utilisateur a changé "Type", on relance un fetch ciblé, puis on filtre le reste côté client.
+    if (selType && shouldRefetchForType()) {
+      refetchForType(selType).then(() => {
+        doClientFilterAndRender(selDomain, selAuthor, selType, yearValue);
+      }).catch(err => {
+        console.error(err);
+        doClientFilterAndRender(selDomain, selAuthor, selType, yearValue);
+      });
+    } else {
+      doClientFilterAndRender(selDomain, selAuthor, selType, yearValue);
+    }
+  }
+
+  function doClientFilterAndRender(selDomain, selAuthor, selType, yearValue) {
+    let startYear = null, endYear = null;
+    if (yearValue.includes('-')) {
+      const parts = yearValue.split('-').map(x => parseInt(x.trim(), 10));
+      startYear = isFinite(parts[0]) ? parts[0] : null;
+      endYear   = isFinite(parts[1]) ? parts[1] : startYear;
+    } else if (yearValue) {
+      const y = parseInt(yearValue, 10);
+      startYear = isFinite(y) ? y : null;
+      endYear   = startYear;
+    }
+
+    FILTERED = ALL_ITEMS.filter(p => {
+      const y = p.date ? new Date(p.date).getFullYear() : null;
+      const okType   = !selType   || p.type   === selType;
+      const okAuth   = !selAuthor || p.author === selAuthor;
+      const okDom    = !selDomain || p.domain === selDomain;
+      const okYear   = !startYear || (y && y >= startYear && y <= endYear);
+      return okType && okAuth && okDom && okYear;
+    });
+
+    visibleCount = CHUNK_CLIENT;
+    renderPublications(FILTERED);
+  }
+
+  function shouldRefetchForType() {
+    // Si ALL_ITEMS est vide (premier chargement) -> non (boot a déjà fetch)
+    // Si l'utilisateur change "Type", on peut refetch pour charger les 200 de ce type (meilleure exhaustivité)
+    return ALL_ITEMS.length > 0;
+  }
+
+  async function refetchForType(typeValue) {
+    const items = await fetchPublications({
+      laboratoire_id: LAB_ID,
+      scope: SCOPE,
+      page: 1,
+      per_page: PAGE_SIZE_REMOTE,
+      type: typeValue
+    });
+    ALL_ITEMS = normalizeItems(items);
+    // On régénère les options "Auteur" et "Domaine" en fonction de l'ensemble filtré backend + front
+    populateFilters(ALL_ITEMS);
+  }
+
+  // ========= RENDER =========
+  function renderPublications(list) {
+    publicationsGrid.innerHTML = '';
+    const slice = list.slice(0, visibleCount);
+
+    if (slice.length === 0) {
+      noResultsMessage.style.display = 'block';
+    } else {
+      noResultsMessage.style.display = 'none';
+    }
+
+    slice.forEach(pub => {
+      const formattedDate = formatDateFR(pub.date);
+      const card = `
+        <div class="col">
+          <div class="publication-card position-relative">
+            <a href="${pub.link}" class="publication-arrow">
+              <img width="15" src="/wp-content/plugins/plateforme-master/images/SiteRechercheImages/27) Icon-diagonal-arrow-right-up.png" alt="">
+            </a>
+            <h5>${esc(pub.title)}</h5>
+            <p>${esc(pub.description)}</p>
+            <div class="publication-card-meta mt-auto pt-3">
+              <span class="d-block mb-2 fw-bolder">
+                <img class="me-2" width="15" src="/wp-content/plugins/plateforme-master/images/SiteRechercheImages/27) Icon-person.png" alt="">
+                ${esc(pub.author)} ${pub.authorInfo ? '(' + esc(pub.authorInfo) + ')' : ''}
+              </span>
+              <span class="d-block">
+                <img class="me-2" width="15" src="/wp-content/plugins/plateforme-master/images/SiteRechercheImages/27) Icon-calendar.png" alt="">
+                ${formattedDate}
+              </span>
+            </div>
+          </div>
+        </div>
+      `;
+      publicationsGrid.insertAdjacentHTML('beforeend', card);
+    });
+
+    loadMoreBtn.style.display = (visibleCount >= list.length) ? 'none' : 'inline-block';
+  }
+
+  // ========= EVENTS =========
+  searchForm.addEventListener('submit', function (e) {
+    e.preventDefault();
+    applyFiltersAndRender();
+  });
+
+  searchForm.addEventListener('reset', function () {
+    setTimeout(() => {
+      // Réinitialiser depuis le backend de base (sans type)
+      boot();
+    }, 0);
+  });
+
+  loadMoreBtn.addEventListener('click', function () {
+    visibleCount += CHUNK_CLIENT;
+    renderPublications(FILTERED);
+  });
+
+  // ========= UTILS =========
+  function resolveLaboratoireId() {
+    const url = new URL(location.href);
+    const qs  = url.searchParams.get('laboratoireid') || url.searchParams.get('laboratoire_id');
+    const seg = (location.pathname.match(/(?:^|\/)laboratoireid=(\d+)(?:\/|$)/i) || [])[1];
+    const pm  = (window.PMSettings && (PMSettings.laboratoireId || PMSettings.laboId)) || null;
+    const ls  = localStorage.getItem('laboratoireid') || localStorage.getItem('laboratoire_id');
+    const out = qs || seg || pm || ls || '';
+    if (out) {
+      localStorage.setItem('laboratoireid', out);
+      localStorage.setItem('laboratoire_id', out);
+    }
+    return out;
+  }
+
+  function resolveScope() {
+    const qs = new URL(location.href).searchParams.get('scope');
+    return (qs === 'director' || qs === 'members') ? qs : 'all';
+  }
+
+  function formatDateFR(iso) {
+    if (!iso) return '';
+    const d = new Date(iso);
+    if (isNaN(d)) return iso;
+    return d.toLocaleDateString('fr-FR', { day:'2-digit', month:'2-digit', year:'numeric' });
+  }
+
+  function uniq(arr){ return Array.from(new Set(arr)); }
+  function alpha(a,b){ return (''+a).localeCompare((''+b), 'fr', { sensitivity:'base' }); }
+  function esc(s){ return (''+s).replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m])); }
+});
+</script>
+
 </body>
 
 </html>

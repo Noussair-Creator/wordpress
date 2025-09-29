@@ -62,3 +62,17 @@ add_action( 'wp_enqueue_scripts', 'twentytwentytwo_styles' );
 
 // Add block patterns.
 require get_template_directory() . '/inc/block-patterns.php';
+
+
+function ajouter_favicon() {
+    echo '
+    <link rel="icon" type="image/png" href="' . site_url('/wp-content/uploads/2025/06/apple-touch-icon.png') . '">
+    <link rel="apple-touch-icon" href="' . site_url('/wp-content/uploads/2025/06/apple-touch-icon.png') . '">
+    <meta name="theme-color" content="#ffffff">
+    ';
+}
+add_action('wp_head', 'ajouter_favicon');
+
+
+
+

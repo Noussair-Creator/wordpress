@@ -123,6 +123,18 @@
         display: inline-grid;
         place-items: center
     }
+/* Bouton d'enregistrement dans l'entête de la sidebar Réponse */
+#suivi-rec .sr-sb-save {
+  background: #BF0404;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  height: 38px;
+  padding: 0 14px;
+  font-weight: 700;
+  font-size: 14px;
+  cursor: pointer;
+}
 
     #suivi-rec .sr-btn-square {
         width: 38px;
@@ -703,10 +715,13 @@
 
     <!-- ===== Sidebar RÉPONSE ===== -->
     <aside class="sr-sidebar" id="sr-sb-rep">
-        <div class="sr-sb-head">
-            <div class="sr-sb-title" id="sr-sb-rep-title">Ajouter une réponse</div>
-            <button type="button" class="sr-sb-close" data-close="rep" aria-label="Fermer"></button>
-        </div>
+       <div class="sr-sb-head">
+  <div class="sr-sb-title" id="sr-sb-rep-title">Ajouter une réponse</div>
+  <!-- AVANT: <button type="button" class="sr-sb-close" data-close="rep" aria-label="Fermer"></button> -->
+  <!-- APRES: bouton qui soumet le formulaire sr-rep-form -->
+  <button type="submit" class="sr-sb-save" form="sr-rep-form">Enregistrer</button>
+</div>
+
         <div class="sr-sb-body">
             <form class="sr-form" id="sr-rep-form">
                 <div class="sr-field">
@@ -721,10 +736,10 @@
                     <label for="sr-rep-msg">Réponse</label>
                     <textarea id="sr-rep-msg" placeholder="Votre réponse..."></textarea>
                 </div>
-                <div class="sr-actions">
+                <!-- <div class="sr-actions">
                     <button type="button" class="sr-btn-ghost" data-close="rep">Annuler</button>
                     <button type="submit" class="sr-btn-red">Enregistrer</button>
-                </div>
+                </div> -->
             </form>
         </div>
     </aside>

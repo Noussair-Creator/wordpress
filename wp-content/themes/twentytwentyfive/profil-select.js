@@ -1,13 +1,13 @@
 jQuery(document).ready(function($) {
-    // Sélecteurs alternatifs pour user-edit.php ou user-new.php
-    const roleSelect = $('#um-role').length ? $('#um-role') : $('#role');
+    // Sélecteur rôle : user-new.php (#role) et user-edit.php (#um-role ou #role)
+    const roleSelect = $('#role').length ? $('#role') : $('#role');
 
     if (!roleSelect.length) return;
 
     const profilIdFromBackend = profil_ajax.profil_id || null;
 
     function injectProfilField() {
-        $('#profil-selector-wrapper').remove(); // Supprime s’il existe déjà
+        $('#profil-selector-wrapper').remove(); // Supprimer si déjà existant
 
         if (roleSelect.val() === 'um_chercheur') {
             $.post(profil_ajax.ajax_url, {
@@ -23,7 +23,7 @@ jQuery(document).ready(function($) {
                                 <label for="profil_id"><strong>Profil chercheur</strong></label>
                             </th>
                             <td>
-                                <select name="profil_id" id="profil_id" class="regular-text" style="max-width: 320px;"></select>
+                                <select name="profil_id" id="profil_id" class="regular-text" style="max-width:320px;"></select>
                             </td>
                         </tr>
                     `);
@@ -34,6 +34,7 @@ jQuery(document).ready(function($) {
                         $row.find('select').append(`<option value="${p.id}" ${selected}>${safeNom}</option>`);
                     });
 
+                    // Trouver le bon tableau (profile ou création user)
                     const $targetTable = roleSelect.closest('table');
                     $targetTable.append($row);
                 }

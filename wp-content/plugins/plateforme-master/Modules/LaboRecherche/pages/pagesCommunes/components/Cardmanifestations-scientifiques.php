@@ -391,9 +391,12 @@ label.btn-importer {
     <div class="header-bar">
         <h2 class="dashboard-sub-title">
             <img src="/wp-content/plugins/plateforme-master/imagesED/5228529.png" alt="Icon" style="width: 38px;">
-            Liste Des Actualités De L'utm
+            Liste des manifestations de l'UTM
         </h2>
+        <?php if(!in_array('um_chercheur', $roles, true)) { ?>
         <button class="add-button">Ajouter</button>
+
+        <?php } ?>
     </div>
 
     <hr class="section-divider">
@@ -491,23 +494,30 @@ label.btn-importer {
             modal.style.display = "none";
         }
     }
-
-    document.addEventListener('DOMContentLoaded', function () {
-        // --- Card Filtering Logic ---
+ // --- Card Filtering Logic ---
         const searchInput = document.querySelector('.filter-input');
         const categorySelect = document.querySelector('.filter-select');
         const newsCards = document.querySelectorAll('.news-card');
 
         function filterNews() {
             const searchText = searchInput.value.toLowerCase().trim();
-            const selectedCategory = categorySelect.value;
+            const selectedCategory =categorySelect.options[categorySelect.selectedIndex].text;
 
-            newsCards.forEach(card => {
+
+            // 👇 sélectionner dynamiquement les cartes actuelles
+            const newsCards = document.querySelectorAll('.news-card');
+
+           newsCards.forEach(card => { 
                 const title = card.querySelector('.news-title').textContent.toLowerCase();
                 const description = card.querySelector('.news-description').textContent.toLowerCase();
-                const cardCategory = card.querySelector('.category-tag').textContent;
+                const cardCategory = card.querySelector('.category-tag').textContent.trim();
+
                 const textMatch = title.includes(searchText) || description.includes(searchText);
-                const categoryMatch = selectedCategory === "" || cardCategory === selectedCategory;
+
+                const categoryMatch = 
+                        selectedCategory === "" || 
+                        selectedCategory === "Toutes les catégories" || 
+                        cardCategory === selectedCategory;
 
                 if (textMatch && categoryMatch) {
                     card.classList.remove('hidden');
@@ -515,7 +525,11 @@ label.btn-importer {
                     card.classList.add('hidden');
                 }
             });
+
         }
+
+    document.addEventListener('DOMContentLoaded', function () {
+       
 
         searchInput.addEventListener('keyup', filterNews);
         categorySelect.addEventListener('change', filterNews);
@@ -542,14 +556,19 @@ label.btn-importer {
         // Modal File Input Logic
         const fileInput = document.getElementById('file-upload-input');
         const fileText = document.querySelector('.input-file-text');
+
         if (fileInput && fileText) {
-            fileInput.addEventListener('change', function () {
-                if (this.files && this.files.length > 0) {
-                    fileText.value = this.files[0].name;
-                } else {
-                    fileText.value = 'Aucun fichier choisi';
-                }
-            });
+        fileInput.addEventListener('change', function () {
+            if (this.files && this.files.length > 0) {
+            if (this.files.length === 1) {
+                fileText.value = this.files[0].name; // nom du fichier
+            } else {
+                fileText.value = this.files.length + " fichiers sélectionnés"; // nombre
+            }
+            } else {
+            fileText.value = 'Aucun fichier choisi';
+            }
+        });
         }
 
         // Initialize Quill Rich Text Editor
@@ -683,7 +702,8 @@ async function loadManifestationStats(year = null) {
   s.donut.forEach((d,i)=>{
     const item = document.createElement('div');
     item.className = 'legend-item';
-    item.innerHTML = `<span class="legend-dot" style="background-color:${colors[i]}"></span>${d.label} — ${d.value}%`;
+   // item.innerHTML = `<span class="legend-dot" style="background-color:${colors[i]}"></span>${d.label} — ${d.value}%`;
+    item.innerHTML = `<span class="legend-dot" style="background-color:${colors[i]}"></span>${d.label}`;
     legend.appendChild(item);
   });
 
@@ -779,11 +799,16 @@ document.addEventListener('DOMContentLoaded', loadNewsCards);
 
 /* ==========  C. Modal d’ajout : POST manifestation + upload images  ========== */
 async function postManifestationFromModal(){
+  const btn = document.getElementById('btnSaveObjectifs');
+  if (btn) {
+    btn.disabled = true;
+    btn.textContent = 'En cours...';
+  }
+
   const catSel   = document.getElementById('categorie');
   const titre    = document.getElementById('titre').value.trim();
- const quill = window.quillSpecifique;
-const texte = quill ? quill.root.innerHTML : '';
-console.log('Texte Quill:', texte);
+  const quill    = window.quillSpecifique;
+  const texte    = quill ? quill.root.innerHTML : '';
 
   const dateDebut= document.getElementById('date_debut').value;
   const dateFin  = document.getElementById('date_fin').value;
@@ -797,25 +822,51 @@ console.log('Texte Quill:', texte);
   if (dateDebut) fd.append('date_debut', dateDebut);
   if (dateFin)   fd.append('date_fin', dateFin);
 
-  // image unique
-    const fileInput = document.getElementById('file-upload-input');
-    if (fileInput.files.length > 0) {
-        for (let i = 0; i < fileInput.files.length; i++) {
-            fd.append('files[]', fileInput.files[i]); // ✅ cohérent avec PHP
-        }
+  // Images
+  const fileInput = document.getElementById('file-upload-input');
+  if (fileInput.files.length > 0) {
+    for (let i = 0; i < fileInput.files.length; i++) {
+      fd.append('files[]', fileInput.files[i]);
     }
+  }
 
-  const res = await fetch(`${REST_NS}/manifestation`, {
-    method: 'POST',
-    headers: { 'X-WP-Nonce': PMSettings?.nonce || '' },
-    body: fd
-  });
-  if (!res.ok) { alert('Erreur enregistrement'); return; }
+  try {
+    const res = await fetch(`${REST_NS}/manifestation`, {
+      method: 'POST',
+      headers: { 'X-WP-Nonce': PMSettings?.nonce || '' },
+      body: fd
+    });
+    if (!res.ok) throw new Error('Erreur enregistrement');
 
-  await loadManifestationStats();
-  await loadNewsCards();
-  closeModalObjectifs();
+    await loadManifestationStats();
+    await loadNewsCards();
+    filterNews(); 
+
+    // Fermer et reset
+    resetManifestationForm();
+    closeModalObjectifs();
+  } catch (err) {
+    alert(err.message || 'Erreur enregistrement');
+  } finally {
+    if (btn) {
+      btn.disabled = false;
+      btn.textContent = 'Enregistrer';
+    }
+  }
 }
+
+// Fonction de reset formulaire
+function resetManifestationForm() {
+  document.getElementById('titre').value = '';
+  document.getElementById('categorie').selectedIndex = 0;
+  document.getElementById('date_debut').value = '';
+  document.getElementById('date_fin').value = '';
+  document.getElementById('file-upload-input').value = '';
+  const fileText = document.querySelector('.input-file-text');
+  if (fileText) fileText.value = 'Aucun fichier choisi';
+  if (window.quillSpecifique) window.quillSpecifique.setContents([]);
+}
+
 
 
 /* ==========  D. Boot  ========== */

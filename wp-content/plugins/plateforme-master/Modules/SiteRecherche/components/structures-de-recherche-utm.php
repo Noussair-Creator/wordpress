@@ -270,6 +270,9 @@
         .search-box .btn:hover {
             background-color: #f8f9fa;
         }
+        p, .presentation-section ul {
+    font-size: 17px;
+}
     </style>
 </head>
 
@@ -293,7 +296,7 @@
             <div class="ligne-droite"></div>
         </div>
         <!-- Presentation Section -->
-        <section class="presentation-section">
+        <!--<section class="presentation-section">
             <h2>Présentation générale :</h2>
             <p>Depuis sa création, l’Université de la Manouba soutient le développement d’une recherche de très haut
                 niveau et encourage ses étudiants, enseignants et chercheurs à développer des projets scientifiques
@@ -319,7 +322,37 @@
                 <li>Données disponibles, accessibles et interopérables, à partir de n’importe quel ordinateur disposant
                     d’une connexion internet.</li>
             </ul>
-        </section>
+        </section>-->
+
+        <section class="presentation-section">
+                <h2>Présentation générale :</h2>
+                <p>Depuis sa création, l’Université de Tunis El Manar (UTM) soutient le développement d’une recherche de très haut
+                    niveau et encourage ses étudiants, enseignants et chercheurs à développer des projets scientifiques
+                    porteurs d’avenir.</p>
+                <p>La recherche, la création, la formation, le transfert des connaissances, l'innovation et l’insertion aux
+                    réseaux internationaux de savoirs sont au cœur de l’engagement de l’université.</p>
+                <p>Aujourd'hui, cet engagement se concrétise par : <strong style="color: #b60303;">la plateforme de recherche de l’UTM</strong></p>
+                <p><strong style="color: #b60303;">La plateforme de recherche de l’UTM</strong> est une plateforme qui permettra à douze structures de
+                    recherche de l’UTM de se doter d'une identité propre.</p>
+                <p><strong style="color: #b60303;">La plateforme de recherche de l’UTM</strong> est un outil de communication et de veille qui obéit à
+                    trois richesses. Cette plateforme web s'inscrit au cœur de la stratégie de l'Université de Tunis El Manar (UTM)
+                    qui a pour ambition de promouvoir ses structures de recherche afin de leur donner plus de visibilité.
+                </p>
+                <p>Les avantages de <strong style="color: #b60303;">la plateforme de recherche de l’UTM</strong> sont nombreux pour la gestion des
+                    publications sur site web :</p>
+                <ul>
+                    <li>Mise en ligne rapide et simple des résultats de sa recherche ;</li>
+                    <li>Diffusion élargie des travaux de recherche ;</li>
+                    <li>Gestion de ses travaux ;</li>
+                    <li>Tous les travaux de recherche en Open Access étant plus cités (facteur cinquante) que les articles
+                        publiés dans les revues papier ;</li>
+                    <li>Archivage à long terme assurant pérennité et stabilité aux formats et aux URL ;</li>
+                    <li>Données disponibles, accessibles et interopérables, à partir de n’importe quel ordinateur disposant
+                        d’une connexion internet.</li>
+                </ul>
+            </section>
+
+
         <!-- Ligne de titre -->
         <div class="titre-ligne-wrapper">
             <div class="ligne-gauche"></div>
@@ -341,11 +374,8 @@
                         </select>
                     </div>
                     <div class="col-lg-5">
-                        <select id="keywordsSelect" class="form-select" aria-label="Mots clés">
-                            <option value="" selected>Mots clés</option>
-                            <option value="Innovation">Innovation</option>
-                            <option value="Projets">Projets</option>
-                            <option value="Recherche">Recherche</option>
+                        <select id="keywordsSelect" class="form-select" aria-label="Etablissement">
+                            <option value="" selected>Etablissement</option>
                         </select>
                     </div>
                     <div class="col-lg-2 d-flex justify-content-end">
@@ -625,6 +655,389 @@
             });
         });
     </script>
+
+<?php
+    $current_user = wp_get_current_user();
+    $roles = (array) $current_user->roles;
+    $role = $roles[0] ?? '';
+    $user_id = get_current_user_id();
+
+?>
+<script>
+        window.PMSettings = {
+            restUrl: "<?= esc_url(rest_url()) ?>",
+            nonce: "<?= wp_create_nonce('wp_rest') ?>",
+            role: "<?= esc_js($role) ?>",
+            userId: <?= (int) $user_id ?>
+        };
+</script>
+
+<!--
+<script>
+(function () {
+
+  const restBase = (window.PMSettings?.restUrl || '/wp-json/');
+  const endpoint = restBase + 'plateforme-recherche/v1/laboratoire?per_page=100&orderby=denomination&order=ASC&statut=Actif';
+
+
+  const container = document.getElementById('publicationsContainer');
+  const noResults = document.getElementById('noResultsMessage');
+  const domainSelect   = document.getElementById('domainSelect');
+  const keywordsSelect = document.getElementById('keywordsSelect'); // on s’en sert pour les axes éventuels
+  const applyBtn = document.getElementById('applyBtn');
+  const resetBtn = document.getElementById('resetBtn');
+
+  // Utilitaires
+  const icon = (name) => `/wp-content/plugins/plateforme-master/images/SiteRechercheImages/${name}`;
+
+  function parseAxes(axes_json){
+    try {
+      if (!axes_json) return [];
+      const v = JSON.parse(axes_json);
+      return Array.isArray(v) ? v : [];
+    } catch(e){ return []; }
+  }
+
+  function buildCard(l){
+    const axes  = parseAxes(l.axes_recherche);
+    const keys  = axes.join(',');
+    const dom   = (l.domaine || '').trim();
+    const lieu  = l.etablissement_nom|| '—';
+    const resp  = l.directeur_nom || '—';
+    const phone = l.tel || '';
+    const href  = `/presentation-utm/?laboratoire?id=${encodeURIComponent(l.id)}`; // adapte l’URL de détail si besoin
+
+    return `
+      <div class="col-lg-6 publication-item" data-domain="${dom}" data-keywords="${keys}" data-etab-id="${l.etablissement_id}" data-etab="${l.etablissement_nom || l.etablissement_label}" >
+        <div class="publication-card">
+          <a href="${href}" class="card-icon-link">
+            <img width="20" src="${icon('27) Icon-diagonal-arrow-right-up red.png')}" alt="Ouvrir">
+          </a>
+
+          <div class="date-tag">
+            <img width="15" src="${icon('blanc.png')}" alt="">
+            ${l.date_creation ? new Date(l.date_creation).toLocaleDateString('fr-FR') : '—'}
+          </div>
+
+          <h3>${l.denomination || 'Laboratoire'}</h3>
+
+          <div class="info-line">
+            <img class="me-2" width="15" src="${icon('27) Icon-pin.png')}" alt="Établissement">
+            <span>${lieu}</span>
+          </div>
+
+          <div class="info-line">
+            <img class="me-2" width="15" src="${icon('27) Icon-person.png')}" alt="Directeur">
+            <span>Responsable : ${resp}</span>
+          </div>
+
+          ${phone ? `
+          <div class="info-line">
+            <img class="me-2" width="17" src="${icon('27) Icon-phone.png')}" alt="Téléphone">
+            <span>Tél : ${phone}</span>
+          </div>` : ''}
+
+          ${dom ? `
+          <div class="info-line">
+            <i class="fa-solid fa-tag"></i>
+            <span>Domaine : ${dom}</span>
+          </div>` : ''}
+
+          ${axes.length ? `
+          <div class="info-line">
+            <i class="fa-solid fa-list"></i>
+            <span>Axes : ${axes.slice(0,3).join(' • ')}${axes.length>3?'…':''}</span>
+          </div>` : ''}
+
+        </div>
+      </div>
+    `;
+  }
+
+  function fillDomainOptions(rows){
+    const uniq = new Set(rows.map(r => (r.domaine || '').trim()).filter(Boolean));
+    // garde « Domaine » comme premier choix
+    domainSelect.innerHTML = `<option value="" selected>Domaine</option>` +
+      Array.from(uniq).sort().map(d => `<option value="${d}">${d}</option>`).join('');
+  }
+
+  function fillKeywordOptions(rows) {
+    const map = new Map(); // id -> nom
+    rows.forEach(r => {
+        const id  = (r.etablissement_id ?? '').toString().trim();
+        const nom = (r.etablissement_nom || r.etablissement_label || '').trim();
+        if (id && nom && !map.has(id)) map.set(id, nom);
+    });
+
+    const opts = Array.from(map.entries())
+        .sort((a, b) => a[1].localeCompare(b[1], 'fr'))
+        .map(([id, nom]) => `<option value="${id}">${nom}</option>`)
+        .join('');
+
+    keywordsSelect.innerHTML = `<option value="" selected>Etablissement</option>` + opts;
+    }
+
+
+  /*function applyFilters(){
+    const selDom  = domainSelect.value;
+    const selKey  = keywordsSelect.value;
+    let visible = 0;
+
+    container.querySelectorAll('.publication-item').forEach(el => {
+      const dom  = (el.dataset.domain || '');
+      const keys = (el.dataset.keywords || '').split(',').filter(Boolean);
+      const okDom = !selDom || dom === selDom;
+      const okKey = !selKey || keys.includes(selKey);
+
+      if (okDom && okKey) {
+        el.style.display = '';
+        visible++;
+      } else {
+        el.style.display = 'none';
+      }
+    });
+
+    noResults.style.display = visible === 0 ? 'block' : 'none';
+  }*/
+
+    function applyFilters(){
+    const selDom  = (domainSelect.value || '').trim();
+    const selEtab = (keywordsSelect.value || '').trim(); // établissement (ID)
+    let visible = 0;
+
+    container.querySelectorAll('.publication-item').forEach(el => {
+        const itemDom      = (el.dataset.domain || '').trim();
+        const itemEtabId   = (el.dataset.etabId || '').trim(); // ex. "2"
+        const itemEtabName = (el.dataset.etab   || '').trim(); // ex. "Faculté des sciences de Tunis"
+
+        const okDom  = !selDom  || itemDom === selDom;
+        // on accepte l’ID (recommandé) et, si besoin, le nom (fallback)
+        const okEtab = !selEtab || itemEtabId === selEtab || itemEtabName === selEtab;
+
+        if (okDom && okEtab) {
+        el.style.display = '';
+        visible++;
+        } else {
+        el.style.display = 'none';
+        }
+    });
+
+    noResults.style.display = visible === 0 ? 'block' : 'none';
+    }
+
+
+  async function loadLabs(){
+    try{
+      container.innerHTML = '<div class="col-12 text-center">Chargement…</div>';
+      const res = await fetch(endpoint, { credentials: 'same-origin' }); // GET public
+      const rows = await res.json();
+
+      // rendu
+      container.innerHTML = rows.map(buildCard).join('') || `<div class="col-12 text-center">Aucun laboratoire</div>`;
+
+      // filtres dynamiques
+      fillDomainOptions(rows);
+      fillKeywordOptions(rows);
+
+      // actions filtres
+      document.getElementById('applyBtn')?.addEventListener('click', applyFilters);
+      document.getElementById('resetBtn')?.addEventListener('click', () => {
+        domainSelect.value = '';
+        keywordsSelect.value = '';
+        applyFilters();
+      });
+    } catch(e){
+      console.error(e);
+      container.innerHTML = `<div class="col-12 text-center text-danger">Erreur de chargement</div>`;
+    }
+  }
+
+  // go
+  loadLabs();
+})()
+</script>
+-->
+
+<script>
+(function () {
+  const restBase = (window.PMSettings?.restUrl || '/wp-json/');
+  const endpoint = restBase + 'plateforme-recherche/v1/laboratoire?per_page=100&orderby=denomination&order=ASC&statut=Actif';
+
+  const container    = document.getElementById('publicationsContainer');
+  const noResults    = document.getElementById('noResultsMessage');
+  const domainSelect = document.getElementById('domainSelect');
+  const etabSelect   = document.getElementById('keywordsSelect'); // Établissement
+  const applyBtn     = document.getElementById('applyBtn');
+  const resetBtn     = document.getElementById('resetBtn');
+  const viewMoreBtn  = document.querySelector('.btn-view-more');
+
+  const PAGE_SIZE = 4;
+  let ALL_ROWS = [];
+  let FILTERED_ROWS = [];
+  let rendered = 0;
+
+  // === Utils
+  const icon = (name) => `/wp-content/plugins/plateforme-master/images/SiteRechercheImages/${name}`;
+  function parseAxes(json){ try{ const v = JSON.parse(json||'[]'); return Array.isArray(v)?v:[]; }catch(e){ return []; } }
+
+  // === Carte labo
+  function buildCard(l){
+    const axes  = parseAxes(l.axes_recherche);
+    const dom   = (l.domaine || '').trim();
+    const lieu  = (l.etablissement_nom || l.etablissement_label || '—');
+    const resp  = l.directeur_nom || '—';
+    const phone = l.tel || '';
+    const href  = `/presentation-utm/?laboratoireid=${encodeURIComponent(l.id)}`;
+
+    return `
+      <div class="col-lg-6 publication-item"
+           data-domain="${dom}"
+           data-etab-id="${l.etablissement_id || ''}"
+           data-etab="${lieu}">
+        <div class="publication-card">
+          <a href="${href}" class="card-icon-link">
+            <img width="20" src="${icon('27) Icon-diagonal-arrow-right-up red.png')}" alt="Ouvrir">
+          </a>
+
+          <div class="date-tag">
+            <img width="15" src="${icon('blanc.png')}" alt="">
+            ${l.date_creation ? new Date(l.date_creation).toLocaleDateString('fr-FR') : '—'}
+          </div>
+
+          <h3>${l.denomination || 'Laboratoire'}</h3>
+
+          <div class="info-line">
+            <img class="me-2" width="15" src="${icon('27) Icon-pin.png')}" alt="Établissement">
+            <span>${lieu}</span>
+          </div>
+
+          <div class="info-line">
+            <img class="me-2" width="15" src="${icon('27) Icon-person.png')}" alt="Directeur">
+            <span>Responsable : ${resp}</span>
+          </div>
+
+          ${phone ? `
+          <div class="info-line">
+            <img class="me-2" width="17" src="${icon('27) Icon-phone.png')}" alt="Téléphone">
+            <span>Tél : ${phone}</span>
+          </div>` : ''}
+
+          ${dom ? `
+          <div class="info-line">
+            <i class="fa-solid fa-tag"></i>
+            <span>Domaine : ${dom}</span>
+          </div>` : ''}
+
+          ${axes.length ? `
+          <div class="info-line">
+            <i class="fa-solid fa-list"></i>
+            <span>Axes : ${axes.slice(0,3).join(' • ')}${axes.length>3?'…':''}</span>
+          </div>` : ''}
+
+        </div>
+      </div>
+    `;
+  }
+
+  // === Remplissage des filtres depuis la liste complète
+  function fillDomainOptions(rows){
+    const uniq = new Set(rows.map(r => (r.domaine || '').trim()).filter(Boolean));
+    domainSelect.innerHTML = `<option value="" selected>Domaine</option>` +
+      Array.from(uniq).sort((a,b)=>a.localeCompare(b,'fr'))
+      .map(d => `<option value="${d}">${d}</option>`).join('');
+  }
+  function fillEtabOptions(rows){
+    const map = new Map(); // id -> nom
+    rows.forEach(r => {
+      const id  = (r.etablissement_id ?? '').toString().trim();
+      const nom = (r.etablissement_nom || r.etablissement_label || '').trim();
+      if (id && nom && !map.has(id)) map.set(id, nom);
+    });
+    const opts = Array.from(map.entries())
+      .sort((a,b)=>a[1].localeCompare(b[1],'fr'))
+      .map(([id,nom]) => `<option value="${id}">${nom}</option>`).join('');
+    etabSelect.innerHTML = `<option value="" selected>Etablissement</option>` + opts;
+  }
+
+  // === Filtrage en mémoire (sur ALL_ROWS)
+  function filterRowsFromSelections(){
+    const selDom  = (domainSelect.value || '').trim();
+    const selEtab = (etabSelect.value   || '').trim(); // ID
+    return ALL_ROWS.filter(r => {
+      const dom    = (r.domaine || '').trim();
+      const etabId = (r.etablissement_id ?? '').toString().trim();
+      const okDom  = !selDom  || dom === selDom;
+      const okEtab = !selEtab || etabId === selEtab;
+      return okDom && okEtab;
+    });
+  }
+
+  // === Rendu paginé (4 par 4)
+  function updateViewMore(){
+    if (!viewMoreBtn) return;
+    viewMoreBtn.style.display = (rendered >= FILTERED_ROWS.length) ? 'none' : '';
+  }
+  function renderNext(n){
+    const slice = FILTERED_ROWS.slice(rendered, rendered + n);
+    if (!slice.length) { updateViewMore(); return; }
+    container.insertAdjacentHTML('beforeend', slice.map(buildCard).join(''));
+    rendered += slice.length;
+    updateViewMore();
+  }
+  function renderReset(){
+    container.innerHTML = '';
+    rendered = 0;
+    if (FILTERED_ROWS.length === 0){
+      noResults.style.display = 'block';
+      if (viewMoreBtn) viewMoreBtn.style.display = 'none';
+      return;
+    }
+    noResults.style.display = 'none';
+    renderNext(PAGE_SIZE);
+  }
+
+  // === Appliquer les filtres (et reset pagination)
+  function applyFilters(){
+    FILTERED_ROWS = filterRowsFromSelections();
+    renderReset();
+  }
+
+  // === Chargement initial
+  async function loadLabs(){
+    try {
+      container.innerHTML = '<div class="col-12 text-center">Chargement…</div>';
+      const res  = await fetch(endpoint, { credentials: 'same-origin' });
+      const rows = await res.json();
+
+      ALL_ROWS = Array.isArray(rows) ? rows : [];
+      fillDomainOptions(ALL_ROWS);
+      fillEtabOptions(ALL_ROWS);
+
+      FILTERED_ROWS = ALL_ROWS.slice(); // sans filtre au départ
+      renderReset();
+
+      // Events
+      applyBtn?.addEventListener('click', (e)=>{ e.preventDefault(); applyFilters(); });
+      resetBtn?.addEventListener('click', (e)=>{
+        e.preventDefault();
+        domainSelect.value = '';
+        etabSelect.value   = '';
+        applyFilters();
+      });
+      viewMoreBtn?.addEventListener('click', (e)=>{ e.preventDefault(); renderNext(PAGE_SIZE); });
+
+    } catch (e) {
+      console.error(e);
+      container.innerHTML = `<div class="col-12 text-center text-danger">Erreur de chargement</div>`;
+      if (viewMoreBtn) viewMoreBtn.style.display = 'none';
+    }
+  }
+
+  loadLabs();
+})();
+</script>
+
+
 </body>
 
 </html>

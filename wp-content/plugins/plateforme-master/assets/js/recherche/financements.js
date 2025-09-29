@@ -28,12 +28,12 @@ async function loadSourcesTable() {
         <td>${r.consomme}</td>
         <td>${r.solde}</td>
         <td><span class="badge ${r.statut=='Actif'?'badge-success':'badge-warning'}">${r.statut}</span></td>
-        <td><i class="fas fa-paperclip"></i></td>
+        <!--  <td><i class="fas fa-paperclip"></i></td> -->
         <td>
           <div class="actions">
             <button class="action-btn">...</button>
             <div class="dropdown-menu">
-              <a href="#">Télécharger justificatif</a>
+              <!-- <a href="#">Télécharger justificatif</a> -->
                     <a href="/financement-fiche-de-financements/?idsource=${r.idsource}">Détail</a>
             </div>
           </div>
@@ -129,8 +129,8 @@ async function loadProjectsTable() {
       <td>${r.depense}</td>
       <td>${r.reste}</td>
       <td>${r.updated_at}</td>
-      <td><span class="badge ${r.statut=='Actif'?'badge-success':'badge-warning'}">${r.statut}</span></td>
-      <td><div class="actions"><button class="action-btn">...</button></div></td>
+      <td><span class="badge ${r.statut=='Terminé'?'badge-success':'badge-warning'}">${r.statut}</span></td>
+      <!--<td><div class="actions"><button class="action-btn">...</button></div></td>-->
     </tr>
   `).join('');
 }

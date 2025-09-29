@@ -210,15 +210,7 @@
             <li><strong>Début de collaboration :</strong> <span id="rg-date-debut">—</span></li>
             <li><strong>Durée prévue :</strong> <span id="rg-duree-prevue">—</span></li>
             <li><strong>Convention signée :</strong> <span id="rg-convention">—</span></li>
-            <li>
-                <strong>Lien GED :</strong>
-                <a id="rg-ged-link" href="#" target="_blank" style="display:none;">
-                    <img class="pdf-icon" width="20"
-                        src="/wp-content/plugins/plateforme-master/images/icons/pdf-svgrepo-com (2).png" alt="pdf">
-                    <span id="rg-ged-name">—</span>
-                </a>
-                <span id="rg-ged-empty">—</span>
-            </li>
+            
         </ul>
     </div>
 
@@ -1284,7 +1276,6 @@ $user_id = get_current_user_id();
       <li><strong>Début de collaboration :</strong> ${formatDateFR(reseau.date_debut)}</li>
       <li><strong>Durée prévue :</strong> ${reseau.date_debut && reseau.date_fin ? `${formatDateFR(reseau.date_debut)} – ${formatDateFR(reseau.date_fin)}` : '—'}</li>
       <li><strong>Convention signée :</strong> ${reseau.convention_signee ? 'Oui' : 'Non'}</li>
-      <li><strong>Lien GED :</strong> ${reseau.piece_jointe_path ? `<a href="${reseau.piece_jointe_path}" target="_blank"><img class="pdf-icon" width="20" src="/wp-content/plugins/plateforme-master/images/icons/pdf-svgrepo-com (2).png"> ${reseau.piece_jointe_path.split('/').pop()}</a>` : '—'}</li>
     `;
 
             // --- Bloc Projets associés ---

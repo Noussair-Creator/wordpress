@@ -207,7 +207,6 @@ function svc_activite_quotidienne_args_create(){ return array(
     'date' => array('required' => true, 'validate_callback' => function($param){ return is_scalar($param) || is_array($param); }, 'sanitize_callback' => 'sanitize_text_field'),
     'heure_debut' => array('required' => true, 'validate_callback' => function($param){ return is_scalar($param) || is_array($param); }, 'sanitize_callback' => 'sanitize_text_field'),
     'heure_fin' => array('required' => true, 'validate_callback' => function($param){ return is_scalar($param) || is_array($param); }, 'sanitize_callback' => 'sanitize_text_field'),
-    'membre_id' => array('required' => true, 'validate_callback' => function($param){ return is_scalar($param) || is_array($param); }, 'sanitize_callback' => 'sanitize_text_field'),
     'titre' => array('required' => true, 'validate_callback' => function($param){ return is_scalar($param) || is_array($param); }, 'sanitize_callback' => 'sanitize_text_field'),
     'type_activite' => array('required' => true, 'validate_callback' => function($param){ return is_scalar($param) || is_array($param); }, 'sanitize_callback' => 'sanitize_text_field')
 ); }
@@ -215,7 +214,6 @@ function svc_activite_quotidienne_args_update(){ return array(
     'date' => array('required' => false, 'validate_callback' => function($param){ return is_scalar($param) || is_array($param); }, 'sanitize_callback' => 'sanitize_text_field'),
     'heure_debut' => array('required' => false, 'validate_callback' => function($param){ return is_scalar($param) || is_array($param); }, 'sanitize_callback' => 'sanitize_text_field'),
     'heure_fin' => array('required' => false, 'validate_callback' => function($param){ return is_scalar($param) || is_array($param); }, 'sanitize_callback' => 'sanitize_text_field'),
-    'membre_id' => array('required' => false, 'validate_callback' => function($param){ return is_scalar($param) || is_array($param); }, 'sanitize_callback' => 'sanitize_text_field'),
     'titre' => array('required' => false, 'validate_callback' => function($param){ return is_scalar($param) || is_array($param); }, 'sanitize_callback' => 'sanitize_text_field'),
     'type_activite' => array('required' => false, 'validate_callback' => function($param){ return is_scalar($param) || is_array($param); }, 'sanitize_callback' => 'sanitize_text_field')
 ); }
@@ -228,11 +226,51 @@ add_action('rest_api_init', function () {
   ));
   register_rest_route($ns, '/activite_quotidienne/(?P<id>\d+)', array(
     array('methods'=>'GET','callback'=>'svc_activite_quotidienne_get','permission_callback'=>function(){ return is_user_logged_in(); }),
-    array('methods'=>'PATCH','callback'=>'svc_activite_quotidienne_update','permission_callback'=>function(){ return is_user_logged_in(); }, 'args'=>array_merge(array('id'=>array('required'=>true,'validate_callback'=>function($p){return is_numeric($p);})), svc_activite_quotidienne_args_update())),
     array('methods'=>'PUT','callback'=>'svc_activite_quotidienne_update','permission_callback'=>function(){ return is_user_logged_in(); }, 'args'=>array_merge(array('id'=>array('required'=>true,'validate_callback'=>function($p){return is_numeric($p);})), svc_activite_quotidienne_args_update())),
     array('methods'=>'DELETE','callback'=>'svc_activite_quotidienne_delete','permission_callback'=>function(){ return is_user_logged_in(); })
   ));
+  register_rest_route('plateforme-directeurderecherche/v1', '/activite_quotidienne/(?P<id>\d+)', [
+  [
+    'methods'  => ['PATCH','POST'],
+    'callback' => 'svc_activite_quotidienne_update',
+    'permission_callback' => function(){ return is_user_logged_in(); },
+    'args' => array_merge(
+      [
+        'id' => [
+          'required' => true,
+          'validate_callback' => function($param) {
+            return is_numeric($param);
+          }
+        ]
+      ],
+      svc_activite_quotidienne_args_update()
+    )
+  ]
+]);
+
 });
+
+
+
+add_action('rest_api_init', function () {
+  $ns = 'plateforme-directeurderecherche/v1';
+  register_rest_route($ns, '/stats-activites-quotidiennes', [
+    'methods'  => 'GET',
+    'callback' => 'svc_stats_activite_quotidienne',
+    'permission_callback' => function(){ return is_user_logged_in(); }
+  ]);
+});
+add_action('rest_api_init', function () {
+  $ns = 'plateforme-directeurderecherche/v1';
+
+  register_rest_route($ns, '/types-activite-quotidienne', [
+    'methods'  => 'GET',
+    'callback' => 'svc_type_activite_quotidienne_list',
+    'permission_callback' => function(){ return is_user_logged_in(); }
+  ]);
+});
+
+
 /*
 // Paramètres/validation pour activite_scientifique
 function svc_activite_scientifique_args_create(){ return array(
@@ -670,3 +708,37 @@ add_action('rest_api_init', function(){
         ]
     ]);
 });
+
+
+add_action('rest_api_init', function () {
+    register_rest_route('plateforme-rapport/v1', '/list', [
+        'methods'  => 'GET',
+        'callback' => function () {
+            return svc_rapport_list();
+        },
+        'permission_callback' => '__return_true'
+    ]);
+
+    register_rest_route('plateforme-rapport/v1', '/create', [
+        'methods'  => 'POST',
+        'callback' => function ($req) {
+            $id = svc_rapport_create($req->get_json_params());
+            return ['id' => $id];
+        },
+        'permission_callback' => function () {
+            return current_user_can('read');
+        }
+    ]);
+
+    register_rest_route('plateforme-rapport/v1', '/delete/(?P<id>\d+)', [
+        'methods'  => 'DELETE',
+        'callback' => function ($req) {
+            $id = intval($req['id']);
+            return svc_rapport_delete($id);
+        },
+        'permission_callback' => function () {
+            return current_user_can('read');
+        }
+    ]);
+});
+

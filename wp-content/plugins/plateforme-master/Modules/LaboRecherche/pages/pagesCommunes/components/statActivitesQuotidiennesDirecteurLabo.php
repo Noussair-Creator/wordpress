@@ -19,11 +19,11 @@
         <div class="left-stats">
             <div class="stat-box">
                 <span class="label">Activités enregistrées aujourd’hui</span>
-                <span class="value">6</span>
+                <span class="value">0</span>
             </div>
             <div class="stat-box">
                 <span class="label">Activités prévues demain</span>
-                <span class="value">4</span>
+                <span class="value">0</span>
             </div>
         </div>
 
@@ -32,7 +32,7 @@
             <div class="graph-header">
                 <h4>Répartition par type d’activité</h4>
                 <select class="graph-select">
-                    <option>2024 - 2025</option>
+                    <option>2025 - 2026</option>
                 </select>
             </div>
             <div class="blocChart">
@@ -432,6 +432,7 @@ span.label {
 <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
 
 <script>
+    /*
 const labels = ['Réunion', 'Expérience', 'Rédaction'];
 const dataValues = [72, 14, 17];
 const colors = ['#808066', '#b1342f', '#dabebe'];
@@ -472,5 +473,5 @@ labels.forEach((label, i) => {
     item.className = 'legend-item';
     item.innerHTML = `<span class="legend-dot" style="background-color:${colors[i]}"></span>${label}`;
     legendContainer.appendChild(item);
-});
+});*/
 </script>

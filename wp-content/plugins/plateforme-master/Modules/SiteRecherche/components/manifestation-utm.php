@@ -225,14 +225,6 @@
                 <div class="row g-3 justify-content-between align-items-center">
                     <div class="col-md-8">
                         <select id="categorySelect" class="form-select">
-                            <option value="" selected>Catégorie</option>
-                            <option value="Conférence">Conférence</option>
-                            <option value="Atelier">Atelier</option>
-                            <option value="Appels à projets">Appels à projets</option>
-                            <option value="Séminaire">Séminaire</option>
-                            <option value="Colloque">Colloque</option>
-                            <option value="Webinaire">Webinaire</option>
-                            <option value="Symposium">Symposium</option>
                         </select>
                     </div>
                     <div class="col-md-auto">
@@ -249,7 +241,7 @@
     <!-- Publications Grid Section -->
     <section class="mt-5">
         <div id="publicationsGrid" class="row row-cols-1 row-cols-md-2 g-4">
-            <!-- Card 1 -->
+            <!-- Card 1 
             <div class="col" data-category="Conférence">
                 <div class="publication-card position-relative">
                     <a href="/manifestation-details-utm" class="publication-arrow">
@@ -282,7 +274,7 @@
                     </div>
                 </div>
             </div>
-            <!-- Card 2 -->
+           
             <div class="col" data-category="Atelier">
                 <div class="publication-card position-relative">
                     <a href="/manifestation-details-utm" class="publication-arrow">
@@ -314,7 +306,7 @@
                     </div>
                 </div>
             </div>
-            <!-- Card 3 -->
+            
             <div class="col" data-category="Appels à projets">
                 <div class="publication-card position-relative">
                     <a href="/manifestation-details-utm" class="publication-arrow">
@@ -346,7 +338,7 @@
                     </div>
                 </div>
             </div>
-            <!-- Card 4 -->
+          
             <div class="col" data-category="Séminaire">
                 <div class="publication-card position-relative">
                     <a href="/manifestation-details-utm" class="publication-arrow">
@@ -378,7 +370,7 @@
                     </div>
                 </div>
             </div>
-            <!-- Card 5 -->
+            
             <div class="col" data-category="Colloque">
                 <div class="publication-card position-relative">
                     <a href="/manifestation-details-utm" class="publication-arrow">
@@ -410,7 +402,7 @@
                     </div>
                 </div>
             </div>
-            <!-- Card 6 -->
+            
             <div class="col" data-category="Appels à projets">
                 <div class="publication-card position-relative">
                     <a href="/manifestation-details-utm" class="publication-arrow">
@@ -441,7 +433,7 @@
                         </span>
                     </div>
                 </div>
-            </div>
+            </div>-->
 
         </div>
 
@@ -506,3 +498,365 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 </script>
+
+<?php
+    $current_user = wp_get_current_user();
+    $roles = (array) $current_user->roles;
+    $role  = $roles[0] ?? '';
+    $user_id = get_current_user_id();
+
+?>
+
+<script>
+    window.PMSettings = {
+        restUrl: "<?= esc_url( rest_url() ) ?>",
+        nonce: "<?= wp_create_nonce('wp_rest') ?>",
+        role: "<?= esc_js( $role ) ?>",
+        userId: <?= (int) $user_id ?>
+    };
+</script>
+
+<!--
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const API_ROOT = (window.PMSettings?.restUrl || '/wp-json/').replace(/\/+$/,'/') + 'plateforme-recherche/v1';
+  const grid     = document.getElementById('publicationsGrid');
+  const noRes    = document.getElementById('noResultsMessage');
+  const loadBtn  = document.getElementById('loadMoreBtn');
+  const form     = document.getElementById('searchForm');
+  const catSel   = document.getElementById('categorySelect');
+
+  const CHUNK = 6;
+  const LAB_ID = getLabId();
+  let ALL = [];       // données cumulées pour le filtre local si besoin
+  let LIST = [];      // liste courante (filtrée)
+  let idx = 0;        // pointeur d’affichage
+  const seen = new Set(); // anti-doublons par id
+
+  if (!LAB_ID) {
+    grid.innerHTML = `<div class="col-12 text-center text-danger">Paramètre <code>laboratoireid</code> manquant.</div>`;
+    loadBtn.style.display = 'none';
+    return;
+  }
+
+  // ===== API helpers =====
+  function headers(){ const h={}; if (window.PMSettings?.nonce) h['X-WP-Nonce']=PMSettings.nonce; return h; }
+  async function fetchJSON(url){
+    const r = await fetch(url, { headers: headers(), credentials:'same-origin' });
+    if (!r.ok) throw new Error('HTTP '+r.status);
+    return r.json();
+  }
+  function url(path, q={}){
+    const u = new URL(API_ROOT + path, location.origin);
+    Object.entries(q).forEach(([k,v])=>{ if(v!==undefined && v!=='') u.searchParams.set(k,v); });
+    return u.toString();
+  }
+
+  // ===== Load categories (par labo)
+  async function loadCategories(){
+    try{
+      const cats = await fetchJSON(url(`/manifestation/categories/lab/${encodeURIComponent(LAB_ID)}`));
+      catSel.innerHTML = `<option value="">Catégorie</option>` +
+        (cats||[]).map(c => `<option value="${String(c.id)}">${escapeHTML(c.nom||('Catégorie '+c.id))}</option>`).join('');
+    }catch(e){
+      console.warn('Catégories indisponibles', e);
+      catSel.innerHTML = `<option value="">Catégorie</option>`;
+    }
+  }
+
+  // ===== Load manifestations (server-side par labo + catégorie optionnelle)
+  async function loadManifestations({ page=1, per_page=CHUNK, categorie_id='' } = {}){
+    const q = { page, per_page, laboratoire_id: LAB_ID };
+    if (categorie_id) q.categorie_id = categorie_id;
+    const data = await fetchJSON(url('/manifestation/by-lab', q));
+    return Array.isArray(data) ? data : [];
+  }
+
+  // ===== Render
+  function resetRender(list){
+    grid.innerHTML = '';
+    idx = 0; seen.clear();
+    LIST = list || [];
+    if (!LIST.length){ noRes.style.display='block'; loadBtn.style.display='none'; return; }
+    noRes.style.display='none';
+    renderNext(CHUNK);
+  }
+  function renderNext(n){
+    let added = 0;
+    while (idx < LIST.length && added < n) {
+      const r = LIST[idx++];
+      const id = String(r.id||'');
+      if (!id || seen.has(id)) continue;
+      grid.insertAdjacentHTML('beforeend', buildCard(r));
+      seen.add(id);
+      added++;
+    }
+    loadBtn.style.display = (idx >= LIST.length) ? 'none' : 'inline-block';
+  }
+  function buildCard(m){
+    const cat = m.categorie || 'Sans catégorie';
+    const date = m.date_debut ? fmtFR(m.date_debut) : (m.date ? fmtFR(m.date) : '');
+    const texte = stripHTML(m.texte||'').slice(0,200) + (m.texte && m.texte.length>200?'…':'');
+    const href = buildDetailsHref(m.id);
+    return `
+      <div class="col" data-category-id="${escapeAttr(String(m.categorie_id||''))}">
+        <div class="publication-card position-relative">
+          <a href="${escapeAttr(href)}" class="publication-arrow">
+            <img width="15" src="/wp-content/plugins/plateforme-master/images/SiteRechercheImages/27) Icon-diagonal-arrow-right-up.png" alt="">
+          </a>
+          <h5 class="fw-700">${escapeHTML(m.intitule||'Manifestation')}</h5>
+          <p class="my-3 fw-500">${escapeHTML(texte)}</p>
+          <div class="publication-card-meta mt-auto pt-3">
+            <span class="d-block mb-2">
+              <img class="me-2" width="15" src="/wp-content/plugins/plateforme-master/images/SiteRechercheImages/category-variety-random-shuffle-svgrepo-com.png" alt="">
+              ${escapeHTML(cat)}
+            </span>
+            <span class="d-block">
+              <img class="me-2" width="15" src="/wp-content/plugins/plateforme-master/images/SiteRechercheImages/27) Icon-calendar.png" alt="">
+              ${escapeHTML(date)}
+            </span>
+          </div>
+        </div>
+      </div>`;
+  }
+
+  // ===== Form actions
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const categorie_id = catSel.value || '';
+    try{
+      // On demande au serveur directement (réduit le volume)
+      const page1 = await loadManifestations({ page:1, per_page: 200, categorie_id });
+      ALL = dedupe(page1);
+      resetRender(ALL);
+    }catch(err){
+      console.error(err);
+    }
+  });
+  form.addEventListener('reset', async () => {
+    setTimeout(async () => {
+      try{
+        const page1 = await loadManifestations({ page:1, per_page: 200 });
+        ALL = dedupe(page1);
+        catSel.value = '';
+        resetRender(ALL);
+      }catch(err){
+        console.error(err);
+      }
+    }, 0);
+  });
+
+  loadBtn.addEventListener('click', (e) => {
+    e.preventDefault();
+    renderNext(CHUNK);
+  });
+
+  // ===== Boot
+  (async function boot(){
+    grid.innerHTML = '<div class="col-12 text-center">Chargement…</div>';
+    await loadCategories();
+    const page1 = await loadManifestations({ page:1, per_page: 200 });
+    ALL = dedupe(page1);
+    resetRender(ALL);
+  })().catch(err => {
+    console.error(err);
+    grid.innerHTML = '<div class="col-12 text-center text-danger">Erreur de chargement.</div>';
+    loadBtn.style.display = 'none';
+  });
+
+  // ===== Utils
+  function getLabId(){
+    const u = new URL(location.href);
+    const id = u.searchParams.get('laboratoireid') || u.searchParams.get('laboratoire_id') || localStorage.getItem('laboratoireid') || '';
+    if (id) localStorage.setItem('laboratoireid', id);
+    return id;
+  }
+  function fmtFR(iso){ const d=new Date(iso); return isNaN(d)? (iso||'') : d.toLocaleDateString('fr-FR'); }
+  function stripHTML(html){ const t=document.createElement('div'); t.innerHTML=html||''; return (t.textContent||'').trim().replace(/\s+/g,' '); }
+  function escapeHTML(s){ return (''+s).replace(/[&<>"]/g, m=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[m])); }
+  function escapeAttr(s){ return escapeHTML(s).replace(/"/g,'&quot;'); }
+  function dedupe(arr){ const out=[]; const s=new Set(); (arr||[]).forEach(x=>{const id=String(x.id||''); if(id && !s.has(id)){s.add(id); out.push(x);} }); return out; }
+  function buildDetailsHref(id){
+    const u = new URL('/manifestation-details-utm', location.origin);
+    u.searchParams.set('id', id);
+    if (LAB_ID) u.searchParams.set('laboratoireid', LAB_ID);
+    return u.pathname + u.search;
+  }
+});
+</script>
+-->
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  // ====== CONFIG/API ======
+  const API_ROOT = (window.PMSettings?.restUrl || '/wp-json/').replace(/\/+$/,'/') + 'plateforme-recherche/v1';
+  const PER_PAGE = 6;
+
+  // ====== UI HOOKS ======
+  const grid      = document.getElementById('publicationsGrid');
+  const noRes     = document.getElementById('noResultsMessage');
+  const loadBtn   = document.getElementById('loadMoreBtn');
+  const form      = document.getElementById('searchForm');
+  const catSelect = document.getElementById('categorySelect');
+
+  // ====== STATE ======
+  const LAB_ID = getLabId();
+  let currentPage = 1;
+  let currentCat  = '';     // categorie_id
+  const seenIds   = new Set(); // anti-doublon inter-pages
+
+  if (!LAB_ID) {
+    grid.innerHTML = `<div class="col-12 text-center text-danger">Paramètre <code>laboratoireid</code> manquant.</div>`;
+    loadBtn.style.display = 'none';
+    return;
+  }
+
+  // ====== HELPERS ======
+  function headers(){ const h={}; if (window.PMSettings?.nonce) h['X-WP-Nonce']=PMSettings.nonce; return h; }
+  async function fetchJSON(u){
+    const r = await fetch(u, { headers: headers(), credentials:'same-origin' });
+    if (!r.ok) throw new Error('HTTP '+r.status);
+    return r.json();
+  }
+  function buildURL(path, q={}){
+    const u = new URL(API_ROOT + path, location.origin);
+    Object.entries(q).forEach(([k,v])=>{ if(v!==undefined && v!=='') u.searchParams.set(k,v); });
+    return u.toString();
+  }
+  function stripHTML(html){ const d=document.createElement('div'); d.innerHTML = html||''; return (d.textContent||'').trim().replace(/\s+/g,' '); }
+  function esc(s){ return (''+(s??'')).replace(/[&<>]/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[m])); }
+  function escAttr(s){ return esc(s).replace(/"/g,'&quot;'); }
+  function fmtFR(iso){ const d=new Date(iso); return isNaN(d)? (iso||'') : d.toLocaleDateString('fr-FR'); }
+  function getLabId(){
+    const u = new URL(location.href);
+    const id = u.searchParams.get('laboratoireid') || u.searchParams.get('laboratoire_id') || localStorage.getItem('laboratoireid') || '';
+    if (id) localStorage.setItem('laboratoireid', id);
+    return id;
+  }
+  function buildDetailsHref(id){
+    const u = new URL('/manifestation-details-utm', location.origin);
+    u.searchParams.set('id', id);
+    if (LAB_ID) u.searchParams.set('laboratoireid', LAB_ID);
+    return u.pathname + u.search;
+  }
+
+  // ====== RENDER ======
+  function clearGrid(){
+    grid.innerHTML = '';
+    seenIds.clear();
+  }
+  function appendCards(rows){
+    let appended = 0;
+    rows.forEach(m => {
+      const id = String(m.id || '');
+      if (!id || seenIds.has(id)) return; // anti-doublon
+      seenIds.add(id);
+
+      const catName = m.categorie || 'Sans catégorie';
+      const dateTxt = m.date_debut ? fmtFR(m.date_debut) : (m.date ? fmtFR(m.date) : '');
+      const txt     = stripHTML(m.texte||'').slice(0,200) + ((m.texte||'').length>200 ? '…':'');
+      const href    = buildDetailsHref(id);
+
+      const card = `
+        <div class="col" data-category-id="${escAttr(String(m.categorie_id||''))}">
+          <div class="publication-card position-relative">
+            <a href="${escAttr(href)}" class="publication-arrow">
+              <img width="15" src="/wp-content/plugins/plateforme-master/images/SiteRechercheImages/27) Icon-diagonal-arrow-right-up.png" alt="Voir">
+            </a>
+            <h5 class="fw-700">${esc(m.intitule || 'Manifestation')}</h5>
+            <p class="my-3 fw-500">${esc(txt)}</p>
+            <div class="publication-card-meta mt-auto pt-3">
+              <span class="d-block mb-2">
+                <img class="me-2" width="15"
+                     src="/wp-content/plugins/plateforme-master/images/SiteRechercheImages/category-variety-random-shuffle-svgrepo-com.png" alt="">
+                ${esc(catName)}
+              </span>
+              <span class="d-block">
+                <img class="me-2" width="15"
+                     src="/wp-content/plugins/plateforme-master/images/SiteRechercheImages/27) Icon-calendar.png" alt="">
+                ${esc(dateTxt)}
+              </span>
+            </div>
+          </div>
+        </div>`;
+      grid.insertAdjacentHTML('beforeend', card);
+      appended++;
+    });
+    return appended;
+  }
+  function setEmptyState(isEmpty){
+    noRes.style.display = isEmpty ? 'block' : 'none';
+    loadBtn.style.display = isEmpty ? 'none' : 'inline-block';
+  }
+
+  // ====== LOADERS ======
+  async function loadCategories(){
+    try{
+      const url = buildURL(`/manifestation/categories/lab/${encodeURIComponent(LAB_ID)}`);
+      const cats = await fetchJSON(url);
+      catSelect.innerHTML = `<option value="">Catégorie</option>` +
+        (Array.isArray(cats) ? cats.map(c => `<option value="${escAttr(String(c.id))}">${esc(c.nom || ('Catégorie '+c.id))}</option>`).join('') : '');
+    }catch(e){
+      console.warn('Catégories indisponibles', e);
+      catSelect.innerHTML = `<option value="">Catégorie</option>`;
+    }
+  }
+
+  async function fetchPage(page, categorie_id){
+    const q = { laboratoire_id: LAB_ID, page, per_page: PER_PAGE };
+    if (categorie_id) q.categorie_id = categorie_id;
+    const url = buildURL('/manifestation/by-lab', q);
+    const rows = await fetchJSON(url);
+    return Array.isArray(rows) ? rows : [];
+  }
+
+  async function initialLoad(){
+    grid.innerHTML = '<div class="col-12 text-center">Chargement…</div>';
+    await loadCategories();
+    currentPage = 1;
+    clearGrid();
+    const rows = await fetchPage(currentPage, currentCat);
+    grid.innerHTML = ''; // efface le "Chargement…"
+    const added = appendCards(rows);
+    setEmptyState(added === 0);
+    // si moins que PER_PAGE, masquer "Voir plus"
+    if (rows.length < PER_PAGE) loadBtn.style.display = 'none';
+  }
+
+  // ====== EVENTS ======
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    currentCat  = catSelect.value || '';
+    currentPage = 1;
+    clearGrid();
+    const rows = await fetchPage(currentPage, currentCat);
+    grid.innerHTML = '';
+    const added = appendCards(rows);
+    setEmptyState(added === 0);
+    loadBtn.style.display = (rows.length < PER_PAGE || added === 0) ? 'none' : 'inline-block';
+  });
+
+  form.addEventListener('reset', async () => {
+    setTimeout(async () => {
+      currentCat  = '';
+      await initialLoad();
+    }, 0);
+  });
+
+  loadBtn.addEventListener('click', async () => {
+    currentPage += 1;
+    const rows = await fetchPage(currentPage, currentCat);
+    const added = appendCards(rows);
+    // cacher le bouton si on ne reçoit plus de résultats, ou si tout a été dédupliqué
+    if (rows.length < PER_PAGE || added === 0) loadBtn.style.display = 'none';
+  });
+
+  // ====== GO ======
+  initialLoad().catch(err => {
+    console.error(err);
+    grid.innerHTML = '<div class="col-12 text-center text-danger">Erreur de chargement.</div>';
+    loadBtn.style.display = 'none';
+  });
+});
+</script>
+

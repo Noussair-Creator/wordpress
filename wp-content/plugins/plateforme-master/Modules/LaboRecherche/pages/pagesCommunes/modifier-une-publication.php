@@ -65,7 +65,7 @@ require_once plugin_dir_path(__FILE__) . '../requireApi.php';
 
                 <div class="content p-4">
 
-                    <?php include 'components/ajouter-une-publication-directeur-du-labo.php'; ?>
+                    <?php include 'components/modifier-une-publication-directeur-du-labo.php'; ?>
 
 
 

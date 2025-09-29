@@ -1128,6 +1128,7 @@
                 <li><strong>Période :</strong> </li>
                 <li><strong>Financement :</strong> </li>
             </ul>
+            
 
             <h3 style="margin-top: 30px;">Objectifs du projet</h3>
             <ol class="custom-ordered-list">
@@ -1310,7 +1311,7 @@
         <div class="card full-width">
             <div class="card-header-with-button">
                 <h3>Dépense</h3>
-                <button class="modifier-button" onclick="openModalDepense()">Modifier</button>
+                <button class="modifier-button" onclick="openModalDepense()">Ajouter</button>
             </div>
             <table class="parcours-table">
                 <thead>
@@ -1319,33 +1320,80 @@
                         <th>Désignation</th>
                         <th>Montant</th>
                         <th>Date</th>
+                        <th>Pièce jointe</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>001</td>
-                        <td>Achat matériel labo</td>
-                        <td>54 000 TND</td>
-                        <td>01/02/2024</td>
-                    </tr>
-                    <tr>
-                        <td>002</td>
-                        <td>Déplacement</td>
-                        <td>200 TND</td>
-                        <td>20/01/2025</td>
-                    </tr>
-                    <tr>
-                        <td>003</td>
-                        <td>Déplacement</td>
-                        <td>670 TND</td>
-                        <td>15/12/2024</td>
-                    </tr>
+                <tr>
+                    <td colspan="5">Aucune dépense </td>
+                </tr>
                 </tbody>
             </table>
         </div>
 
     -->
 
+        <div class="card full-width">
+            <div class="card-header-with-button">
+                <h3>Pièces jointes associées au projet</h3>
+               
+            </div>
+            <table class="parcours-table2">
+                <thead>
+                    <tr>
+                        <th>Ref_Doc</th>
+                        <th>Type de document</th>
+                        <th>Document</th>
+                       <!-- <th>Version</th>
+                        <th>Date</th>-->
+                    </tr>
+                </thead>
+                <tbody>
+                   <!-- <tr>
+                        <td>001</td>
+                        <td>Convention projet</td>
+                        <td>
+                            <a href="#">
+                                <img class="pdf-icon" width="20px"
+                                    src="/wp-content/plugins/plateforme-master/images/icons/pdf-svgrepo-com (2).png"
+                                    alt="pdf-svgrepo-com">
+                                Convention_BCI_UTM.pdf
+                            </a>
+                        </td>
+                        <td>1.0</td>
+                        <td>01/02/2024</td>
+                    </tr>
+                    <tr>
+                        <td>002</td>
+                        <td>Planning détaillé</td>
+                        <td>
+                            <a href="#">
+                                <img class="pdf-icon" width="20px"
+                                    src="/wp-content/plugins/plateforme-master/images/icons/excel-document.png"
+                                    alt="excel-document">
+                                Planning_BCI_Q1Q2_2025.xlsx
+                            </a>
+                        </td>
+                        <td>1.2</td>
+                        <td>20/01/2025</td>
+                    </tr>
+                    <tr>
+                        <td>003</td>
+                        <td>Rapport d'étape</td>
+                        <td>
+                            <a href="#">
+                                <img class="pdf-icon" width="20px"
+                                    src="/wp-content/plugins/plateforme-master/images/icons/pdf-svgrepo-com (2).png"
+                                    alt="pdf-svgrepo-com">
+                                Rapport_BCI_Progress2024.pdf
+                            </a>
+                        </td>
+                        <td>1.0</td>
+                        <td>15/12/2024</td>
+                    </tr>-->
+                </tbody>
+            </table>
+        </div>
       <div class="card full-width">
             <div class="card-header-with-button">
                 <h3>Dépense</h3>
@@ -1358,11 +1406,12 @@
                         <th>Désignation</th>
                         <th>Montant</th>
                         <th>Date</th>
+                        <th>Pièce jointe</th>
                     </tr>
                 </thead>
                 <tbody>
                 <tr>
-                    <td colspan="4">Aucune dépense </td>
+                    <td colspan="5">Aucune dépense </td>
                 </tr>
                 </tbody>
             </table>
@@ -1439,6 +1488,16 @@
                 <div class="form-group">
                     <label for="date-depense">Date</label>
                     <input type="date"  id="date-depense" name="date-depense" placeholder="jj-mm-yyyy">
+                </div>
+                <div class="form-group">
+                    <label for="piece-jointe-depense">Pièce jointe</label>
+                    <div class="input-file-wrapper">
+                        <input type="text" id="piece-jointe-depense" name="piece-jointe-depense" class="input-file-text"
+                            placeholder="Aucun fichier sélectionné" readonly>
+                        <input type="file" id="file-input-depense" name="piece_jointe" style="display: none;" accept=".pdf,.doc,.docx,.jpg,.png">
+                        <button type="button" class="btn-importer" id="btn-importer-depense"><i class="fas fa-file-arrow-up"></i>
+                            Importer</button>
+                    </div>
                 </div>
             </form>
         </div>
@@ -1539,6 +1598,27 @@
             }
         });
 
+        // Gestion du bouton Importer pour la pièce jointe des dépenses
+        document.addEventListener('DOMContentLoaded', function() {
+            const btnImporterDepense = document.getElementById('btn-importer-depense');
+            const fileInputDepense = document.getElementById('file-input-depense');
+            const textInputDepense = document.getElementById('piece-jointe-depense');
+
+            if (btnImporterDepense && fileInputDepense && textInputDepense) {
+                btnImporterDepense.addEventListener('click', function() {
+                    fileInputDepense.click();
+                });
+
+                fileInputDepense.addEventListener('change', function() {
+                    if (this.files && this.files[0]) {
+                        textInputDepense.value = this.files[0].name;
+                    } else {
+                        textInputDepense.value = 'Aucun fichier sélectionné';
+                    }
+                });
+            }
+        });
+
 
 
 
@@ -1596,7 +1676,7 @@
         const ct = res.headers.get('content-type') || '';
         return ct.includes('application/json') ? res.json() : res.text();
     }
-document.addEventListener("DOMContentLoaded", async () => {
+ document.addEventListener("DOMContentLoaded", async () => {
     const urlParams = new URLSearchParams(window.location.search);
     const projetId = urlParams.get("id");
     if (!projetId) return;
@@ -1679,7 +1759,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         }
 
         // --- Pièces jointes ---
-        const tbodyPieces = document.querySelector("div.card:nth-of-type(4) tbody");
+        /*const tbodyPieces = document.querySelector("div.card:nth-of-type(4) tbody");
         if (tbodyPieces) {
             tbodyPieces.innerHTML = "";
             (data.pieces || []).forEach(p => {
@@ -1693,10 +1773,63 @@ document.addEventListener("DOMContentLoaded", async () => {
                 `;
                 tbodyPieces.appendChild(tr);
             });
+        }*/
+
+        // --- Pièces jointes ---
+        const tbodyPieces = document.querySelector("table.parcours-table2 tbody");
+        if (tbodyPieces) {
+            tbodyPieces.innerHTML = "";
+
+            // 1️⃣ Charger d'abord les champs directs (budget_piece et convention_piece)
+            if (data.budget_piece) {
+                const tr = document.createElement("tr");
+                tr.innerHTML = `
+                    <td>BUD-${data.id}</td>
+                    <td>Budget</td>
+                    <td><a href="${data.budget_piece}" target="_blank">
+                        ${data.budget_piece.split('/').pop()}
+                    </a></td>
+                `;
+                tbodyPieces.appendChild(tr);
+            }
+            if (data.convention_piece) {
+                const tr = document.createElement("tr");
+                tr.innerHTML = `
+                    <td>CONV-${data.id}</td>
+                    <td>Convention</td>
+                    <td><a href="${data.convention_piece}" target="_blank">
+                        ${data.convention_piece.split('/').pop()}
+                    </a></td>
+                `;
+                tbodyPieces.appendChild(tr);
+            }
+
+            // 2️⃣ Charger ensuite les éventuelles pièces venant de data.pieces
+            (data.pieces || []).forEach(p => {
+                const tr = document.createElement("tr");
+                tr.innerHTML = `
+                    <td>${p.ref_doc || ''}</td>
+                    <td>${p.type_doc || ''}</td>
+                    <td><a href="${p.fichier_url}" target="_blank">
+                        ${p.fichier_url?.split('/').pop()}
+                    </a></td>
+                `;
+                tbodyPieces.appendChild(tr);
+            });
+
+            // 3️⃣ Cas aucun document
+            if (!tbodyPieces.hasChildNodes()) {
+                const tr = document.createElement("tr");
+                tr.innerHTML = `<td colspan="3" style="text-align:center; color:#888;">
+                    Aucun document disponible
+                </td>`;
+                tbodyPieces.appendChild(tr);
+            }
         }
 
+
         // --- Dépenses ---
-        const tbodyDepenses = document.querySelector("table.parcours-table tbody");
+        const tbodyDepenses = document.querySelector("table.parcours-table:last-of-type tbody");
         if (tbodyDepenses) {
             tbodyDepenses.innerHTML = "";
             (data.depenses || []).forEach(d => {
@@ -1706,9 +1839,15 @@ document.addEventListener("DOMContentLoaded", async () => {
                     <td>${d.designation || ''}</td>
                     <td>${d.montant || 0} TND</td>
                     <td>${d.date_depense || ''}</td>
+                    <td style="text-align: center;">${d.piece_jointe ? `<a href="${d.piece_jointe}" target="_blank"><i class="fas fa-paperclip"></i></a>` : '-'}</td>
                 `;
                 tbodyDepenses.appendChild(tr);
             });
+
+            // Si aucune dépense, afficher le message par défaut
+            if ((data.depenses || []).length === 0) {
+                tbodyDepenses.innerHTML = '<tr><td colspan="5" style="text-align: center; color: #888;">Aucune dépense</td></tr>';
+            }
         }
 
     } catch (e) {
@@ -1737,6 +1876,7 @@ async function saveDepense(projetId) {
     const desig = document.getElementById('designation');
     const montant = document.getElementById('montant');
     const dateEl = document.getElementById('date-depense');
+    const fileInput = document.getElementById('file-input-depense');
 
     if (!desig || !montant || !dateEl) throw new Error("Champs du formulaire introuvables.");
     if (!desig.value.trim()) return alert("La désignation est obligatoire.");
@@ -1749,6 +1889,11 @@ async function saveDepense(projetId) {
     fd.append('designation', desig.value.trim());
     fd.append('montant', cleanMontant);
     fd.append('date_depense', dateEl.value);
+
+    // Ajout de la pièce jointe si un fichier est sélectionné
+    if (fileInput && fileInput.files && fileInput.files[0]) {
+        fd.append('piece_jointe', fileInput.files[0]);
+    }
 
     const res = await fetch(`${API_BASE}/projet/${projetId}/depense`, {
       method: 'POST',
@@ -1771,6 +1916,12 @@ async function saveDepense(projetId) {
 
     alert('Dépense ajoutée avec succès.');
     closeModal('modalDepense');
+    // Reset du formulaire
+    desig.value = '';
+    montant.value = '';
+    dateEl.value = '';
+    fileInput.value = '';
+    document.getElementById('piece-jointe-depense').value = 'Aucun fichier sélectionné';
     await loadDepenses(projetId);
 
   } catch (e) {
@@ -1784,7 +1935,7 @@ async function saveDepense(projetId) {
 async function loadDepenses(projetId) {
     try {
         const data = await wpFetch(`/projet/${projetId}/full`);
-        const tbodyDepenses = document.querySelector("table.parcours-table tbody");
+        const tbodyDepenses = document.querySelector("table.parcours-table:last-of-type tbody");
         if (tbodyDepenses) {
             tbodyDepenses.innerHTML = "";
             (data.depenses || []).forEach(d => {
@@ -1794,9 +1945,15 @@ async function loadDepenses(projetId) {
                     <td>${d.designation || ''}</td>
                     <td>${d.montant || 0} TND</td>
                     <td>${d.date_depense || ''}</td>
+                    <td style="text-align: center;">${d.piece_jointe ? `<a href="${d.piece_jointe}" target="_blank"><i class="fas fa-paperclip"></i></a>` : '-'}</td>
                 `;
                 tbodyDepenses.appendChild(tr);
             });
+
+            // Si aucune dépense, afficher le message par défaut
+            if ((data.depenses || []).length === 0) {
+                tbodyDepenses.innerHTML = '<tr><td colspan="5" style="text-align: center; color: #888;">Aucune dépense</td></tr>';
+            }
         }
     } catch (e) {
         console.error("Erreur chargement dépenses :", e);
