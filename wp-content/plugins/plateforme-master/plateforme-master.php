@@ -1365,12 +1365,17 @@ function plateforme_content($content)
 
 
     $pages_PMO = [
-        'alimentation-et-saisie-des-donnees',
-        'depot-et-telechargement-des-donnees',
-        'details-plateforme',
-        'gestion-requetes',
-        'presentation-ceip',
-
+        // 'alimentation-et-saisie-des-donnees',
+        // 'depot-et-telechargement-des-donnees',
+        // 'details-plateforme',
+        // 'gestion-requetes',
+        // 'presentation-ceip',
+        'gestion-des-projets',
+        'gestion-des-projets-details-projets',
+        'phase-de-projet-details',
+        'appels-a-projets-pmo',
+        'cree-un-appel-a-projet',
+        'appels-a-projets-pmo-details',
 
 
     ];
@@ -2632,11 +2637,17 @@ function pm_template_override()
 
 
     $pages_PMO = [
-        'alimentation-et-saisie-des-donnees',
-        'depot-et-telechargement-des-donnees',
-        'details-plateforme',
-        'gestion-requetes',
-        'presentation-ceip',
+        // 'alimentation-et-saisie-des-donnees',
+        // 'depot-et-telechargement-des-donnees',
+        // 'details-plateforme',
+        // 'gestion-requetes',
+        // 'presentation-ceip',
+        'gestion-des-projets',
+        'gestion-des-projets-details-projets',
+        'phase-de-projet-details',
+        'appels-a-projets-pmo',
+        'cree-un-appel-a-projet',
+        'appels-a-projets-pmo-details',
 
 
     ];

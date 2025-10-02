@@ -1,169 +1,211 @@
 <?php
-// ---------------- Slides statiques (inchangé) ----------------
-$slide1 = '
-<div class="master-card">
-  <h4><a href="/MASTER/GESTIONMASTER.php">Liste des master</a></h4>
-  <div class="info-flex">
-    <div class="info-line">
-      <div class="label">Master Professionnel :</div>
-      <div class="label">Master de recherche</div>
-      <div class="label">Master à distance:</div>
-    </div>
-    <div class="info-value">
-      <div class="value">12</div>
-      <div class="value">14</div>
-      <div class="value">2</div>
-    </div>
-  </div>
-</div>';
-
-$slide2 = '
-<div class="master-card">
-  <h4><a href="/MASTER/FicheMaster.php">Informations master</a></h4>
-  <div class="info-flex">
-    <div class="info-line">
-      <div class="label">Code Master :</div>
-      <div class="label">Libellé du Master :</div>
-      <div class="label">Spécialité :</div>
-      <div class="label">Date d’habilitation :</div>
-      <div class="label">Président de la commission :</div>
-    </div>
-    <div class="info-value">
-      <div class="value">M456</div>
-      <div class="value">Master GRFA</div>
-      <div class="value">Sciences</div>
-      <div class="value">15/10/2024</div>
-      <div class="value">Mr. AHMED BEN AHMED</div>
-    </div>
-  </div>
-</div>';
-
-$carouselSlides = '';
-if ($role === "service") {
-  $carouselSlides = $slide1 . $slide2 . $slide2;
-} elseif ($role === "coordinateur") {
-  $carouselSlides = $slide2;
-}
-
-// URL absolue de l’image de fond
-$pmo_bg = trailingslashit( get_site_url() ) .
-          'wp-content/plugins/plateforme-master/images/pmo/' .
-          rawurlencode('Groupe de masques 416.png');
-
-// URL gestion requêtes
-$gestion_requetes_url = trailingslashit( get_site_url() ) . 'gestion-requetes';
+// URL to the submissions page
+$gestion_requetes_url = trailingslashit(get_site_url()) . 'gestion-requetes';
 ?>
 <style>
-:root{ --red:#b60303; --gray:#f3f3f3; --dark:#333; }
+  :root {
+    --dark-green: #6E6D55;
+    --light-green: #A6A485;
+    --dark-text: #333;
+  }
 
-/* ====== Layout égalisé des 3 tuiles ====== */
-.top-boxes{ display:flex; flex-wrap:wrap; gap:20px; margin-top:20px; align-items:stretch; }
-.box, .boxINFO{
-  flex: 1 1 calc(33.333% - 20px);
-  min-height: 180px;
-  background:#fff;
-  border-radius:12px;
-  box-shadow:0 2px 6px rgba(0,0,0,.08);
-  transition:transform .2s;
-  cursor:pointer;
-  display:flex;
-  padding:0;
-}
-.box:hover, .boxINFO:hover{ transform: translateY(-4px); }
+  /* ====== Main container for the cards ====== */
+  .top-boxes {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    margin-top: 20px;
+    align-items: stretch;
+    /* Makes all cards the same height */
+  }
 
-/* Bande olive gauche */
-.box-icon{
-  width:92px; align-self:stretch;
-  border-radius:12px 0 0 12px;
-  background: linear-gradient(180deg,#A6A485 0%,#6E6D55 100%);
-  display:flex; justify-content:center; align-items:center;
-}
-.img-box{ max-width:52px; max-height:52px; object-fit:contain; }
+  /* ====== General card styling ====== */
+  .box {
+    flex: 1 1 calc(33.333% - 20px);
+    /* Responsive layout for 3 cards */
+    min-width: 280px;
+    min-height: 180px;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, .08);
+    transition: transform .2s ease-in-out, box-shadow .2s ease-in-out;
+    display: flex;
+    overflow: hidden;
+    /* Ensures content stays within rounded corners */
+  }
 
-/* Contenu texte */
-.box-content{ flex:1 1 auto; display:flex; flex-direction:column; align-items:flex-start; padding:18px; }
-.box-content h4{ margin:0 0 10px; font-size:18px; font-weight:700; color:var(--dark); }
-.list-box{ margin:0; padding-left:18px; display:flex; flex-direction:column; gap:8px; }
-.list-box li{ list-style:none; position:relative; padding-left:12px; line-height:1.25; }
-.list-box li::before{ content:""; width:6px; height:6px; border-radius:50%; background:#6E6D55; position:absolute; left:0; top:.55em; }
+  .box:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, .12);
+  }
 
-/* Tuile 3 avec image de fond */
-.boxINFO{
-  position:relative;
-  max-width:none;
-  background-image:url('<?php echo esc_url($pmo_bg); ?>');
-  background-size:cover;
-  background-position:center;
-}
-.boxINFO::before{
-  content:""; position:absolute; inset:0 auto 0 0; width:65%;
-  background: linear-gradient(90deg, rgba(255,255,255,.95) 0%, rgba(255,255,255,.8) 70%, rgba(255,255,255,0) 100%);
-  clip-path: polygon(0 0, 80% 0, 50% 100%, 0% 100%);
-  border-radius:12px 0 0 12px; z-index:1;
-}
-.boxINFO-title{ position:absolute; z-index:2; top:18px; left:20px; margin:0; color:#222; font-weight:700; font-size:18px; }
-.corner-icon{
-  position:absolute; z-index:3; top:0; right:0;
-  background:#b00000; color:#fff; font-weight:700; font-size:20px;
-  padding:10px 18px; border-radius:0 0 0 16px; line-height:1; text-decoration:none;
-  display:inline-flex; align-items:center; justify-content:center;
-}
+  /* Make the second card clickable */
+  .box.js-nav {
+    cursor: pointer;
+  }
 
-/* Carrousel inside box 3 */
-.box-content.box-content-info{ padding:0; width:100%; }
-.master-carousel-wrapper{ height:100%; display:flex; flex-direction:column; }
-.master-carousel-container{ flex:1 1 auto; height:100%; overflow:hidden; border-radius:16px; position:relative; }
-.master-carousel{ display:flex; height:100%; transition: transform .6s ease; }
-.master-card{ flex:0 0 100%; height:100%; display:flex; flex-direction:column; padding:32px 16px 16px; background:transparent; }
-.carousel-dots{ display:none; }
+  /* ====== Left icon panel for the first two cards ====== */
+  .box-icon {
+    width: 92px;
+    flex-shrink: 0;
+    align-self: stretch;
+    border-radius: 12px 0 0 12px;
+    background: linear-gradient(180deg, var(--light-green) 0%, var(--dark-green) 100%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
 
-/* Focus accessibilité */
+  .img-box {
+    width: 52px;
+    height: 52px;
+    object-fit: contain;
+  }
 
+  /* ====== Text content area ====== */
+  .box-content {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 24px;
+    font-family: sans-serif;
+  }
+
+  .box-content h4 {
+    margin: 0 0 15px;
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--dark-text);
+  }
+
+  .list-box {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .list-box li {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+    line-height: 1.4;
+    font-size: 16px;
+    color: #555;
+  }
+
+  .list-box li::before {
+    content: "";
+    width: 7px;
+    height: 7px;
+    flex-shrink: 0;
+    border-radius: 50%;
+    background: var(--dark-green);
+  }
+
+  /* ====== Styling for the third card (Info Card) ====== */
+  .info-flex {
+    width: 100%;
+    display: flex;
+    gap: 15px;
+  }
+
+  .info-line {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    color: #6E6D55;
+    font-weight: 600;
+    flex-shrink: 0;
+  }
+
+  .info-value {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    color: #2A2916;
+    font-weight: 500;
+    font-size: 14px;
+  }
+
+  .info-value a {
+    color: #2A2916;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 14px;
+  }
+
+
+
+  /* Specific styling for the contact list items */
+  .contact-item {
+    position: relative;
+    padding-left: 15px;
+    padding-top: 3px;
+  }
+
+  .contact-item::before {
+    content: "▸";
+    position: absolute;
+    left: 0;
+    top: 0;
+    color: #b60303;
+    font-size: 18px;
+  }
 </style>
 
 <div class="top-boxes">
-  <!-- Tuile 1 : Calendriers -->
+  <!-- Card 1: Calendrier -->
   <div class="box">
     <div class="box-icon">
-      <img src="/wp-content/plugins/plateforme-master/images/pmo/27) Icon-calendar.png" alt="" class="img-box">
+      <!-- The icon path is preserved as requested -->
+      <img src="/wp-content/plugins/plateforme-master/images/pmo/27) Icon-calendar.png" alt="Calendar Icon"
+        class="img-box">
     </div>
     <div class="box-content">
-      <h4>Calendriers</h4>
+      <h4>Calendrier</h4>
       <ul class="list-box">
-        <?php foreach ($data['calendriers'] as $item): ?>
-          <li><?= esc_html($item) ?></li>
-        <?php endforeach; ?>
+        <li>Réunions</li>
+        <li>Formations</li>
       </ul>
     </div>
   </div>
 
-  <!-- Tuile 2 : Requêtes (cliquable) -->
-  <div class="box js-nav" role="link" tabindex="0"
-       data-href="<?php echo esc_url($gestion_requetes_url); ?>">
+  <!-- Card 2: Soumissions (Clickable) -->
+  <div class="box js-nav" role="link" tabindex="0" data-href="<?php echo esc_url($gestion_requetes_url); ?>">
     <div class="box-icon">
-      <img src="/wp-content/plugins/plateforme-master/images/pmo/27) Icon-paper-plane.png" alt="" class="img-box">
+      <!-- The icon path is preserved as requested -->
+      <img src="/wp-content/plugins/plateforme-master/images/pmo/27) Icon-paper-plane.png" alt="Submissions Icon"
+        class="img-box">
     </div>
     <div class="box-content">
-      <h4>Requêtes</h4>
+      <h4>Soumissions</h4>
       <ul class="list-box">
-        <?php foreach ($data['Requêtes'] as $item): ?>
-          <li><?= esc_html($item) ?></li>
-        <?php endforeach; ?>
+        <li>En attente</li>
+        <li>En cours</li>
+        <li>terminées</li>
       </ul>
     </div>
   </div>
 
-  <!-- Tuile 3 : Image + overlay + flèche -->
-  <div class="boxINFO">
-    <h4 class="boxINFO-title">Gestion Des Requêtes</h4>
-    <a class="corner-icon" href="<?php echo esc_url($gestion_requetes_url); ?>" aria-label="Ouvrir la gestion des requêtes">↗</a>
-
-    <div class="box-content box-content-info">
-      <div class="master-carousel-wrapper">
-        <div class="carousel-dots" id="carousel-dots"></div>
-        <div class="master-carousel-container">
-          <div class="master-carousel" id="carousel">
-            <!-- Slides dynamiques ajoutés par JS -->
+  <!-- Card 3: Information -->
+  <div class="box">
+    <div class="box-content">
+      <div class="info-flex">
+        <div class="info-line">
+          <div>Responsable :</div>
+          <div>Date de création :</div>
+          <div>Contact :</div>
+        </div>
+        <div class="info-value">
+          <div>Mohamed Smail</div>
+          <div>15/03/2012</div>
+          <div>
+            <div class="contact-item"><a href="mailto:Test@gmail.com">Test@gmail.com</a></div>
+            <div class="contact-item">71 895 236</div>
           </div>
         </div>
       </div>
@@ -172,17 +214,22 @@ $gestion_requetes_url = trailingslashit( get_site_url() ) . 'gestion-requetes';
 </div>
 
 <script>
-// Tuile Requêtes : clic + Enter/Espace
-document.querySelectorAll('.js-nav').forEach(box => {
-  const go = () => {
-    const href = box.dataset.href;
-    if (href) window.location.href = href;
-  };
-  box.addEventListener('click', go);
-  box.addEventListener('keydown', e => {
-    if (e.key === 'Enter' || e.key === ' ') {
-      e.preventDefault(); go();
-    }
+  // This script makes the entire "Soumissions" card clickable
+  document.addEventListener('DOMContentLoaded', function () {
+    document.querySelectorAll('.js-nav').forEach(box => {
+      const go = () => {
+        const href = box.dataset.href;
+        if (href) {
+          window.location.href = href;
+        }
+      };
+      box.addEventListener('click', go);
+      box.addEventListener('keydown', e => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          go();
+        }
+      });
+    });
   });
-});
 </script>

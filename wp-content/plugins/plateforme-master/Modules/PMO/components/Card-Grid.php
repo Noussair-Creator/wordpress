@@ -1,295 +1,359 @@
-<script src="https://kit.fontawesome.com/TA_CLE_FONT_AWESOME_PRO.js" crossorigin="anonymous"></script>
+<!DOCTYPE html>
+<html lang="fr">
 
-<div class="card-grid p-4">
-  <!-- Colonne 1 -->
-  <div class="column" id="column1">
-    
-    <div class="card with-image card2" draggable="true"><a href="/alimentation-et-saisie-des-donnees">
-      <div class="card-title">Alimentation Et Saisie Des Données</div>
-      <a href="/alimentation-et-saisie-des-donnees"><span class="corner-icon">↗</span></a></a>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard</title>
+  <!-- Font Awesome Script from your original code -->
+  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+  <!-- NOTE: Using a generic FA kit, replace if you have a specific PRO key -->
+  <style>
+    .dashboard-grid {
+      display: grid;
+      grid-template-columns: 2fr 2fr;
+      grid-auto-rows: auto;
+      gap: 20px;
+      margin: 20px 0;
+      align-items: stretch;
+    }
+
+    .column {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .bottom-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+
+    /* --- Card Styling --- */
+    .card {
+      background-color: #fff;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+      position: relative;
+      overflow: hidden;
+      color: #2A2916;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    a.corner-link {
+      position: absolute;
+      top: 0;
+      right: 0;
+      background: #c1272d;
+      color: white;
+      padding: 10px 18px;
+      border-bottom-left-radius: 12px;
+      text-decoration: none;
+      font-size: 20px;
+      font-weight: bold;
+      line-height: 1;
+      transition: background-color 0.3s;
+    }
+
+    a.corner-link:hover {
+      background-color: #a12024;
+    }
+
+    .card h3 {
+      font-size: 22px;
+      font-weight: 700;
+      margin: 0;
+      padding-left: 15px;
+      position: relative;
+    }
+
+    .card h3::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: -50px;
+      bottom: 0;
+      width: 5px;
+      height: 150px;
+      background-color: #c1272d;
+    }
+
+    /* --- Specific Card Styles --- */
+    .card.project-card,
+    .card.call-card {
+      min-height: 200px;
+      padding: 24px;
+      justify-content: center;
+      border: none;
+    }
+
+    .project-card {
+      /* Replace with your image path */
+      background-image: url('/wp-content/plugins/plateforme-master/images/pmo/Groupe 415.png');
+      background-repeat: no-repeat;
+      background-position: right center;
+      background-size: 75% 100%;
+    }
+
+    .project-card h3 {
+      color: #2A2916;
+      max-width: 600px;
+    }
+
+    .call-card {
+      /* Replace with your image path */
+      background-image: url("/wp-content/plugins/plateforme-master/images/pmo/Groupe 416.png");
+      /* background-color: #f0efe9; */
+      background-repeat: no-repeat;
+      background-position: right center;
+      background-size: 65% 100%;
+    }
+
+    .small-card {
+      min-height: 140px;
+      padding: 24px;
+      background-image: url("/wp-content/plugins/plateforme-master/images/pmo/Tracé 5369.png");
+      background-repeat: no-repeat;
+      background-position: right;
+      background-size: 100% 120%;
+      flex-direction: row;
+      align-items: center;
+      border: none;
+    }
+
+    .small-card img {
+      max-width: 90px;
+      height: auto;
+    }
+
+    .small-card .card-content {
+      flex-grow: 1;
+    }
+
+    .small-card h3 {
+      border: none;
+      padding-left: 0;
+      font-weight: 700;
+    }
+
+    .small-card h3::before {
+      display: none;
+    }
+
+    .card.ged-card {
+      max-height: 220px;
+      /* background-color: #f0efe9; */
+      align-items: center;
+      justify-content: center;
+      border: none;
+    }
+
+    .card.ged-card img {
+      max-width: 48%;
+    }
+
+    /* --- Chart Card --- */
+    .chart-card {
+      padding: 20px;
+      background: #ffffff;
+      border: none;
+    }
+
+    .chart-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 15px;
+    }
+
+    .chart-header h4 {
+      margin: 0;
+      font-size: 16px;
+      font-weight: 700;
+    }
+
+    .chart-header select {
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      padding: 6px 10px;
+      font-size: 14px;
+      background-color: #fafafa;
+      margin-inline: 40px;
+    }
+
+    .chart-display-area {
+      display: flex;
+      align-items: flex-end;
+      padding-bottom: 25px;
+    }
+
+    .y-axis-labels {
+      height: 180px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding-right: 10px;
+      font-size: 12px;
+      color: #666;
+      text-align: right;
+      flex-shrink: 0;
+    }
+
+    .y-axis-labels span {
+      position: relative;
+      top: -6px;
+      /* Nudge text to sit on the line */
+    }
+
+    .y-axis-labels span:first-of-type {
+      top: 0;
+    }
+
+    .chart-body {
+      flex-grow: 1;
+      display: flex;
+      justify-content: space-around;
+      align-items: flex-end;
+      gap: 15px;
+      height: 180px;
+      position: relative;
+      border-bottom: 1px solid #ccc;
+      padding: 0 15px;
+    }
+
+    .chart-body::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-image: linear-gradient(to top, #e0e0e0 1px, transparent 1px);
+      background-size: 100% 25%;
+      z-index: 0;
+    }
+
+    .bar-group {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      flex-basis: 22%;
+      height: 100%;
+      justify-content: flex-end;
+      z-index: 1;
+      position: relative;
+    }
+
+    .bar {
+      width: 40%;
+      background-color: #BF040473;
+      border-radius: 4px 4px 0 0;
+      transition: height 0.5s ease-out;
+      border: 2px solid #BF0404;
+      border-bottom: none;
+    }
+
+    .bar-group span {
+      font-size: 12px;
+      color: #666;
+      text-align: center;
+      position: absolute;
+      bottom: -25px;
+      left: 0;
+      width: 100%;
+    }
+
+    .chart-legend-footer {
+      text-align: right;
+      padding: 5px 20px 0 0;
+      font-size: 12px;
+      color: #666;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="dashboard-grid">
+    <!-- Colonne 1 -->
+    <div class="column">
+      <div class="card project-card">
+        <h3 class="project-title">Gestion Des <br> Projets</h3>
+        <a href="/gestion-des-projets" class="corner-link">↗</a>
+      </div>
+      <div class="card call-card">
+        <h3 class="call-title">Appel à projet</h3>
+        <a href="/appels-a-projets-pmo" class="corner-link">↗</a>
+      </div>
     </div>
 
-   
-
-
-    <div class="card with-image card1" draggable="true"><a href="/depot-et-telechargement-des-donnees">
-      <div class="card-title">Dépot Et Téléchargement Des Données</div>
-      <a href="/depot-et-telechargement-des-donnees"><span class="corner-icon">↗</span></a></a>
+    <!-- Colonne 2 -->
+    <div class="card chart-card">
+      <a href="#" class="corner-link">↗</a>
+      <div class="chart-header">
+        <h4>Nombre des projets par type</h4>
+        <select>
+          <option>2024 - 2025</option>
+          <option>2023 - 2024</option>
+        </select>
+      </div>
+      <div class="chart-display-area">
+        <div class="y-axis-labels">
+          <span>20</span>
+          <span>15</span>
+          <span>10</span>
+          <span>5</span>
+          <span>0</span>
+        </div>
+        <div class="chart-body">
+          <div class="bar-group">
+            <div class="bar" style="height: 70%;"></div>
+            <span>Nationaux</span>
+          </div>
+          <div class="bar-group">
+            <div class="bar" style="height: 45%;"></div>
+            <span>bilatéraux</span>
+          </div>
+          <div class="bar-group">
+            <div class="bar" style="height: 62%;"></div>
+            <span>Européen</span>
+          </div>
+          <div class="bar-group">
+            <div class="bar" style="height: 90%;"></div>
+            <span>Autres</span>
+          </div>
+        </div>
+      </div>
+      <div class="chart-legend-footer">
+        <span>Projets</span>
+      </div>
     </div>
   </div>
 
-  <!-- Colonne 2 -->
-  <div class="column" id="column2">
-
-
-    
-    <div class="column2ligne2">
-
-    
-
-      
-
-     <div class="card ged-card card5" draggable="true">
-      <a href="/ged"><span class="corner-icon">↗</span></a></a>
+  <div class="bottom-grid">
+    <div class="card small-card">
+      <div class="card-content">
+        <h3 class="budget-title">Budgets</h3>
+      </div>
+      <img src="/wp-content/plugins/plateforme-master/images/pmo/dollar-circle-list-svgrepo-com.png" alt="Budget Icon">
     </div>
-
+    <div class="card small-card">
+      <div class="card-content">
+        <h3 class="partner-title">Partenaires</h3>
+      </div>
+      <img src="/wp-content/plugins/plateforme-master/images/pmo/global-partner.png" alt="Partner Icon">
     </div>
-   <!-- <div> -->
-    <!-- GED -->
-    <!-- <div class="card ged-card card5">
-    <span class="corner-icon">↗</span>
-    </div> -->
-    <!-- Formulaires -->
-  <!-- </div> -->
-
-
+    <div class="card ged-card">
+      <a href="#" class="corner-link">↗</a>
+      <img src="/wp-content/plugins/plateforme-master/images/pmo/Groupe 2376.png" alt="GED Icon">
+    </div>
   </div>
-</div>
 
+  <!-- Add Font Awesome for icons -->
+  <script src="https://use.fontawesome.com/releases/v5.15.4/js/all.js"></script>
+</body>
 
-<style>
-.card-grid {
-  display: grid;
-  grid-template-columns: 2fr 1fr;
-  gap: 16px;
-  padding: 20px 0px;
-      padding-top: 0px !important;
-}
-.card {
-  position: relative;
-  background: #fff;
-  border-radius: 12px;
-  padding: 16px;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.05);
-  overflow: hidden;
-}
-.card-title {
-  border-left: 5px solid #bc0503;
-    width: 180px;
-    font-size: 20px;
-    font-weight: 700;
-    padding: 12px;
-}
-.card-image {
-  width: 100%;
-  height: auto;
-  display: block;
-  border-radius: 0 0 12px 12px;
-}
-.corner-icon {
-    position: absolute;
-    top: 0px;
-    right: -2px;
-    background: #b00000;
-    color: #fff;
-    font-size: 24px;
-    padding: 8px 21px;
-    border-radius: 0px 0px 0px 19px;
-    position: absolute;
-    font-weight: 700;
-}
-.card.with-image.card1 {
-    background-image: url('/wp-content/plugins/plateforme-master/images/pmo/jurys.png');
-
- background-size: 77%;
-    background-repeat: no-repeat;
-    padding-top: 17px;
-    padding-bottom: 17px;
-    margin-bottom: 20px;
-    background-position: 100%;
-}
-
-.card.with-image.card2{
-    background-image: url("/wp-content/plugins/plateforme-master/images/pmo/Groupe de masques 415.png");
-    background-size: 106%;
-    background-repeat: no-repeat;
-    padding-top: 38px;
-    padding-bottom: 38px;
-    margin-bottom: 20px;
-    margin-top: 20px;
-}
-.card.with-image.card3 {
-  background-image: url('/wp-content/plugins/plateforme-master/images/imagesstudentmaster/Groupe de masques 446.png');
-  background-size: 105%;
-    background-repeat: no-repeat;
-    padding-top: 18px;
-    padding-bottom: 18px;
-    margin-bottom: 20px;
-    background-position: 95%;
-}
-.card.with-image.card4 {
-  background-image: url('/imagesMaster/Groupe de masques 456.png');
-  background-size: cover;
-  background-repeat: no-repeat;
-  padding-top: 27px;
-  padding-bottom: 24px;
-  background-position: center center;
-    margin-bottom: 20px;
-
-}
-.card.ged-card.card5 {
-  background-image: url("/wp-content/plugins/plateforme-master/images/icon etudiant/Groupe 2376.png");
-background-size: 77%;
-    background-repeat: no-repeat;
-    padding-top: 149px;
-    padding-bottom: 233px;
-    margin-bottom: 0px;
-    background-position: center center;
-    flex: 1 1 22%;
-}
-.card {
-  /* autres styles */
-  user-select: none; /* optionnel : empêche sélection de texte au drag */
-}
-
-.card[draggable="true"] {
-  cursor: grab;
-}
-
-.card[draggable="true"]:active {
-  cursor: grabbing;
-}
-
-
-.box-soutenance
- {
-    position: relative;
-    background-color: white;
-    border-radius: 16px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
-    background-image: url("/wp-content/plugins/plateforme-master/images/imagesstudentmaster/Groupe de masques 457.png");
-    background-size: 100%;
-    background-position: bottom right;
-    padding: 20px;
-    min-height: 210px;
-    display: flex
-;
-    flex-direction: column;
-    justify-content: space-between;
-    overflow: hidden;
-    flex: 1 1 27%;
-    background-repeat: no-repeat;
-}
-
-.soutenance-content {
-  background: rgba(255, 255, 255, 0.85);
-  padding: 24px;
-  border-radius: 12px;
-  width: fit-content;
-  margin-left: -30px;
-}
-
-.soutenance-title {
-  font-size: 18px;
-  font-weight: 700;
-  color: #2A2916;
-  margin-bottom: 10px;
-}
-.column2ligne2 {
-    display: flex
-;
-    gap: 16px;
-    margin-top: 16px;
-}
-.soutenance-list {
-  list-style: none;
-  padding-left: 20px;
-  margin: 0;
-  font-size: 14px;
-  color: #2A2916;
-}
-
-.soutenance-list li {
-  position: relative;
-  margin-bottom: 6px;
-  line-height: 1.3em;
-}
-
-.soutenance-list li::before {
-  content: "●";
-  color: #7E7C5A;
-  position: absolute;
-  left: -12px;
-  font-size: 10px;
-  top: 4px;
-}
-
-.corner-icon {
-  position: absolute;
-  top: 0;
-  right: 0;
-  background: #b00000;
-  color: white;
-  font-weight: bold;
-  font-size: 20px;
-  padding: 10px 18px;
-  border-radius: 0 0 0 16px;
-}
-/* === Aligner Top-Boxes et Grid === */
-
-/* même grille et même gap */
-.top-boxes{
-  display: grid;                       /* au lieu de flex pour une vraie grille */
-  grid-template-columns: repeat(3,1fr);
-  gap: 20px;                           /* = card-grid ci-dessous */
-  margin-top: 20px;
-}
-
-/* enfants prennent 100% de leur colonne, pas de calc foireux */
-.top-boxes .box,
-.top-boxes .boxINFO{
-  width: 100%;
-  flex: initial;                        /* annule flex: 1 1 calc(...) */
-  display: flex;
-  min-height: 180px;
-}
-
-/* la grille du dessous : même gap et pas de padding parasite */
-.card-grid{ 
-  grid-template-columns: 2fr 1fr; 
-  gap: 20px; 
-  padding-left: 0 !important; 
-  padding-right: 0 !important; 
-}
-
-/* si tu veux carrément neutraliser toute la classe p-4 sur card-grid */
-.card-grid.p-4{ padding: 0 !important; }
-
-/* petit bonus : évite le décalage interne du 3e bloc */
-.master-carousel-wrapper{ margin-top: 0; }  /* enlève le -36px */
-
-</style>
-<script>
-function initDragAndDrop(columnSelector) {
-  let draggedItem = null;
-
-  const cards = document.querySelectorAll(`${columnSelector} .card`);
-  const column = document.querySelector(columnSelector);
-
-  cards.forEach(card => {
-    card.addEventListener('dragstart', e => {
-      draggedItem = card;
-      setTimeout(() => card.style.display = 'none', 0);
-    });
-
-    card.addEventListener('dragend', () => {
-      draggedItem.style.display = 'block';
-      draggedItem = null;
-    });
-  });
-
-  column.addEventListener('dragover', e => {
-    e.preventDefault(); // autorise le drop dans la colonne
-  });
-
-  column.addEventListener('drop', e => {
-    if (draggedItem && column.contains(draggedItem) === false) return; // interdit drop externe
-    column.appendChild(draggedItem);
-  });
-}
-
-// Initialisation des deux groupes séparément
-initDragAndDrop('#column1');
-initDragAndDrop('#column2');
-</script>
-
+</html>

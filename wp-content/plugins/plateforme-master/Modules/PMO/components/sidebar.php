@@ -1,60 +1,66 @@
-
 <!-- SIDEBAR -->
 <style>
-
-.sidbarcol {
+  .sidbarcol {
     background-color: #fff;
     box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
-}
-.sidebar {
+  }
+
+  .sidebar {
     background: white;
     padding: 20px;
-  
+
     top: -4px;
     position: relative;
     padding-top: 45px;
-}
-.user {
-  text-align: center;
-}
-.user img {
+  }
+
+  .user {
+    text-align: center;
+  }
+
+  .user img {
     width: 132px;
     border-radius: 50%;
     height: 132px;
     border: 3px solid #000;
-}
-.menu {
+  }
+
+  .menu {
     list-style: none;
     padding: 0;
     margin-top: 20px;
     margin-right: -20px;
     margin-left: -29px;
-}
-.menu li {
-  padding: 10px;
-  cursor: pointer;
-  border-left: 4px solid transparent;
-  border-radius: 10px;
-  margin-bottom: 6px;
-  padding-left: 60px;
-}
-.menu li.active {
-  border-radius: 10px;
-  color: #000; 
- background-color: initial;
-}
-.menu li:hover {
-  background-color:  initial;
-  border-left: 4px solid #b60303;
-}
-ul.submenu {
+  }
+
+  .menu li {
+    padding: 10px;
+    cursor: pointer;
+    border-left: 4px solid transparent;
+    border-radius: 10px;
+    margin-bottom: 6px;
+    padding-left: 60px;
+  }
+
+  .menu li.active {
+    border-radius: 10px;
+    color: #000;
+    background-color: initial;
+  }
+
+  .menu li:hover {
+    background-color: initial;
+    border-left: 4px solid #b60303;
+  }
+
+  ul.submenu {
     margin-left: -75px;
     margin-right: -10px;
     margin-bottom: -10px;
-}
-.video-btn {
-    display: flex
-;
+  }
+
+  .video-btn {
+    display: flex;
     align-items: center;
     gap: 10px;
     background-color: white;
@@ -67,33 +73,35 @@ ul.submenu {
     cursor: pointer;
     box-shadow: 0 0 15px rgba(182, 3, 3, 0.3);
     transition: all 0.3s ease;
-}
+  }
 
-.video-btn i {
-  font-size: 20px;
-}
+  .video-btn i {
+    font-size: 20px;
+  }
 
-.video-btn:hover {
-  background-color: #b60303;
-  color: white;
-  box-shadow: 0 0 20px rgba(182, 3, 3, 0.5);
-}
-.menu li:hover{
+  .video-btn:hover {
+    background-color: #b60303;
+    color: white;
+    box-shadow: 0 0 20px rgba(182, 3, 3, 0.5);
+  }
+
+  .menu li:hover {
     color: #000;
 
   }
+
   a {
     color: inherit;
     text-decoration: none;
     cursor: pointer;
-}
+  }
 
-.has-submenu {
+  .has-submenu {
     position: relative;
     box-shadow: 0px 10px 15px #00000014;
-}
+  }
 
-.submenu-toggle {
+  .submenu-toggle {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -102,16 +110,16 @@ ul.submenu {
     font-weight: 600;
     color: #333;
     border-radius: 10px;
-}
+  }
 
-.submenu {
-  list-style: none;
-  margin: 0;
-  padding-left: 15px;
-  display: none;
-}
+  .submenu {
+    list-style: none;
+    margin: 0;
+    padding-left: 15px;
+    display: none;
+  }
 
-.submenu li {
+  .submenu li {
     padding: 15px 10px;
     font-size: 15px;
     cursor: pointer;
@@ -122,43 +130,49 @@ ul.submenu {
     border-radius: 0px;
     border-bottom: 2px solid #A6A4859E;
     padding-left: 75px;
-}
+  }
 
-.submenu li:hover {
-  background-color: #f9f9f9;
-  border-left: 3px solid var(--red);
-}
+  .submenu li:hover {
+    background-color: #f9f9f9;
+    border-left: 3px solid var(--red);
+  }
 
-.has-submenu.open {
-  box-shadow: 0px 10px 15px #00000014;
+  .has-submenu.open {
+    box-shadow: 0px 10px 15px #00000014;
 
-}
+  }
 
-.has-submenu.open > .submenu {
-  display: block;
+  .has-submenu.open>.submenu {
+    display: block;
 
-}
+  }
 
 
-.submenu-toggle i {
-  transition: transform 0.2s ease;
-}
+  .submenu-toggle i {
+    transition: transform 0.2s ease;
+  }
 
-.has-submenu.open .submenu-toggle i {
-  transform: rotate(180deg);
-}
+  .has-submenu.open .submenu-toggle i {
+    transform: rotate(180deg);
+  }
 
-.submenu {
-  display: none;
-  padding-left: 20px;
-  animation: fadeIn 0.3s ease-in-out;
-}
+  .submenu {
+    display: none;
+    padding-left: 20px;
+    animation: fadeIn 0.3s ease-in-out;
+  }
 
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(-5px); }
-  to { opacity: 1; transform: translateY(0); }
-}
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(-5px);
+    }
 
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
 </style>
 
 <div class="sidebar">
@@ -180,7 +194,9 @@ ul.submenu {
           </ul>
         </li>
       <?php else: ?>
-        <a href="<?= $item['lien'] ?>"><li class="<?= $i === 0 ? 'active' : '' ?>"><?= $item['label'] ?></li></a>
+        <a href="<?= $item['lien'] ?>">
+          <li class="<?= $i === 0 ? 'active' : '' ?>"><?= $item['label'] ?></li>
+        </a>
       <?php endif; ?>
     <?php endforeach; ?>
   </ul>
@@ -193,37 +209,33 @@ ul.submenu {
 </div>
 
 <script>
-
-$(document).ready(function() {
-  $('.menu li').click(function() {
-    $('.menu li').removeClass('active');
-    $(this).addClass('active');
-  });
-});
-
-
-$(document).ready(function () {
-  $('.menu li').click(function () {
-    $('.menu li').removeClass('active');
-    $(this).addClass('active');
+  $(document).ready(function () {
+    $('.menu li').click(function () {
+      $('.menu li').removeClass('active');
+      $(this).addClass('active');
+    });
   });
 
-  $('.submenu-toggle').on('click', function () {
-    let parent = $(this).parent('.has-submenu');
-    let submenu = parent.find('.submenu');
 
-    if (parent.hasClass('open')) {
-      submenu.stop().slideUp(200);
-      $(this).find('i').removeClass('fa-chevron-up').addClass('fa-chevron-down');
-    } else {
-      submenu.stop().slideDown(200);
-      $(this).find('i').removeClass('fa-chevron-down').addClass('fa-chevron-up');
-    }
+  $(document).ready(function () {
+    $('.menu li').click(function () {
+      $('.menu li').removeClass('active');
+      $(this).addClass('active');
+    });
 
-    parent.toggleClass('open');
+    $('.submenu-toggle').on('click', function () {
+      let parent = $(this).parent('.has-submenu');
+      let submenu = parent.find('.submenu');
+
+      if (parent.hasClass('open')) {
+        submenu.stop().slideUp(200);
+        $(this).find('i').removeClass('fa-chevron-up').addClass('fa-chevron-down');
+      } else {
+        submenu.stop().slideDown(200);
+        $(this).find('i').removeClass('fa-chevron-down').addClass('fa-chevron-up');
+      }
+
+      parent.toggleClass('open');
+    });
   });
-});
-
-
-
 </script>

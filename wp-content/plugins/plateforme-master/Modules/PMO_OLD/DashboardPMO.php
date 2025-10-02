@@ -8,7 +8,6 @@ require_once 'config/roles.php';
 
 <!DOCTYPE html>
 <html lang="fr">
-
 <head>
   <meta charset="UTF-8">
   <title>Dashboard - PMO</title>
@@ -34,9 +33,10 @@ require_once 'config/roles.php';
       margin: 0;
       font-family: 'Segoe UI', sans-serif;
       background: var(--gray);
-      min-height: 100vh;
+      min-height: 100vh; 
     }
-  </style>
+
+    </style>
 </head>
 
 
@@ -74,5 +74,4 @@ require_once 'config/roles.php';
   <!-- Scripts -->
   <?php include 'components/scripts.php'; ?>
 </body>
-
 </html>
