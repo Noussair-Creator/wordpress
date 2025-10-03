@@ -1,16 +1,12 @@
 <div class="statistiques-wrapper">
     <div class="header-bar">
         <h3>
-            <img src="/imagesMaster/servicemasterImages/1170616.png" alt="Icon"
-                style="margin-right: 8px; vertical-align: middle;width: 25px;height: 35px;">
+            <img width="30px" src="/wp-content/plugins/plateforme-master/images/icons/1170616.png" alt="Icon">
             Statistiques Générales
         </h3>
         <button class="btn-report"><i class="fa fa-sync-alt"></i> Générer un rapport global</button>
 
     </div>
-    <hr class="section-divider">
-
-
     <div class="stats-grid">
         <div class="left-stats">
             <div class="stat-box">
@@ -63,414 +59,430 @@
     </div>
 </div>
 <style>
-    .statistiques-wrapper {
-        background: #fff;
-        border-radius: 12px;
-        box-shadow: 0 0 8px rgba(0, 0, 0, 0.05);
-        padding: 20px;
-        display: flex;
-        flex-direction: column;
-        margin-bottom: 20px;
-    }
+.statistiques-wrapper {
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.05);
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+}
 
-    .header-row {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-    }
+.section-divider {
+    margin: 20px;
+    /* border: 1px solid red !important; */
+    height: 2px;
+    background-color: #ECEBE3;
+}
 
-    .header-row h2 {
-        font-size: 18px;
-        font-weight: 600;
-        display: flex;
-        align-items: center;
-        gap: 10px;
-    }
+.header-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
 
-    .btn-report {
-        border: 1px solid #c60000;
-        color: #c60000;
-        background: #fff;
-        padding: 6px 14px;
-        border-radius: 6px;
-        font-size: 14px;
-        cursor: pointer;
-        display: flex;
-        align-items: center;
-        gap: 6px;
-        font-weight: 500;
-    }
+.header-bar h3 {
+    font-size: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    font-weight: bold;
+}
 
-    .stats-grid {
-        display: flex;
-        align-items: stretch;
-        gap: 20px;
-    }
+.header-row h2 {
+    font-size: 18px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
 
-    .left-stats {
-        display: flex;
-        flex-direction: column;
-        gap: 15px;
-    }
+.btn-report {
+    border: 1px solid #c60000;
+    color: #c60000;
+    background: #fff;
+    padding: 6px 14px;
+    border-radius: 6px;
+    font-size: 14px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-weight: 500;
+}
 
-    .stat-box {
-        background: #f8f9fa;
-        padding: 20px;
-        margin-bottom: 15px;
-        border-radius: 10px;
-        background: #FFFFFF 0% 0% no-repeat padding-box;
-        border-radius: 10px;
-        border-left: 0px;
-        padding-left: 0px;
-        display: flex;
-        box-shadow: 0px 0px 16px #0000001C;
-        box-shadow: 0px 0px 16px #0000001C;
-    }
+.stats-grid {
+    display: flex;
+    align-items: stretch;
+    gap: 20px;
+}
 
-    .stat-box .label {
-        font-weight: 700;
-        font-size: 19px;
-        width: 227px;
-        /* height: 40px; */
-        text-align: left;
-        /* font: normal normal bold 15px / 20px Roboto; */
-        letter-spacing: 0px;
-        color: #2A2916;
-    }
+.left-stats {
+    gap: 4px;
+    display: flex;
+    flex-direction: column;
+}
 
-    .stat-box .value {
-        background: #f1f1f1;
-        border-radius: 6px;
-        padding: 4px 10px;
-        font-weight: bold;
-        font-size: 18px;
-    }
+.stat-box {
+    background: #f8f9fa;
+    padding: 20px;
+    margin-bottom: 15px;
+    border-radius: 10px;
+    background: #FFFFFF 0% 0% no-repeat padding-box;
+    border-radius: 10px;
+    border-left: 0px;
+    padding-left: 0px;
+    display: flex;
+    box-shadow: 0px 0px 16px #0000001C;
+    box-shadow: 0px 0px 16px #0000001C;
+}
 
-    .right-graph {
-        flex: 1;
-        background: #fdfdfd;
-        border-radius: 10px;
-        padding: 20px;
-        position: relative;
-    }
+.stat-box .label {
+    font-weight: 700;
+    font-size: 19px;
+    width: 227px;
+    /* height: 40px; */
+    text-align: left;
+    /* font: normal normal bold 15px / 20px Roboto; */
+    letter-spacing: 0px;
+    color: #2A2916;
+}
 
-    .graph-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 10px;
-    }
+.stat-box .value {
+    background: #f1f1f1;
+    border-radius: 6px;
+    padding: 4px 10px;
+    font-weight: bold;
+    font-size: 18px;
+}
 
-    .graph-select {
-        padding: 5px 10px;
-        border-radius: 6px;
-        font-size: 14px;
-        border: 1px solid #ccc;
-    }
+.right-graph {
+    flex: 1;
+    background: #fdfdfd;
+    border-radius: 10px;
+    padding: 20px;
+    position: relative;
+}
 
-    .legend {
-        margin-top: 20px;
-        font-size: 14px;
-    }
+.graph-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
 
-    .legend span {
-        display: flex;
-        margin-top: 6px;
-    }
+.graph-select {
+    padding: 5px 10px;
+    border-radius: 6px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+}
 
-    .dot {
-        display: inline-block;
-        width: 12px;
-        height: 12px;
-        border-radius: 50%;
-        margin-right: 6px;
-    }
+.legend {
+    margin-top: 20px;
+    font-size: 14px;
+}
 
-    .dot-green {
-        background: #A6A485;
-    }
+.legend span {
+    display: flex;
+    margin-top: 6px;
+}
 
-    .dot-red {
-        background: #b1342f;
-    }
+.dot {
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    margin-right: 6px;
+}
 
-    .dot-beige {
-        background: #dabebe;
-    }
+.dot-green {
+    background: #A6A485;
+}
 
-    .canvas-container {
-        width: 180px;
-        height: 180px;
-    }
+.dot-red {
+    background: #b1342f;
+}
 
-    #pieChart {
-        width: 180px !important;
-        height: 180px !important;
-    }
+.dot-beige {
+    background: #dabebe;
+}
 
-    .stats-grid {
-        display: flex;
-        gap: 20px;
-        align-items: flex-start;
-        justify-content: space-between;
-    }
+.canvas-container {
+    width: 180px;
+    height: 180px;
+}
 
-    .left-stats,
-    .right-graph {
-        flex: 1;
-        box-sizing: border-box;
-    }
+#pieChart {
+    width: 180px !important;
+    height: 180px !important;
+}
 
-    .stat-box {
-        background: #f8f9fa;
-        padding: 20px;
-        margin-bottom: 15px;
-        border-radius: 10px;
-        box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
-        background: #FFFFFF 0% 0% no-repeat padding-box;
-        box-shadow: 0px 0px 16px #0000001C;
-        border-radius: 10px;
-        border-left: 0px;
-        padding-left: 0px;
-    }
+.stats-grid {
+    display: flex;
+    gap: 20px;
+    align-items: flex-start;
+    justify-content: space-between;
+}
 
-    span.label {
-        border-left: 4px solid #c60000;
-        border-radius: 0px;
-        padding-left: 22px;
-    }
+.left-stats,
+.right-graph {
+    flex: 1;
+    box-sizing: border-box;
+}
 
-    .label {
-        display: block;
-        font-size: 14px;
-        color: #555;
-    }
+.stat-box {
+    background: #f8f9fa;
+    padding: 20px;
+    margin-bottom: 15px;
+    border-radius: 10px;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+    background: #FFFFFF 0% 0% no-repeat padding-box;
+    box-shadow: 0px 0px 16px #0000001C;
+    border-radius: 10px;
+    border-left: 0px;
+    padding-left: 0px;
+}
 
-    .value {
-        font-size: 28px;
-        font-weight: bold;
-        color: #333;
-        margin-top: 5px;
-    }
+span.label {
+    border-left: 4px solid #c60000;
+    border-radius: 0px;
+    padding-left: 22px;
+}
 
-    .graph-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 10px;
-    }
+.label {
+    display: block;
+    font-size: 14px;
+    color: #555;
+}
 
-    .graph-select {
-        padding: 5px 10px;
-    }
+.value {
+    font-size: 28px;
+    font-weight: bold;
+    color: #333;
+    margin-top: 5px;
+}
 
-    .canvas-container {
-        width: 100%;
-        max-width: 240px;
-        margin: 0 auto;
-        margin-bottom: 0px
-    }
+.graph-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
 
-    .legend {
-        margin-top: 15px;
-        font-size: 14px;
-    }
+.graph-select {
+    padding: 5px 10px;
+}
 
-    .legend .dot {
-        display: inline-block;
-        width: 10px;
-        height: 10px;
-        margin-right: 6px;
-        border-radius: 50%;
-    }
+.canvas-container {
+    width: 100%;
+    max-width: 240px;
+    margin: 0 auto;
+    margin-bottom: 0px
+}
 
-    .dot-green {
-        background-color: #4CAF50;
-    }
+.legend {
+    margin-top: 15px;
+    font-size: 14px;
+}
 
-    .dot-red {
-        background-color: #F44336;
-    }
+.legend .dot {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    margin-right: 6px;
+    border-radius: 50%;
+}
 
-    .dot-beige {
-        background-color: #FFC107;
-    }
+.dot-green {
+    background-color: #4CAF50;
+}
 
-    .stats-grid {
-        display: flex;
-        gap: 20px;
-        align-items: flex-start;
-    }
+.dot-red {
+    background-color: #F44336;
+}
 
-    .left-stats {
-        flex: 1;
-        /* équivalent à 1/3 si l'autre est 2 */
-        box-sizing: border-box;
-    }
+.dot-beige {
+    background-color: #FFC107;
+}
 
-    .right-graph {
-        flex: 2;
-        /* équivalent à 2/3 */
-        box-sizing: border-box;
-    }
+.stats-grid {
+    display: flex;
+    gap: 20px;
+    align-items: flex-start;
+}
 
-    .stat-box {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        background: #f8f9fa;
-        padding: 36px 20px;
-        margin-bottom: 15px;
-        border-radius: 10px;
-        box-shadow: 0px 0px 16px #0000001C;
-        padding-left: 0px;
-        background-color: #fff;
-    }
+.left-stats {
+    flex: 1;
+    /* équivalent à 1/3 si l'autre est 2 */
+    box-sizing: border-box;
+}
+
+.right-graph {
+    flex: 2;
+    /* équivalent à 2/3 */
+    box-sizing: border-box;
+}
+
+.stat-box {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #f8f9fa;
+    padding: 36px 20px;
+    margin-bottom: 15px;
+    border-radius: 10px;
+    box-shadow: 0px 0px 16px #0000001C;
+    padding-left: 0px;
+    background-color: #fff;
+}
 
 
-    .stat-box .value {
-        background: #ECEBE3;
-        border-radius: 6px;
-        padding: 9px 8px;
-        font-weight: bold;
-        font-size: 21px;
-        width: 67px;
-        text-align: center;
-    }
+.stat-box .value {
+    background: #ECEBE3;
+    border-radius: 6px;
+    padding: 9px 8px;
+    font-weight: bold;
+    font-size: 21px;
+    width: 67px;
+    text-align: center;
+}
 
-    .right-graph {
-        padding: 20px;
-        background: #fff;
-        border-radius: 10px;
-        box-shadow: 0px 0px 16px #0000001C;
-    }
+.right-graph {
+    padding: 20px;
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0px 0px 16px #0000001C;
+}
 
-    .graph-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 15px;
-    }
+.graph-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
 
-    .graph-header h4 {
-        font-size: 18px;
-        margin: 0;
-    }
+.graph-header h4 {
+    font-size: 18px;
+    margin: 0;
+}
 
-    .graph-select {
-        padding: 5px 10px;
-        font-size: 14px;
-        border-radius: 4px;
-        border: 1px solid #ccc;
-    }
+.graph-select {
+    padding: 5px 10px;
+    font-size: 14px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+}
 
-    .canvas-container {
-        width: 100%;
-        max-width: 180px;
-        margin: 0 auto 20px;
-        margin-bottom: 0px flex:1
-    }
+.canvas-container {
+    width: 100%;
+    max-width: 180px;
+    margin: 0 auto 20px;
+    margin-bottom: 0px flex:1
+}
 
-    #pieChart {
-        width: 100% !important;
-        height: auto !important;
-    }
+#pieChart {
+    width: 100% !important;
+    height: auto !important;
+}
 
-    .legend {
-        display: inline;
-        justify-content: space-around;
-        font-size: 14px;
-        color: #444;
-    }
+.legend {
+    display: inline;
+    justify-content: space-around;
+    font-size: 14px;
+    color: #444;
+}
 
-    .legend .dot {
-        display: inline-block;
-        width: 12px;
-        height: 12px;
-        border-radius: 50%;
-        margin-right: 6px;
-        vertical-align: middle;
-    }
+.legend .dot {
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    margin-right: 6px;
+    vertical-align: middle;
+}
 
-    .dot-green {
-        background-color: #A6A485;
-    }
+.dot-green {
+    background-color: #A6A485;
+}
 
-    .dot-red {
-        background-color: #b1342f
-    }
+.dot-red {
+    background-color: #b1342f
+}
 
-    .dot-beige {
-        background-color: #dabebe;
-    }
+.dot-beige {
+    background-color: #dabebe;
+}
 
-    .legend {
-        display: inline;
-        justify-content: space-around;
-        font-size: 14px;
-        color: #444;
-        margin-top: 10px;
-        flex: 1;
-        padding-top: 20px;
+.legend {
+    display: inline;
+    justify-content: space-around;
+    font-size: 14px;
+    color: #444;
+    margin-top: 10px;
+    flex: 1;
+    padding-top: 20px;
 
-    }
+}
 
-    .legend-item {
-        display: flex;
-        align-items: center;
-    }
+.legend-item {
+    display: flex;
+    align-items: center;
+}
 
-    .legend-dot {
-        width: 12px;
-        height: 12px;
-        border-radius: 50%;
-        display: inline-block;
-        margin-right: 6px;
-    }
+.legend-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    display: inline-block;
+    margin-right: 6px;
+}
 
-    .blocChart {
-        display: flex;
-        width: max-content;
-        margin: 0 auto;
-        gap: 25px;
-    }
+.blocChart {
+    display: flex;
+    width: max-content;
+    margin: 0 auto;
+    gap: 25px;
+}
 </style>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
 
 <script>
-    /*
-                    const labels = ['Dossier Validé', 'Dossier Refusé', 'Dossier en attente'];
-                    const dataValues = [66, 10, 24];
-                    const colors = ['#A6A485', '#b1342f', '#dabebe'];
-                    
-                    const ctx = document.getElementById('pieChart').getContext('2d');
-                    const myChart = new Chart(ctx, {
-                      type: 'pie',
-                      data: {
-                        labels: labels,
-                        datasets: [{
-                          data: dataValues,
-                          backgroundColor: colors
-                        }]
-                      },
-                      options: {
-                        responsive: true,
-                        plugins: {
-                          legend: { display: false }
-                        }
-                      }
-                    });
-                    
-                    // Générer dynamiquement la légende HTML
-                    const legendContainer = document.getElementById('chartLegend');
-                    labels.forEach((label, index) => {
-                      const legendItem = document.createElement('span');
-                      legendItem.classList.add('legend-item');
-                      legendItem.innerHTML = `<span class="legend-dot" style="background-color:${colors[index]}"></span> ${label}`;
-                      legendContainer.appendChild(legendItem);
-                    });*/
+/*
+                                                                                                                                    const labels = ['Dossier Validé', 'Dossier Refusé', 'Dossier en attente'];
+                                                                                                                                    const dataValues = [66, 10, 24];
+                                                                                                                                    const colors = ['#A6A485', '#b1342f', '#dabebe'];
+                                                                                                                                    
+                                                                                                                                    const ctx = document.getElementById('pieChart').getContext('2d');
+                                                                                                                                    const myChart = new Chart(ctx, {
+                                                                                                                                      type: 'pie',
+                                                                                                                                      data: {
+                                                                                                                                        labels: labels,
+                                                                                                                                        datasets: [{
+                                                                                                                                          data: dataValues,
+                                                                                                                                          backgroundColor: colors
+                                                                                                                                        }]
+                                                                                                                                      },
+                                                                                                                                      options: {
+                                                                                                                                        responsive: true,
+                                                                                                                                        plugins: {
+                                                                                                                                          legend: { display: false }
+                                                                                                                                        }
+                                                                                                                                      }
+                                                                                                                                    });
+                                                                                                                                    
+                                                                                                                                    // Générer dynamiquement la légende HTML
+                                                                                                                                    const legendContainer = document.getElementById('chartLegend');
+                                                                                                                                    labels.forEach((label, index) => {
+                                                                                                                                      const legendItem = document.createElement('span');
+                                                                                                                                      legendItem.classList.add('legend-item');
+                                                                                                                                      legendItem.innerHTML = `<span class="legend-dot" style="background-color:${colors[index]}"></span> ${label}`;
+                                                                                                                                      legendContainer.appendChild(legendItem);
+                                                                                                                                    });*/
 </script>
 
 
@@ -478,46 +490,46 @@
 <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
 
 <script>
-    const labels = ['Candidature En Cours', 'Candidature Clôturés'];
-    const dataValues = [55, 45];
-    const colors = ['#b1342f', '#A6A485'];
+const labels = ['Candidature En Cours', 'Candidature Clôturés'];
+const dataValues = [55, 45];
+const colors = ['#b1342f', '#A6A485'];
 
-    const ctx = document.getElementById('pieChart').getContext('2d');
-    const myChart = new Chart(ctx, {
-        type: 'pie',
-        data: {
-            labels: labels,
-            datasets: [{
-                data: dataValues,
-                backgroundColor: colors
-            }]
-        },
-        options: {
-            responsive: true,
-            plugins: {
-                legend: {
-                    display: false
+const ctx = document.getElementById('pieChart').getContext('2d');
+const myChart = new Chart(ctx, {
+    type: 'pie',
+    data: {
+        labels: labels,
+        datasets: [{
+            data: dataValues,
+            backgroundColor: colors
+        }]
+    },
+    options: {
+        responsive: true,
+        plugins: {
+            legend: {
+                display: false
+            },
+            datalabels: {
+                color: '#fff',
+                font: {
+                    weight: 'bold',
+                    size: 13
                 },
-                datalabels: {
-                    color: '#fff',
-                    font: {
-                        weight: 'bold',
-                        size: 13
-                    },
-                    formatter: (value) => value + '%', // Ou simplement `value` si tu veux afficher le nombre
-                }
+                formatter: (value) => value + '%', // Ou simplement `value` si tu veux afficher le nombre
             }
-        },
-        plugins: [ChartDataLabels]
-    });
+        }
+    },
+    plugins: [ChartDataLabels]
+});
 
-    // Générer dynamiquement la légende HTML
-    const legendContainer = document.getElementById('chartLegend');
-    labels.forEach((label, index) => {
-        const legendItem = document.createElement('span');
-        legendItem.classList.add('legend-item');
-        legendItem.innerHTML =
-            `<span class="legend-dot" style="background-color:${colors[index]}"></span> ${label}`;
-        legendContainer.appendChild(legendItem);
-    });
+// Générer dynamiquement la légende HTML
+const legendContainer = document.getElementById('chartLegend');
+labels.forEach((label, index) => {
+    const legendItem = document.createElement('span');
+    legendItem.classList.add('legend-item');
+    legendItem.innerHTML =
+        `<span class="legend-dot" style="background-color:${colors[index]}"></span> ${label}`;
+    legendContainer.appendChild(legendItem);
+});
 </script>

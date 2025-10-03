@@ -1375,9 +1375,19 @@ function plateforme_content($content)
         'phase-de-projet-details',
         'appels-a-projets-pmo',
         'cree-un-appel-a-projet',
+        'modifier-un-appel-a-projet',
         'appels-a-projets-pmo-details',
-
-
+        'details-chercheur-pmo',
+        'presentation-generale-pmo',
+        'statistiques-pmo',
+        // --------------------------
+        'contact-pmo',
+        'reunions-pmo',
+        'reclamations-pmo',
+        'budgets-pmo',
+        'partenaires-pmo',
+        'ged-pmo',
+        'calendrier-pmo',
     ];
 
     foreach ($pages_PMO as $page_slug) {
@@ -2647,9 +2657,18 @@ function pm_template_override()
         'phase-de-projet-details',
         'appels-a-projets-pmo',
         'cree-un-appel-a-projet',
+        'modifier-un-appel-a-projet',
         'appels-a-projets-pmo-details',
-
-
+        'details-chercheur-pmo',
+        'presentation-generale-pmo',
+        'statistiques-pmo',
+        'contact-pmo',
+        'reunions-pmo',
+        'reclamations-pmo',
+        'budgets-pmo',
+        'partenaires-pmo',
+        'ged-pmo',
+        'calendrier-pmo',
     ];
 
     foreach ($pages_PMO as $page_slug) {

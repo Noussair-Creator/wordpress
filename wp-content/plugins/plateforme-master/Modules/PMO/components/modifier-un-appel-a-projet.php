@@ -378,7 +378,7 @@
 <body>
     <div class="bloc-creation-appel">
         <div class="header-bar">
-            <h3>Crée un appel à projet</h3>
+            <h3>Modifier un appel à projet</h3>
         </div>
 
         <div class="form-group">
