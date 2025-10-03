@@ -2043,3 +2043,171 @@ $(document).on('click', '.delete-btn', async function(e) {
     }
 });
 </script>
+
+<!-- ===================== LOGIQUE ===================== -->
+ 
+<script>
+(function(){
+  'use strict';
+
+  const WRAPPER   = document.getElementById('bloc-stats-grade');
+  const API_BASE  = '/wp-json/plateforme-recherche/v1/membre';
+
+  // Elements
+  const elTotal   = document.getElementById('total-membres');
+  const elActifs  = document.getElementById('membres-actifs');
+  const elLoading = document.getElementById('grade-loading');
+  const elEmpty   = document.getElementById('grade-empty');
+  const elError   = document.getElementById('grade-error');
+  const canvas    = document.getElementById('barChartGrade');
+
+  // Palette couleurs
+  const palette = ['#A6A485','#DDACA7','#FFD54F','#A6C7FF',
+                   '#BF0404','#7CC7C9','#E4B6B6','#808066',
+                   '#b1342f','#dabebe'];
+
+  function showState({loading=false, empty=false, error=false}){
+    if (elLoading) elLoading.style.display = loading ? 'flex' : 'none';
+    if (elEmpty)   elEmpty.style.display   = empty   ? 'flex' : 'none';
+    if (elError)   elError.style.display   = error   ? 'flex' : 'none';
+  }
+
+  function destroyChartIfAny(canvasEl){
+    const inst = (Chart.getChart && Chart.getChart(canvasEl)) || null;
+    if (inst) inst.destroy();
+  }
+
+  function normalizeGradeData(json){
+    if (Array.isArray(json?.repartition_grade)) {
+      return json.repartition_grade.map(x => ({
+        grade: (x.grade ?? 'Non renseigné').trim(),
+        total: Number(x.total) || 0
+      }));
+    }
+    if (Array.isArray(json?.data)) {
+      const map = new Map();
+      for (const m of json.data) {
+        const g = (m.grade || 'Non renseigné').trim();
+        map.set(g, (map.get(g) || 0) + 1);
+      }
+      return [...map].map(([grade,total]) => ({ grade, total }));
+    }
+    return [];
+  }
+
+  function renderBarChartFromGrade(repartitionRaw){
+    destroyChartIfAny(canvas);
+
+    const rows = (repartitionRaw || [])
+      .map(r => ({ grade: r.grade ?? 'Non renseigné', total: Number(r.total) || 0 }))
+      .filter(r => r.total > 0)
+      .sort((a,b) => b.total - a.total);
+
+    showState({ loading:false, empty: rows.length === 0, error:false });
+    if (rows.length === 0) return;
+
+    const labels = rows.map(r => r.grade);
+    const values = rows.map(r => r.total);
+    const colors = labels.map((_, i) => palette[i % palette.length]);
+
+    new Chart(canvas, {
+      type: 'bar',
+      data: {
+        labels,
+        datasets: [{
+          data: values,
+          backgroundColor: colors,
+          borderRadius: 6,
+          borderSkipped: false
+        }]
+      },
+      options: {
+        indexAxis: 'y',
+        responsive: true,
+        maintainAspectRatio: false,
+        scales: {
+          x: { beginAtZero: true, ticks: { precision: 0 }, grid: { color: 'rgba(0,0,0,0.05)' } },
+          y: { grid: { display: false } }
+        },
+        plugins: {
+          legend: { display: false },
+          tooltip: { callbacks: { label: (ctx) => `${ctx.label}: ${ctx.parsed.x}` } }
+        }
+      },
+      plugins: [{
+        id: 'barDataLabels',
+        afterDatasetsDraw(chart) {
+          const { ctx, data } = chart;
+          chart.getDatasetMeta(0).data.forEach((bar, i) => {
+            const v = data.datasets[0].data[i];
+            ctx.save();
+            ctx.fillStyle = '#2c3e50';
+            ctx.font = 'bold 11px sans-serif';
+            ctx.textAlign = 'left';
+            ctx.textBaseline = 'middle';
+            ctx.fillText(v, bar.x + 8, bar.y);
+            ctx.restore();
+          });
+        }
+      }]
+    });
+  }
+
+  async function loadGradeChart(){
+    try {
+      showState({loading:true, empty:false, error:false});
+
+      // ⚡ Attendre le vrai LAB_ID via ensureLabId()
+      const LAB_ID = await (window.ensureLabId ? window.ensureLabId() : 0);
+      if (!LAB_ID) throw new Error("LAB_ID introuvable");
+
+      const url = new URL(API_BASE, window.location.origin);
+      url.searchParams.set('laboratoire_id', String(LAB_ID));
+      url.searchParams.set('with_user', '1');
+      url.searchParams.set('per_page', '200');
+
+      const res  = await fetch(url.toString(), { credentials: 'same-origin' });
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      const json = await res.json();
+
+      // Stats
+      const total   = Array.isArray(json?.data) ? json.data.length : 0;
+      const actifs  = Array.isArray(json?.data) 
+                        ? json.data.filter(m => m.account_status === 'approved').length 
+                        : 0;
+
+      if (elTotal)  elTotal.textContent  = total;
+      if (elActifs) elActifs.textContent = actifs;
+
+      // Graphe
+      const rep = normalizeGradeData(json);
+      renderBarChartFromGrade(rep);
+
+    } catch (err) {
+      console.error('Erreur chargement répartition grade:', err);
+      showState({loading:false, empty:false, error:true});
+      destroyChartIfAny(canvas);
+    }
+  }
+
+  // Expose global
+  window.loadGradeChart = loadGradeChart;
+
+  // Bouton rapport
+  document.querySelector('.btn-report')?.addEventListener('click', function(){
+    const btn = this;
+    const original = btn.innerHTML;
+    btn.disabled = true;
+    btn.innerHTML = '<span class="loading" style="display:inline-block;width:16px;height:16px;border:2px solid rgba(0,0,0,.2);border-top-color:#c60000;border-radius:50%;animation:spin 1s linear infinite;margin-right:6px;"></span> Génération...';
+    setTimeout(()=>{ alert('Rapport généré avec succès !'); btn.innerHTML = original; btn.disabled = false; }, 1500);
+  });
+
+  // Init au chargement DOM
+  document.addEventListener('DOMContentLoaded', () => {
+    showState({loading:true});
+    loadGradeChart();
+  });
+
+})();
+</script>
+

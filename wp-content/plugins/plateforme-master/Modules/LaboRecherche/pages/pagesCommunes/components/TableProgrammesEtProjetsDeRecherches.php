@@ -1426,6 +1426,10 @@
 
       const a = e.target.closest('.dropdown-menu a');
       if (a) {
+         // ✅ Ne pas bloquer les liens "Voir"
+        if (a.classList.contains('btn-voir')) {
+          return; // laisser le href fonctionner normalement
+        }
         e.preventDefault();
         const tr = a.closest('tr');
         const id = Number(tr?.dataset?.id);

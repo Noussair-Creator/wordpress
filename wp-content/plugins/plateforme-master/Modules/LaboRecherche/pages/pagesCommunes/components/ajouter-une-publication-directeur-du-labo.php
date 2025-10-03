@@ -1,4 +1,3 @@
-
 <?php if (!defined('ABSPATH')) exit; ?>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -40,39 +39,22 @@
   .form-check-input:checked{background-color:#b60303;border-color:#b60303}
   .form-check-input:focus{border-color:#b60303;box-shadow:0 0 0 .25rem rgba(182,3,3,.25)}
 
-  /* Select de partage */
-  .share-select{width:100%; min-height:180px; border:1px solid #DBD9C3; border-radius:6px; padding:6px; background:#fff}
-  .muted{color:#6E6D55; font-size:.9rem}
-  .toggle-line{display:flex;align-items:center;gap:10px}
-
   /* Dropdown (combo) */
   .combo{ position:relative; width:100%; }
-  .combo input{
-    width:100%; height:42px; border:1px solid #DBD9C3; border-radius:6px;
-    padding:10px; outline:none; background:#fff; font-size:14px;
-  }
+  .combo input{ width:100%; height:42px; border:1px solid #DBD9C3; border-radius:6px; padding:10px; outline:none; background:#fff; font-size:14px; }
   .combo input:focus{ box-shadow:0 0 0 .2rem rgba(166,164,133,.2); border-color:#A6A485; }
-  .combo-menu{
-    position:absolute; top:100%; left:0; right:0; z-index:9999;
-    background:#fff; border:1px solid #DBD9C3; border-radius:8px;
-    margin-top:6px; box-shadow:0 8px 20px -10px rgba(0,0,0,.25);
-    max-height:260px; overflow:auto; display:none;
-  }
+  .combo-menu{ position:absolute; top:100%; left:0; right:0; z-index:9999; background:#fff; border:1px solid #DBD9C3; border-radius:8px; margin-top:6px; box-shadow:0 8px 20px -10px rgba(0,0,0,.25); max-height:260px; overflow:auto; display:none; }
   .combo-item{ padding:10px 12px; cursor:pointer; font-size:14px; line-height:1.2; display:flex; align-items:center; gap:8px; }
   .combo-item:hover{ background:#F7F6F1; }
   .combo-item.active{ background:#EDEBDB; }
   .combo-item.empty{ color:#6E6D55; cursor:default; }
 
-  .pill-input .add:hover .icon-corner-up{
-  transform: translate(1px,-1px) rotate(25deg);
-}
+  .pill-input .add:hover .icon-corner-up{ transform: translate(1px,-1px) rotate(25deg); }
+  .pill-input .add{ border:none; background:transparent; cursor:pointer; display:inline-flex; align-items:center; justify-content:center; width:28px; height:28px; padding:0; }
 
-/* If you want the add button itself to look clean */
-.pill-input .add{
-  border:none; background:transparent; cursor:pointer;
-  display:inline-flex; align-items:center; justify-content:center;
-  width:28px; height:28px; padding:0;
-}
+  /* Erreur DOI locale */
+  .error-text{ color:#b60303; font-size:.85rem; margin-top:6px; }
+  .is-invalid{ border-color:#b60303 !important; }
 </style>
 
 <div class="form-container">
@@ -97,17 +79,20 @@
       </div>
     </div>
 
-    <div class="col-md-6">
+    <!-- Groupe DOI (affiché uniquement si Article) -->
+    <div class="col-md-6" id="doiGroup" style="display:none">
       <label for="doi" class="form-label">DOI (Digital Object Identifier) :</label>
-<input type="text" 
-       class="form-control" 
-       id="doi" 
-       placeholder="10.xxxx/xxxx"
-       pattern="^10\.\d{4,9}/[-._;()/:A-Z0-9]+$"
-       title="Le DOI doit commencer par '10.' suivi d’un identifiant, ex: 10.1234/abcd1234">
+      <input type="text"
+             class="form-control"
+             id="doi"
+             placeholder="10.xxxx/xxxx"
+             pattern="^10\.\d{4,9}/[-._;()/:A-Z0-9]+$"
+             title="Le DOI doit commencer par '10.' suivi d’un identifiant, ex: 10.1234/abcd1234">
+      <div id="doiError" class="error-text" style="display:none"></div>
     </div>
 
-    <div class="col-md-6">
+    <!-- Groupe Nb pages (affiché uniquement si Article) -->
+    <div class="col-md-6" id="pagesGroup" style="display:none">
       <label for="pages" class="form-label">Nombre des pages :</label>
       <input type="number" min="0" class="form-control" id="pages" placeholder="0">
     </div>
@@ -116,13 +101,25 @@
       <label for="completeTitle" class="form-label">Titre complet :</label>
       <input type="text" class="form-control" id="completeTitle" required>
     </div>
-<div class="col-12">
-  <label for="maisonEdition" class="form-label">Maison d'édition scientifique :</label>
-  <input type="text" class="form-control" id="maisonEdition" placeholder="Ex. Elsevier, Springer, Wiley...">
-</div>
+
+    <div class="col-12">
+      <label for="englishTitle" class="form-label">Title :</label>
+      <input type="text" class="form-control" id="englishTitle" placeholder="">
+    </div>
+
+    <div class="col-12">
+      <label for="maisonEdition" class="form-label">Maison d'édition scientifique :</label>
+      <input type="text" class="form-control" id="maisonEdition" placeholder="Ex. Elsevier, Springer, Wiley...">
+    </div>
+
     <div class="col-12">
       <label for="summary" class="form-label">Résumé</label>
       <textarea class="form-control" id="summary" rows="4"></textarea>
+    </div>
+
+    <div class="col-12">
+      <label for="englishSummary" class="form-label">Summary :</label>
+      <textarea class="form-control" id="englishSummary" rows="4" placeholder=""></textarea>
     </div>
 
     <!-- Mots clés -->
@@ -147,21 +144,23 @@
   </div>
   <ul class="file-list" id="fileList"></ul>
 
-  <!-- Partager l’article (uniquement si Type = Article) -->
-  <div class="bg"><h2 id="h2top">Partager l'article</h2></div>
-  <div id="shareWrapper" style="display:none">
-    <div class="toggle-line">
-      <input type="checkbox" id="shareToggle" class="form-check-input">
-      <label for="shareToggle" class="form-label" style="margin:0">Partager l’article avec d’autres chercheurs</label>
-    </div>
-
-    <div id="shareBox" style="display:none; margin-top:12px">
-      <label class="form-label" for="shareSearch">Chercheurs & directeurs :</label>
-      <div class="combo">
-        <input type="text" id="shareSearch" placeholder="Sélectionner un membre...">
-        <div id="shareMenu" class="combo-menu"></div>
+  <!-- Section Partage (titre + contenu) affichée uniquement si Article -->
+  <div id="shareSection" style="display:none">
+    <div class="bg"><h2 id="h2top">Partager l'article</h2></div>
+    <div id="shareWrapper">
+      <div class="toggle-line">
+        <input type="checkbox" id="shareToggle" class="form-check-input">
+        <label for="shareToggle" class="form-label" style="margin:0">Partager l’article avec d’autres chercheurs</label>
       </div>
-      <div class="chips" id="shareChips" style="margin-top:10px"></div>
+
+      <div id="shareBox" style="display:none; margin-top:12px">
+        <label class="form-label" for="shareSearch">Chercheurs & directeurs :</label>
+        <div class="combo">
+          <input type="text" id="shareSearch" placeholder="Sélectionner un membre...">
+          <div id="shareMenu" class="combo-menu"></div>
+        </div>
+        <div class="chips" id="shareChips" style="margin-top:10px"></div>
+      </div>
     </div>
   </div>
 
@@ -209,10 +208,17 @@
   const elDoi       = document.getElementById('doi');
   const elPages     = document.getElementById('pages');
   const elComm      = document.getElementById('comment');
-// après les autres const (elType, elDate, elTitre, …)
-const elMaison   = document.getElementById('maisonEdition');
+  const elMaison    = document.getElementById('maisonEdition');
 
-  /* ====== Mots clés (chips) ====== */
+  const doiGroup    = document.getElementById('doiGroup');
+  const pagesGroup  = document.getElementById('pagesGroup');
+  const shareSection= document.getElementById('shareSection');
+
+  const doiError    = document.getElementById('doiError');
+  const elTitleEn   = document.getElementById('englishTitle');
+  const elSummaryEn = document.getElementById('englishSummary');
+
+  /* ====== Mots clés ====== */
   const kwInput = document.getElementById('keywordInput');
   const kwAdd   = document.getElementById('keywordAdd');
   const kwWrap  = document.getElementById('keywordChips');
@@ -268,7 +274,7 @@ const elMaison   = document.getElementById('maisonEdition');
     fileInput.value = '';
   });
 
-  // Uploader tous les fichiers sélectionnés et renvoyer [{original_name, storage_path}]
+  // Upload WP Media : retourne [{original_name, storage_path}]
   async function uploadAllFilesIfAny(){
     const items = [...document.querySelectorAll('#fileList .file-list-item')];
     if (!items.length) return [];
@@ -295,46 +301,54 @@ const elMaison   = document.getElementById('maisonEdition');
     }
     return out;
   }
-function isValidDOI(doi) {
-  const regex = /^10\.\d{4,9}\/[-._;()/:A-Z0-9]+$/i;
-  return regex.test(doi.trim());
-}
 
-btnSubmit.addEventListener('click', async ()=>{
-  const doiValue = elDoi.value.trim();
-  if (doiValue && !isValidDOI(doiValue)) {
-    setHint("Veuillez saisir un DOI valide (ex: 10.1234/abcd5678).");
-    return;
+  /* ====== Helpers erreur DOI ====== */
+  function isValidDOI(doi) {
+    const regex = /^10\.\d{4,9}\/[-._;()/:A-Z0-9]+$/i;
+    return regex.test((doi||'').trim());
+  }
+  function setDoiError(msg){
+    if (msg){
+      doiError.textContent = msg;
+      doiError.style.display = 'block';
+      elDoi?.classList.add('is-invalid');
+    } else {
+      doiError.textContent = '';
+      doiError.style.display = 'none';
+      elDoi?.classList.remove('is-invalid');
+    }
   }
 
-  // ... ton code de soumission existant ...
-});
-
-  /* ====== Partage (uniquement si type = Article) ====== */
-  const shareWrapper = document.getElementById('shareWrapper');
+  /* ====== Partage ====== */
   const shareToggle  = document.getElementById('shareToggle');
   const shareBox     = document.getElementById('shareBox');
   const shareSearch  = document.getElementById('shareSearch');
   const shareMenu    = document.getElementById('shareMenu');
   const shareChips   = document.getElementById('shareChips');
 
-  let shareUserIds   = [];   // IDs envoyés au backend
-  let allEligible    = null; // liste complète [{id,label}]
-  let lastResults    = [];   // dernière liste affichée
-  let highlighted    = -1;   // pour le menu
+  let shareUserIds   = [];
+  let allEligible    = null;
+  let lastResults    = [];
+  let highlighted    = -1;
 
-  function showShareIfArticle(){
+  function showArticleDependent(){
     const isArticle = (elType.value === 'Article');
-    shareWrapper.style.display = isArticle ? 'block' : 'none';
+    doiGroup.style.display      = isArticle ? 'block' : 'none';
+    pagesGroup.style.display    = isArticle ? 'block' : 'none';
+    shareSection.style.display  = isArticle ? 'block' : 'none';
+
     if (!isArticle){
-      shareToggle.checked=false; shareBox.style.display='none';
-      shareUserIds=[]; renderShareChips();
+      shareToggle.checked = false;
+      shareBox.style.display = 'none';
+      shareUserIds = [];
+      shareChips.innerHTML = '';
+      setDoiError('');
     }
   }
-  elType.addEventListener('change', showShareIfArticle);
-  showShareIfArticle();
+  elType.addEventListener('change', showArticleDependent);
+  showArticleDependent(); // init
 
-  shareToggle.addEventListener('change', ()=>{
+  shareToggle?.addEventListener('change', ()=>{
     shareBox.style.display = shareToggle.checked ? 'block' : 'none';
   });
 
@@ -358,7 +372,7 @@ btnSubmit.addEventListener('click', async ()=>{
     const url = `${API_BASE}/publication/eligible-users?search=${encodeURIComponent(q)}`;
     const r = await fetch(url, { headers: { 'X-WP-Nonce': REST_NONCE, 'Accept':'application/json' }, credentials:'same-origin' });
     if (!r.ok) return [];
-    return r.json(); // [{id,label}]
+    return r.json();
   }
   async function ensureEligibleLoaded(){
     if (!allEligible) allEligible = await fetchEligibleUsers('');
@@ -399,26 +413,26 @@ btnSubmit.addEventListener('click', async ()=>{
     shareSearch.value = '';
     closeMenu();
   }
-  shareSearch.addEventListener('focus', async ()=>{
+  shareSearch?.addEventListener('focus', async ()=>{
     const list = await ensureEligibleLoaded();
     lastResults = list.slice();
     highlighted = lastResults.length ? 0 : -1;
     openMenu(lastResults);
   });
-  shareSearch.addEventListener('click', async ()=>{
+  shareSearch?.addEventListener('click', async ()=>{
     const list = await ensureEligibleLoaded();
     lastResults = list.slice();
     highlighted = lastResults.length ? 0 : -1;
     openMenu(lastResults);
   });
-  shareSearch.addEventListener('input', async ()=>{
+  shareSearch?.addEventListener('input', async ()=>{
     const q = shareSearch.value.trim().toLowerCase();
     const list = await ensureEligibleLoaded();
     lastResults = q ? list.filter(u => u.label.toLowerCase().includes(q)) : list.slice();
     highlighted = lastResults.length ? 0 : -1;
     openMenu(lastResults);
   });
-  shareSearch.addEventListener('keydown', (e)=>{
+  shareSearch?.addEventListener('keydown', (e)=>{
     if (shareMenu.style.display !== 'block') return;
     if (e.key === 'ArrowDown'){
       e.preventDefault();
@@ -443,7 +457,7 @@ btnSubmit.addEventListener('click', async ()=>{
     const idx = parseInt(item.dataset.idx, 10);
     selectByIndex(idx);
   });
-  document.addEventListener('click', (e)=>{ if (!shareBox.contains(e.target)) closeMenu(); });
+  document.addEventListener('click', (e)=>{ if (!shareSection.contains(e.target)) closeMenu(); });
 
   /* ====== Rôles & libellé bouton ====== */
   const DIRECTOR_ROLE_KEYS = ['um_directeur_laboratoire','directeur_laboratoire','directeur-laboratoire'];
@@ -466,36 +480,53 @@ btnSubmit.addEventListener('click', async ()=>{
   /* ====== Soumission (création) ====== */
   btnSubmit.addEventListener('click', async ()=>{
     setHint('');
+    setDoiError(''); // reset erreur locale DOI
+
     if (!elType.value || !elDate.value || !elTitre.value.trim()){
-      setHint('Veuillez renseigner le type, la date et le titre.'); return;
+      setHint('Veuillez renseigner le type, la date et le titre.');
+      return;
+    }
+
+    // Si Article et DOI saisi → valider le format localement
+    const doiValue = (elDoi?.value||'').trim();
+    if (elType.value === 'Article' && doiGroup.style.display !== 'none' && doiValue && !isValidDOI(doiValue)) {
+      setDoiError("Veuillez saisir un DOI valide (ex: 10.1234/abcd5678).");
+      elDoi?.focus();
+      return;
     }
 
     btnSubmit.disabled = true; const old = btnSubmit.textContent; btnSubmit.textContent = 'Envoi…';
     try {
-      // Upload des PJ (zéro, une ou plusieurs) — appliquées à TOUTES les parts
-      let share_files = [];
-      try { share_files = await uploadAllFilesIfAny(); } catch(e){ console.warn(e); }
+      // 1) uploader d'abord les fichiers (si présents)
+      let uploaded_files = [];
+      try { uploaded_files = await uploadAllFilesIfAny(); } catch(e){ console.warn(e); }
 
-      // Publication source (le service ignore les champs non gérés)
+      // 2) Construire le payload COMPLET avant le fetch
       const payload = {
-  date_publication: elDate.value,
-  titre: elTitre.value.trim(),
-  type: elType.value,
-  resume: elResume.value,
-  commentaire: elComm.value,
-  doi: elDoi.value.trim(),
-  nb_pages: Number(elPages.value || 0) || null
-  // maison_edition_scientifique: (elMaison.value || '').trim()
-};
+        date_publication: elDate.value,
+        titre: elTitre.value.trim(),
+        type: elType.value,
+        resume: elResume.value,
+        commentaire: elComm.value,
+        doi: doiValue,
+        nb_pages: Number(elPages?.value || 0) || null,
+        maison_edition_scientifique: (elMaison.value || '').trim(),
+        title_en:   (elTitleEn?.value || '').trim(),
+        summary_en: (elSummaryEn?.value || '').trim(),
 
-      if (elType.value === 'Article' && shareToggle.checked && shareUserIds.length){
-  payload.share_with_user_ids = shareUserIds.slice();
+        // ✅ BASE: toujours envoyés, même sans partage
+        keywords: keywords.slice(),
+        files:    uploaded_files
+      };
 
-  // pré-remplir (si tu veux) les parts avec les mêmes mots-clés/fichiers
-  if (keywords.length) payload.share_keywords = keywords.slice();
-  if (share_files.length) payload.share_files = share_files;
-}
+      // 3) Si Article + PARTAGE → ajouter aussi les champs de partage
+      if (elType.value === 'Article' && shareToggle?.checked && shareUserIds.length){
+        payload.share_with_user_ids = shareUserIds.slice();
+        if (keywords.length)       payload.share_keywords = keywords.slice();
+        if (uploaded_files.length) payload.share_files    = uploaded_files;
+      }
 
+      // 4) Appel API
       const url = `${API_BASE}/publication`;
       const resp = await fetch(url, {
         method:'POST',
@@ -503,14 +534,25 @@ btnSubmit.addEventListener('click', async ()=>{
         credentials:'same-origin',
         body: JSON.stringify(payload)
       });
+
       if (!resp.ok) {
-        let msg = `HTTP ${resp.status}`; try { const j = await resp.json(); msg = j?.message || msg; } catch {}
+        let msg = `HTTP ${resp.status}`;
+        try { const j = await resp.json(); msg = j?.message || msg; } catch {}
+        if (resp.status === 409 || /doi/i.test(String(msg))) {
+          setDoiError('Ce DOI existe déjà pour une autre publication.');
+          elDoi?.focus();
+          throw new Error('duplicate-doi');
+        }
         throw new Error(msg);
       }
+
       setHint(isDirector() ? 'Publication publiée.' : 'Publication créée et envoyée pour validation.', true);
       setTimeout(() => { location.replace(LIST_URL || '/publication/'); }, 700);
+
     } catch(e){
-      setHint(e.message || 'Une erreur est survenue.');
+      if (e?.message !== 'duplicate-doi') {
+        setHint(e?.message || 'Une erreur est survenue.');
+      }
     } finally {
       btnSubmit.disabled = false; btnSubmit.textContent = old;
     }

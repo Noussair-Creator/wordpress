@@ -166,9 +166,12 @@
     color: #444;
     margin-top: 10px;
     display: flex;
-    justify-content: space-around;
+    flex-direction: column; /* ✅ les items deviennent verticaux */
+    align-items: flex-start; /* ✅ alignés à gauche (ou center si tu veux centrer) */
+    gap: 8px; /* ✅ petit espacement entre chaque ligne */
     padding-top: 20px;
 }
+
 
 .legend-item {
     display: flex;
@@ -268,7 +271,7 @@ window.pmuser = {
     }
 
     // Chart setup
-    const labels = ['Acceptées', 'En attente', 'Rejetées'];
+    const labels = ['Validées', 'En attente', 'Rejetées'];
     const colors = ['#b1342f', '#808066', '#dabebe'];
     let chart = null;
 

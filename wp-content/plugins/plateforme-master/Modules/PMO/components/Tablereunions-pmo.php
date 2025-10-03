@@ -1631,96 +1631,96 @@ button.dt-button.buttons-collection.buttons-colvis.custom-colvis-btn {
 document.addEventListener('DOMContentLoaded', function() {
     // Initialize DataTable
     /*    const table = $('#candidaturesTable').DataTable({
-                paging: true,
-                searching: true,
-                ordering: false,
-                info: false,
-                pageLength: 5,
-                dom: 'Bfrtip',
-                buttons: [],
-                language: {
-                    "emptyTable": "Aucune donnée disponible dans le tableau",
-                    "info": "Affichage de l'élément _START_ à _END_ sur _TOTAL_ éléments",
-                    "infoEmpty": "Affichage de l'élément 0 à 0 sur 0 élément",
-                    "infoFiltered": "(filtré à partir de _MAX_ éléments au total)",
-                    "lengthMenu": "Afficher _MENU_ éléments",
-                    "loadingRecords": "Chargement...",
-                    "processing": "Traitement...",
-                    "search": "Rechercher :",
-                    "zeroRecords": "Aucun élément correspondant trouvé",
-                    "paginate": {
-                        "first": "Premier",
-                        "last": "Dernier",
-                        "previous": "<i class='fa fa-chevron-left'></i>",
-                        "next": "<i class='fa fa-chevron-right'></i>"
-                    },
-                    "aria": {
-                        "sortAscending": ": activer pour trier la colonne par ordre croissant",
-                        "sortDescending": ": activer pour trier la colonne par ordre décroissant"
-                    }
+            paging: true,
+            searching: true,
+            ordering: false,
+            info: false,
+            pageLength: 5,
+            dom: 'Bfrtip',
+            buttons: [],
+            language: {
+                "emptyTable": "Aucune donnée disponible dans le tableau",
+                "info": "Affichage de l'élément _START_ à _END_ sur _TOTAL_ éléments",
+                "infoEmpty": "Affichage de l'élément 0 à 0 sur 0 élément",
+                "infoFiltered": "(filtré à partir de _MAX_ éléments au total)",
+                "lengthMenu": "Afficher _MENU_ éléments",
+                "loadingRecords": "Chargement...",
+                "processing": "Traitement...",
+                "search": "Rechercher :",
+                "zeroRecords": "Aucun élément correspondant trouvé",
+                "paginate": {
+                    "first": "Premier",
+                    "last": "Dernier",
+                    "previous": "<i class='fa fa-chevron-left'></i>",
+                    "next": "<i class='fa fa-chevron-right'></i>"
                 },
-                columnDefs: [{
-                    targets: 0,
-                    orderable: false
-                }],
-                initComplete: function () {
-                    $('.dataTables_filter').hide();
+                "aria": {
+                    "sortAscending": ": activer pour trier la colonne par ordre croissant",
+                    "sortDescending": ": activer pour trier la colonne par ordre décroissant"
                 }
-            });
-    
-            // Custom search input functionality
-            $('#customSearchInput').on('keyup', function () {
-                table.search(this.value).draw();
-            });
-    
-            // --- Generic Dropdown Logic ---
-            function setupDropdowns() {
-                document.addEventListener('click', function () {
-                    document.querySelectorAll('.dropdown-menu').forEach(menu => {
-                        menu.style.display = 'none';
-                    });
-                });
-    
-                $('#candidaturesTable').on('click', '.action-btn', function (e) {
-                    e.stopPropagation();
-                    $('.dropdown-menu').not($(this).next()).hide();
-                    $(this).next('.dropdown-menu').toggle();
-                });
+            },
+            columnDefs: [{
+                targets: 0,
+                orderable: false
+            }],
+            initComplete: function () {
+                $('.dataTables_filter').hide();
             }
-    
-            setupDropdowns();
-            table.on('draw', setupDropdowns);
-    
-    
-            // --- Check All Functionality ---
-            $('#checkAll').on('click', function () {
-                const checkboxes = $('#candidaturesTable tbody input[type="checkbox"]');
-                checkboxes.prop('checked', $(this).prop('checked'));
+        });
+
+        // Custom search input functionality
+        $('#customSearchInput').on('keyup', function () {
+            table.search(this.value).draw();
+        });
+
+        // --- Generic Dropdown Logic ---
+        function setupDropdowns() {
+            document.addEventListener('click', function () {
+                document.querySelectorAll('.dropdown-menu').forEach(menu => {
+                    menu.style.display = 'none';
+                });
             });
-    
-            $('#candidaturesTable tbody').on('change', 'input[type="checkbox"]', function () {
-                if (!this.checked) {
-                    $('#checkAll').prop('checked', false);
-                } else {
-                    const totalCheckboxes = $('#candidaturesTable tbody input[type="checkbox"]').length;
-                    const checkedCheckboxes = $('#candidaturesTable tbody input[type="checkbox"]:checked')
-                        .length;
-                    if (totalCheckboxes === checkedCheckboxes) {
-                        $('#checkAll').prop('checked', true);
-                    }
-                }
+
+            $('#candidaturesTable').on('click', '.action-btn', function (e) {
+                e.stopPropagation();
+                $('.dropdown-menu').not($(this).next()).hide();
+                $(this).next('.dropdown-menu').toggle();
             });
-    
-            table.on('draw', function () {
+        }
+
+        setupDropdowns();
+        table.on('draw', setupDropdowns);
+
+
+        // --- Check All Functionality ---
+        $('#checkAll').on('click', function () {
+            const checkboxes = $('#candidaturesTable tbody input[type="checkbox"]');
+            checkboxes.prop('checked', $(this).prop('checked'));
+        });
+
+        $('#candidaturesTable tbody').on('change', 'input[type="checkbox"]', function () {
+            if (!this.checked) {
+                $('#checkAll').prop('checked', false);
+            } else {
                 const totalCheckboxes = $('#candidaturesTable tbody input[type="checkbox"]').length;
                 const checkedCheckboxes = $('#candidaturesTable tbody input[type="checkbox"]:checked')
                     .length;
-                if (totalCheckboxes > 0 && totalCheckboxes === checkedCheckboxes) {
+                if (totalCheckboxes === checkedCheckboxes) {
                     $('#checkAll').prop('checked', true);
-                } else {
-                    $('#checkAll').prop('checked', false);
                 }
-            });*/
+            }
+        });
+
+        table.on('draw', function () {
+            const totalCheckboxes = $('#candidaturesTable tbody input[type="checkbox"]').length;
+            const checkedCheckboxes = $('#candidaturesTable tbody input[type="checkbox"]:checked')
+                .length;
+            if (totalCheckboxes > 0 && totalCheckboxes === checkedCheckboxes) {
+                $('#checkAll').prop('checked', true);
+            } else {
+                $('#checkAll').prop('checked', false);
+            }
+        });*/
 
     // --- Generic Participant Adder ---
     // --- Participant Adder avec contrôle email ---
@@ -1815,76 +1815,76 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     /*  const editParticipantEmailInput = document.getElementById('editParticipantEmail');
-  
-  
-           addEditParticipantBtn.addEventListener('click', () => addParticipant(editParticipantEmailInput, document
-              .getElementById('editParticipantList')));
-          editParticipantEmailInput.addEventListener('keypress', (e) => {
-              if (e.key === 'Enter') {
-                  e.preventDefault();
-                  addParticipant(editParticipantEmailInput, document.getElementById(
-                      'editParticipantList'));
-              }
-          });*/
+
+
+       addEditParticipantBtn.addEventListener('click', () => addParticipant(editParticipantEmailInput, document
+          .getElementById('editParticipantList')));
+      editParticipantEmailInput.addEventListener('keypress', (e) => {
+          if (e.key === 'Enter') {
+              e.preventDefault();
+              addParticipant(editParticipantEmailInput, document.getElementById(
+                  'editParticipantList'));
+          }
+      });*/
 
 
     // --- Edit Modal Functionality ---
     /* const editModal = document.getElementById('editMeetingModal');
-         const closeEditBtn = document.getElementById('closeEditModalBtn');
-         const updateBtn = document.getElementById('updateMeetingBtn');
-         const editPopupContainer = editModal.querySelector('.popup-container');
-         const editParticipantEmailInput = document.getElementById('editParticipantEmail');
-         const addEditParticipantBtn = document.getElementById('addEditParticipantBtn');
- 
-         const openEditModal = () => {
-             editModal.style.display = 'flex';
-         };
-         const closeEditModal = () => {
-             editModal.style.display = 'none';
-         };
- 
-         $('#candidaturesTable').on('click', '.edit-btn', function (e) {
+     const closeEditBtn = document.getElementById('closeEditModalBtn');
+     const updateBtn = document.getElementById('updateMeetingBtn');
+     const editPopupContainer = editModal.querySelector('.popup-container');
+     const editParticipantEmailInput = document.getElementById('editParticipantEmail');
+     const addEditParticipantBtn = document.getElementById('addEditParticipantBtn');
+
+     const openEditModal = () => {
+         editModal.style.display = 'flex';
+     };
+     const closeEditModal = () => {
+         editModal.style.display = 'none';
+     };
+
+     $('#candidaturesTable').on('click', '.edit-btn', function (e) {
+         e.preventDefault();
+         const row = $(this).closest('tr');
+         const date = row.find('td:eq(1)').text();
+         const subject = row.find('td:eq(2)').text();
+         const dateParts = date.split('/');
+         const formattedDate = `${dateParts[2]}-${dateParts[1]}-${dateParts[0]}`;
+
+         $('#editMeetingDate').val(formattedDate);
+         $('#editMeetingSubject').val(subject);
+       //  $('#editMeetingId').val(table.row(row).index());
+         $('#editParticipantList').empty();
+         openEditModal();
+     });
+
+     closeEditBtn.addEventListener('click', closeEditModal);
+     addEditParticipantBtn.addEventListener('click', () => addParticipant(editParticipantEmailInput, document
+         .getElementById('editParticipantList')));
+     editParticipantEmailInput.addEventListener('keypress', (e) => {
+         if (e.key === 'Enter') {
              e.preventDefault();
-             const row = $(this).closest('tr');
-             const date = row.find('td:eq(1)').text();
-             const subject = row.find('td:eq(2)').text();
-             const dateParts = date.split('/');
-             const formattedDate = `${dateParts[2]}-${dateParts[1]}-${dateParts[0]}`;
- 
-             $('#editMeetingDate').val(formattedDate);
-             $('#editMeetingSubject').val(subject);
-           //  $('#editMeetingId').val(table.row(row).index());
-             $('#editParticipantList').empty();
-             openEditModal();
-         });
- 
-         closeEditBtn.addEventListener('click', closeEditModal);
-         addEditParticipantBtn.addEventListener('click', () => addParticipant(editParticipantEmailInput, document
-             .getElementById('editParticipantList')));
-         editParticipantEmailInput.addEventListener('keypress', (e) => {
-             if (e.key === 'Enter') {
-                 e.preventDefault();
-                 addParticipant(editParticipantEmailInput, document.getElementById(
-                     'editParticipantList'));
-             }
-         });
-         updateBtn.addEventListener('click', () => {
-             const subject = $('#editMeetingSubject').val();
-             const date = $('#editMeetingDate').val();
-             const rowIndex = $('#editMeetingId').val();
-             const participantsCount = document.getElementById('editParticipantList').children.length;
-             const dateParts = date.split('-');
-             const formattedDate = `${dateParts[2]}/${dateParts[1]}-${dateParts[0]}`;
-             table.cell(rowIndex, 2).data(subject).draw();
-             table.cell(rowIndex, 1).data(formattedDate).draw();
-             table.cell(rowIndex, 4).data(participantsCount).draw();
+             addParticipant(editParticipantEmailInput, document.getElementById(
+                 'editParticipantList'));
+         }
+     });
+     updateBtn.addEventListener('click', () => {
+         const subject = $('#editMeetingSubject').val();
+         const date = $('#editMeetingDate').val();
+         const rowIndex = $('#editMeetingId').val();
+         const participantsCount = document.getElementById('editParticipantList').children.length;
+         const dateParts = date.split('-');
+         const formattedDate = `${dateParts[2]}/${dateParts[1]}-${dateParts[0]}`;
+         table.cell(rowIndex, 2).data(subject).draw();
+         table.cell(rowIndex, 1).data(formattedDate).draw();
+         table.cell(rowIndex, 4).data(participantsCount).draw();
+         closeEditModal();
+     });
+     editModal.addEventListener('click', (e) => {
+         if (!editPopupContainer.contains(e.target)) {
              closeEditModal();
-         });
-         editModal.addEventListener('click', (e) => {
-             if (!editPopupContainer.contains(e.target)) {
-                 closeEditModal();
-             }
-         });*/
+         }
+     });*/
 
     // --- Details Modal Functionality ---
     const detailsModal = document.getElementById('detailsMeetingModal');
@@ -1939,15 +1939,15 @@ document.addEventListener('DOMContentLoaded', function() {
 <?php
 $current_user = wp_get_current_user();
 $roles = (array) $current_user->roles;
-$role = $roles[0] ?? '';
+$role  = $roles[0] ?? '';
 $user_id = get_current_user_id();
 
 ?>
 <script>
 window.PMSettings = {
-    restUrl: "<?= esc_url(rest_url()) ?>",
+    restUrl: "<?= esc_url( rest_url() ) ?>",
     nonce: "<?= wp_create_nonce('wp_rest') ?>",
-    role: "<?= esc_js($role) ?>",
+    role: "<?= esc_js( $role ) ?>",
     userId: <?= (int) $user_id ?>
 };
 </script>

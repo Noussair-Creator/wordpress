@@ -1642,24 +1642,24 @@
 <script type="module">
 
         const API_BASE = (window.PMSettings?.restUrl || "/wp-json/") + "plateforme-recherche/v1";
-  async function wpFetch(path, opts = {}) {
-        const res = await fetch(API_BASE + path, {
-            credentials: 'include',
-            headers: { 'X-WP-Nonce': window.PMSettings?.nonce || '', ...(opts.headers||{}) },
-            method: opts.method || 'GET',
-            body: opts.body || undefined
-        });
-        if (!res.ok) {
-            const t = await res.text().catch(()=> '');
-            throw new Error(`HTTP ${res.status} ${t}`);
-        }
-        const ct = res.headers.get('content-type') || '';
-        return ct.includes('application/json') ? res.json() : res.text();
-    }
- document.addEventListener("DOMContentLoaded", async () => {
-    const urlParams = new URLSearchParams(window.location.search);
-    const projetId = urlParams.get("id");
-    if (!projetId) return;
+            async function wpFetch(path, opts = {}) {
+                    const res = await fetch(API_BASE + path, {
+                        credentials: 'include',
+                        headers: { 'X-WP-Nonce': window.PMSettings?.nonce || '', ...(opts.headers||{}) },
+                        method: opts.method || 'GET',
+                        body: opts.body || undefined
+                    });
+                    if (!res.ok) {
+                        const t = await res.text().catch(()=> '');
+                        throw new Error(`HTTP ${res.status} ${t}`);
+                    }
+                    const ct = res.headers.get('content-type') || '';
+                    return ct.includes('application/json') ? res.json() : res.text();
+                }
+            document.addEventListener("DOMContentLoaded", async () => {
+                const urlParams = new URLSearchParams(window.location.search);
+                const projetId = urlParams.get("id");
+                if (!projetId) return;
 
 
   
