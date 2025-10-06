@@ -1567,6 +1567,9 @@
                         </tr>
                     </tbody>
                 </table>
+
+                <!-- Include Reusable Pagination Component -->
+                <?php include 'pagination.php'; ?>
             </div>
             <div class="expense-tab-panel" id="tab-depense">
                 <div class="expense-controls">
@@ -1654,6 +1657,9 @@
                         </tr>
                     </tbody>
                 </table>
+
+                <!-- Include Reusable Pagination Component -->
+                <?php include 'pagination.php'; ?>
             </div>
         </div>
     </div>
@@ -2112,7 +2118,7 @@
 
 
 <script>
-    document.addEventListener("DOMContentLoaded", function () {
+    document.addEventListener("DOMContentLoaded", function() {
         // --- Animate Progress Bars on Load ---
         document.querySelectorAll(".custom-progress-indicator-fill").forEach(bar => {
             // Use a small timeout to allow the browser to render the initial 0% width
@@ -2130,14 +2136,14 @@
         const popupEquipe = modalEquipe.querySelector(".popup-container");
 
         if (btnAjouterMembre && modalEquipe) {
-            btnAjouterMembre.addEventListener("click", function (e) {
+            btnAjouterMembre.addEventListener("click", function(e) {
                 e.preventDefault();
                 modalEquipe.style.display = "flex";
             });
         }
 
         if (modalEquipe && popupEquipe) {
-            modalEquipe.addEventListener("click", function (e) {
+            modalEquipe.addEventListener("click", function(e) {
                 if (!popupEquipe.contains(e.target)) {
                     modalEquipe.style.display = "none";
                 }
@@ -2160,7 +2166,7 @@
         if (membresContainer && addMembreBtn) {
             const membreTemplate = membresContainer.innerHTML;
 
-            addMembreBtn.addEventListener("click", function () {
+            addMembreBtn.addEventListener("click", function() {
                 const lastMembre = membresContainer.querySelector('.form-section-box:last-child');
                 if (lastMembre && !lastMembre.querySelector('.delete-item-btn')) {
                     const deleteBtnHTML =
@@ -2170,7 +2176,7 @@
                 membresContainer.insertAdjacentHTML('beforeend', membreTemplate);
             });
 
-            membresContainer.addEventListener("click", function (e) {
+            membresContainer.addEventListener("click", function(e) {
                 if (e.target.closest('.delete-item-btn')) {
                     e.stopPropagation(); // <-- FIX: Prevents the modal from closing
                     e.target.closest('.form-section-box').remove();
@@ -2185,14 +2191,14 @@
         const popupPJ = modalPJ.querySelector(".popup-container");
 
         if (btnModifierPJ && modalPJ) {
-            btnModifierPJ.addEventListener("click", function (e) {
+            btnModifierPJ.addEventListener("click", function(e) {
                 e.preventDefault();
                 modalPJ.style.display = "flex";
             });
         }
 
         if (modalPJ && popupPJ) {
-            modalPJ.addEventListener("click", function (e) {
+            modalPJ.addEventListener("click", function(e) {
                 if (!popupPJ.contains(e.target)) {
                     modalPJ.style.display = "none";
                 }
@@ -2215,14 +2221,14 @@
         const addPhaseBtn = document.querySelector(".add-phase-button");
 
         if (btnAjouterPhases) {
-            btnAjouterPhases.addEventListener("click", function (e) {
+            btnAjouterPhases.addEventListener("click", function(e) {
                 e.preventDefault();
                 modalAjouterPhases.style.display = "flex";
             });
         }
 
         if (modalAjouterPhases) {
-            modalAjouterPhases.addEventListener("click", function (e) {
+            modalAjouterPhases.addEventListener("click", function(e) {
                 if (!popupAjouterPhases.contains(e.target) && e.target !== btnAjouterPhases) {
                     modalAjouterPhases.style.display = "none";
                 }
@@ -2253,7 +2259,7 @@
 </div>`;
 
         if (addPhaseBtn) {
-            addPhaseBtn.addEventListener("click", function () {
+            addPhaseBtn.addEventListener("click", function() {
                 const lastPhase = phasesContainer.querySelector('.phase-section:last-child');
                 if (lastPhase && !lastPhase.querySelector('.delete-item-btn')) {
                     const deleteBtnHTML =
@@ -2265,7 +2271,7 @@
         }
 
         if (phasesContainer) {
-            phasesContainer.addEventListener("click", function (e) {
+            phasesContainer.addEventListener("click", function(e) {
                 if (e.target.closest('.delete-item-btn')) {
                     e.stopPropagation(); // <-- FIX: Prevents the modal from closing
                     e.target.closest('.phase-section').remove();
@@ -2409,7 +2415,7 @@ ${bodyContent}
 
 
         if (btnModifierPhases) {
-            btnModifierPhases.addEventListener("click", function (e) {
+            btnModifierPhases.addEventListener("click", function(e) {
                 e.preventDefault();
 
                 modifierPhasesContainer.innerHTML = '';
@@ -2433,7 +2439,7 @@ ${bodyContent}
         }
 
         if (modalModifierPhases) {
-            modalModifierPhases.addEventListener("click", function (e) {
+            modalModifierPhases.addEventListener("click", function(e) {
                 if (!popupModifierPhases.contains(e.target) && e.target !== btnModifierPhases) {
                     modalModifierPhases.style.display = "none";
                 }
@@ -2449,7 +2455,7 @@ ${bodyContent}
         const addTacheBtn = modalAjouterTache.querySelector(".add-task-button-inner");
 
         if (tasksTableBody) {
-            tasksTableBody.addEventListener('click', function (e) {
+            tasksTableBody.addEventListener('click', function(e) {
                 const addTaskLink = e.target.closest('.js-add-task');
                 if (addTaskLink) {
                     e.preventDefault();
@@ -2483,7 +2489,7 @@ ${bodyContent}
         }
 
         if (modalAjouterTache) {
-            modalAjouterTache.addEventListener("click", function (e) {
+            modalAjouterTache.addEventListener("click", function(e) {
                 if (!popupAjouterTache.contains(e.target)) {
                     modalAjouterTache.style.display = "none";
                 }
@@ -2493,7 +2499,7 @@ ${bodyContent}
         if (tachesContainer && addTacheBtn) {
             const taskTemplate = tachesContainer.innerHTML;
 
-            addTacheBtn.addEventListener("click", function () {
+            addTacheBtn.addEventListener("click", function() {
                 const lastTask = tachesContainer.querySelector('.task-section:last-child');
                 if (lastTask && !lastTask.querySelector('.delete-item-btn')) {
                     const deleteBtnHTML =
@@ -2505,7 +2511,7 @@ ${bodyContent}
 
             });
 
-            tachesContainer.addEventListener("click", function (e) {
+            tachesContainer.addEventListener("click", function(e) {
                 const deleteBtn = e.target.closest('.delete-item-btn');
                 if (deleteBtn) {
                     e.stopPropagation(); // <-- FIX: Prevents the modal from closing
@@ -2520,7 +2526,7 @@ ${bodyContent}
         const popupModifierTache = modalModifierTache.querySelector(".popup-container");
 
         if (tasksTableBody) {
-            tasksTableBody.addEventListener('click', function (e) {
+            tasksTableBody.addEventListener('click', function(e) {
                 const modifierLink = e.target.closest('.js-modifier-tache');
                 if (modifierLink && !modifierLink.classList.contains('disabled')) {
                     e.preventDefault();
@@ -2539,7 +2545,7 @@ ${bodyContent}
         }
 
         if (modalModifierTache) {
-            modalModifierTache.addEventListener("click", function (e) {
+            modalModifierTache.addEventListener("click", function(e) {
                 if (!popupModifierTache.contains(e.target)) {
                     modalModifierTache.style.display = "none";
                 }
@@ -2548,10 +2554,10 @@ ${bodyContent}
 
 
         // --- Global Dropdown Menu Logic ---
-        window.addEventListener('click', function (e) {
+        window.addEventListener('click', function(e) {
             const clickedToggle = e.target.closest('.dropdown-toggle');
 
-            document.querySelectorAll('.dropdown').forEach(function (dropdown) {
+            document.querySelectorAll('.dropdown').forEach(function(dropdown) {
                 const menu = dropdown.querySelector('.dropdown-menu');
                 const toggle = dropdown.querySelector('.dropdown-toggle');
 
@@ -2603,14 +2609,14 @@ ${bodyContent}
 
 
         // --- Expense Section Logic ---
-        (function ($) {
+        (function($) {
             const baseDT = {
                 paging: true,
                 searching: true,
                 ordering: false,
                 info: false,
                 pageLength: 5,
-                dom: 't<"bottom"p>',
+                dom: '<"top">rt<"clear">', // Hide default search (f) and length (l) controls
                 language: {
                     paginate: {
                         first: "<i class='fa fa-angles-left'></i>",
@@ -2626,16 +2632,20 @@ ${bodyContent}
             let dtDepense = $('#depenseTable').DataTable(baseDT);
             let dtRebriques = $('#rebriquesTable').DataTable(baseDT);
 
+            // Initialize reusable pagination components
+            PMOPagination.init(dtDepense);
+            PMOPagination.init(dtRebriques);
 
-            $('#depenseSearch').on('keyup', function () {
+
+            $('#depenseSearch').on('keyup', function() {
                 dtDepense.search(this.value).draw();
             });
 
-            $('#rebriquesSearch').on('keyup', function () {
+            $('#rebriquesSearch').on('keyup', function() {
                 dtRebriques.search(this.value).draw();
             });
 
-            $('.expense-tab-btn').on('click', function () {
+            $('.expense-tab-btn').on('click', function() {
                 const tabId = $(this).data('tab');
                 $('.expense-tab-btn').removeClass('active');
                 $(this).addClass('active');
@@ -2650,14 +2660,14 @@ ${bodyContent}
         const popupAjouterRubrique = modalAjouterRubrique.querySelector(".popup-container");
 
         if (btnAjouterRubrique) {
-            btnAjouterRubrique.addEventListener("click", function (e) {
+            btnAjouterRubrique.addEventListener("click", function(e) {
                 e.preventDefault();
                 modalAjouterRubrique.style.display = "flex";
             });
         }
 
         if (modalAjouterRubrique) {
-            modalAjouterRubrique.addEventListener("click", function (e) {
+            modalAjouterRubrique.addEventListener("click", function(e) {
                 if (!popupAjouterRubrique.contains(e.target)) {
                     modalAjouterRubrique.style.display = "none";
                 }
@@ -2692,7 +2702,7 @@ ${bodyContent}
             '<button type="button" class="delete-item-btn rubrique-btn" title="Supprimer"><img width="20px" src = "/wp-content/plugins/plateforme-master/images/icons/27) Icon-trash-2.png" alt = "Icon-trash-2.png" > </button > ';
 
         if (addRubriqueButton) {
-            addRubriqueButton.addEventListener('click', function () {
+            addRubriqueButton.addEventListener('click', function() {
                 const lastRubrique = rubriquesContainer.querySelector(
                     '.rubrique-item-container:last-child .form-section-box');
                 if (lastRubrique && !lastRubrique.querySelector('.delete-item-btn')) {
@@ -2703,7 +2713,7 @@ ${bodyContent}
         }
 
         if (rubriquesContainer) {
-            rubriquesContainer.addEventListener('click', function (e) {
+            rubriquesContainer.addEventListener('click', function(e) {
                 const importBtn = e.target.closest('.btn-importer');
                 if (importBtn) {
                     importBtn.previousElementSibling.click();
@@ -2717,7 +2727,7 @@ ${bodyContent}
                 }
             });
 
-            rubriquesContainer.addEventListener('change', function (e) {
+            rubriquesContainer.addEventListener('change', function(e) {
                 const fileInput = e.target.closest('.input-file-hidden');
                 if (fileInput) {
                     const textInput = fileInput.previousElementSibling;
@@ -2732,14 +2742,14 @@ ${bodyContent}
         const popupAjouterDepense = modalAjouterDepense.querySelector(".popup-container");
 
         if (btnAjouterDepense) {
-            btnAjouterDepense.addEventListener("click", function (e) {
+            btnAjouterDepense.addEventListener("click", function(e) {
                 e.preventDefault();
                 modalAjouterDepense.style.display = "flex";
             });
         }
 
         if (modalAjouterDepense) {
-            modalAjouterDepense.addEventListener("click", function (e) {
+            modalAjouterDepense.addEventListener("click", function(e) {
                 if (!popupAjouterDepense.contains(e.target)) {
                     modalAjouterDepense.style.display = "none";
                 }
@@ -2765,7 +2775,7 @@ ${bodyContent}
         const popupModifierRubrique = modalModifierRubrique.querySelector(".popup-container");
 
         if (rebriquesTable) {
-            rebriquesTable.addEventListener('click', function (e) {
+            rebriquesTable.addEventListener('click', function(e) {
                 if (e.target.closest('.js-modifier-rubrique')) {
                     e.preventDefault();
                     modalModifierRubrique.style.display = 'flex';
@@ -2774,7 +2784,7 @@ ${bodyContent}
         }
 
         if (modalModifierRubrique) {
-            modalModifierRubrique.addEventListener("click", function (e) {
+            modalModifierRubrique.addEventListener("click", function(e) {
                 if (!popupModifierRubrique.contains(e.target)) {
                     modalModifierRubrique.style.display = "none";
                 }
@@ -2800,7 +2810,7 @@ ${bodyContent}
         const popupModifierDepense = modalModifierDepense.querySelector(".popup-container");
 
         if (depenseTable) {
-            depenseTable.addEventListener('click', function (e) {
+            depenseTable.addEventListener('click', function(e) {
                 if (e.target.closest('.js-modifier-depense')) {
                     e.preventDefault();
                     modalModifierDepense.style.display = 'flex';
@@ -2809,7 +2819,7 @@ ${bodyContent}
         }
 
         if (modalModifierDepense) {
-            modalModifierDepense.addEventListener("click", function (e) {
+            modalModifierDepense.addEventListener("click", function(e) {
                 if (!popupModifierDepense.contains(e.target)) {
                     modalModifierDepense.style.display = "none";
                 }

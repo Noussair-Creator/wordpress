@@ -305,41 +305,13 @@
         flex-wrap: wrap;
     }
 
-    .pagination-controls {
-        display: flex;
-        justify-content: flex-end;
-        align-items: center;
-        gap: 10px;
-        margin-top: 20px;
+    /* Hide default DataTables pagination */
+    .dataTables_paginate {
+        display: none !important;
     }
 
-    .pagination-button {
-        border-radius: 8px;
-        border: 2px solid #c60000 !important;
-        background: #fff !important;
-        color: #c60000 !important;
-        font-weight: 600;
-        cursor: pointer;
-        transition: all 0.2s ease;
-        padding: 10px 16px;
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-    }
-
-    .pagination-button.active {
-        background: #c60000 !important;
-        color: #fff !important;
-    }
-
-    .pagination-button:hover:not(.active):not(.disabled) {
-        background: #fde0e0 !important;
-    }
-
-    .pagination-button.disabled {
-        opacity: 0.5;
-        cursor: default;
-        background: #fff !important;
+    .paginate_button {
+        display: none !important;
     }
     </style>
 </head>
@@ -402,7 +374,7 @@
                 <!-- Table rows will be inserted here by JavaScript -->
             </tbody>
         </table>
-        <div class="pagination-controls"></div>
+        <?php include 'pagination.php'; ?>
     </div>
 
     <!-- JavaScript Libraries -->
@@ -446,12 +418,10 @@
 
         let allAppels = [...appelsData];
         let filteredAppels = [...allAppels];
-        let currentPage = 1;
-        const itemsPerPage = 3;
+        let table;
 
         // --- DOM Elements ---
         const tbody = document.querySelector('#projectsTable tbody');
-        const paginationControls = document.querySelector('.pagination-controls');
         // const addProjectBtn = document.querySelector('.add-project-btn');
 
         // Filters
@@ -481,15 +451,12 @@
         // --- Rendering ---
         const renderTable = () => {
             tbody.innerHTML = '';
-            const startIndex = (currentPage - 1) * itemsPerPage;
-            const endIndex = startIndex + itemsPerPage;
-            const paginatedAppels = filteredAppels.slice(startIndex, endIndex);
 
-            if (paginatedAppels.length === 0) {
+            if (filteredAppels.length === 0) {
                 tbody.innerHTML =
                     `<tr><td colspan="8" style="text-align:center; padding: 20px;">Aucun appel à projet trouvé.</td></tr>`;
             } else {
-                paginatedAppels.forEach(p => {
+                filteredAppels.forEach(p => {
                     const tr = document.createElement('tr');
                     tr.dataset.id = p.id;
                     tr.innerHTML = `
@@ -512,36 +479,29 @@
                     tbody.appendChild(tr);
                 });
             }
-            renderPagination();
-        };
 
-        const renderPagination = () => {
-            const totalPages = Math.ceil(filteredAppels.length / itemsPerPage);
-            paginationControls.innerHTML = '';
+            // Initialize DataTables if not already done
+            if (!table) {
+                table = $('#projectsTable').DataTable({
+                    paging: true,
+                    searching: true,
+                    ordering: false,
+                    info: false,
+                    pageLength: 3,
+                    dom: '<"top">rt<"clear">', // Hide default search (f) and length (l) controls
+                    language: {
+                        emptyTable: "Aucun appel à projet trouvé",
+                        zeroRecords: "Aucun enregistrement correspondant trouvé"
+                    }
+                });
 
-            if (totalPages <= 1) return;
-
-            const prevBtn = document.createElement('button');
-            prevBtn.innerHTML = `<i class="fa-solid fa-angle-left"></i>`;
-            prevBtn.className = `pagination-button ${currentPage === 1 ? 'disabled' : ''}`;
-            prevBtn.disabled = currentPage === 1;
-            prevBtn.dataset.page = currentPage - 1;
-            paginationControls.appendChild(prevBtn);
-
-            for (let i = 1; i <= totalPages; i++) {
-                const pageBtn = document.createElement('button');
-                pageBtn.textContent = i;
-                pageBtn.className = `pagination-button ${currentPage === i ? 'active' : ''}`;
-                pageBtn.dataset.page = i;
-                paginationControls.appendChild(pageBtn);
+                // Initialize unified pagination
+                if (typeof PMOPagination !== 'undefined') {
+                    PMOPagination.init(table);
+                }
+            } else {
+                table.clear().rows.add($('#projectsTable tbody tr')).draw();
             }
-
-            const nextBtn = document.createElement('button');
-            nextBtn.innerHTML = `<i class="fa-solid fa-angle-right"></i>`;
-            nextBtn.className = `pagination-button ${currentPage === totalPages ? 'disabled' : ''}`;
-            nextBtn.disabled = currentPage === totalPages;
-            nextBtn.dataset.page = currentPage + 1;
-            paginationControls.appendChild(nextBtn);
         };
 
         // --- Filtering Logic ---
@@ -569,7 +529,6 @@
                 return matchesSearch && matchesStatut && matchesDate;
             });
 
-            currentPage = 1;
             renderTable();
         };
 
@@ -620,13 +579,6 @@
                         .remove('show'));
                     document.querySelectorAll('.action-btn[aria-expanded="true"]').forEach(btn =>
                         btn.setAttribute('aria-expanded', 'false'));
-                }
-
-                // Pagination button click
-                const pageBtn = e.target.closest('.pagination-button:not(.disabled)');
-                if (pageBtn) {
-                    currentPage = parseInt(pageBtn.dataset.page, 10);
-                    renderTable();
                 }
             });
 

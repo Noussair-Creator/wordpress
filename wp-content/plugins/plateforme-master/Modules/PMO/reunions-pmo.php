@@ -1,8 +1,8 @@
 <?php
-/*$role = $role ?? "coordinateur";*/
-
-
-require_once 'config/roles.php';
+$role = $role ?? "service";
+// require_once plugin_dir_path(__FILE__) . '../config/roles.php';
+require_once plugin_dir_path(__FILE__) . '../../config/roles.php';
+require_once plugin_dir_path(__FILE__) . '/requireApi.php';
 
 ?>
 
@@ -20,8 +20,10 @@ require_once 'config/roles.php';
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
-    <link rel="stylesheet" href="<?php echo plugin_dir_url(__FILE__) . '../assets/css/style.css'; ?>">
-    <script src="<?php echo plugin_dir_url(__FILE__) . '../assets/js/master.js'; ?>"></script>
+
+
+
+
 
     <style>
     :root {
@@ -42,18 +44,18 @@ require_once 'config/roles.php';
 
 <body>
     <!-- Header -->
-    <?php include 'components/header.php'; ?>
+    <?php include plugin_dir_path(__FILE__) . '/components/header.php'; ?>
 
     <div class="container-fluid">
         <div class="row">
             <!-- Sidebar -->
             <div class="col-md-3 col-lg-2 p-0 sidbarcol">
-                <?php include 'components/sidebar.php'; ?>
+                <?php include plugin_dir_path(__FILE__) . '/components/sidebar.php'; ?>
             </div>
 
             <div class="col-md-9 col-lg-10 p-0">
                 <!-- Nav pages -->
-                <?php include 'components/Nav-Pages.php'; ?>
+                <?php include plugin_dir_path(__FILE__) . '/components/Nav-Pages.php'; ?>
 
                 <!-- Dashboard Top Bar -->
                 <?php include 'wp-content/plugins/plateforme-master/pages/components/Dashboard-Bar.php'; ?>

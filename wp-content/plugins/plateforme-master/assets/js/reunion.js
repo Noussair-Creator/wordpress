@@ -74,24 +74,27 @@ document.addEventListener('DOMContentLoaded', function () {
 
     const table = $('#candidaturesTable').DataTable({
         paging: true,
-        pagingType: 'full_numbers',
+        pagingType: 'simple',
         searching: false,
         ordering: false,
         info: false,
         pageLength: 5,
-        dom: 'Bfrtip',
+        dom: '<"top">rt<"clear">', // Hide default search (f) and length (l) controls
         buttons: [],
         language: {
             "emptyTable": "Aucune réunion programmée",
             "paginate": {
-                "first": '<i class="fa-solid fa-angles-left"></i>',
-                "last": '<i class="fa-solid fa-angles-right"></i>',
-                "next": '<i class="fa-solid fa-angle-right"></i>',
-                "previous": '<i class="fa-solid fa-angle-left"></i>'
+                "previous": '<i class="fa fa-chevron-left"></i>',
+                "next": '<i class="fa fa-chevron-right"></i>'
             }
         },
         columnDefs: [{ targets: 0, orderable: false }]
     });
+
+    // Initialize reusable pagination component
+    if (typeof PMOPagination !== 'undefined') {
+        PMOPagination.init(table);
+    }
 
     // === Charger les réunions avec filtres optionnels ===
     async function loadReunions(filters = {}) {
@@ -338,7 +341,7 @@ document.addEventListener('DOMContentLoaded', function () {
         $('#editMeetingId').val(id);
         $('#editMeetingSubject').val(r.sujet);
         $('#editDuration').val(r.duree);
-        
+
         const editDateInput = document.getElementById('editMeetingDate');
         if (r.date_reunion && r.date_reunion.includes('/')) {
             const datePart = r.date_reunion.split(' ')[0];

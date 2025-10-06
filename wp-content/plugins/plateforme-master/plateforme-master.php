@@ -104,7 +104,6 @@ function plateforme_content($content)
                 ob_start();
 
                 include plugin_dir_path(__FILE__) . 'pages/DashboardService.php';
-
             } else {
                 plateforme_redirect_home();
             }
@@ -119,7 +118,6 @@ function plateforme_content($content)
                 ob_start();
 
                 include plugin_dir_path(__FILE__) . 'pages/dashboard-utm-master.php';
-
             } else {
                 plateforme_redirect_home();
             }
@@ -134,7 +132,6 @@ function plateforme_content($content)
                 ob_start();
 
                 include plugin_dir_path(__FILE__) . 'Modules/ED/pages/DashboardED.php';
-
             } else {
                 plateforme_redirect_home();
             }
@@ -150,7 +147,6 @@ function plateforme_content($content)
                 ob_start();
 
                 include plugin_dir_path(__FILE__) . 'pages/DashboardServiceMASTER.php';
-
             } else {
                 plateforme_redirect_home();
             }
@@ -165,7 +161,6 @@ function plateforme_content($content)
                 ob_start();
 
                 include plugin_dir_path(__FILE__) . 'Modules/LaboRecherche/pages/DashboardLABO.php';
-
             } else {
                 plateforme_redirect_home();
             }
@@ -181,7 +176,6 @@ function plateforme_content($content)
                 ob_start();
 
                 include plugin_dir_path(__FILE__) . 'pages/Gestion-master-utm.php';
-
             } else {
                 plateforme_redirect_home();
             }
@@ -196,7 +190,6 @@ function plateforme_content($content)
                 ob_start();
 
                 include plugin_dir_path(__FILE__) . 'pages/candidature-service-utm.php';
-
             } else {
                 plateforme_redirect_home();
             }
@@ -212,7 +205,6 @@ function plateforme_content($content)
                 ob_start();
 
                 include plugin_dir_path(__FILE__) . 'pages/Candidature/depot-condidature/index.php';
-
             } else {
                 plateforme_redirect_home();
             }
@@ -227,7 +219,6 @@ function plateforme_content($content)
                 ob_start();
 
                 include plugin_dir_path(__FILE__) . 'pages/Candidature/reclamation/index.php';
-
             } else {
                 plateforme_redirect_home();
             }
@@ -243,7 +234,6 @@ function plateforme_content($content)
                 ob_start();
 
                 include plugin_dir_path(__FILE__) . 'pages/Candidature/historique-condidature/index.php';
-
             } else {
                 plateforme_redirect_home();
             }
@@ -258,7 +248,6 @@ function plateforme_content($content)
                 ob_start();
 
                 include plugin_dir_path(__FILE__) . 'pages/Candidature/entretien/index.php';
-
             } else {
                 plateforme_redirect_home();
             }
@@ -271,10 +260,8 @@ function plateforme_content($content)
                 $current_user = wp_get_current_user();
                 if (in_array('um_candidat', $current_user->roles)) {
                     ob_start();
-
                 }
                 include plugin_dir_path(__FILE__) . 'pages/Candidature/resultat-condidature/index.php';
-
             } else {
                 plateforme_redirect_home();
             }
@@ -287,10 +274,8 @@ function plateforme_content($content)
                 $current_user = wp_get_current_user();
                 if (in_array('um_candidat', $current_user->roles)) {
                     ob_start();
-
                 }
                 include plugin_dir_path(__FILE__) . 'pages/Candidature/calendrier/index.php';
-
             } else {
                 plateforme_redirect_home();
             }
@@ -304,7 +289,6 @@ function plateforme_content($content)
                 ob_start();
 
                 include plugin_dir_path(__FILE__) . 'pages/GESTIONMASTER.php';
-
             } else {
                 plateforme_redirect_home();
             }
@@ -319,7 +303,6 @@ function plateforme_content($content)
                 ob_start();
 
                 include plugin_dir_path(__FILE__) . 'pages/profil.php';
-
             } else {
                 plateforme_redirect_home();
             }
@@ -334,7 +317,6 @@ function plateforme_content($content)
                 ob_start();
 
                 include plugin_dir_path(__FILE__) . 'pages/FicheMaster.php';
-
             } else {
                 plateforme_redirect_home();
             }
@@ -349,7 +331,6 @@ function plateforme_content($content)
                 ob_start();
 
                 include plugin_dir_path(__FILE__) . 'pages/GESTIONMASTERCoordinateur.php';
-
             } else {
                 plateforme_redirect_home();
             }
@@ -364,7 +345,6 @@ function plateforme_content($content)
                 ob_start();
 
                 include plugin_dir_path(__FILE__) . 'pages/candidature.php';
-
             } else {
                 plateforme_redirect_home();
             }
@@ -379,7 +359,6 @@ function plateforme_content($content)
                 ob_start();
 
                 include plugin_dir_path(__FILE__) . 'pages/fiche-candidature.php';
-
             } else {
                 plateforme_redirect_home();
             }
@@ -394,7 +373,6 @@ function plateforme_content($content)
                 ob_start();
 
                 include plugin_dir_path(__FILE__) . 'pages/formulescore.php';
-
             } else {
                 plateforme_redirect_home();
             }
@@ -409,7 +387,6 @@ function plateforme_content($content)
                 ob_start();
 
                 include plugin_dir_path(__FILE__) . 'pages/appel-a-candidature.php';
-
             } else {
                 plateforme_redirect_home();
             }
@@ -424,7 +401,6 @@ function plateforme_content($content)
                 ob_start();
 
                 include plugin_dir_path(__FILE__) . 'pages/creation-appel-a-candidature.php';
-
             } else {
                 plateforme_redirect_home();
             }
@@ -439,7 +415,6 @@ function plateforme_content($content)
                 ob_start();
 
                 include plugin_dir_path(__FILE__) . 'pages/entretien.php';
-
             } else {
                 plateforme_redirect_home();
             }
@@ -456,7 +431,6 @@ function plateforme_content($content)
                 ob_start();
 
                 include plugin_dir_path(__FILE__) . 'Modules/ED/pages/Dashboard.php';
-
             } else {
                 plateforme_redirect_home();
             }
@@ -470,7 +444,6 @@ function plateforme_content($content)
                 ob_start();
 
                 include plugin_dir_path(__FILE__) . 'Modules/ED/pages/DashboardDirecteurThese.php';
-
             } else {
                 plateforme_redirect_home();
             }
@@ -484,7 +457,6 @@ function plateforme_content($content)
                 ob_start();
 
                 include plugin_dir_path(__FILE__) . 'Modules/ED/pages/Dashboardcomissioned.php';
-
             } else {
                 plateforme_redirect_home();
             }
@@ -498,7 +470,6 @@ function plateforme_content($content)
                 ob_start();
 
                 include plugin_dir_path(__FILE__) . 'Modules/ED/pages/DashboardDoctorant.php';
-
             } else {
                 plateforme_redirect_home();
             }
@@ -515,7 +486,6 @@ function plateforme_content($content)
                 ob_start();
 
                 include plugin_dir_path(__FILE__) . 'Modules/LaboRecherche/pages/DashboardDirecteurLabo.php';
-
             } else {
                 plateforme_redirect_home();
             }
@@ -529,7 +499,6 @@ function plateforme_content($content)
                 ob_start();
 
                 include plugin_dir_path(__FILE__) . 'Modules/LaboRecherche/pages/DashboardChercheur.php';
-
             } else {
                 plateforme_redirect_home();
             }
@@ -546,7 +515,6 @@ function plateforme_content($content)
                 ob_start();
 
                 include plugin_dir_path(__FILE__) . 'pages/DashboardStudent.php';
-
             } else {
                 plateforme_redirect_home();
             }
@@ -562,7 +530,6 @@ function plateforme_content($content)
                 ob_start();
 
                 include plugin_dir_path(__FILE__) . 'Modules/Master/pagesstudentmaster/examens.php';
-
             } else {
                 plateforme_redirect_home();
             }
@@ -577,7 +544,6 @@ function plateforme_content($content)
                 ob_start();
 
                 include plugin_dir_path(__FILE__) . 'Modules/Master/pagesstudentmaster/absences.php';
-
             } else {
                 plateforme_redirect_home();
             }
@@ -593,7 +559,6 @@ function plateforme_content($content)
                 ob_start();
 
                 include plugin_dir_path(__FILE__) . 'Modules/Master/pagesstudentmaster/emplois.php';
-
             } else {
                 plateforme_redirect_home();
             }
@@ -609,7 +574,6 @@ function plateforme_content($content)
                 ob_start();
 
                 include plugin_dir_path(__FILE__) . 'Modules/Master/pagesstudentmaster/stages.php';
-
             } else {
                 plateforme_redirect_home();
             }
@@ -622,7 +586,6 @@ function plateforme_content($content)
             $current_user = wp_get_current_user();
 
             include plugin_dir_path(__FILE__) . 'Modules/profile/profile.php';
-
         } else {
             plateforme_redirect_home();
         }
@@ -633,7 +596,6 @@ function plateforme_content($content)
             $current_user = wp_get_current_user();
 
             include plugin_dir_path(__FILE__) . 'Modules/Messages/messages.php';
-
         } else {
             plateforme_redirect_home();
         }
@@ -644,7 +606,6 @@ function plateforme_content($content)
             $current_user = wp_get_current_user();
 
             include plugin_dir_path(__FILE__) . 'Modules/notifications/notifications.php';
-
         } else {
             plateforme_redirect_home();
         }
@@ -654,7 +615,6 @@ function plateforme_content($content)
             $current_user = wp_get_current_user();
 
             include plugin_dir_path(__FILE__) . 'Modules/contact/contact.php';
-
         } else {
             plateforme_redirect_home();
         }
@@ -666,7 +626,6 @@ function plateforme_content($content)
                 ob_start();
 
                 include plugin_dir_path(__FILE__) . 'Modules/Master/pagesstudentmaster/details-master.php';
-
             } else {
                 plateforme_redirect_home();
             }
@@ -681,7 +640,6 @@ function plateforme_content($content)
                 ob_start();
 
                 include plugin_dir_path(__FILE__) . 'Modules/Master/pagesstudentmaster/bibliotheque.php';
-
             } else {
                 plateforme_redirect_home();
             }
@@ -696,7 +654,6 @@ function plateforme_content($content)
                 ob_start();
 
                 include plugin_dir_path(__FILE__) . 'Modules/Master/pagesstudentmaster/support-pedagogiques.php';
-
             } else {
                 plateforme_redirect_home();
             }
@@ -712,7 +669,6 @@ function plateforme_content($content)
                 ob_start();
 
                 include plugin_dir_path(__FILE__) . 'Modules/Master/pagesstudentmaster/soutenance.php';
-
             } else {
                 plateforme_redirect_home();
             }
@@ -728,7 +684,6 @@ function plateforme_content($content)
                 ob_start();
 
                 include plugin_dir_path(__FILE__) . 'Modules/Master/pagesstudentmaster/formulaires-administratifs.php';
-
             } else {
                 plateforme_redirect_home();
             }
@@ -745,7 +700,6 @@ function plateforme_content($content)
                 ob_start();
 
                 include plugin_dir_path(__FILE__) . 'Modules/Master/pagesstudentmaster/notes-et-resultat.php';
-
             } else {
                 plateforme_redirect_home();
             }
@@ -759,7 +713,6 @@ function plateforme_content($content)
             $current_user = wp_get_current_user();
 
             include plugin_dir_path(__FILE__) . 'Modules/reclamation/reclamations.php';
-
         } else {
             plateforme_redirect_home();
         }
@@ -769,7 +722,6 @@ function plateforme_content($content)
             $current_user = wp_get_current_user();
 
             include plugin_dir_path(__FILE__) . 'Modules/reclamation/SuiviReclamations.php';
-
         } else {
             plateforme_redirect_home();
         }
@@ -782,7 +734,6 @@ function plateforme_content($content)
                 ob_start();
 
                 include plugin_dir_path(__FILE__) . 'Modules/Master/pagesstudentmaster/GED.php';
-
             } else {
                 plateforme_redirect_home();
             }
@@ -807,7 +758,6 @@ function plateforme_content($content)
         if (is_user_logged_in()) {
 
             include plugin_dir_path(__FILE__) . 'pages/PMO.php';
-
         } else {
             plateforme_redirect_home();
         }
@@ -818,7 +768,6 @@ function plateforme_content($content)
         if (is_user_logged_in()) {
 
             include plugin_dir_path(__FILE__) . 'Modules/USCR/presentation-de-la-plateforme.php';
-
         } else {
             plateforme_redirect_home();
         }
@@ -834,7 +783,6 @@ function plateforme_content($content)
                 ob_start();
 
                 include plugin_dir_path(__FILE__) . '/Modules/PMO/DashboardPMO.php';
-
             } else {
                 plateforme_redirect_home();
             }
@@ -850,7 +798,6 @@ function plateforme_content($content)
                 ob_start();
 
                 include plugin_dir_path(__FILE__) . '/Modules/Unités_Service_Communs/DashboardUSCR.php';
-
             } else {
                 plateforme_redirect_home();
             }
@@ -874,66 +821,50 @@ function plateforme_content($content)
     // create page presentation-utm
     if (is_page('presentation-utm')) {
         include plugin_dir_path(__FILE__) . 'Modules/SiteRecherche/presentation-utm.php';
-
     }
     // create page presentation-utm
     if (is_page('coordonnees')) {
 
         include plugin_dir_path(__FILE__) . 'Modules/SiteRecherche/coordonnees.php';
-
-
     }
     // create page publications-utm
     if (is_page('publications-utm')) {
 
         include plugin_dir_path(__FILE__) . 'Modules/SiteRecherche/publications-utm.php';
-
-
     }
     // create page publications-utm-details
     if (is_page('publications-utm-details')) {
 
 
         include plugin_dir_path(__FILE__) . 'Modules/SiteRecherche/publications-utm-details.php';
-
     }
     // create page projets-de-cooperation-utm
     if (is_page('projets-de-cooperation-utm')) {
 
 
         include plugin_dir_path(__FILE__) . 'Modules/SiteRecherche/projets-de-cooperation-utm.php';
-
-
     }
     // create page annonces-de-soutenances-utm
     if (is_page('annonces-de-soutenances-utm')) {
 
 
         include plugin_dir_path(__FILE__) . 'Modules/SiteRecherche/annonces-de-soutenances-utm.php';
-
-
     }
     // create page ouverture-sur-lenvironnement-utm
     if (is_page('ouverture-sur-lenvironnement-utm')) {
 
 
         include plugin_dir_path(__FILE__) . 'Modules/SiteRecherche/ouverture-sur-lenvironnement-utm.php';
-
-
     }
     // create page etablissements UTM Details
     if (is_page('etablissements-utm-details')) {
 
         include plugin_dir_path(__FILE__) . 'Modules/SiteRecherche/etablissements-utm-details.php';
-
-
     }
     // create page etablissements UTM
     if (is_page('etablissements-utm')) {
 
         include plugin_dir_path(__FILE__) . 'Modules/SiteRecherche/etablissements-utm.php';
-
-
     }
 
     /*
@@ -949,16 +880,23 @@ function plateforme_content($content)
 
 
         include plugin_dir_path(__FILE__) . 'Modules/SiteRecherche/manifestation-utm.php';
-
-
     }
     // create page manifestation-details-utm
     if (is_page('manifestation-details-utm')) {
 
 
         include plugin_dir_path(__FILE__) . 'Modules/SiteRecherche/manifestation-details-utm.php';
+    }
+    // create page Appels à projets PMO
+    if (is_page('appels-a-projets')) {
 
 
+        include plugin_dir_path(__FILE__) . 'Modules/SitePMO/appels-a-projets.php';
+    }
+    if (is_page('appels-a-projets-details')) {
+
+
+        include plugin_dir_path(__FILE__) . 'Modules/SitePMO/appels-a-projets-details.php';
     }
 
 
@@ -1388,6 +1326,7 @@ function plateforme_content($content)
         'partenaires-pmo',
         'ged-pmo',
         'calendrier-pmo',
+        'budgets-details',
     ];
 
     foreach ($pages_PMO as $page_slug) {
@@ -1457,14 +1396,12 @@ function plateforme_content($content)
         if (is_user_logged_in()) {
 
             include plugin_dir_path(__FILE__) . 'Modules/USCR/unite-genomique.php';
-
         } else {
             plateforme_redirect_home();
         }
     } else {
         return $content;
     }
-
 }
 
 
@@ -1845,7 +1782,6 @@ function pm_template_override()
             $user = wp_get_current_user();
             include plugin_dir_path(__FILE__) . 'Modules/profile/profile.php';
             exit;
-
         }
 
         wp_redirect(home_url());
@@ -1855,7 +1791,6 @@ function pm_template_override()
             $user = wp_get_current_user();
             include plugin_dir_path(__FILE__) . 'Modules/Messages/messages.php';
             exit;
-
         }
 
         wp_redirect(home_url());
@@ -1865,7 +1800,6 @@ function pm_template_override()
             $user = wp_get_current_user();
             include plugin_dir_path(__FILE__) . 'Modules/notifications/notifications.php';
             exit;
-
         }
 
         wp_redirect(home_url());
@@ -1875,7 +1809,6 @@ function pm_template_override()
             $user = wp_get_current_user();
             include plugin_dir_path(__FILE__) . 'Modules/contact/contact.php';
             exit;
-
         }
 
         wp_redirect(home_url());
@@ -1951,7 +1884,6 @@ function pm_template_override()
             $user = wp_get_current_user();
             include plugin_dir_path(__FILE__) . 'Modules/reclamation/reclamations.php';
             exit;
-
         }
 
         wp_redirect(home_url());
@@ -1961,7 +1893,6 @@ function pm_template_override()
             $user = wp_get_current_user();
             include plugin_dir_path(__FILE__) . 'Modules/reclamation/SuiviReclamations.php';
             exit;
-
         }
 
         wp_redirect(home_url());
@@ -2126,18 +2057,12 @@ function pm_template_override()
 
         include plugin_dir_path(__FILE__) . 'Modules/SiteRecherche/presentation-utm.php';
         exit;
-
-
-
     }
     // coordonnees
     if (is_page('coordonnees')) {
 
         include plugin_dir_path(__FILE__) . 'Modules/SiteRecherche/coordonnees.php';
         exit;
-
-
-
     }
 
     // publications-utm
@@ -2145,78 +2070,72 @@ function pm_template_override()
 
         include plugin_dir_path(__FILE__) . 'Modules/SiteRecherche/publications-utm.php';
         exit;
-
     }
     // publications-utm-details
     if (is_page('publications-utm-details')) {
 
         include plugin_dir_path(__FILE__) . 'Modules/SiteRecherche/publications-utm-details.php';
         exit;
-
     }
     // projets-de-cooperation-utm
     if (is_page('projets-de-cooperation-utm')) {
 
         include plugin_dir_path(__FILE__) . 'Modules/SiteRecherche/projets-de-cooperation-utm.php';
         exit;
-
     }
     // annonces-de-soutenances-utm
     if (is_page('annonces-de-soutenances-utm')) {
 
         include plugin_dir_path(__FILE__) . 'Modules/SiteRecherche/annonces-de-soutenances-utm.php';
         exit;
-
     }
     //ouverture-sur-lenvironnement-utm
     if (is_page('ouverture-sur-lenvironnement-utm')) {
 
         include plugin_dir_path(__FILE__) . 'Modules/SiteRecherche/ouverture-sur-lenvironnement-utm.php';
         exit;
-
     }
 
     //etablissements-utm-details
     if (is_page('etablissements-utm-details')) {
 
         include plugin_dir_path(__FILE__) . 'Modules/SiteRecherche/etablissements-utm-details.php';
-
-
     }
     //etablissements-utm
     if (is_page('etablissements-utm')) {
 
         include plugin_dir_path(__FILE__) . 'Modules/SiteRecherche/etablissements-utm.php';
         exit;
-
-
-
     }
     //ouverture-sur-lenvironnement-utm
     if (is_page('structures-de-recherche-utm')) {
 
         include plugin_dir_path(__FILE__) . 'Modules/SiteRecherche/structures-de-recherche-utm.php';
         exit;
-
-
     }
     //ouverture-manifestation-utm
     if (is_page('manifestation-utm')) {
 
         include plugin_dir_path(__FILE__) . 'Modules/SiteRecherche/manifestation-utm.php';
         exit;
-
-
-
     }
     //ouverture-manifestation-details-utm
     if (is_page('manifestation-details-utm')) {
 
         include plugin_dir_path(__FILE__) . 'Modules/SiteRecherche/manifestation-details-utm.php';
         exit;
+    }
+    //appels-a-projets
+    if (is_page('appels-a-projets')) {
 
+        include plugin_dir_path(__FILE__) . 'Modules/SitePMO/appels-a-projets.php';
+        exit;
+    }
+    //appels-a-projets-details
+    if (is_page('appels-a-projets-details')) {
 
-
+        include plugin_dir_path(__FILE__) . 'Modules/SitePMO/appels-a-projets-details.php';
+        exit;
     }
 
 
@@ -2669,6 +2588,7 @@ function pm_template_override()
         'partenaires-pmo',
         'ged-pmo',
         'calendrier-pmo',
+        'budgets-details',
     ];
 
     foreach ($pages_PMO as $page_slug) {
@@ -2732,8 +2652,6 @@ function pm_template_override()
             }
         }
     }
-
-
 }
 
 
@@ -2779,8 +2697,6 @@ function pm_enqueue_frontend_assets()
               'nonce'  => wp_create_nonce('wp_rest')
           ]);*/
     }
-
-
 }
 
 // Injecte window.PMSettings et window.userId pour le JS
@@ -2801,7 +2717,7 @@ add_action('wp_enqueue_scripts', function () {
 
 // Donner la capacité d'upload aux rôles front qui en ont besoin
 add_action('init', function () {
-    foreach (['administrator', 'editor', 'author', 'um_service-utm', 'um_directeur_laboratoire'] as $role_name) {
+    foreach (['administrator', 'editor', 'author', 'um_service-utm', 'um_directeur_laboratoire', 'um_pmo'] as $role_name) {
         if ($role = get_role($role_name)) {
             $role->add_cap('upload_files');
         }

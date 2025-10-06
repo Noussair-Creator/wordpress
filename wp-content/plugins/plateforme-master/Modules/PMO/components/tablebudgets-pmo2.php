@@ -270,39 +270,9 @@
         background-color: #f4f4f4;
     }
 
-    /* DataTables Customizations */
-    .dataTables_wrapper .dataTables_paginate {
-        display: flex;
-        justify-content: center;
-        gap: 10px;
-        margin-top: 20px;
-    }
-
-    .dataTables_wrapper .dataTables_paginate .paginate_button {
-        border: 2px solid #c60000 !important;
-        color: #c60000 !important;
-        padding: 8px 14px;
-        border-radius: 8px;
-        background: white !important;
-        font-weight: bold;
-        cursor: pointer;
-        font-size: 13px;
-        box-shadow: none !important;
-    }
-
-    .dataTables_wrapper .dataTables_paginate .paginate_button:hover {
-        background: #f8eaea !important;
-        color: #c60000 !important;
-    }
-
-    .dataTables_wrapper .dataTables_paginate .paginate_button.current {
-        background: #c60000 !important;
-        color: white !important;
-        border-color: #c60000;
-    }
-
-    .dataTables_wrapper .dataTables_paginate .ellipsis {
-        display: none;
+    /* DataTables Customizations - Using unified pagination component */
+    .dataTables_paginate {
+        display: none !important;
     }
 
 
@@ -401,6 +371,9 @@
                 </div>
             </div>
             <div class="filter-actions">
+                <button class="icon-btn" id="clearFiltersBtn" title="Clear Filters">
+                    <i class="fas fa-times"></i>
+                </button>
                 <button class="icon-btn" title="Filter">
                     <img width="20px" src="/wp-content/plugins/plateforme-master/images/icons/27) Icon-funnel.png"
                         alt="Icon-funnel">
@@ -484,6 +457,9 @@
                 </tr>-->
                     </tbody>
         </table>
+
+        <!-- Include Reusable Pagination Component -->
+        <?php include 'pagination.php'; ?>
     </div>
 
     <!-- SCRIPTS -->
@@ -494,23 +470,76 @@
         var table2 = $('#candidaturesTable2').DataTable({
             destroy: true,
             paging: true,
+            searching: true, // Enable searching
             ordering: false,
             info: false,
             pageLength: 5,
-            dom: 'rt<"bottom"p><"clear">',
+            dom: '<"top">rt<"clear">', // Hide default search (f) and length (l) controls
             language: {
                 paginate: {
-                    previous: "<i class='fa fa-chevron-left' style='color:red'></i>",
-                    next: "<i class='fa fa-chevron-right' style='color:red'></i>"
+                    previous: "<i class='fa fa-chevron-left'></i>",
+                    next: "<i class='fa fa-chevron-right'></i>"
                 },
                 emptyTable: "Aucune donnée disponible",
                 zeroRecords: "Aucun enregistrement correspondant trouvé"
+            },
+            // Add search configuration
+            search: {
+                caseInsensitive: true,
+                regex: false
             }
         });
 
+        // Initialize reusable pagination component
+        if (typeof PMOPagination !== 'undefined') {
+            PMOPagination.init(table2);
+        }
+
+        // Function to refresh table data
+        function refreshTable() {
+            console.log('Refreshing table data...');
+            table2.clear().draw();
+            // If you have an API endpoint to reload data, call it here
+            // For now, we'll just redraw the existing data
+            table2.draw();
+        }
+
+        // Function to clear all filters
+        function clearAllFilters() {
+            console.log('Clearing all filters...');
+            $('#searchInput2').val('');
+            $('#projectSelect').val('');
+            $('#statusSelect').val('');
+            table2.search('').draw();
+            table2.columns().search('').draw();
+        }
+
+        // Debug function to check table data
+        function debugTableData() {
+            console.log('=== TABLE DEBUG INFO ===');
+            console.log('Table data count:', table2.data().count());
+            console.log('Table data:', table2.data().toArray());
+            console.log('Visible rows:', table2.rows({
+                page: 'current'
+            }).data().toArray());
+            console.log('Search value:', table2.search());
+            console.log('Column searches:', table2.columns().search());
+            console.log('========================');
+        }
+
+        // Make debug function available globally
+        window.debugTableData = debugTableData;
+
         // Filter the table based on the search input.
         $('#searchInput2').on('keyup', function() {
-            table2.search(this.value).draw();
+            const searchValue = this.value;
+            console.log('Searching for:', searchValue);
+
+            // Use case-insensitive search
+            table2.search(searchValue, false, true).draw();
+
+            // Debug: Log current data
+            console.log('Current table data:', table2.data().toArray());
         });
 
         // Handle filtering for the project and status selects.
@@ -518,11 +547,14 @@
             const projectValue = $('#projectSelect').val();
             const statusValue = $('#statusSelect').val();
 
-            // Apply the project filter to column 1
-            table2.column(1).search(projectValue).draw();
+            // Apply the project filter to column 1 (Projet)
+            if (projectValue) {
+                table2.column(1).search(projectValue).draw();
+            } else {
+                table2.column(1).search('').draw();
+            }
 
-            // Apply the status filter to column 6
-            // We need to use a regex and a custom search to match the text inside the <span> element
+            // Apply the status filter to column 6 (Statut)
             if (statusValue) {
                 table2.column(6).search(statusValue, true, false).draw();
             } else {
@@ -562,6 +594,11 @@
         $(document).on('click', function() {
             // Hide any dropdown menu that is currently visible.
             $('.dropdown-menu').removeClass('show');
+        });
+
+        // Clear filters button
+        $('#clearFiltersBtn').on('click', function() {
+            clearAllFilters();
         });
     });
     </script>

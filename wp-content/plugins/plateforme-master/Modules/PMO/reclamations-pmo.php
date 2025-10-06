@@ -59,7 +59,7 @@ require_once 'config/roles.php';
                 <?php include 'wp-content/plugins/plateforme-master/pages/components/Dashboard-Bar.php'; ?>
 
                 <div class="content p-4">
-                    <?php include 'components/statreclamations-pmo.php' ?>
+
                     <?php include 'components/Tablereclamations-pmo.php' ?>
                 </div>
             </div>

@@ -428,41 +428,13 @@
             flex-wrap: wrap;
         }
 
-        .pagination-controls {
-            display: flex;
-            justify-content: flex-end;
-            align-items: center;
-            gap: 10px;
-            margin-top: 20px;
+        /* Hide default DataTables pagination */
+        .dataTables_paginate {
+            display: none !important;
         }
 
-        .pagination-button {
-            border-radius: 8px;
-            border: 2px solid #c60000 !important;
-            background: #fff !important;
-            color: #c60000 !important;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            padding: 10px 16px;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .pagination-button.active {
-            background: #c60000 !important;
-            color: #fff !important;
-        }
-
-        .pagination-button:hover:not(.active):not(.disabled) {
-            background: #fde0e0 !important;
-        }
-
-        .pagination-button.disabled {
-            opacity: 0.5;
-            cursor: default;
-            background: #fff !important;
+        .paginate_button {
+            display: none !important;
         }
     </style>
 </head>
@@ -528,7 +500,7 @@
                 <!-- Table rows will be inserted here by JavaScript -->
             </tbody>
         </table>
-        <div class="pagination-controls"></div>
+        <?php include 'pagination.php'; ?>
     </div>
 
     <!-- Modal for Adding a Project -->
@@ -723,88 +695,86 @@
 
     <!-- Custom JavaScript -->
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
+        document.addEventListener('DOMContentLoaded', function() {
             // --- Static Data ---
             const projectsData = [{
-                id: 1,
-                intitule: "Détection IA Dans L'agriculture",
-                type: "National",
-                date_debut: "01/02/2025",
-                date_fin: "29/11/2025",
-                financement: "80 000 TND",
-                responsable: "Dr. Jean Dupont",
-                source_financement: "Gouvernement",
-                site_web_source: "https://gov.tn",
-                objectifs: "Améliorer les rendements agricoles.",
-                budget_file: "Budget_Agri.pdf",
-                convention_file: "Convention_Agri.pdf"
-            },
-            {
-                id: 2,
-                intitule: "Stockage Cloud De Données Santé",
-                type: "Bilatéral",
-                date_debut: "01/01/2023",
-                date_fin: "31/12/2023",
-                financement: "120 000 TND",
-                responsable: "Prof. Marie Curie",
-                source_financement: "Fondation Médicale",
-                site_web_source: "https://medfund.org",
-                objectifs: "Sécuriser les données des patients.",
-                budget_file: "Budget_Sante.pdf",
-                convention_file: "Convention_Sante.pdf"
-            },
-            {
-                id: 3,
-                intitule: "Interfaces Adaptatives AR/VR",
-                type: "Européen",
-                date_debut: "15/09/2023",
-                date_fin: "15/09/2025",
-                financement: "85 000 TND",
-                responsable: "Dr. Alan Turing",
-                source_financement: "Union Européenne",
-                site_web_source: "https://europa.eu",
-                objectifs: "Créer des expériences immersives.",
-                budget_file: "Budget_ARVR.pdf",
-                convention_file: "Convention_ARVR.pdf"
-            },
-            {
-                id: 4,
-                intitule: "Blockchain pour la traçabilité",
-                type: "National",
-                date_debut: "10/03/2024",
-                date_fin: "10/09/2026",
-                financement: "95 000 TND",
-                responsable: "Dr. Jean Dupont",
-                source_financement: "Gouvernement",
-                site_web_source: "https://gov.tn",
-                objectifs: "Assurer la traçabilité des produits.",
-                budget_file: "Budget_Block.pdf",
-                convention_file: "Convention_Block.pdf"
-            },
-            {
-                id: 5,
-                intitule: "Analyse prédictive en finance",
-                type: "Bilatéral",
-                date_debut: "20/05/2022",
-                date_fin: "20/05/2024",
-                financement: "150 000 TND",
-                responsable: "Prof. Marie Curie",
-                source_financement: "Banque Centrale",
-                site_web_source: "https://bct.tn",
-                objectifs: "Prédire les tendances du marché.",
-                budget_file: "Budget_Finance.pdf",
-                convention_file: "Convention_Finance.pdf"
-            }
+                    id: 1,
+                    intitule: "Détection IA Dans L'agriculture",
+                    type: "National",
+                    date_debut: "01/02/2025",
+                    date_fin: "29/11/2025",
+                    financement: "80 000 TND",
+                    responsable: "Dr. Jean Dupont",
+                    source_financement: "Gouvernement",
+                    site_web_source: "https://gov.tn",
+                    objectifs: "Améliorer les rendements agricoles.",
+                    budget_file: "Budget_Agri.pdf",
+                    convention_file: "Convention_Agri.pdf"
+                },
+                {
+                    id: 2,
+                    intitule: "Stockage Cloud De Données Santé",
+                    type: "Bilatéral",
+                    date_debut: "01/01/2023",
+                    date_fin: "31/12/2023",
+                    financement: "120 000 TND",
+                    responsable: "Prof. Marie Curie",
+                    source_financement: "Fondation Médicale",
+                    site_web_source: "https://medfund.org",
+                    objectifs: "Sécuriser les données des patients.",
+                    budget_file: "Budget_Sante.pdf",
+                    convention_file: "Convention_Sante.pdf"
+                },
+                {
+                    id: 3,
+                    intitule: "Interfaces Adaptatives AR/VR",
+                    type: "Européen",
+                    date_debut: "15/09/2023",
+                    date_fin: "15/09/2025",
+                    financement: "85 000 TND",
+                    responsable: "Dr. Alan Turing",
+                    source_financement: "Union Européenne",
+                    site_web_source: "https://europa.eu",
+                    objectifs: "Créer des expériences immersives.",
+                    budget_file: "Budget_ARVR.pdf",
+                    convention_file: "Convention_ARVR.pdf"
+                },
+                {
+                    id: 4,
+                    intitule: "Blockchain pour la traçabilité",
+                    type: "National",
+                    date_debut: "10/03/2024",
+                    date_fin: "10/09/2026",
+                    financement: "95 000 TND",
+                    responsable: "Dr. Jean Dupont",
+                    source_financement: "Gouvernement",
+                    site_web_source: "https://gov.tn",
+                    objectifs: "Assurer la traçabilité des produits.",
+                    budget_file: "Budget_Block.pdf",
+                    convention_file: "Convention_Block.pdf"
+                },
+                {
+                    id: 5,
+                    intitule: "Analyse prédictive en finance",
+                    type: "Bilatéral",
+                    date_debut: "20/05/2022",
+                    date_fin: "20/05/2024",
+                    financement: "150 000 TND",
+                    responsable: "Prof. Marie Curie",
+                    source_financement: "Banque Centrale",
+                    site_web_source: "https://bct.tn",
+                    objectifs: "Prédire les tendances du marché.",
+                    budget_file: "Budget_Finance.pdf",
+                    convention_file: "Convention_Finance.pdf"
+                }
             ];
 
             let allProjects = [...projectsData];
             let filteredProjects = [...allProjects];
-            let currentPage = 1;
-            const itemsPerPage = 3;
+            let table;
 
             // --- DOM Elements ---
             const tbody = document.querySelector('#projectsTable tbody');
-            const paginationControls = document.querySelector('.pagination-controls');
             const addProjectBtn = document.querySelector('.add-project-btn');
 
             // Filters
@@ -1014,15 +984,12 @@
             // --- Rendering ---
             const renderTable = () => {
                 tbody.innerHTML = '';
-                const startIndex = (currentPage - 1) * itemsPerPage;
-                const endIndex = startIndex + itemsPerPage;
-                const paginatedProjects = filteredProjects.slice(startIndex, endIndex);
 
-                if (paginatedProjects.length === 0) {
+                if (filteredProjects.length === 0) {
                     tbody.innerHTML =
                         `<tr><td colspan="7" style="text-align:center; padding: 20px;">Aucun projet trouvé.</td></tr>`;
                 } else {
-                    paginatedProjects.forEach(p => {
+                    filteredProjects.forEach(p => {
                         const tr = document.createElement('tr');
                         tr.dataset.id = p.id;
                         tr.innerHTML = `
@@ -1045,36 +1012,29 @@
                         tbody.appendChild(tr);
                     });
                 }
-                renderPagination();
-            };
 
-            const renderPagination = () => {
-                const totalPages = Math.ceil(filteredProjects.length / itemsPerPage);
-                paginationControls.innerHTML = '';
+                // Initialize DataTables if not already done
+                if (!table) {
+                    table = $('#projectsTable').DataTable({
+                        paging: true,
+                        searching: true,
+                        ordering: false,
+                        info: false,
+                        pageLength: 3,
+                        dom: '<"top">rt<"clear">', // Hide default search (f) and length (l) controls
+                        language: {
+                            emptyTable: "Aucun projet trouvé",
+                            zeroRecords: "Aucun enregistrement correspondant trouvé"
+                        }
+                    });
 
-                if (totalPages <= 1) return;
-
-                const prevBtn = document.createElement('button');
-                prevBtn.innerHTML = `<i class="fa-solid fa-angle-left"></i>`;
-                prevBtn.className = `pagination-button ${currentPage === 1 ? 'disabled' : ''}`;
-                prevBtn.disabled = currentPage === 1;
-                prevBtn.dataset.page = currentPage - 1;
-                paginationControls.appendChild(prevBtn);
-
-                for (let i = 1; i <= totalPages; i++) {
-                    const pageBtn = document.createElement('button');
-                    pageBtn.textContent = i;
-                    pageBtn.className = `pagination-button ${currentPage === i ? 'active' : ''}`;
-                    pageBtn.dataset.page = i;
-                    paginationControls.appendChild(pageBtn);
+                    // Initialize unified pagination
+                    if (typeof PMOPagination !== 'undefined') {
+                        PMOPagination.init(table);
+                    }
+                } else {
+                    table.clear().rows.add($('#projectsTable tbody tr')).draw();
                 }
-
-                const nextBtn = document.createElement('button');
-                nextBtn.innerHTML = `<i class="fa-solid fa-angle-right"></i>`;
-                nextBtn.className = `pagination-button ${currentPage === totalPages ? 'disabled' : ''}`;
-                nextBtn.disabled = currentPage === totalPages;
-                nextBtn.dataset.page = currentPage + 1;
-                paginationControls.appendChild(nextBtn);
             };
 
             // --- Filtering Logic ---
@@ -1102,7 +1062,6 @@
                     return matchesSearch && matchesType && matchesDate;
                 });
 
-                currentPage = 1;
                 renderTable();
             };
 
@@ -1140,7 +1099,7 @@
                     mode: "single",
                     dateFormat: "d/m/Y",
                     locale: "fr",
-                    onClose: function () {
+                    onClose: function() {
                         applyFilters();
                     }
                 });
@@ -1209,12 +1168,6 @@
                         if (project) openEditModal(project);
                     }
 
-                    // Pagination button click
-                    const pageBtn = e.target.closest('.pagination-button:not(.disabled)');
-                    if (pageBtn) {
-                        currentPage = parseInt(pageBtn.dataset.page, 10);
-                        renderTable();
-                    }
                 });
 
                 renderTable();
