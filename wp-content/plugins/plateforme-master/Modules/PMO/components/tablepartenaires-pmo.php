@@ -1499,7 +1499,7 @@
                             <button class="action-btn">...</button>
                             <div class="dropdown-menu">
                                 <a href="#" class="btn-modifier"> Modifier</a>
-                                <a href="/reseaux-de-la-recherche-details/"> Fiche
+                                <a href="/fiche-partenaires/"> Fiche
                                     partenaire</a>
                                 <a href="#">Supprimer</a>
                             </div>
@@ -1521,7 +1521,7 @@
                             <button class="action-btn">...</button>
                             <div class="dropdown-menu">
                                 <a href="#" class="btn-modifier"> Modifier</a>
-                                <a href="/reseaux-de-la-recherche-details/"> Fiche
+                                <a href="/fiche-partenaires/"> Fiche
                                     partenaire</a>
                                 <a href="#"> Supprimer</a>
                             </div>
@@ -1542,7 +1542,7 @@
                             <button class="action-btn">...</button>
                             <div class="dropdown-menu">
                                 <a href="#" class="btn-modifier"> Modifier</a>
-                                <a href="/reseaux-de-la-recherche-details/"> Fiche
+                                <a href="/fiche-partenaires/"> Fiche
                                     partenaire</a>
                                 <a href="#"> Supprimer</a>
                             </div>
@@ -1563,7 +1563,7 @@
                             <button class="action-btn">...</button>
                             <div class="dropdown-menu">
                                 <a href="#" class="btn-modifier"> Modifier</a>
-                                <a href="/reseaux-de-la-recherche-details/"> Fiche
+                                <a href="/fiche-partenaires/"> Fiche
                                     partenaire</a>
                                 <a href="#"> Supprimer</a>
                             </div>
@@ -1585,7 +1585,7 @@
                             <button class="action-btn">...</button>
                             <div class="dropdown-menu">
                                 <a href="#" class="btn-modifier"> Modifier</a>
-                                <a href="/reseaux-de-la-recherche-details/"> Fiche
+                                <a href="/fiche-partenaires/"> Fiche
                                     partenaire</a>
                                 <a href="#"> Supprimer</a>
                             </div>
@@ -1858,7 +1858,10 @@
             });
 
             // Initialize reusable pagination component
-            PMOPagination.init(table);
+            if (typeof PMOPagination !== 'undefined') {
+                const container = document.querySelector('.custom-pagination');
+                PMOPagination.init(table, container);
+            }
 
             // --- Search Input Logic ---
             $('#searchInput').on('keyup', function() {
@@ -2173,7 +2176,7 @@
             userId: <?= (int) $user_id ?>
         };
     </script>
-    <script src="/wp-content/plugins/plateforme-master/assets/js/recherche/reseaux.js"></script>
+    <script src="/wp-content/plugins/plateforme-master/assets/js/recherche/partenaires.js"></script>
 
 </body>
 

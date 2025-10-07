@@ -73,7 +73,7 @@
 
         /* Main Content Styling */
         .main-content {
-            margin-top: -150px;
+            margin-top: -50px;
             /* Adjust to pull content up higher */
             position: relative;
             z-index: 10;
@@ -200,6 +200,7 @@
         .btn-submit:hover {
             background-color: #9a0202;
             border-color: #9a0202;
+            color: #fff;
             transform: translateY(-2px);
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
         }
@@ -273,12 +274,12 @@
             border-bottom-right-radius: 0;
             background-color: #fff;
             padding: 0.6rem .75rem;
-            width: 80%;
+            /* width: 80%; */
             /* Adjusted padding for height */
         }
 
         .file-input-group .btn-import {
-            font-size: 10px;
+            font-size: 14px;
             background-color: #A6A485;
             color: white;
             border: 1px solid #DBD9C3;
@@ -288,7 +289,7 @@
             border-bottom-right-radius: .5rem;
             border-top-left-radius: 0rem;
             border-bottom-left-radius: 0rem;
-            width: 100px;
+            width: 130px;
         }
 
         .file-input-group .btn-import:hover {
@@ -346,8 +347,8 @@
                 <div class="project-meta d-flex align-items-center justify-content-center" style="gap: 20px;">
                     <span>
                         <img width="15px" class="me-2"
-                            src="/wp-content/plugins/plateforme-master/images/icons/27) Icon-calendarRed.png"
-                            alt="Icon-calendarRed.png">
+                            src="/wp-content/plugins/plateforme-master/images/icons/27) Icon-list.png"
+                            alt="Icon-list.png">
                         Européen
                     </span>
                     <span>
@@ -425,7 +426,7 @@
     <!-- Submission Modal -->
     <div class="modal fade" id="submissionModal" tabindex="-1" aria-labelledby="submissionModalLabel"
         aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="submissionModalLabel">Demande de soumission</h5>
@@ -433,15 +434,18 @@
                 </div>
                 <div class="modal-body p-4">
                     <div class="alert alert-custom mb-4">
-                        <i class="fas fa-info-circle"></i>
-                        <div>
+                        <img class="me-4" width="30px"
+                            src="/wp-content/plugins/plateforme-master/images/icons/27) Icon-info.png"
+                            alt="Icon-info.png">
+                        <!-- <i class="fas fa-info-circle"></i> -->
+                        <div style="font-size: 13px;">
                             Assurez-vous d'importer tous les documents requis pour garantir la prise en compte de votre
                             candidature.
                             <br>Tout dossier incomplet sera automatiquement écarté de la sélection.
                         </div>
                     </div>
 
-                    <div class="mb-3">
+                    <div class=" mb-3">
                         <label for="documentUpload" class="form-label">Documents demandés</label>
                         <div class="file-input-group">
                             <input type="text" class="form-control" placeholder="" readonly>

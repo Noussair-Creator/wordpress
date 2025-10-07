@@ -2066,3 +2066,116 @@ Stack trace:
 #5 [internal function]: shutdown_action_hook()
 #6 {main}
   thrown in C:\laragon\www\wordpress\wp-content\plugins\ultimate-member\includes\lib\action-scheduler\classes\data-stores\ActionScheduler_DBStore.php on line 1128
+[06-Oct-2025 10:56:49 UTC] PHP Warning:  Constant GE_MODULE already defined in C:\laragon\www\wordpress\wp-content\plugins\GestionMasters\GestionMasters.php on line 11
+[06-Oct-2025 11:56:49 Africa/Tunis] PHP Warning:  Undefined variable $email in C:\laragon\www\wordpress\wp-content\plugins\secure-login\includes\login-handler.php on line 4
+[06-Oct-2025 11:56:49 Africa/Tunis] PHP Warning:  require_once(C:\laragon\www\wordpress\wp-content\plugins\plateforme-master\Modules\USCR//requireApi.php): Failed to open stream: No such file or directory in C:\laragon\www\wordpress\wp-content\plugins\plateforme-master\Modules\USCR\statistiques-historique-uscr.php on line 5
+[06-Oct-2025 11:56:49 Africa/Tunis] PHP Fatal error:  Uncaught Error: Failed opening required 'C:\laragon\www\wordpress\wp-content\plugins\plateforme-master\Modules\USCR//requireApi.php' (include_path='.;C:/laragon/etc/php/pear') in C:\laragon\www\wordpress\wp-content\plugins\plateforme-master\Modules\USCR\statistiques-historique-uscr.php:5
+Stack trace:
+#0 C:\laragon\www\wordpress\wp-content\plugins\plateforme-master\plateforme-master.php(2645): include()
+#1 C:\laragon\www\wordpress\wp-includes\class-wp-hook.php(324): pm_template_override('')
+#2 C:\laragon\www\wordpress\wp-includes\class-wp-hook.php(348): WP_Hook->apply_filters(NULL, Array)
+#3 C:\laragon\www\wordpress\wp-includes\plugin.php(517): WP_Hook->do_action(Array)
+#4 C:\laragon\www\wordpress\wp-includes\template-loader.php(13): do_action('template_redire...')
+#5 C:\laragon\www\wordpress\wp-blog-header.php(19): require_once('C:\\laragon\\www\\...')
+#6 C:\laragon\www\wordpress\index.php(17): require('C:\\laragon\\www\\...')
+#7 {main}
+  thrown in C:\laragon\www\wordpress\wp-content\plugins\plateforme-master\Modules\USCR\statistiques-historique-uscr.php on line 5
+[06-Oct-2025 10:56:50 UTC] PHP Warning:  Constant GE_MODULE already defined in C:\laragon\www\wordpress\wp-content\plugins\GestionMasters\GestionMasters.php on line 11
+[06-Oct-2025 11:56:50 Africa/Tunis] PHP Warning:  Undefined variable $email in C:\laragon\www\wordpress\wp-content\plugins\secure-login\includes\login-handler.php on line 4
+[06-Oct-2025 10:57:23 UTC] PHP Warning:  Constant GE_MODULE already defined in C:\laragon\www\wordpress\wp-content\plugins\GestionMasters\GestionMasters.php on line 11
+[06-Oct-2025 11:57:23 Africa/Tunis] PHP Warning:  Undefined variable $email in C:\laragon\www\wordpress\wp-content\plugins\secure-login\includes\login-handler.php on line 4
+[06-Oct-2025 10:57:23 UTC] PHP Warning:  Constant GE_MODULE already defined in C:\laragon\www\wordpress\wp-content\plugins\GestionMasters\GestionMasters.php on line 11
+[06-Oct-2025 11:57:23 Africa/Tunis] PHP Warning:  Undefined variable $email in C:\laragon\www\wordpress\wp-content\plugins\secure-login\includes\login-handler.php on line 4
+[06-Oct-2025 10:57:24 UTC] PHP Warning:  Constant GE_MODULE already defined in C:\laragon\www\wordpress\wp-content\plugins\GestionMasters\GestionMasters.php on line 11
+[06-Oct-2025 11:57:24 Africa/Tunis] PHP Fatal error:  Uncaught RuntimeException: Unable to release actions from claim id 0. in C:\laragon\www\wordpress\wp-content\plugins\ultimate-member\includes\lib\action-scheduler\classes\data-stores\ActionScheduler_DBStore.php:1128
+Stack trace:
+#0 C:\laragon\www\wordpress\wp-content\plugins\ultimate-member\includes\lib\action-scheduler\classes\ActionScheduler_QueueRunner.php(195): ActionScheduler_DBStore->release_claim(Object(ActionScheduler_ActionClaim))
+#1 C:\laragon\www\wordpress\wp-content\plugins\ultimate-member\includes\lib\action-scheduler\classes\ActionScheduler_QueueRunner.php(158): ActionScheduler_QueueRunner->do_batch(25, 'WP Cron')
+#2 C:\laragon\www\wordpress\wp-includes\class-wp-hook.php(324): ActionScheduler_QueueRunner->run('WP Cron')
+#3 C:\laragon\www\wordpress\wp-includes\class-wp-hook.php(348): WP_Hook->apply_filters('', Array)
+#4 C:\laragon\www\wordpress\wp-includes\plugin.php(565): WP_Hook->do_action(Array)
+#5 C:\laragon\www\wordpress\wp-cron.php(191): do_action_ref_array('action_schedule...', Array)
+#6 {main}
+  thrown in C:\laragon\www\wordpress\wp-content\plugins\ultimate-member\includes\lib\action-scheduler\classes\data-stores\ActionScheduler_DBStore.php on line 1128
+[06-Oct-2025 11:57:24 Africa/Tunis] PHP Fatal error:  Uncaught RuntimeException: Unable to release actions from claim id 0. in C:\laragon\www\wordpress\wp-content\plugins\ultimate-member\includes\lib\action-scheduler\classes\data-stores\ActionScheduler_DBStore.php:1128
+Stack trace:
+#0 C:\laragon\www\wordpress\wp-content\plugins\ultimate-member\includes\lib\action-scheduler\classes\ActionScheduler_FatalErrorMonitor.php(95): ActionScheduler_DBStore->release_claim(Object(ActionScheduler_ActionClaim))
+#1 C:\laragon\www\wordpress\wp-includes\class-wp-hook.php(324): ActionScheduler_FatalErrorMonitor->handle_unexpected_shutdown('')
+#2 C:\laragon\www\wordpress\wp-includes\class-wp-hook.php(348): WP_Hook->apply_filters(NULL, Array)
+#3 C:\laragon\www\wordpress\wp-includes\plugin.php(517): WP_Hook->do_action(Array)
+#4 C:\laragon\www\wordpress\wp-includes\load.php(1304): do_action('shutdown')
+#5 [internal function]: shutdown_action_hook()
+#6 {main}
+  thrown in C:\laragon\www\wordpress\wp-content\plugins\ultimate-member\includes\lib\action-scheduler\classes\data-stores\ActionScheduler_DBStore.php on line 1128
+[06-Oct-2025 11:57:25 Africa/Tunis] PHP Warning:  Undefined variable $email in C:\laragon\www\wordpress\wp-content\plugins\secure-login\includes\login-handler.php on line 4
+[06-Oct-2025 11:57:26 Africa/Tunis] PHP Fatal error:  Uncaught RuntimeException: Unable to release actions from claim id 0. in C:\laragon\www\wordpress\wp-content\plugins\ultimate-member\includes\lib\action-scheduler\classes\data-stores\ActionScheduler_DBStore.php:1128
+Stack trace:
+#0 C:\laragon\www\wordpress\wp-content\plugins\ultimate-member\includes\lib\action-scheduler\classes\ActionScheduler_QueueRunner.php(195): ActionScheduler_DBStore->release_claim(Object(ActionScheduler_ActionClaim))
+#1 C:\laragon\www\wordpress\wp-content\plugins\ultimate-member\includes\lib\action-scheduler\classes\ActionScheduler_QueueRunner.php(158): ActionScheduler_QueueRunner->do_batch(25, 'Async Request')
+#2 C:\laragon\www\wordpress\wp-includes\class-wp-hook.php(324): ActionScheduler_QueueRunner->run('Async Request')
+#3 C:\laragon\www\wordpress\wp-includes\class-wp-hook.php(348): WP_Hook->apply_filters('', Array)
+#4 C:\laragon\www\wordpress\wp-includes\plugin.php(517): WP_Hook->do_action(Array)
+#5 C:\laragon\www\wordpress\wp-content\plugins\ultimate-member\includes\lib\action-scheduler\classes\ActionScheduler_AsyncRequest_QueueRunner.php(48): do_action('action_schedule...', 'Async Request')
+#6 C:\laragon\www\wordpress\wp-content\plugins\ultimate-member\includes\lib\action-scheduler\lib\WP_Async_Request.php(174): ActionScheduler_AsyncRequest_QueueRunner->handle()
+#7 C:\laragon\www\wordpress\wp-includes\class-wp-hook.php(324): WP_Async_Request->maybe_handle('')
+#8 C:\laragon\www\wordpress\wp-includes\class-wp-hook.php(348): WP_Hook->apply_filters('', Array)
+#9 C:\laragon\www\wordpress\wp-includes\plugin.php(517): WP_Hook->do_action(Array)
+#10 C:\laragon\www\wordpress\wp-admin\admin-ajax.php(192): do_action('wp_ajax_as_asyn...')
+#11 {main}
+  thrown in C:\laragon\www\wordpress\wp-content\plugins\ultimate-member\includes\lib\action-scheduler\classes\data-stores\ActionScheduler_DBStore.php on line 1128
+[06-Oct-2025 11:57:26 Africa/Tunis] PHP Fatal error:  Uncaught RuntimeException: Unable to release actions from claim id 0. in C:\laragon\www\wordpress\wp-content\plugins\ultimate-member\includes\lib\action-scheduler\classes\data-stores\ActionScheduler_DBStore.php:1128
+Stack trace:
+#0 C:\laragon\www\wordpress\wp-content\plugins\ultimate-member\includes\lib\action-scheduler\classes\ActionScheduler_FatalErrorMonitor.php(95): ActionScheduler_DBStore->release_claim(Object(ActionScheduler_ActionClaim))
+#1 C:\laragon\www\wordpress\wp-includes\class-wp-hook.php(324): ActionScheduler_FatalErrorMonitor->handle_unexpected_shutdown('')
+#2 C:\laragon\www\wordpress\wp-includes\class-wp-hook.php(348): WP_Hook->apply_filters(NULL, Array)
+#3 C:\laragon\www\wordpress\wp-includes\plugin.php(517): WP_Hook->do_action(Array)
+#4 C:\laragon\www\wordpress\wp-includes\load.php(1304): do_action('shutdown')
+#5 [internal function]: shutdown_action_hook()
+#6 {main}
+  thrown in C:\laragon\www\wordpress\wp-content\plugins\ultimate-member\includes\lib\action-scheduler\classes\data-stores\ActionScheduler_DBStore.php on line 1128
+[06-Oct-2025 10:57:47 UTC] PHP Warning:  Constant GE_MODULE already defined in C:\laragon\www\wordpress\wp-content\plugins\GestionMasters\GestionMasters.php on line 11
+[06-Oct-2025 11:57:48 Africa/Tunis] PHP Warning:  Undefined variable $email in C:\laragon\www\wordpress\wp-content\plugins\secure-login\includes\login-handler.php on line 4
+[06-Oct-2025 11:57:48 Africa/Tunis] PHP Warning:  include(C:\laragon\www\wordpress\wp-content\plugins\plateforme-master\Modules\USCR//components/sidebar.php): Failed to open stream: No such file or directory in C:\laragon\www\wordpress\wp-content\plugins\plateforme-master\Modules\USCR\statistiques-historique-uscr.php on line 53
+[06-Oct-2025 11:57:48 Africa/Tunis] PHP Warning:  include(): Failed opening 'C:\laragon\www\wordpress\wp-content\plugins\plateforme-master\Modules\USCR//components/sidebar.php' for inclusion (include_path='.;C:/laragon/etc/php/pear') in C:\laragon\www\wordpress\wp-content\plugins\plateforme-master\Modules\USCR\statistiques-historique-uscr.php on line 53
+[06-Oct-2025 11:57:48 Africa/Tunis] PHP Warning:  include(components/scripts.php): Failed to open stream: No such file or directory in C:\laragon\www\wordpress\wp-content\plugins\plateforme-master\Modules\USCR\statistiques-historique-uscr.php on line 71
+[06-Oct-2025 11:57:48 Africa/Tunis] PHP Warning:  include(): Failed opening 'components/scripts.php' for inclusion (include_path='.;C:/laragon/etc/php/pear') in C:\laragon\www\wordpress\wp-content\plugins\plateforme-master\Modules\USCR\statistiques-historique-uscr.php on line 71
+[06-Oct-2025 10:57:48 UTC] PHP Warning:  Constant GE_MODULE already defined in C:\laragon\www\wordpress\wp-content\plugins\GestionMasters\GestionMasters.php on line 11
+[06-Oct-2025 10:57:48 UTC] PHP Warning:  Constant GE_MODULE already defined in C:\laragon\www\wordpress\wp-content\plugins\GestionMasters\GestionMasters.php on line 11
+[06-Oct-2025 10:57:48 UTC] PHP Warning:  Constant GE_MODULE already defined in C:\laragon\www\wordpress\wp-content\plugins\GestionMasters\GestionMasters.php on line 11
+[06-Oct-2025 11:57:49 Africa/Tunis] PHP Warning:  Undefined variable $email in C:\laragon\www\wordpress\wp-content\plugins\secure-login\includes\login-handler.php on line 4
+[06-Oct-2025 11:57:49 Africa/Tunis] PHP Warning:  Undefined variable $email in C:\laragon\www\wordpress\wp-content\plugins\secure-login\includes\login-handler.php on line 4
+[06-Oct-2025 11:57:49 Africa/Tunis] PHP Warning:  Undefined variable $email in C:\laragon\www\wordpress\wp-content\plugins\secure-login\includes\login-handler.php on line 4
+[06-Oct-2025 10:57:49 UTC] PHP Warning:  Constant GE_MODULE already defined in C:\laragon\www\wordpress\wp-content\plugins\GestionMasters\GestionMasters.php on line 11
+[06-Oct-2025 10:57:49 UTC] PHP Warning:  Constant GE_MODULE already defined in C:\laragon\www\wordpress\wp-content\plugins\GestionMasters\GestionMasters.php on line 11
+[06-Oct-2025 10:57:49 UTC] PHP Warning:  Constant GE_MODULE already defined in C:\laragon\www\wordpress\wp-content\plugins\GestionMasters\GestionMasters.php on line 11
+[06-Oct-2025 10:57:49 UTC] PHP Warning:  Constant GE_MODULE already defined in C:\laragon\www\wordpress\wp-content\plugins\GestionMasters\GestionMasters.php on line 11
+[06-Oct-2025 10:57:49 UTC] PHP Warning:  Constant GE_MODULE already defined in C:\laragon\www\wordpress\wp-content\plugins\GestionMasters\GestionMasters.php on line 11
+[06-Oct-2025 11:57:50 Africa/Tunis] PHP Warning:  Undefined variable $email in C:\laragon\www\wordpress\wp-content\plugins\secure-login\includes\login-handler.php on line 4
+[06-Oct-2025 11:57:50 Africa/Tunis] [plateforme-master] rest_api_init fired. Registering routes for plateforme-recherche/v1
+[06-Oct-2025 11:57:50 Africa/Tunis] [plateforme-master] register GET /publication = OK
+[06-Oct-2025 11:57:50 Africa/Tunis] [plateforme-master] register POST /publication = OK
+[06-Oct-2025 11:57:50 Africa/Tunis] [plateforme-master] register PUT /publication/{id} = OK
+[06-Oct-2025 11:57:50 Africa/Tunis] [plateforme-master] register DELETE /publication/{id} = OK
+[06-Oct-2025 11:57:50 Africa/Tunis] PHP Warning:  Undefined variable $email in C:\laragon\www\wordpress\wp-content\plugins\secure-login\includes\login-handler.php on line 4
+[06-Oct-2025 11:57:50 Africa/Tunis] [plateforme-master] rest_api_init fired. Registering routes for plateforme-recherche/v1
+[06-Oct-2025 11:57:50 Africa/Tunis] [plateforme-master] register GET /publication = OK
+[06-Oct-2025 11:57:50 Africa/Tunis] [plateforme-master] register POST /publication = OK
+[06-Oct-2025 11:57:50 Africa/Tunis] [plateforme-master] register PUT /publication/{id} = OK
+[06-Oct-2025 11:57:50 Africa/Tunis] [plateforme-master] register DELETE /publication/{id} = OK
+[06-Oct-2025 11:57:50 Africa/Tunis] WordPress database error Unknown column 'user_id' in 'field list' for query SELECT id, user_id, message, type, lu, created_at
+     FROM utm_recherche_notification
+     WHERE user_id=160
+     ORDER BY created_at DESC
+     LIMIT 5 OFFSET 0 made by require('wp-blog-header.php'), wp, WP->main, WP->parse_request, do_action_ref_array('parse_request'), WP_Hook->do_action, WP_Hook->apply_filters, rest_api_loaded, WP_REST_Server->serve_request, WP_REST_Server->dispatch, WP_REST_Server->respond_to_request, svc_notification_list
+[06-Oct-2025 11:57:50 Africa/Tunis] PHP Warning:  Undefined variable $email in C:\laragon\www\wordpress\wp-content\plugins\secure-login\includes\login-handler.php on line 4
+[06-Oct-2025 10:57:50 UTC] PHP Warning:  Constant GE_MODULE already defined in C:\laragon\www\wordpress\wp-content\plugins\GestionMasters\GestionMasters.php on line 11
+[06-Oct-2025 11:57:50 Africa/Tunis] PHP Warning:  Undefined variable $email in C:\laragon\www\wordpress\wp-content\plugins\secure-login\includes\login-handler.php on line 4
+[06-Oct-2025 11:57:50 Africa/Tunis] PHP Warning:  Undefined variable $email in C:\laragon\www\wordpress\wp-content\plugins\secure-login\includes\login-handler.php on line 4
+[06-Oct-2025 11:57:50 Africa/Tunis] PHP Warning:  Undefined variable $email in C:\laragon\www\wordpress\wp-content\plugins\secure-login\includes\login-handler.php on line 4
+[06-Oct-2025 11:57:50 Africa/Tunis] [plateforme-master] rest_api_init fired. Registering routes for plateforme-recherche/v1
+[06-Oct-2025 11:57:50 Africa/Tunis] [plateforme-master] register GET /publication = OK
+[06-Oct-2025 11:57:50 Africa/Tunis] [plateforme-master] register POST /publication = OK
+[06-Oct-2025 11:57:50 Africa/Tunis] [plateforme-master] register PUT /publication/{id} = OK
+[06-Oct-2025 11:57:50 Africa/Tunis] [plateforme-master] register DELETE /publication/{id} = OK
+[06-Oct-2025 10:57:50 UTC] PHP Warning:  Constant GE_MODULE already defined in C:\laragon\www\wordpress\wp-content\plugins\GestionMasters\GestionMasters.php on line 11
+[06-Oct-2025 11:57:51 Africa/Tunis] PHP Warning:  Undefined variable $email in C:\laragon\www\wordpress\wp-content\plugins\secure-login\includes\login-handler.php on line 4

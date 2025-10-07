@@ -1327,6 +1327,9 @@ function plateforme_content($content)
         'ged-pmo',
         'calendrier-pmo',
         'budgets-details',
+        'fiche-partenaires',
+        'statistiques-historique-uscr',
+        'fiche-budget',
     ];
 
     foreach ($pages_PMO as $page_slug) {
@@ -1337,6 +1340,28 @@ function plateforme_content($content)
                 if (array_intersect($allowed_roles, $current_user->roles)) {
                     ob_start();
                     include plugin_dir_path(__FILE__) . 'Modules/PMO' . $page_slug . '.php';
+                    echo ob_get_clean();
+                    exit;
+                } else {
+                    plateforme_redirect_home();
+                }
+            } else {
+                plateforme_redirect_home();
+            }
+        }
+    }
+    $pages_USCR = [
+        'statistiques-historique-uscr',
+    ];
+
+    foreach ($pages_USCR as $page_slug) {
+        if (is_page($page_slug)) {
+            if (is_user_logged_in()) {
+                $current_user = wp_get_current_user();
+                $allowed_roles = ['um_service-etablissement', 'um_service-utm', 'um_responsable-uscr'];
+                if (array_intersect($allowed_roles, $current_user->roles)) {
+                    ob_start();
+                    include plugin_dir_path(__FILE__) . 'Modules/USCR' . $page_slug . '.php';
                     echo ob_get_clean();
                     exit;
                 } else {
@@ -2589,6 +2614,9 @@ function pm_template_override()
         'ged-pmo',
         'calendrier-pmo',
         'budgets-details',
+        'fiche-partenaires',
+        'statistiques-historique-uscr',
+        'fiche-budget',
     ];
 
     foreach ($pages_PMO as $page_slug) {
@@ -2609,6 +2637,36 @@ function pm_template_override()
             }
         }
     }
+    $pages_USCR = [
+        'statistiques-historique-uscr',
+    ];
+
+    foreach ($pages_USCR as $page_slug) {
+        if (is_page($page_slug)) {
+            if (is_user_logged_in()) {
+                $current_user = wp_get_current_user();
+                $allowed_roles = ['um_service-etablissement', 'um_service-utm', 'um_responsable-uscr'];
+                if (array_intersect($allowed_roles, $current_user->roles)) {
+                    ob_start();
+                    include plugin_dir_path(__FILE__) . '/Modules/USCR/' . $page_slug . '.php';
+                    echo ob_get_clean();
+                    exit;
+                } else {
+                    plateforme_redirect_home();
+                }
+            } else {
+                plateforme_redirect_home();
+            }
+        }
+    }
+
+
+
+
+
+
+
+
 
     $pages_UTM = [
         'liste-de-laboratoires',

@@ -115,9 +115,6 @@ $roleConfigs = [
             ["label" => "Réunions", "lien" => "/reunions-pmo"],
             ["label" => "Contacts", "lien" => "/contact-pmo"],
             ["label" => "Reclamations", "lien" => "/reclamations-pmo"],
-
-
-
         ],
         "calendriers" => [
             "Candidature",
@@ -438,4 +435,3 @@ if ($role === 'um_chercheur' && !empty($data['menu']) && !empty($titres_rubrique
 
     $data['menu'] = array_values($data['menu']); // Réindexation propre
 }
-?>

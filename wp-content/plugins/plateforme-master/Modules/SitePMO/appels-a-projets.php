@@ -11,7 +11,7 @@ require_once 'wp-content/plugins/plateforme-master/pages/config/roles.php';
 
 <head>
     <meta charset="UTF-8">
-    <title>Annonces de soutenances</title>
+    <title>Apples à projets</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>

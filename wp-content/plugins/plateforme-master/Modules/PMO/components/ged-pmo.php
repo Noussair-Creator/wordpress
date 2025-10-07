@@ -926,10 +926,12 @@
             t1 = $('#table1').DataTable(dtOpts);
             t2 = $('#table2').DataTable(dtOpts);
 
-            // Initialize unified pagination
+            // Initialize unified pagination, scoped to each tab's container
             if (typeof PMOPagination !== 'undefined') {
-                PMOPagination.init(t1);
-                PMOPagination.init(t2);
+                const cont1 = document.querySelector('#tab1 .custom-pagination');
+                const cont2 = document.querySelector('#tab2 .custom-pagination');
+                PMOPagination.init(t1, cont1);
+                PMOPagination.init(t2, cont2);
             }
 
             // Filtres catégories

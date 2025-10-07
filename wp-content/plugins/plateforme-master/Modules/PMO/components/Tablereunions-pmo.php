@@ -1557,9 +1557,9 @@
 
 <!-- Combined and updated scripts -->
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('DOMContentLoaded', function () {
         // Wait for reunion.js to initialize the DataTable, then initialize pagination
-        setTimeout(function() {
+        setTimeout(function () {
             if ($.fn.DataTable.isDataTable('#candidaturesTable')) {
                 const table = $('#candidaturesTable').DataTable();
                 console.log('Using existing DataTable instance from reunion.js');
@@ -1574,7 +1574,7 @@
         }, 100); // Small delay to ensure reunion.js has initialized
 
         // Custom search input functionality
-        $('#customSearchInput').on('keyup', function() {
+        $('#customSearchInput').on('keyup', function () {
             if ($.fn.DataTable.isDataTable('#candidaturesTable')) {
                 const table = $('#candidaturesTable').DataTable();
                 table.search(this.value).draw();
@@ -1582,31 +1582,31 @@
         });
 
         // --- Generic Dropdown Logic ---
-        function setupDropdowns() {
-            document.addEventListener('click', function() {
-                document.querySelectorAll('.dropdown-menu').forEach(menu => {
-                    menu.style.display = 'none';
-                });
-            });
+        // function setupDropdowns() {
+        //     document.addEventListener('click', function() {
+        //         document.querySelectorAll('.dropdown-menu').forEach(menu => {
+        //             menu.style.display = 'none';
+        //         });
+        //     });
 
-            $('#candidaturesTable').on('click', '.action-btn', function(e) {
-                e.stopPropagation();
-                $('.dropdown-menu').not($(this).next()).hide();
-                $(this).next('.dropdown-menu').toggle();
-            });
-        }
+        //     $('#candidaturesTable').on('click', '.action-btn', function(e) {
+        //         e.stopPropagation();
+        //         $('.dropdown-menu').not($(this).next()).hide();
+        //         $(this).next('.dropdown-menu').toggle();
+        //     });
+        // }
 
-        setupDropdowns();
-        table.on('draw', setupDropdowns);
+        // setupDropdowns();
+        // table.on('draw', setupDropdowns);
 
 
         // --- Check All Functionality ---
-        $('#checkAll').on('click', function() {
+        $('#checkAll').on('click', function () {
             const checkboxes = $('#candidaturesTable tbody input[type="checkbox"]');
             checkboxes.prop('checked', $(this).prop('checked'));
         });
 
-        $('#candidaturesTable tbody').on('change', 'input[type="checkbox"]', function() {
+        $('#candidaturesTable tbody').on('change', 'input[type="checkbox"]', function () {
             if (!this.checked) {
                 $('#checkAll').prop('checked', false);
             } else {
@@ -1619,7 +1619,7 @@
             }
         });
 
-        table.on('draw', function() {
+        table.on('draw', function () {
             const totalCheckboxes = $('#candidaturesTable tbody input[type="checkbox"]').length;
             const checkedCheckboxes = $('#candidaturesTable tbody input[type="checkbox"]:checked')
                 .length;
@@ -1683,7 +1683,7 @@
         const participantList = document.getElementById('participantList');
 
         document.querySelectorAll('#participantList .delete-participant').forEach(button => {
-            button.addEventListener('click', function() {
+            button.addEventListener('click', function () {
                 this.parentElement.remove();
             });
         });
@@ -1732,7 +1732,7 @@
             editModal.style.display = 'none';
         };
 
-        $('#candidaturesTable').on('click', '.edit-btn', function(e) {
+        $('#candidaturesTable').on('click', '.edit-btn', function (e) {
             e.preventDefault();
             const row = $(this).closest('tr');
             const date = row.find('td:eq(1)').text();
@@ -1786,7 +1786,7 @@
             detailsModal.style.display = 'none';
         };
 
-        $('#candidaturesTable').on('click', '.details-btn', function(e) {
+        $('#candidaturesTable').on('click', '.details-btn', function (e) {
             e.preventDefault();
             const row = $(this).closest('tr');
             const date = row.find('td:eq(1)').text();

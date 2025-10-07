@@ -487,7 +487,7 @@
                     searching: true,
                     ordering: false,
                     info: false,
-                    pageLength: 3,
+                    pageLength: 5,
                     dom: '<"top">rt<"clear">', // Hide default search (f) and length (l) controls
                     language: {
                         emptyTable: "Aucun appel à projet trouvé",
@@ -497,7 +497,8 @@
 
                 // Initialize unified pagination
                 if (typeof PMOPagination !== 'undefined') {
-                    PMOPagination.init(table);
+                    const container = document.querySelector('.custom-pagination');
+                    PMOPagination.init(table, container);
                 }
             } else {
                 table.clear().rows.add($('#projectsTable tbody tr')).draw();
