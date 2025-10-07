@@ -411,7 +411,7 @@
                     Cassandra).</li>
             </ul>
 
-            <h2 class="custom-body-title">Domaine d’expertise</h2>
+            <h2 class="custom-body-title">Domaine d'intérêt</h2>
             <div class="expertise-tags-container">
                 <span class="expertise-tag">AI & data <i class="fa-solid fa-times"></i></span>
                 <span class="expertise-tag">IT <i class="fa-solid fa-times"></i></span>
@@ -544,5 +544,21 @@
                 }
             }
         });
+
+        // --- Added Code for Deleting Interest Tags ---
+        const tagsContainer = document.querySelector('.expertise-tags-container');
+        if (tagsContainer) {
+            tagsContainer.addEventListener('click', function (e) {
+                // Check if the clicked element is the delete icon
+                if (e.target && e.target.matches('i.fa-times')) {
+                    // Find the closest parent tag and remove it
+                    const tagToRemove = e.target.closest('.expertise-tag');
+                    if (tagToRemove) {
+                        tagToRemove.remove();
+                    }
+                }
+            });
+        }
+        // --- End of Added Code ---
     });
 </script>

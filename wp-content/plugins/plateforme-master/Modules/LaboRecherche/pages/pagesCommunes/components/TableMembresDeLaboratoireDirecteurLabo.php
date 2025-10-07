@@ -494,6 +494,35 @@ body {
     border-color: #e0e0e0;
     padding: 15px;
 }
+.participants-list {
+  list-style: none;
+  padding: 0;
+  margin-top: 10px;
+}
+
+.participants-list li {
+  border-bottom: 1px solid #ddd;
+  border-radius: 6px;
+  padding: 6px 10px;
+  margin-bottom: 6px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 14px;
+}
+
+.participants-list li .remove-btn {
+  background: none;
+  border: none;
+  color: #c60000;
+  font-size: 15px;
+  cursor: pointer;
+  font-weight: bold;
+}
+.input-with-icon .icon[style*="cursor: pointer"] {
+  pointer-events: auto;
+}
+
 </style>
 
 
@@ -732,12 +761,12 @@ body {
                     </div>
                 </div>
 
-                <!-- <div class="radio-option" style="margin-top:18px;">
-          <label class="radio-option-label">
-            <input type="radio" name="addMemberType" value="invite">
-            <span>Invitation par email (si membre externe)</span>
-          </label>
-        </div>-->
+              <div class="radio-option" style="margin-top:18px;">
+                <label class="radio-option-label">
+                    <input type="radio" name="addMemberType" value="invite">
+                    <span>Invitation par email (si membre externe)</span>
+                </label>
+            </div>
 
                 <!-- ====== Contenu : Invitation par email ====== -->
                 <div id="inviteMemberContent" class="form-content-wrapper" style="display:none;">
@@ -746,14 +775,14 @@ body {
                             <label for="inviteEmail">Email</label>
                             <input id="inviteEmail" type="email" placeholder="prenom.nom@exemple.tld">
                         </div>
-                        <div class="form-group" style="flex:1;">
+                        <!--<div class="form-group" style="flex:1;">
                             <label for="inviteGrade">Grade</label>
                             <input id="inviteGrade" type="text" placeholder="Ex.: Chercheur associé">
                         </div>
                         <div class="form-group" style="flex:1;">
                             <label for="inviteSpecialite">Spécialité</label>
                             <input id="inviteSpecialite" type="text" placeholder="Ex.: Bio-informatique">
-                        </div>
+                        </div>-->
                     </div>
                     <p class="help-text">Une invitation sera envoyée pour créer un compte et finaliser l’ajout.</p>
                 </div>
@@ -1201,123 +1230,197 @@ document.addEventListener('DOMContentLoaded', function() {
 
   `;
 
-    const inviteMemberHTML = `
-    <div class="form-row" style="display:flex; gap:12px; flex-wrap:wrap;">
-      <div class="form-group" style="flex:1;">
-        <label for="inviteEmail">Email</label>
-        <input id="inviteEmail" type="email" placeholder="prenom.nom@exemple.tld">
-      </div>
-      <div class="form-group" style="flex:1;">
-        <label for="inviteGrade">Grade</label>
-        <input id="inviteGrade" type="text" placeholder="Ex.: Chercheur associé">
-      </div>
-      <div class="form-group" style="flex:1;">
-        <label for="inviteSpecialite">Spécialité</label>
-        <input id="inviteSpecialite" type="text" placeholder="Ex.: Bio-informatique">
-      </div>
+  const inviteMemberHTML = `
+    <div class="form-group">
+        <label for="inviteEmail">Ajouter un membre</label>
+        <div class="input-with-icon">
+        <input id="inviteEmail" type="email" class="emailinvit" placeholder="prenom.nom@exemple.tld">
+        <i class="fas fa-level-down-alt icon right-icon" 
+            style="transform: translateY(-50%) rotate(90deg); cursor: pointer;" 
+            id="addParticipantBtn"></i>
+        </div>
+        <ul id="participantsList" class="participants-list"></ul>
     </div>
-    <p class="help-text">Une invitation sera envoyée pour créer un compte et finaliser l’ajout.</p>
-  `;
+    <p class="help-text">Une invitation sera envoyée à chaque adresse pour créer un compte et finaliser l’ajout.</p>
+    `;
+
 
     /* =======================
      * MONTAGE ONGLET EXISTANT
      * ======================= */
-    function mountExistingTab() {
-        existingWrapper.innerHTML = existingMemberHTML;
+        function mountExistingTab() {
+            existingWrapper.innerHTML = existingMemberHTML;
 
-        // Récupérer les refs **après** injection
-        const selMember = document.getElementById('memberSelect');
-        const selEtab = document.getElementById('filterEtablissement');
-        const selRoles = document.getElementById('filterRoles');
-        const inputQ = document.getElementById('filterSearch');
-        const btnFind = document.getElementById('btnFindMembers');
-
-        function getSelectedRoles() {
-            return Array.from(selRoles.selectedOptions || []).map(o => o.value);
-        }
-
-        async function loadEtablissements() {
-            try {
-                const rows = await apiGet('/etablissements');
-                selEtab.innerHTML = '<option value="">Tous les établissements</option>' +
-                    rows.map(r => `<option value="${r.id}">${escapeHtml(r.nom)}</option>`).join('');
-            } catch (e) {
-                console.error('etablissements:', e);
-                selEtab.innerHTML = '<option value="">(Erreur de chargement)</option>';
-            }
-        }
-
-        async function loadMembersIntoSelect() {
+            // Récupérer les refs **après** injection
             const selMember = document.getElementById('memberSelect');
             const selEtab = document.getElementById('filterEtablissement');
             const selRoles = document.getElementById('filterRoles');
             const inputQ = document.getElementById('filterSearch');
+            const btnFind = document.getElementById('btnFindMembers');
 
-            if (!selMember) return;
-
-            selMember.disabled = true;
-            selMember.innerHTML = `<option value="">Chargement…</option>`;
-
-            try {
-                await ensureLabId();
-
-                const params = {
-                    with_etablissement: 1,
-                    orderby: 'display_name',
-                    order: 'ASC',
-                    per_page: 50,
-                    search: (inputQ?.value || '').trim() || undefined,
-                    etablissement_id: selEtab?.value || undefined,
-
-                    // ✅ NE GARDER QUE LES UTILISATEURS NON AFFECTÉS À AUCUN LABO
-                    only_free: 1
-                    // (optionnel) exclude_lab: LAB_ID
-                };
-
-                const roles = Array.from(selRoles?.selectedOptions || []).map(o => o.value);
-                if (roles.length) params.roles = roles;
-
-                const rows = await apiGet('/users', params);
-
-                const options = (Array.isArray(rows) ? rows : []).map(r => {
-                    const labelParts = [
-                        r.display_name || 'Utilisateur',
-                        r.user_email ? `<${r.user_email}>` : null,
-                        r.etablissement_nom || null
-                    ].filter(Boolean);
-                    return `<option value="${r.id}">${escapeHtml(labelParts.join(' — '))}</option>`;
-                });
-
-                selMember.innerHTML =
-                    `<option value="">Sélectionner un membre...</option>` +
-                    (options.length ? options.join('') :
-                        `<option value="" disabled>(Aucun résultat)</option>`);
-
-            } catch (e) {
-                console.error('[loadMembersIntoSelect] Erreur:', e);
-                const msg = (e && e.message) ? e.message : 'Erreur de chargement';
-                selMember.innerHTML = `<option value="" disabled>(${escapeHtml(msg)})</option>`;
-            } finally {
-                selMember.disabled = false;
+            function getSelectedRoles() {
+                return Array.from(selRoles.selectedOptions || []).map(o => o.value);
             }
+
+            async function loadEtablissements() {
+                try {
+                    const rows = await apiGet('/etablissements');
+                    selEtab.innerHTML = '<option value="">Tous les établissements</option>' +
+                        rows.map(r => `<option value="${r.id}">${escapeHtml(r.nom)}</option>`).join('');
+                } catch (e) {
+                    console.error('etablissements:', e);
+                    selEtab.innerHTML = '<option value="">(Erreur de chargement)</option>';
+                }
+            }
+
+            async function loadMembersIntoSelect() {
+                const selMember = document.getElementById('memberSelect');
+                const selEtab = document.getElementById('filterEtablissement');
+                const selRoles = document.getElementById('filterRoles');
+                const inputQ = document.getElementById('filterSearch');
+
+                if (!selMember) return;
+
+                selMember.disabled = true;
+                selMember.innerHTML = `<option value="">Chargement…</option>`;
+
+                try {
+                    await ensureLabId();
+
+                    const params = {
+                        with_etablissement: 1,
+                        orderby: 'display_name',
+                        order: 'ASC',
+                        per_page: 50,
+                        search: (inputQ?.value || '').trim() || undefined,
+                        etablissement_id: selEtab?.value || undefined,
+
+                        // ✅ NE GARDER QUE LES UTILISATEURS NON AFFECTÉS À AUCUN LABO
+                        only_free: 1
+                        // (optionnel) exclude_lab: LAB_ID
+                    };
+
+                    const roles = Array.from(selRoles?.selectedOptions || []).map(o => o.value);
+                    if (roles.length) params.roles = roles;
+
+                    const rows = await apiGet('/users', params);
+
+                    const options = (Array.isArray(rows) ? rows : []).map(r => {
+                        const labelParts = [
+                            r.display_name || 'Utilisateur',
+                            r.user_email ? `<${r.user_email}>` : null,
+                            r.etablissement_nom || null
+                        ].filter(Boolean);
+                        return `<option value="${r.id}">${escapeHtml(labelParts.join(' — '))}</option>`;
+                    });
+
+                    selMember.innerHTML =
+                        `<option value="">Sélectionner un membre...</option>` +
+                        (options.length ? options.join('') :
+                            `<option value="" disabled>(Aucun résultat)</option>`);
+
+                } catch (e) {
+                    console.error('[loadMembersIntoSelect] Erreur:', e);
+                    const msg = (e && e.message) ? e.message : 'Erreur de chargement';
+                    selMember.innerHTML = `<option value="" disabled>(${escapeHtml(msg)})</option>`;
+                } finally {
+                    selMember.disabled = false;
+                }
+            }
+
+
+            // Listeners filtres
+            const debounced = debounce(loadMembersIntoSelect, 350);
+            selEtab && selEtab.addEventListener('change', loadMembersIntoSelect);
+            selRoles && selRoles.addEventListener('change', loadMembersIntoSelect);
+            inputQ && inputQ.addEventListener('input', debounced);
+            btnFind && btnFind.addEventListener('click', loadMembersIntoSelect);
+
+            // Chargement initial
+            loadEtablissements().then(loadMembersIntoSelect);
+        }
+    /*
+        function mountInviteTab() {
+            inviteWrapper.innerHTML = inviteMemberHTML;
+        }
+    */
+
+    /* =======================
+    * MONTAGE ONGLET INVITATION
+    * ======================= */
+    function mountInviteTab() {
+    inviteWrapper.innerHTML = `
+        <div class="form-group">
+            <label for="inviteEmail">Ajouter un membre</label>
+            <div class="input-with-icon">
+            <input id="inviteEmail" type="email" class="emailinvit" placeholder="prenom.nom@exemple.tld">
+            <i class="fas fa-level-down-alt icon right-icon" 
+                style="transform: translateY(-50%) rotate(90deg); cursor: pointer; pointer-events:auto;"
+                id="addParticipantBtn"></i>
+            </div>
+            <ul id="participantsList" class="participants-list"></ul>
+        </div>
+        <p class="help-text">Une invitation sera envoyée à chaque adresse pour créer un compte et finaliser l’ajout.</p>
+    `;
+
+    // Activer le système de gestion d’ajout d’e-mails
+    setupInviteList();
+    }
+
+        /* =======================
+        * GESTION DES INVITATIONS MULTIPLES
+        * ======================= */
+        function setupInviteList() {
+        const input = document.getElementById('inviteEmail');
+        const addBtn = document.getElementById('addParticipantBtn');
+        const list = document.getElementById('participantsList');
+        if (!input || !addBtn || !list) return;
+
+        const participants = [];
+
+        function addParticipant() {
+            const email = (input.value || '').trim().toLowerCase();
+            if (!email) {
+            Swal.fire('Attention', 'Veuillez saisir une adresse e-mail.', 'warning');
+            return;
+            }
+           if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+            Swal.fire('Erreur', 'Adresse e-mail invalide.', 'error');
+            return;
+            }
+            if (participants.includes(email)) {
+            Swal.fire('Info', 'Cet e-mail est déjà ajouté.', 'info');
+            return;
+            }
+
+            participants.push(email);
+
+            const li = document.createElement('li');
+            li.innerHTML = `
+            <span>${email}</span>
+            <button type="button" class="remove-btn" title="Supprimer"><i class="fas fa-trash-alt"></i></button>
+            `;
+
+            li.querySelector('.remove-btn').addEventListener('click', () => {
+            const index = participants.indexOf(email);
+            if (index !== -1) participants.splice(index, 1);
+            li.remove();
+            });
+
+            list.appendChild(li);
+            input.value = '';
         }
 
+        addBtn.addEventListener('click', addParticipant);
+        input.addEventListener('keypress', e => {
+            if (e.key === 'Enter') {
+            e.preventDefault();
+            addParticipant();
+            }
+        });
 
-        // Listeners filtres
-        const debounced = debounce(loadMembersIntoSelect, 350);
-        selEtab && selEtab.addEventListener('change', loadMembersIntoSelect);
-        selRoles && selRoles.addEventListener('change', loadMembersIntoSelect);
-        inputQ && inputQ.addEventListener('input', debounced);
-        btnFind && btnFind.addEventListener('click', loadMembersIntoSelect);
-
-        // Chargement initial
-        loadEtablissements().then(loadMembersIntoSelect);
-    }
-
-    function mountInviteTab() {
-        inviteWrapper.innerHTML = inviteMemberHTML;
-    }
-
+        window.getInvitedEmails = () => participants;
+        }
     /* =======================
      * OUVERTURE / TOGGLE MODAL
      * ======================= */
@@ -1368,6 +1471,7 @@ document.addEventListener('DOMContentLoaded', function() {
     /* =======================
      * SAUVEGARDE
      * ======================= */
+    
     async function saveExistingMember() {
         const selMember = document.getElementById('memberSelect');
         const gradeEl = document.getElementById('newMemberGrade');
@@ -1406,9 +1510,11 @@ document.addEventListener('DOMContentLoaded', function() {
             console.error(e);
         }
     }
+   
 
 
-    async function saveInvite() {
+
+   /* async function saveInvite() {
         const email = document.getElementById('inviteEmail')?.value?.trim();
         const grade = document.getElementById('inviteGrade')?.value?.trim();
         const spec = document.getElementById('inviteSpecialite')?.value?.trim();
@@ -1420,6 +1526,120 @@ document.addEventListener('DOMContentLoaded', function() {
         alert('Invitation envoyée à ' + email + ' (implémentation à brancher).');
         modalEl.style.display = 'none';
     }
+        */
+
+    /* =======================
+    * INVITATION PAR EMAIL
+    * ======================= */
+   
+    /*
+    async function saveInvite() {
+        const email = document.getElementById('inviteEmail')?.value?.trim();
+        const grade = document.getElementById('inviteGrade')?.value?.trim() || 'Membre externe';
+        const spec  = document.getElementById('inviteSpecialite')?.value?.trim() || '';
+
+        if (!email) {
+            Swal.fire('Attention', 'Veuillez saisir une adresse e-mail valide.', 'warning');
+            return;
+        }
+
+        const currentLabId = await ensureLabId();
+        if (!currentLabId) {
+            Swal.fire('Erreur', 'Identifiant du laboratoire manquant.', 'error');
+            return;
+        }
+
+        // Préparation des données à envoyer
+        const payload = {
+            email: email,
+            laboratoire_id: currentLabId,
+            grade: grade,
+            specialite: spec,
+            type: 'invitation'
+        };
+
+        try {
+            // 🔹 Appel REST API vers ton endpoint d’invitation (à créer côté PHP)
+            const res = await apiPost('/membre/inviter', payload);
+
+            // 🔹 Afficher confirmation
+            Swal.fire({
+                icon: 'success',
+                title: 'Invitation envoyée',
+                html: `Une invitation a été envoyée à <b>${email}</b> pour rejoindre le laboratoire.`,
+                confirmButtonText: 'OK',
+                confirmButtonColor: '#c60000'
+            });
+
+            // ✅ Fermer le modal
+            modalEl.style.display = 'none';
+
+            // 🔄 Rafraîchir la table et les stats si nécessaire
+            if (typeof window.refreshAll === 'function') {
+                await window.refreshAll();
+            }
+
+        } catch (e) {
+            console.error('Erreur invitation:', e);
+            Swal.fire({
+                icon: 'error',
+                title: 'Échec de l’invitation',
+                text: e?.message || 'Erreur lors de l’envoi de l’invitation.'
+            });
+        }
+    }
+    */
+    async function saveInvite() {
+        const emails = (window.getInvitedEmails && window.getInvitedEmails()) || [];
+        if (!emails.length) {
+            Swal.fire('Info', 'Aucune adresse e-mail ajoutée.', 'info');
+            return;
+        }
+
+        const currentLabId = await ensureLabId();
+        if (!currentLabId) {
+            Swal.fire('Erreur', 'Identifiant du laboratoire manquant.', 'error');
+            return;
+        }
+
+        let successCount = 0;
+        let errorCount = 0;
+
+        for (const email of emails) {
+            const payload = {
+            email,
+            laboratoire_id: currentLabId,
+            grade: 'Membre externe',
+            specialite: '',
+            type: 'invitation'
+            };
+
+            try {
+            await apiPost('/membre/inviter', payload);
+            successCount++;
+            } catch (e) {
+            console.error('Erreur invitation:', e);
+            errorCount++;
+            }
+        }
+
+        Swal.fire({
+            icon: 'success',
+            title: 'Invitations envoyées',
+            html: `${successCount} invitation(s) envoyée(s) avec succès.<br>${errorCount ? errorCount + ' échec(s).' : ''}`,
+            confirmButtonText: 'OK',
+            confirmButtonColor: '#c60000'
+        });
+
+        modalEl.style.display = 'none';
+
+        if (typeof window.refreshAll === 'function') {
+            await window.refreshAll();
+        }
+    }
+
+
+
 
     btnSave && btnSave.addEventListener('click', () => {
         const type = (document.querySelector('input[name="addMemberType"]:checked') || {}).value;
@@ -2209,5 +2429,10 @@ $(document).on('click', '.delete-btn', async function(e) {
   });
 
 })();
+
+
+
+
+
 </script>
 

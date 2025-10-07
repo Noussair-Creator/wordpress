@@ -285,8 +285,21 @@ if (is_user_logged_in()): ?>
         margin-bottom: 20px
     }
 
+    .popup-header h2 {
+        font-size: 18px;
+        color: #2A2916;
+        font-weight: bold;
+        margin: 0;
+    }
+
     .popup-form {
         padding: 0 25px
+    }
+
+    .popup-form h3 {
+        font-size: 15px;
+        font-weight: 700;
+        margin: 8px 0 12px;
     }
 
     .popup-form .form-group {
@@ -296,7 +309,7 @@ if (is_user_logged_in()): ?>
     .popup-form label {
         display: block;
         font-weight: 500;
-        color: #555;
+        color: #A6A59F;
         margin-bottom: 8px;
         font-size: 14px
     }
@@ -545,7 +558,7 @@ if (is_user_logged_in()): ?>
             <button class="btn-enregistrer" id="btnSaveContact">Enregistrer</button>
         </div>
         <form class="popup-form" onsubmit="return false;">
-            <h3 style="font-weight:700;margin:8px 0 12px">Détails de l'organisation</h3>
+            <h3>Détails de l'organisation</h3>
 
             <label>Logo organisation</label>
             <div class="logo-upload-placeholder" id="orgLogoPlaceholder">
@@ -737,7 +750,7 @@ if (is_user_logged_in()): ?>
 <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
 
 <script>
-    (function() {
+    (function () {
         // ========= REST config =========
         const REST_ROOT =
             (window.pmsettings && pmsettings.rest_root) ||
@@ -954,12 +967,12 @@ if (is_user_logged_in()): ?>
             PMOPagination.init(dt);
 
             // 4) relier la recherche externe (évite les doublons de listeners)
-            $('#searchInput').off('keyup').on('keyup', function() {
+            $('#searchInput').off('keyup').on('keyup', function () {
                 dt.search(this.value).draw();
             });
         }
         // Easy Pagination Customization Function 
-        window.customizePagination = function(options) {
+        window.customizePagination = function (options) {
             PMOPagination.customize(options);
         };
 
@@ -979,7 +992,7 @@ if (is_user_logged_in()): ?>
         });
 
         // ========= Check-all =========
-        document.getElementById('checkAll').addEventListener('change', function() {
+        document.getElementById('checkAll').addEventListener('change', function () {
             const rows = dt.rows({
                 'search': 'applied'
             }).nodes();
@@ -1053,7 +1066,7 @@ if (is_user_logged_in()): ?>
         });
 
         // ========= ADD =========
-        document.getElementById('btnSaveContact').addEventListener('click', async function() {
+        document.getElementById('btnSaveContact').addEventListener('click', async function () {
             try {
                 // Required fields (API)
                 const payload = {
@@ -1269,7 +1282,7 @@ if (is_user_logged_in()): ?>
         });
 
         // ========= SAVE EDIT =========
-        document.getElementById('btnSaveEditContact').addEventListener('click', async function() {
+        document.getElementById('btnSaveEditContact').addEventListener('click', async function () {
             const id = editModal.dataset.editingId;
             console.log('Edit save - ID:', id);
 
@@ -1353,7 +1366,7 @@ if (is_user_logged_in()): ?>
 
 
         // Test upload permissions
-        window.testUploadPermissions = async function() {
+        window.testUploadPermissions = async function () {
             console.log('Testing upload permissions...');
             try {
                 const resp = await fetch(REST_ROOT.replace(/\/$/, '') + '/wp/v2/media', {
@@ -1377,7 +1390,7 @@ if (is_user_logged_in()): ?>
         };
 
         // Test authentication and permissions
-        window.testAuthentication = async function() {
+        window.testAuthentication = async function () {
             console.log('Testing authentication...');
             try {
                 const resp = await fetch('/wp-json/wp/v2/users/me', {
@@ -1401,7 +1414,7 @@ if (is_user_logged_in()): ?>
         };
 
         // Test database columns
-        window.testDatabaseColumns = async function() {
+        window.testDatabaseColumns = async function () {
             console.log('Testing database columns...');
             try {
                 const resp = await fetch(API + '/reseaux', {

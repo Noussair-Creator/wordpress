@@ -1485,113 +1485,7 @@
                 </tr>
             </thead>
             <tbody>
-                <!-- <tr>
-                    <td><input type="checkbox" class="row-checkbox"></td>
-                    <td>Université Paris-Saclay</td>
-                    <td>France</td>
-                    <td>Projet De Recherche H2020</td>
-                    <td>Pr. L. Dubois</td>
-                    <td>Oui</td>
-                    <td><span class="badge badge-success"> <i class="fa-regular fa-circle-check"
-                                style="color: #0E962D; padding-right:5px;"></i>Actif</span></td>
-                    <td>
-                        <div class="actions">
-                            <button class="action-btn">...</button>
-                            <div class="dropdown-menu">
-                                <a href="#" class="btn-modifier"> Modifier</a>
-                                <a href="/fiche-partenaires/"> Fiche
-                                    partenaire</a>
-                                <a href="#">Supprimer</a>
-                            </div>
-                        </div>
-                    </td>
-                </tr>
-
-                <tr>
-                    <td><input type="checkbox" class="row-checkbox"></td>
-                    <td>Université De Sfax</td>
-                    <td>Tunisie</td>
-                    <td>Cotutelle Doctorale</td>
-                    <td>Dr. M. Abdelkefi</td>
-                    <td>Oui</td>
-                    <td><span class="badge badge-success"> <i class="fa-regular fa-circle-check"
-                                style="color: #0E962D; padding-right:5px;"></i>Actif</span></td>
-                    <td>
-                        <div class="actions">
-                            <button class="action-btn">...</button>
-                            <div class="dropdown-menu">
-                                <a href="#" class="btn-modifier"> Modifier</a>
-                                <a href="/fiche-partenaires/"> Fiche
-                                    partenaire</a>
-                                <a href="#"> Supprimer</a>
-                            </div>
-                        </div>
-                    </td>
-                </tr>
-                <tr>
-                    <td><input type="checkbox" class="row-checkbox"></td>
-                    <td>CNRS – LIRMM</td>
-                    <td>France</td>
-                    <td>Article Scientifique</td>
-                    <td>Dr. C. Hadj Kacem</td>
-                    <td>Non</td>
-                    <td><span class="badge badge-secondary"><i class="fa-solid fa-arrows-rotate"
-                                style="color: #A6A485;padding-right:5px;"></i>Occasionnel</span></td>
-                    <td>
-                        <div class="actions">
-                            <button class="action-btn">...</button>
-                            <div class="dropdown-menu">
-                                <a href="#" class="btn-modifier"> Modifier</a>
-                                <a href="/fiche-partenaires/"> Fiche
-                                    partenaire</a>
-                                <a href="#"> Supprimer</a>
-                            </div>
-                        </div>
-                    </td>
-                </tr>
-                <tr>
-                    <td><input type="checkbox" class="row-checkbox"></td>
-                    <td>IBN Tofail – Kénitra</td>
-                    <td>Maroc</td>
-                    <td>Échange & Co-Pub</td>
-                    <td>Dr. M. Zghari</td>
-                    <td>Oui</td>
-                    <td><span class="badge badge-success"> <i class="fa-regular fa-circle-check"
-                                style="color: #0E962D; padding-right:5px;"></i>Actif</span></td>
-                    <td>
-                        <div class="actions">
-                            <button class="action-btn">...</button>
-                            <div class="dropdown-menu">
-                                <a href="#" class="btn-modifier"> Modifier</a>
-                                <a href="/fiche-partenaires/"> Fiche
-                                    partenaire</a>
-                                <a href="#"> Supprimer</a>
-                            </div>
-                        </div>
-                    </td>
-                </tr>
-                <tr>
-                    <td><input type="checkbox" class="row-checkbox"></td>
-                    <td>Université De Ghent – Biomed Lab</td>
-                    <td>Belgique</td>
-                    <td>Projet Bilatéral</td>
-                    <td>Dr. H. Van Der Meeren</td>
-                    <td>Oui</td>
-                    <td><span class="badge badge-warning"><i class="fa-regular fa-clock"
-                                style="color: #FFD43B; padding-right:5px;"></i>En
-                            cours</span></td>
-                    <td>
-                        <div class="actions">
-                            <button class="action-btn">...</button>
-                            <div class="dropdown-menu">
-                                <a href="#" class="btn-modifier"> Modifier</a>
-                                <a href="/fiche-partenaires/"> Fiche
-                                    partenaire</a>
-                                <a href="#"> Supprimer</a>
-                            </div>
-                        </div>
-                    </td>
-                </tr>-->
+                <!-- Table body will be populated by JavaScript -->
             </tbody>
         </table>
 
@@ -1829,7 +1723,6 @@
 
 
     <!-- JS Libraries -->
-    <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/buttons/2.3.6/js/dataTables.buttons.min.js"></script>
     <script src="https://cdn.datatables.net/buttons/2.3.6/js/buttons.colVis.min.js"></script>
@@ -1838,15 +1731,15 @@
 
     <!-- User-provided scripts combined and updated -->
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // Initialize DataTable and store the instance
-            const table = $('#candidaturesTable').DataTable({
+        document.addEventListener('DOMContentLoaded', function () {
+            // Make the DataTable instance globally accessible
+            window.partenairesTable = $('#candidaturesTable').DataTable({
                 paging: true,
-                searching: true, // Enable native search to apply filters
+                searching: true,
                 ordering: false,
                 info: false,
                 pageLength: 5,
-                dom: '<"top">rt<"clear">', // Hide default search (f) and length (l) controls
+                dom: '<"top">rt<"clear">p', // 'p' is needed for pageLength to work but is hidden by your CSS
                 language: {
                     paginate: {
                         previous: "<i class='fa fa-chevron-left'></i>",
@@ -1854,47 +1747,67 @@
                     },
                     emptyTable: "Aucune donnée disponible",
                     zeroRecords: "Aucun enregistrement correspondant trouvé"
-                }
+                },
+                // Define columns to map data from your API to the table
+                columns: [{
+                    data: null, // Checkbox column
+                    render: () => `<input type="checkbox">`,
+                    orderable: false
+                }, {
+                    data: 'institution'
+                }, {
+                    data: 'pays'
+                }, {
+                    data: 'type_collab'
+                }, {
+                    data: 'contact_nom'
+                }, {
+                    data: 'convention_signee',
+                    render: (data) => data ? 'Oui' : 'Non'
+                }, {
+                    data: 'statut',
+                    render: function (data) { // Use your existing badgeHTML function
+                        if (window.badgeHTML) return window.badgeHTML(data);
+                        return data; // Fallback
+                    }
+                }, {
+                    data: 'id', // Actions column
+                    render: function (data) { // Use your existing actionsHTML function
+                        if (window.actionsHTML) return window.actionsHTML(data);
+                        return ''; // Fallback
+                    },
+                    orderable: false
+                }]
             });
 
-            // Initialize reusable pagination component
+            // Initialize your reusable pagination component
             if (typeof PMOPagination !== 'undefined') {
                 const container = document.querySelector('.custom-pagination');
-                PMOPagination.init(table, container);
+                PMOPagination.init(window.partenairesTable, container);
             }
 
-            // --- Search Input Logic ---
-            $('#searchInput').on('keyup', function() {
-                table.search(this.value).draw();
+            // --- Custom Search and Filter Logic ---
+            $('#searchInput').on('keyup', function () {
+                window.partenairesTable.search(this.value).draw();
             });
 
-            // --- Filter Select Logic for Country ---
-            $('#countryFilter').on('change', function() {
-                // Column 2 is "Pays"
-                table.column(2).search(this.value).draw();
+            $('#countryFilter').on('change', function () {
+                window.partenairesTable.column(2).search(this.value).draw(); // Column 2 is "Pays"
             });
 
-            // --- Filter Select Logic for Status ---
-            $('#statusFilter').on('change', function() {
-                // Column 6 is "Statut"
-                // We search for the text inside the span
-                table.column(6).search(this.value).draw();
+            $('#statusFilter').on('change', function () {
+                window.partenairesTable.column(6).search(this.value).draw(); // Column 6 is "Statut"
             });
 
-            // --- Check All Logic ---
-            $('#checkAll').on('click', function() {
-                // Get all rows with search applied
-                const rows = table.rows({
+            // --- Check All Logic (remains the same) ---
+            $('#checkAll').on('click', function () {
+                const rows = window.partenairesTable.rows({
                     'search': 'applied'
                 }).nodes();
-                // Check/uncheck checkboxes for all rows that are currently visible
                 $('input[type="checkbox"]', rows).prop('checked', this.checked);
             });
 
-            // --- Handle individual checkbox clicks ---
-            // When an individual checkbox is clicked, check if all visible checkboxes are checked
-            // and update the "checkAll" checkbox accordingly.
-            $('#candidaturesTable tbody').on('change', 'input[type="checkbox"]', function() {
+            $('#candidaturesTable tbody').on('change', 'input[type="checkbox"]', function () {
                 if (!this.checked) {
                     const el = $('#checkAll').get(0);
                     if (el && el.checked && ('indeterminate' in el)) {
@@ -1902,27 +1815,6 @@
                     }
                 }
             });
-
-
-            /*
-                     // --- Dropdown Menu Logic ---
-                     document.addEventListener('click', function(e) {
-                         // Close all dropdowns unless a new one is being opened
-                         let isActionButton = e.target.classList.contains('action-btn');
-            
-                         document.querySelectorAll('.dropdown-menu').forEach(menu => {
-                             // If the click is on the button that owns this menu, don't close it yet
-                             if (isActionButton && menu.previousElementSibling === e.target) {
-                                 // Toggle display
-                                 menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
-                             } else {
-                                 // Otherwise, close it
-                                 menu.style.display = 'none';
-                             }
-                         }); 
-                     });
-                    */
-
 
             // --- Add Modal Logic ---
             const addModal = document.getElementById("modalObjectifs");
@@ -1950,7 +1842,7 @@
             const editPopup = document.getElementById("popupContainerModifier");
 
             // Use event delegation for dynamically added rows
-            $('#candidaturesTable tbody').on('click', '.btn-modifier', function(e) {
+            $('#candidaturesTable tbody').on('click', '.btn-modifier', function (e) {
                 e.preventDefault();
 
                 // Find the table row for the clicked button
@@ -1984,67 +1876,6 @@
                 openEditModal();
             });
 
-            /*
-                    async function openEditModal(id){
-                    try {
-            
-            
-                        const item = await api(`reseaux/${id}`, { method:'GET' });
-            
-                        $('#institutionPartenaireModifier').value = item.institution || '';
-                        $('#paysModifier').value = item.pays || '';
-                        $('#typeCollaborationModifier').value = item.type_collab || '';
-                        $('#nomCompletModifier').value = item.contact_nom || '';
-                        $('#emailModifier').value = item.contact_email || '';
-            
-                        // Affecter directement les dates au format YYYY-MM-DD
-                        $('#dateDebutModifier').value = item.date_debut || '';
-                        $('#dateFinModifier').value   = item.date_fin || '';
-            
-                        const yes = $('input[name="conventionModifier"][value="oui"]');
-                        const no  = $('input[name="conventionModifier"][value="non"]');
-                        (item.convention_signee ? yes : no).checked = true;
-            
-                        if (item.projets_associes?.length) {
-                        $('#projetsAssociesModifier').value = String(item.projets_associes[0]);
-                        }
-            
-                          // >>> Pièce jointe existante
-                        const linkEl     = document.getElementById('pieceJointeModifierLink');
-                        const fileTextEl = document.getElementById('fileTextModifier');       // ton input texte readonly
-                        const fileInput  = document.getElementById('fileUploadModifier');     // <input type="file">
-            
-                        // reset l’input file (pour ne pas garder un ancien choix local)
-                        if (fileInput) fileInput.value = '';
-            
-                        // si une pièce jointe existe en base, on l’affiche
-                        if (item.piece_jointe_path) {
-                        const absUrl = toAbsoluteUrl(item.piece_jointe_path);
-                        const name   = basename(item.piece_jointe_path);
-            
-                        if (fileTextEl) fileTextEl.value = name || 'Fichier existant';
-                        if (linkEl) {
-                            linkEl.href = absUrl;
-                            linkEl.style.display = 'inline-block';
-                            linkEl.textContent = name ? `Voir « ${name} »` : 'Voir la pièce jointe';
-                        }
-                        } else {
-                        // aucune pièce jointe -> texte “Aucun fichier choisi” et on cache le lien
-                        if (fileTextEl) fileTextEl.value = 'Aucun fichier choisi';
-                        if (linkEl) linkEl.style.display = 'none';
-                        }
-            
-                        modalEdit.dataset.id = id;
-                        modalEdit.style.display = 'block';
-                        
-            
-                    } catch (err) {
-                        console.error(err.message || 'Erreur chargement');
-                    }
-                    }
-                    
-                    */
-            // Helpers requis (à mettre une seule fois dans ton fichier JS)
             function toAbsoluteUrl(path) {
                 if (!path) return '';
                 if (/^https?:\/\//i.test(path)) return path;
@@ -2087,7 +1918,7 @@
                     // Convention (radio)
                     const yes = document.querySelector('input[name="conventionModifier"][value="oui"]');
                     const no = document.querySelector('input[name="conventionModifier"][value="non"]');
-                    if (yes && no)(item.convention_signee ? yes : no).checked = true;
+                    if (yes && no) (item.convention_signee ? yes : no).checked = true;
 
                     // Projet associé (si le select existe)
                     if (item.projets_associes?.length) {
@@ -2145,7 +1976,7 @@
             const fileUpload = document.getElementById('fileUpload');
             const fileText = document.querySelector('#modalObjectifs .input-file-text');
             if (fileUpload && fileText) {
-                fileUpload.addEventListener('change', function() {
+                fileUpload.addEventListener('change', function () {
                     fileText.value = this.files.length > 0 ? this.files[0].name : 'Aucun fichier choisi';
                 });
             }
@@ -2154,7 +1985,7 @@
             const fileUploadModifier = document.getElementById('fileUploadModifier');
             const fileTextModifier = document.getElementById('fileTextModifier');
             if (fileUploadModifier && fileTextModifier) {
-                fileUploadModifier.addEventListener('change', function() {
+                fileUploadModifier.addEventListener('change', function () {
                     fileTextModifier.value = this.files.length > 0 ? this.files[0].name :
                         'Aucun fichier choisi';
                 });

@@ -580,17 +580,9 @@ border-color: #D3CEB4; */
     color: #6E6D55;
 }
 
-/* Removed default flatpickr icons and moved the padding to the parent container */
-.flatpickr-input {
-    background-image: none !important;
-    padding-right: 10px;
-}
-
-/* New style to align icons correctly inside the input field */
 .date-input-container,
 .time-input-container {
     position: relative;
-
 }
 
 .date-input-container {
@@ -599,21 +591,6 @@ border-color: #D3CEB4; */
 
 .time-input-container {
     width: 47%;
-}
-
-
-.date-input-container input,
-.time-input-container input {
-    padding-right: 2.5rem;
-}
-
-.date-input-container .date-icon,
-.time-input-container .time-icon {
-    position: absolute;
-    right: 1rem;
-    top: 68%;
-    transform: translateY(-50%);
-    color: #8c8c8c;
 }
 
 /* NEW STYLES FOR SEGMENTED BUTTONS */
@@ -677,9 +654,9 @@ border-color: #D3CEB4; */
                     <i class="fa-solid fa-magnifying-glass search-icon"></i>
                 </div>
                 <div class="dropdown">
-                    <button                            
+                    <button
                         class="btn dropdown-toggle w-100 rounded-2 filter-btn d-flex justify-content-between align-items: center"
-                        type="button" data-bs-toggle="dropdown" aria-expanded="false" id="filterTypeButton"        
+                        type="button" data-bs-toggle="dropdown" aria-expanded="false" id="filterTypeButton"
                         data-type="all">
                         <span>Type</span><i class="fa-solid fa-chevron-down"></i>
                     </button>
@@ -694,12 +671,11 @@ border-color: #D3CEB4; */
                     </ul>
                 </div>
                 <div class="dropdown">
-                    <button                            
+                    <button
                         class="btn dropdown-toggle w-100 rounded-2 filter-btn d-flex justify-content-between align-items: center"
                         type="button" data-bs-toggle="dropdown" aria-expanded="false" id="filterMonthButton">
                         <span>Mois</span>
-                        <img width="20px"                                
-                            src="/wp-content/plugins/plateforme-master/images/icons/27) Icon-calendar.png"          
+                        <img width="20px" src="/wp-content/plugins/plateforme-master/images/icons/27) Icon-calendar.png"
                             alt="Icon-calendar">
                     </button>
                     <ul class="dropdown-menu" id="monthDropdown">
@@ -721,12 +697,11 @@ border-color: #D3CEB4; */
             </div>
             <div class="action-btn-group">
                 <button type="button" class="action-btn bg-action-btn-1">
-                    <img class="text-action-btn-1 icon" width="20px"                        
-                        src="/wp-content/plugins/plateforme-master/images/icons/27) Icon-funnel.png"            
-                        alt="Icon-funnel">
+                    <img class="text-action-btn-1 icon" width="20px"
+                        src="/wp-content/plugins/plateforme-master/images/icons/27) Icon-funnel.png" alt="Icon-funnel">
                 </button>
                 <button type="button" class="action-btn">
-                    <img class="icon text-calendar-red" width="20px"                        
+                    <img class="icon text-calendar-red" width="20px"
                         src="/wp-content/plugins/plateforme-master/images/icons/upload-red.png" alt="upload-red">
                 </button>
             </div>
@@ -751,18 +726,18 @@ border-color: #D3CEB4; */
             </div>
             <div class="day-header" style="grid-column: 3;"><span class="weekday">Mardi</span><span class="date"></span>
             </div>
-            <div class="day-header" style="grid-column: 4;"><span class="weekday">Mercredi</span><span              
+            <div class="day-header" style="grid-column: 4;"><span class="weekday">Mercredi</span><span
                     class="date"></span>
             </div>
             <div class="day-header" style="grid-column: 5;"><span class="weekday">Jeudi</span><span class="date"></span>
             </div>
-            <div class="day-header" style="grid-column: 6;"><span class="weekday">Vendredi</span><span              
+            <div class="day-header" style="grid-column: 6;"><span class="weekday">Vendredi</span><span
                     class="date"></span>
             </div>
             <div class="day-header" style="grid-column: 7;"><span class="weekday">Samedi</span><span
                     class="date"></span>
             </div>
-            <div class="day-header" style="grid-column: 8;"><span class="weekday">Dimanche</span><span              
+            <div class="day-header" style="grid-column: 8;"><span class="weekday">Dimanche</span><span
                     class="date"></span>
             </div>
 
@@ -791,24 +766,18 @@ border-color: #D3CEB4; */
             <div class="form-group-row">
                 <div class="form-group-flex date-input-container">
                     <label for="activity-date">Date</label>
-                    <input type="text" id="activity-date" placeholder="jj/mm/aaaa">
-                    <img width="20px" class="date-icon"                            
-                        src="/wp-content/plugins/plateforme-master/images/icons/27) Icon-calendar.png"              
-                        alt="Icon-calendar">
+                    <!-- MODIFIED: Changed input type to "date" and removed icon -->
+                    <input type="date" id="activity-date">
                 </div>
                 <div class="form-group-flex time-input-container">
                     <label for="activity-time">Heure début</label>
-                    <input type="text" id="activity-time" placeholder="--:--">
-                    <img width="20px" class="time-icon"                            
-                        src="/wp-content/plugins/plateforme-master/images/icons/27) Icon-clock.png"                
-                        alt="Icon-clock">
+                    <!-- MODIFIED: Changed input type to "time" and removed icon -->
+                    <input type="time" id="activity-time">
                 </div>
                 <div class="form-group-flex time-input-container">
                     <label for="activity-time-end">Heure fin</label>
-                    <input type="text" id="activity-time-end" placeholder="--:--">
-                    <img width="20px" class="time-icon"                            
-                        src="/wp-content/plugins/plateforme-master/images/icons/27) Icon-clock.png"                
-                        alt="Icon-clock">
+                    <!-- MODIFIED: Changed input type to "time" and removed icon -->
+                    <input type="time" id="activity-time-end">
                 </div>
             </div>
             <div class="form-group-flex">
@@ -818,11 +787,11 @@ border-color: #D3CEB4; */
             <div class="form-group-flex">
                 <label for="activity-file">Pièces jointe (facultatif)</label>
                 <div class="input-file-wrapper">
-                    <input type="text" class="input-file-text" id="file-name" readonly      
+                    <input type="text" class="input-file-text" id="file-name" readonly
                         placeholder="Aucun fichier sélectionné">
                     <label for="activity-file" class="btn-importer">
-                        <img width="20px"                                
-                            src="/wp-content/plugins/plateforme-master/images/icons/27) Icon-uploadwhite.png"      
+                        <img width="20px"
+                            src="/wp-content/plugins/plateforme-master/images/icons/27) Icon-uploadwhite.png"
                             alt="Icon-uploadwhite">
                         Importer
                     </label>
@@ -863,18 +832,18 @@ border-color: #D3CEB4; */
             <div class="form-group-row">
                 <div class="form-group-flex date-input-container">
                     <label for="edit-activity-date">Date</label>
-                    <input type="text" id="edit-activity-date" placeholder="jj/mm/aaaa">
-                    <i class="fa-solid fa-calendar-days date-icon"></i>
+                    <!-- MODIFIED: Changed input type to "date" and removed icon -->
+                    <input type="date" id="edit-activity-date">
                 </div>
                 <div class="form-group-flex time-input-container">
                     <label for="edit-activity-time">Heure début</label>
-                    <input type="text" id="edit-activity-time" placeholder="--:--">
-                    <i class="fa-regular fa-clock time-icon"></i>
+                    <!-- MODIFIED: Changed input type to "time" and removed icon -->
+                    <input type="time" id="edit-activity-time">
                 </div>
                 <div class="form-group-flex time-input-container">
                     <label for="edit-activity-time-end">Heure fin</label>
-                    <input type="text" id="edit-activity-time-end" placeholder="--:--">
-                    <i class="fa-regular fa-clock time-icon"></i>
+                    <!-- MODIFIED: Changed input type to "time" and removed icon -->
+                    <input type="time" id="edit-activity-time-end">
                 </div>
             </div>
             <!-- Description -->
@@ -889,8 +858,8 @@ border-color: #D3CEB4; */
                     <input type="text" class="input-file-text" id="edit-file-name" readonly
                         placeholder="Aucun fichier sélectionné">
                     <label for="edit-activity-file" class="btn-importer">
-                        <img width="20px"                                
-                            src="/wp-content/plugins/plateforme-master/images/icons/27) Icon-uploadwhite.png"      
+                        <img width="20px"
+                            src="/wp-content/plugins/plateforme-master/images/icons/27) Icon-uploadwhite.png"
                             alt="Icon-uploadwhite">
                         Importer
                     </label>
@@ -963,199 +932,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         'Atelier': '#3b82f6' // bleu clair
     };
 
-    /*
-        let events = [{
-                id: 1,
-                date: new Date('2025-09-08T09:30:00'),
-                end: new Date('2025-09-08T10:30:00'),
-                title: "Colloque: l'avenir du web",
-                type: 'Colloque',
-                textColor: '#fff',
-                description: 'Un colloque passionnant sur les nouvelles technologies du web.',
-                file: 'presentation_web.pdf'
-            },
-            {
-                id: 2,
-                date: new Date('2025-09-09T12:00:00'),
-                end: new Date('2025-09-09T13:00:00'),
-                title: 'Séminaire sur la gestion de projet',
-                type: 'Séminaire',
-                textColor: '#fff',
-                description: 'Formation intensive sur les méthodes agiles.',
-                file: 'notes_agile.docx'
-            },
-            {
-                id: 3,
-                date: new Date('2025-09-10T14:30:00'),
-                end: new Date('2025-09-10T15:30:00'),
-                title: 'Colloque: FinTech en 2025',
-                type: 'Colloque',
-                textColor: '#fff',
-                description: 'Débat sur les innovations financières à venir.',
-                file: 'rapport_fintech.xlsx'
-            },
-            {
-                id: 4,
-                date: new Date('2025-09-11T15:00:00'),
-                end: new Date('2025-09-11T16:00:00'),
-                title: 'Séminaire: IA pour les débutants',
-                type: 'Séminaire',
-                textColor: '#fff',
-                description: "Apprenez les bases de l'intelligence artificielle.",
-                file: 'intro_ia.pptx'
-            },
-            {
-                id: 5,
-                date: new Date('2025-09-12T13:00:00'),
-                end: new Date('2025-09-12T14:00:00'),
-                title: 'Séminaire: Développement durable',
-                type: 'Séminaire',
-                textColor: '#fff',
-                description: 'Comment intégrer le développement durable dans vos projets.',
-                file: 'guide_dd.pdf'
-            },
-            {
-                id: 6,
-                date: new Date('2025-09-13T12:00:00'),
-                end: new Date('2025-09-13T13:00:00'),
-                title: 'Séminaire: Cybersécurité',
-                type: 'Séminaire',
-                textColor: '#fff',
-                description: 'Protégez vos données et vos systèmes.',
-                file: 'guide_securite.pdf'
-            },
-            {
-                id: 7,
-                date: new Date('2025-09-14T10:00:00'),
-                end: new Date('2025-09-14T11:00:00'),
-                title: "Conférence sur l'IA",
-                type: 'Conférence',
-                textColor: '#fff',
-                description: "Exposé sur les dernières avancées en IA.",
-                file: 'conf_ia.pptx'
-            },
-            {
-                id: 8,
-                date: new Date('2025-09-15T14:00:00'),
-                end: new Date('2025-09-15T15:00:00'),
-                title: "Journée d'étude sur la santé",
-                type: 'journee-etude',
-                textColor: '#fff',
-                description: 'Thèmes variés sur la santé publique et la recherche.',
-                file: 'notes_sante.docx'
-            },
-            {
-                id: 9,
-                date: new Date('2025-09-16T10:00:00'),
-                end: new Date('2025-09-16T11:00:00'),
-                title: 'Conférence sur la blockchain',
-                type: 'Conférence',
-                textColor: '#fff',
-                description: 'Présentation des usages de la blockchain.',
-                file: 'conf_blockchain.pdf'
-            },
-            {
-                id: 10,
-                date: new Date('2025-09-17T09:30:00'),
-                end: new Date('2025-09-17T10:30:00'),
-                title: "Colloque sur l'éthique numérique",
-                type: 'Colloque',
-                textColor: '#fff',
-                description: "Discussion sur les enjeux éthiques de l'ère numérique.",
-                file: 'rapport_ethique.pdf'
-            },
-            {
-                id: 11,
-                date: new Date('2025-09-18T15:00:00'),
-                end: new Date('2025-09-18T16:00:00'),
-                title: "Journée d'étude sur l'éducation",
-                type: 'journee-etude',
-                textColor: '#fff',
-                description: "Les nouvelles méthodes d'enseignement.",
-                file: 'pedagogie_moderne.pdf'
-            },
-            {
-                id: 12,
-                date: new Date('2025-09-19T16:00:00'),
-                end: new Date('2025-09-19T17:00:00'),
-                title: "Conférence: le futur de la robotique",
-                type: 'Conférence',
-                textColor: '#fff',
-                description: "Vue d'ensemble des innovations en robotique.",
-                file: 'conf_robotique.pptx'
-            },
-            {
-                id: 13,
-                date: new Date('2025-02-05T10:00:00'),
-                end: new Date('2025-02-05T11:00:00'),
-                title: 'Séminaire: Marketing digital',
-                type: 'Séminaire',
-                textColor: '#fff',
-                description: 'Stratégies pour le marketing en ligne.',
-                file: 'guide_marketing.docx'
-            },
-            {
-                id: 14,
-                date: new Date('2025-02-12T11:30:00'),
-                end: new Date('2025-02-12T12:30:00'),
-                title: 'Conférence: Big Data et analyse',
-                type: 'Conférence',
-                textColor: '#fff',
-                description: 'Comment exploiter les données massives.',
-                file: 'rapport_bigdata.pdf'
-            },
-            {
-                id: 15,
-                date: new Date('2025-02-20T14:00:00'),
-                end: new Date('2025-02-20T15:00:00'),
-                title: 'Colloque: Écologie et technologie',
-                type: 'Colloque',
-                textColor: '#fff',
-                description: 'Synergie entre solutions technologiques et écologiques.',
-                file: 'etude_eco_tech.pdf'
-            },
-            {
-                id: 16,
-                date: new Date('2025-06-10T09:00:00'),
-                end: new Date('2025-06-10T10:00:00'),
-                title: "Journée d'étude sur l'histoire de l'art",
-                type: 'journee-etude',
-                textColor: '#fff',
-                description: "Parcours des mouvements artistiques majeurs.",
-                file: 'notes_art.docx'
-            },
-            {
-                id: 17,
-                date: new Date('2025-06-15T15:00:00'),
-                end: new Date('2025-06-15T16:00:00'),
-                title: 'Séminaire: Introduction à Python',
-                type: 'Séminaire',
-                textColor: '#fff',
-                description: 'Premier pas dans le langage Python.',
-                file: 'cours_python.pdf'
-            },
-            {
-                id: 18,
-                date: new Date('2025-06-25T11:00:00'),
-                end: new Date('2025-06-25T12:00:00'),
-                title: 'Conférence: Réseaux sociaux et communication',
-                type: 'Conférence',
-                textColor: '#fff',
-                description: 'Impact des réseaux sociaux sur la communication moderne.',
-                file: 'reseaux_sociaux.pptx'
-            },
-            {
-                id: 19,
-                date: new Date('2025-09-10T12:30:00'),
-                end: new Date('2025-09-10T14:30:00'),
-                title: 'Séminaire sur la gestion de projet',
-                type: 'Séminaire',
-                textColor: '#fff',
-                description: 'Formation intensive sur les méthodes agiles.',
-                file: 'notes_agile.docx'
-            }
-        ];
-    */
     let events = await loadActivitesQuotidiennes();
 
     const gridContainer = document.querySelector('.calendar-grid');
@@ -1183,82 +959,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     const filterMonthButton = document.getElementById('filterMonthButton');
     const filterMonthLinks = document.querySelectorAll('.filter-month');
 
-    const newDateInput = document.getElementById('activity-date');
-    const newTimeInput = document.getElementById('activity-time');
-    const newTimeInputEnd = document.getElementById('activity-time-end');
-    const editDateInput = document.getElementById('edit-activity-date');
-    const editTimeInput = document.getElementById('edit-activity-time');
-    const editTimeInputEnd = document.getElementById('edit-activity-time-end');
-
-    // --- UPDATED --- Added `static: true` to fix positioning on scroll
-    flatpickr(newDateInput, {
-        dateFormat: "Y-m-d",
-        locale: "fr",
-        minDate: "today",
-        appendTo: popupContainerNew,
-        static: true
-    });
-
-    flatpickr(newTimeInput, {
-        enableTime: true,
-        noCalendar: true,
-        dateFormat: "H:i",
-        time_24hr: true,
-        locale: "fr",
-        appendTo: popupContainerNew,
-        static: true,
-        onOpen: function(selectedDates, dateStr, instance) {
-            instance.calendarContainer.style.width = instance.input.offsetWidth + 'px';
-        }
-    });
-
-    flatpickr(newTimeInputEnd, {
-        enableTime: true,
-        noCalendar: true,
-        dateFormat: "H:i",
-        time_24hr: true,
-        locale: "fr",
-        appendTo: popupContainerNew,
-        static: true,
-        onOpen: function(selectedDates, dateStr, instance) {
-            instance.calendarContainer.style.width = instance.input.offsetWidth + 'px';
-        }
-    });
-
-    flatpickr(editDateInput, {
-        dateFormat: "Y-m-d",
-        locale: "fr",
-        minDate: "today",
-        appendTo: popupContainerEdit,
-        static: true
-    });
-
-    flatpickr(editTimeInput, {
-        enableTime: true,
-        noCalendar: true,
-        dateFormat: "H:i",
-        time_24hr: true,
-        locale: "fr",
-        appendTo: popupContainerEdit,
-        static: true,
-        onOpen: function(selectedDates, dateStr, instance) {
-            instance.calendarContainer.style.width = instance.input.offsetWidth + 'px';
-        }
-    });
-
-    flatpickr(editTimeInputEnd, {
-        enableTime: true,
-        noCalendar: true,
-        dateFormat: "H:i",
-        time_24hr: true,
-        locale: "fr",
-        appendTo: popupContainerEdit,
-        static: true,
-        onOpen: function(selectedDates, dateStr, instance) {
-            instance.calendarContainer.style.width = instance.input.offsetWidth + 'px';
-        }
-    });
-
+    // MODIFIED: All flatpickr initializations have been removed.
 
     function getStartOfWeek(date) {
         const d = new Date(date); // copie
@@ -1297,11 +998,6 @@ document.addEventListener('DOMContentLoaded', async () => {
             const gridLine = document.createElement('div');
             gridLine.classList.add('grid-line-vertical'); // Always add vertical lines
 
-            // The grid row index is i + 2.
-            // The line is a border-bottom.
-            // Row 2 (i=0) represents 08:00-08:30. Its bottom border is the 08:30 line. (Remove)
-            // Row 3 (i=1) represents 08:30-09:00. Its bottom border is the 09:00 line. (Keep)
-            // So, we add the horizontal class if the row index (i+2) is ODD.
             if ((i + 2) % 2 !== 0) {
                 gridLine.classList.add('grid-line-horizontal');
             }
@@ -1315,19 +1011,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     let currentWeekStart = getStartOfWeek(new Date());
     let selectedMonthFilter = null;
 
-    /*
-         if (e.target.classList.contains('filter-type')) {
-            e.preventDefault();
-    
-            const selectedText = e.target.textContent;
-            const selectedType = e.target.dataset.type;
-    
-            const filterTypeButton = document.getElementById('filterTypeButton');
-            filterTypeButton.dataset.type = selectedType;
-            filterTypeButton.querySelector('span').textContent = selectedText; // ✅ maj label
-    
-            renderCalendar();
-        }*/
     const filterMenu = filterTypeButton.nextElementSibling; // ul.dropdown-menu
 
     // Attacher l’événement sur chaque lien
@@ -1345,64 +1028,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         });
     });
 
-
-
-    /*
-        const filterEvents = () => {
-            const startOfWeek = getStartOfWeek(currentWeekStart);
-            const endOfWeek = new Date(startOfWeek.getTime());
-            endOfWeek.setDate(endOfWeek.getDate() + 7);
-    
-            const searchTerm = searchInput.value.toLowerCase();
-            const selectedType = filterTypeButton.dataset.type;
-    
-            return events.filter(event => {
-                const eventDate = event.date;
-                const matchesSearch = event.title.toLowerCase().includes(searchTerm) ||
-                    formatTime(event.date).toLowerCase().includes(searchTerm);
-                const matchesType = selectedType === 'all' || event.type === selectedType;
-                const matchesWeek = eventDate >= startOfWeek && eventDate < endOfWeek;
-                const matchesMonth = selectedMonthFilter === null || eventDate.getMonth() ===
-                    selectedMonthFilter;
-    
-                return matchesSearch && matchesType && matchesWeek && matchesMonth;
-            });
-        };*/
-    /*
-        const filterEvents = () => {
-                const startOfWeek = getStartOfWeek(currentWeekStart);
-                const endOfWeek = new Date(startOfWeek);
-                endOfWeek.setDate(startOfWeek.getDate() + 7);
-    
-                const searchTerm = searchInput.value.toLowerCase();
-                const selectedType = filterTypeButton.dataset.type;
-    
-                return events.filter(event => {
-                    const eventDate = event.date;
-    
-                    const matchesSearch =
-                        event.title.toLowerCase().includes(searchTerm) ||
-                        (event.description || '').toLowerCase().includes(searchTerm);
-    
-                    const matchesType = selectedType === 'all' || event.type === selectedType;
-    
-                    // ✅ on compare bien dans l’intervalle [début semaine, fin semaine)
-                    const matchesWeek = eventDate >= startOfWeek && eventDate < endOfWeek;
-    
-                    return matchesSearch && matchesType && matchesWeek;
-                });
-            };
-    */
-    /* const filterEvents = () => {
-             const startOfWeek = getStartOfWeek(currentWeekStart);
-             const endOfWeek = new Date(startOfWeek);
-             endOfWeek.setDate(startOfWeek.getDate() + 7);
-     
-             return events.filter(event => {
-                 const eventDate = event.date;
-                 return eventDate >= startOfWeek && eventDate < endOfWeek;
-             });
-             };*/
     function filterEvents() {
         const startOfWeek = getStartOfWeek(currentWeekStart);
         const endOfWeek = new Date(startOfWeek);
@@ -1436,9 +1061,6 @@ document.addEventListener('DOMContentLoaded', async () => {
             return matchesSearch && matchesType && matchesWeek;
         });
     }
-
-
-
 
     const renderCalendar = () => {
         const startOfWeek = getStartOfWeek(currentWeekStart);
@@ -1499,7 +1121,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 </a></li>
 <li>
   <a class="dropdown-item view-event-btn" 
-     href="/activites-quotidiennes-details/?id=${event.id}" 
+     href="/calendrier-detais/?id=${event.id}" 
      data-id="${event.id}">
      <i class="fa-solid fa-eye"></i> Voir détails
   </a>
@@ -1581,16 +1203,33 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
     }
 
+    // MODIFIED: Helper functions to format date and time for native inputs
+    const formatDateForInput = (date) => {
+        const d = new Date(date);
+        const year = d.getFullYear();
+        const month = (d.getMonth() + 1).toString().padStart(2, '0');
+        const day = d.getDate().toString().padStart(2, '0');
+        return `${year}-${month}-${day}`;
+    };
+
+    const formatTimeForInput = (date) => {
+        const d = new Date(date);
+        const hours = d.getHours().toString().padStart(2, '0');
+        const minutes = d.getMinutes().toString().padStart(2, '0');
+        return `${hours}:${minutes}`;
+    };
+
     const openEditModal = (event) => {
         document.getElementById('edit-activity-id').value = event.id;
-        document.getElementById('editTypeActivite').value = event
-            .typeid; // ⚠️ ne marche pas si value != libellé
+        document.getElementById('editTypeActivite').value = event.typeid;
         document.getElementById('edit-activity-title').value = event.title;
-        editDateInput._flatpickr.setDate(event.date, true, "Y-m-d");
-        editTimeInput._flatpickr.setDate(event.date, true, "H:i");
-        editTimeInputEnd._flatpickr.setDate(event.end, true, "H:i");
+
+        // MODIFIED: Set values for native date and time inputs
+        document.getElementById('edit-activity-date').value = formatDateForInput(event.date);
+        document.getElementById('edit-activity-time').value = formatTimeForInput(event.date);
+        document.getElementById('edit-activity-time-end').value = formatTimeForInput(event.end);
+
         document.getElementById('edit-activity-description').value = event.description;
-        // document.getElementById('edit-file-name').value = event.file || '';
 
         if (event.file) {
             const filename = event.file.split('/').pop();
@@ -1601,10 +1240,6 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         editActivityModal.style.display = 'flex';
     };
-
-
-
-
 
     openActivityModalBtn.addEventListener('click', () => {
         newActivityModal.style.display = 'flex';
@@ -1636,9 +1271,9 @@ document.addEventListener('DOMContentLoaded', async () => {
         e.preventDefault();
         const type = document.getElementById('typeActivite').value;
         const title = document.getElementById('activity-title').value;
-        const date = newDateInput.value;
-        const time = newTimeInput.value;
-        const timeEnd = newTimeInputEnd.value;
+        const date = document.getElementById('activity-date').value;
+        const time = document.getElementById('activity-time').value;
+        const timeEnd = document.getElementById('activity-time-end').value;
 
         if (!type || !title || !date || !time || !timeEnd) {
             alert("Veuillez remplir tous les champs obligatoires.");
@@ -1748,9 +1383,9 @@ document.addEventListener('DOMContentLoaded', async () => {
         const id = document.getElementById('edit-activity-id').value;
         const type = document.getElementById('editTypeActivite').value;
         const title = document.getElementById('edit-activity-title').value;
-        const date = editDateInput.value;
-        const time = editTimeInput.value;
-        const timeEnd = editTimeInputEnd.value;
+        const date = document.getElementById('edit-activity-date').value;
+        const time = document.getElementById('edit-activity-time').value;
+        const timeEnd = document.getElementById('edit-activity-time-end').value;
         const datetime = new Date(`${date}T${time}:00`);
         const datetimeEnd = new Date(`${date}T${timeEnd}:00`);
         const description = document.getElementById('edit-activity-description').value;
@@ -1775,16 +1410,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     });
 
     searchInput.addEventListener('input', renderCalendar);
-    /*
-    filterTypeLinks.forEach(link => {
-        link.addEventListener('click', (e) => {
-            e.preventDefault();
-            filterTypeButton.dataset.type = e.target.dataset.type;
-            filterTypeButton.innerHTML =
-                `<span>${e.target.textContent}</span><i class="fa-solid fa-chevron-down"></i>`;
-            renderCalendar();
-        });
-    });*/
+
     filterTypeLinks.forEach(link => {
         link.addEventListener('click', (e) => {
             e.preventDefault();
@@ -1857,22 +1483,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     renderCalendar();
 
 });
-</script>
-
-<?php
-$current_user = wp_get_current_user();
-$roles = (array) $current_user->roles;
-$role = $roles[0] ?? '';
-$user_id = get_current_user_id();
-
-?>
-<script>
-window.PMSettings = {
-    restUrl: "<?= esc_url(rest_url()) ?>",
-    nonce: "<?= wp_create_nonce('wp_rest') ?>",
-    role: "<?= esc_js($role) ?>",
-    userId: <?= (int) $user_id ?>
-};
 </script>
 
 
@@ -1958,108 +1568,4 @@ async function loadTypesActivite() {
         console.error('[loadTypesActivite]', e);
     }
 }
-
-/*
-document.addEventListener("DOMContentLoaded", () => {
-
-  $('#btnSaveObjectifs').on('click', async function(event) {
-    event.preventDefault();
-
-    if (!$('#activiteDate').val() || !$('#typeActivite').val() || !$('#statutActivite').val()) {
-        Swal.fire('Erreur', 'Veuillez remplir tous les champs obligatoires.', 'error');
-        return;
-    }
-
-    const base = (PMSettings?.restUrl || '/wp-json').replace(/\/$/,'');
-    const url  = `${base}/plateforme-directeurderecherche/v1/activite_quotidienne`;
-
-    const formData = new FormData();
-    formData.append('date', $('#activiteDate').val());
-    formData.append('heure_debut', $('#activiteHeureDebut').val());
-    formData.append('heure_fin', $('#activiteHeureFin').val());
-    formData.append('titre', $('#activity-title').val());
-    formData.append('type_activite', $('#typeActivite').val());
-    formData.append('statut', $('#statutActivite').val());
-    formData.append('description', $('#descriptionDetaillee').val());
-    if ($('#fileUpload')[0].files.length > 0) {
-        formData.append('piece_jointe', $('#fileUpload')[0].files[0]);
-    }
-
-    try {
-        // 🟢 Afficher loader
-        Swal.fire({
-        title: 'Enregistrement en cours...',
-        allowOutsideClick: false,
-        didOpen: () => { Swal.showLoading(); }
-        });
-
-        await fetch(url, {
-        method: 'POST',
-        credentials: 'include',
-        headers: { 'X-WP-Nonce': PMSettings.nonce },
-        body: formData
-        });
-
-        // succès → fermer modal et recharger table + stats
-        closeModalObjectifs();
-        Swal.fire('Succès', 'Activité enregistrée.', 'success');
-
-        // 🟢 Recharger les données
-        loadActivitesQuotidiennes();
-        loadStatsActiviteQuotidienne();
-
-        // 🟢 Vider le formulaire
-        $('#activiteDate').val('');
-        $('#activiteHeureDebut').val('');
-        $('#activiteHeureFin').val('');
-        $('#descriptionDetaillee').val('');
-        $('#typeActivite').val('');
-        $('#statutActivite').val('');
-        $('#fileUpload').val('');
-        $('.input-file-text').val('Aucun fichier choisi');
-
-    } catch (e) {
-        console.error(e);
-        Swal.fire('Erreur', 'Impossible d\'enregistrer l\'activité.', 'error');
-    }
-    });
-
-});*/
-
-// Appel initial
-
-/*
-document.addEventListener('click', (e) => {
-  if (e.target.classList.contains('filter-type')) {
-    e.preventDefault();
-
-    const selectedText = e.target.textContent;
-    const selectedType = e.target.dataset.type;
-
-    const filterTypeButton = document.getElementById('filterTypeButton');
-    filterTypeButton.dataset.type = selectedType;
-    filterTypeButton.querySelector('span').textContent = selectedText; // ✅ maj label
-
-   // renderCalendar();
-  }
-});
-*/
-
-
-/*
-  // Quand on choisit un type dans le dropdown
-document.querySelectorAll('.filter-type').forEach(link => {
-        link.addEventListener('click', (e) => {
-            e.preventDefault();
-            const selectedText = e.target.textContent;
-            const selectedType = e.target.dataset.type;
-
-            const filterTypeButton = document.getElementById('filterTypeButton');
-            filterTypeButton.dataset.type = selectedType;
-            filterTypeButton.querySelector('span').textContent = selectedText;
-
-            renderCalendar();
-
-        });
-});*/
 </script>

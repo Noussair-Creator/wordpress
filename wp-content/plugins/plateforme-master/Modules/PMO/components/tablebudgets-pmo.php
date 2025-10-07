@@ -600,48 +600,48 @@ $user_id = get_current_user_id();
 </script>
 
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('DOMContentLoaded', function () {
         // Initialize DataTable
-        const table = $('#candidaturesTable').DataTable({
-            paging: true,
-            searching: true,
-            ordering: false,
-            info: false,
-            pageLength: 5,
-            dom: '<"top">rt<"clear">', // Hide default search (f) and length (l) controls
-            language: {
-                paginate: {
-                    previous: "<i class='fa fa-chevron-left'></i>",
-                    next: "<i class='fa fa-chevron-right'></i>"
-                },
-                emptyTable: "Aucune donnée disponible",
-                zeroRecords: "Aucun enregistrement correspondant trouvé"
-            }
-        });
+        // const table = $('#candidaturesTable').DataTable({
+        //     paging: true,
+        //     searching: true,
+        //     ordering: false,
+        //     info: false,
+        //     pageLength: 5,
+        //     dom: '<"top">rt<"clear">', // Hide default search (f) and length (l) controls
+        //     language: {
+        //         paginate: {
+        //             previous: "<i class='fa fa-chevron-left'></i>",
+        //             next: "<i class='fa fa-chevron-right'></i>"
+        //         },
+        //         emptyTable: "Aucune donnée disponible",
+        //         zeroRecords: "Aucun enregistrement correspondant trouvé"
+        //     }
+        // });
 
         // Initialize reusable pagination component
-        PMOPagination.init(table);
+        // PMOPagination.init(table);
 
-        $('#searchInput').on('keyup', function() {
+        $('#searchInput').on('keyup', function () {
             table.search(this.value).draw();
         });
 
-        $('#sourceFilter').on('change', function() {
+        $('#sourceFilter').on('change', function () {
             table.column(1).search(this.value).draw();
         });
 
-        $('#statusFilter').on('change', function() {
+        $('#statusFilter').on('change', function () {
             table.column(6).search(this.value).draw();
         });
 
-        $("#checkAll").on("click", function() {
+        $("#checkAll").on("click", function () {
             var rows = table.rows({
                 'search': 'applied'
             }).nodes();
             $('input[type="checkbox"]', rows).prop('checked', this.checked);
         });
 
-        $('#candidaturesTable tbody').on('change', 'input[type="checkbox"]', function() {
+        $('#candidaturesTable tbody').on('change', 'input[type="checkbox"]', function () {
             if (!this.checked) {
                 var el = $('#checkAll').get(0);
                 if (el && el.checked && ('indeterminate' in el)) {
@@ -651,7 +651,7 @@ $user_id = get_current_user_id();
         });
 
         // --- GENERIC DROPDOWN MENU LOGIC ---
-        $(document).on('click', '.action-btn', function(event) {
+        $(document).on('click', '.action-btn', function (event) {
             event.stopPropagation();
             var dropdown = $(this).next('.dropdown-menu');
             $('.dropdown-menu').not(dropdown).removeClass('show');
@@ -659,7 +659,7 @@ $user_id = get_current_user_id();
         });
     });
 
-    $(document).on('click', function() {
+    $(document).on('click', function () {
         $('.dropdown-menu').removeClass('show');
     });
 </script>

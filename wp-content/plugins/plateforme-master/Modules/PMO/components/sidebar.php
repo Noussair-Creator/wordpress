@@ -8,7 +8,7 @@
   .sidebar {
     background: white;
     padding: 20px;
-
+    height: 100vh;
     top: -4px;
     position: relative;
     padding-top: 45px;
