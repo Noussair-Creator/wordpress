@@ -1,8 +1,8 @@
 <?php
-/*$role = $role ?? "coordinateur";*/
-
-
-require_once 'config/roles.php';
+$role = $role ?? "service";
+// require_once plugin_dir_path(__FILE__) . '../config/roles.php';
+require_once plugin_dir_path(__FILE__) . '../../config/roles.php';
+require_once plugin_dir_path(__FILE__) . '/requireApi.php';
 
 ?>
 
@@ -24,12 +24,12 @@ require_once 'config/roles.php';
     <script src="<?php echo plugin_dir_url(__FILE__) . '../assets/js/master.js'; ?>"></script>
 
     <style>
-    body {
-        margin: 0;
-        font-family: 'Segoe UI', sans-serif;
-        background: #f3f3f3;
-        min-height: 100vh;
-    }
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', sans-serif;
+            background: #f3f3f3;
+            min-height: 100vh;
+        }
     </style>
 </head>
 

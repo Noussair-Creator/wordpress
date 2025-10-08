@@ -109,12 +109,13 @@ $roleConfigs = [
     "um_pmo" => [
         "label" => "PMO",
         "menu" => [
-            ["label" => "Dashboard", "lien" => "/dashboardPMO"],
-            ["label" => "Présentation Général", "lien" => "/presentation-generale-pmo"],
-            ["label" => "Statistiques", "lien" => "/statistiques-pmo"],
-            ["label" => "Réunions", "lien" => "/reunions-pmo"],
-            ["label" => "Contacts", "lien" => "/contact-pmo"],
-            ["label" => "Reclamations", "lien" => "/reclamations-pmo"],
+                // I've added an "icon" key to each item below
+            ["label" => "Dashboard", "lien" => "/dashboardPMO", "icon" => "/wp-content/plugins/plateforme-master/images/SideBarIcons/bar_chart_noir.png"],
+            ["label" => "Présentation Général", "lien" => "/presentation-generale-pmo", "icon" => "/wp-content/plugins/plateforme-master/images/SideBarIcons/Icon_tv.png"],
+            ["label" => "Statistiques", "lien" => "/statistiques-pmo", "icon" => "/wp-content/plugins/plateforme-master/images/SideBarIcons/Icon_file_text.png"],
+            ["label" => "Réunions", "lien" => "/reunions-pmo", "icon" => "/wp-content/plugins/plateforme-master/images/SideBarIcons/Icon_layers.png"],
+            ["label" => "Contacts", "lien" => "/contact-pmo", "icon" => "/wp-content/plugins/plateforme-master/images/SideBarIcons/Icon_phone.png"],
+            ["label" => "Reclamations", "lien" => "/reclamations-pmo", "icon" => "/wp-content/plugins/plateforme-master/images/SideBarIcons/Icon_alert_triangle.png"],
         ],
         "calendriers" => [
             "Candidature",
